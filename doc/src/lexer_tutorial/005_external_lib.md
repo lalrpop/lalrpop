@@ -21,7 +21,7 @@ print (a - b);
 In your `Cargo.toml`, add the following dependency:
 
 ```toml
-logos = "0.12.0"
+logos = "0.14"
 ```
 
 This will provide the `logos` crate and the `Logos` trait.
@@ -56,13 +56,28 @@ pub enum Operator {
 ## Implement the tokenizer
 
 In a file named `tokens.rs` (or any other name you want), create an enumeration
-for your tokens:
+for your tokens, as well as a type for lexing errors:
 
 ```rust
-use std::fmt;  // to implement the Display trait
+use std::fmt;  // to implement the Display trait later
+use std::num::ParseIntError;
 use logos::Logos;
 
-#[derive(Logos, clone, Debug, PartialEq)]
+#[derive(Default, Debug, Clone, PartialEq)]
+enum LexicalError {
+    InvalidInteger(ParseIntError),
+    #[default]
+    InvalidToken,
+}
+
+impl From<ParseIntError> for LexicalError {
+    fn from(err: ParseIntError) -> Self {
+        LexicalError::InvalidInteger(err)
+    }
+}
+
+#[derive(Logos, Clone, Debug, PartialEq)]
+#[logos(skip r"[ \t\n\f]+", skip r"#.*\n?", error = LexicalError)]
 pub enum Token {
   #[token("var")]
   KeywordVar,
@@ -71,7 +86,7 @@ pub enum Token {
 
   #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().parse())]
   Identifier(String),
-  #[regex("\d+", |lex| lex.slice().parse())]
+  #[regex("[0-9]+", |lex| lex.slice().parse())]
   Integer(i64),
 
   #[token("(")]
@@ -91,25 +106,22 @@ pub enum Token {
   OperatorMul,
   #[token("/")]
   OperatorDiv,
-
-  #[regex(r"#.*\n?", logos::skip)]
-  #[regex(r"[ \t\n\f]+", logos::skip)]
-  #[error]
-  Error,
 }
 ```
 
-An exact match is specified using the `#[token()]` annotation.
+An exact match is specified using the `#[token(...)]` attribute.
 
 For example, `#[token("+")]` makes the `OperatorAdd` token to be emitted only
 when a literal `"+"` appears in the input (unless it is part of another match,
 see below).
 
-On the other hand, `#[regex()]` will match a regular expression.
+On the other hand, `#[regex(...)]` will match a regular expression.
 
-For example, combined with the `logos::skip` annotation,
-`#[regex(r"#.*\n?", logos::skip)]` causes all matches of a `#` character until
-a newline character (comments of our language) to be ignored.
+The `#[logos(...)]` attribute around the enum defines regexes to skip when
+parsing the input. We've chosen to skip common whitespace characters, and
+single-line comments of the form `# ...`. It also allows us to specify our
+custom error type, `LexicalError` if an unexpected token was encountered or if
+parsing an integer fails.
 
 A few things to note about how **Logos** works:
 
@@ -154,13 +166,9 @@ First, we define our types and structures:
 ```rust
 use logos::{Logos, SpannedIter};
 
-use crate::path::to::tokens::Token; // your enum
+use crate::tokens::{Token, LexicalError}; // your Token enum, as above
 
 pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
-
-pub enum LexicalError {
-  InvalidToken,
-}
 
 pub struct Lexer<'input> {
   // instead of an iterator over characters, we have a token iterator
@@ -186,13 +194,8 @@ impl<'input> Iterator for Lexer<'input> {
   type Item = Spanned<Token, usize, LexicalError>;
 
   fn next(&mut self) -> Option<Self::Item> {
-    self.token_stream.next().map(|(token, span)| {
-      match token {
-        // an invalid token was met
-        Token::Error => Err(LexicalError::InvalidToken),
-        _ => Ok((span.start, token, span.end)),
-      }
-    })
+    let (token, span) = self.token_stream.next()?;
+    Ok((span.start, token, span.end))
   }
 }
 ```
@@ -203,11 +206,8 @@ Next, in our `grammar.lalrpop` file (or any other name), we can integrate our
 lexer as follows:
 
 ```lalrpop
-use crate::path:to:{
-  tokens::Token,
-  lexer::LexicalError,
-  ast,
-};
+use crate::tokens::{Token, LexicalError};
+use crate::ast;
 
 grammar;
 
@@ -255,7 +255,7 @@ pub Statement: Box<ast::Statement> = {
 }
 
 pub Expression: Box<ast::Expression> = {
-  #[precedence(lvl="1")
+  #[precedence(lvl="1")]
   Term,
 
   #[precedence(lvl="2")] #[assoc(side="left")]
@@ -274,7 +274,7 @@ pub Expression: Box<ast::Expression> = {
     })
   },
 
-  #[precedence(lvl="3")]
+  #[precedence(lvl="3")] #[assoc(side="left")]
   <lhs:Expression> "+" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
