@@ -64,7 +64,7 @@ use std::num::ParseIntError;
 use logos::Logos;
 
 #[derive(Default, Debug, Clone, PartialEq)]
-enum LexicalError {
+pub enum LexicalError {
     InvalidInteger(ParseIntError),
     #[default]
     InvalidToken,
@@ -86,7 +86,7 @@ pub enum Token {
 
   #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().parse())]
   Identifier(String),
-  #[regex("[0-9]+", |lex| lex.slice().parse())]
+  #[regex("[1-9][0-9]*", |lex| lex.slice().parse())]
   Integer(i64),
 
   #[token("(")]
@@ -133,12 +133,12 @@ rules to make a choice. Rule of thumb is:
 
 This means the `"printa"` input string will generate the following token:
 
- - `Token::Identifier(String::new("printa"))`
+- `Token::Identifier(String::new("printa"))`
 
 And not:
 
- - `Token::KeywordPrint`
- - `Token::Identifier(String::new("a"))`
+- `Token::KeywordPrint`
+- `Token::Identifier(String::new("a"))`
 
 This is because `printa` is longer than `print`, therefore the `Identifier` rule
 has priority.
