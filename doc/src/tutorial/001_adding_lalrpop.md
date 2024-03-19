@@ -68,12 +68,14 @@ enough to check timestamps and do nothing if the `rs` file is newer than the
 file-system errors occurred.
 
 You can include the generated code somewhere in your Rust code. For example, if
-the source grammar were to be called `grammar.lalrpop`, you could include the
-generated `grammar.rs` file like so:
+the source grammar is in `grammar.lalrpop`, you can add the generated
+`grammar.rs` file as a module using the [`lalrpop_mod!`][lalrpop_mod] macro:
 
 ```rust
-include!(concat!(env!("OUT_DIR"), "/grammar.rs"));
+lalrpop_mod!(grammar);
 ```
+
+[lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
 
 _NOTE:_ On Windows, the necessary APIs are not yet stable, so
 timestamp checking is disabled.

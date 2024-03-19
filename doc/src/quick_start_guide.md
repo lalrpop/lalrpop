@@ -31,10 +31,22 @@ fn main() {
 (If you already have a `build.rs` file, you should be able to just
 call `process_root` in addition to whatever else that file is doing.)
 
-That's it! Note that `process_root` simply uses the default settings, which
-means generated Rust code will reside in `OUT_DIR`, which you can `include!()`.
-If you want to configure how LALRPOP executes, see the
-[advanced setup](advanced_setup.md) section.
+In this case, `process_root` simply uses the default settings, which takes
+files in `src/` ending with the `.lalrpop` extension, and generates
+corresponding Rust source files with the same name in `OUT_DIR`. If you want to
+configure how LALRPOP executes, see the [advanced setup](advanced_setup.md)
+section.
+
+Finally, you can add any of the generated files as modules in your Rust code
+using the [`lalrpop_mod!`][lalrpop_mod] macro. For example, if your grammar is
+called `grammar.lalrpop`, to use the generated `grammar.rs` as a Rust module
+simply called `grammar`, add the following:
+
+```rust
+lalrpop_mod!(grammar)
+```
+
+[lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
 
 #### Running manually
 
