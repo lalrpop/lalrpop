@@ -67,9 +67,12 @@ enough to check timestamps and do nothing if the `rs` file is newer than the
 `io::Result<()>`, so the `unwrap()` call just asserts that no
 file-system errors occurred.
 
-You can include the generated code somewhere in your Rust code. For example, if
-the source grammar is in `grammar.lalrpop`, you can add the generated
-`grammar.rs` file as a module using the [`lalrpop_mod!`][lalrpop_mod] macro:
+The [`lalrpop_mod!`][lalrpop_mod] macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in `grammar.lalrpop`, adding the following line
+to `lib.rs` will create a corresponding `grammar` submodule (note that you can
+also add this line to a `foo.rs` module definition instead, which will then
+create a submodule `foo::grammar`):
 
 ```rust
 lalrpop_mod!(grammar);
