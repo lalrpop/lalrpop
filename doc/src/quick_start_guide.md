@@ -37,14 +37,15 @@ corresponding Rust source files with the same name in `OUT_DIR`. If you want to
 configure how LALRPOP executes, see the [advanced setup](advanced_setup.md)
 section.
 
-Finally, you can add any of the generated files as modules in your Rust code
-using the [`lalrpop_mod!`][lalrpop_mod] macro. For example, if your grammar is
-called `grammar.lalrpop`, to use the generated `grammar.rs` as a Rust module
-simply called `grammar`, add the following:
+The [`lalrpop_mod!`][lalrpop_mod] macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in `grammar.lalrpop`, adding the following line
+to `lib.rs` will create a corresponding `grammar` submodule (note that you can
+also add this line to a `foo.rs` module definition instead, which will then
+create a submodule `foo::grammar`):
 
 ```rust
-lalrpop_mod!(grammar)
-```
+lalrpop_mod!(grammar);
 
 [lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
 
