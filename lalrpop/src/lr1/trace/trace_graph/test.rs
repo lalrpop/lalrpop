@@ -49,7 +49,7 @@ fn enumerator() {
     //    [Y0 X0 (*) X1 Y1]
     //    [Z0 X0 (*) X1 Z1]
 
-    let productions = vec![
+    let productions = [
         production![X = X0 X1],
         production![Y = Y0 X Y1],
         production![Z = Z0 X Z1],
