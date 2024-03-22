@@ -44,7 +44,7 @@ struct Validator<'grammar> {
 
 impl<'grammar> Validator<'grammar> {
     fn validate(&self) -> NormResult<()> {
-        let allowed_names = vec![
+        let allowed_names = [
             Atom::from(LALR),
             Atom::from(TABLE_DRIVEN),
             Atom::from(RECURSIVE_ASCENT),
@@ -259,7 +259,7 @@ impl<'grammar> Validator<'grammar> {
     fn validate_alternative(&self, alternative: &Alternative) -> NormResult<()> {
         self.validate_expr(&alternative.expr)?;
 
-        let allowed_names = vec![
+        let allowed_names = [
             Atom::from(precedence::PREC_ANNOT),
             Atom::from(precedence::ASSOC_ANNOT),
         ];
