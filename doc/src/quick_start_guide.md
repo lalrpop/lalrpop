@@ -3,7 +3,7 @@ For getting started with LALRPOP, it's probably best if you read
 to the syntax of LALRPOP files and so forth.
 
 But if you've done this before, or you're just the impatient sort,
-here is a quick 'cheat sheet' for setting up your project.  First, add
+here is a quick 'cheat sheet' for setting up your project. First, add
 the following lines to your `Cargo.toml`:
 
 ```toml
@@ -31,9 +31,23 @@ fn main() {
 (If you already have a `build.rs` file, you should be able to just
 call `process_root` in addition to whatever else that file is doing.)
 
-That's it! Note that `process_root` simply uses the default settings.
-If you want to configure how LALRPOP executes, see the
-[advanced setup](advanced_setup.md) section.
+In this case, `process_root` simply uses the default settings, which takes
+files in `src/` ending with the `.lalrpop` extension, and generates
+corresponding Rust source files with the same name in `OUT_DIR`. If you want to
+configure how LALRPOP executes, see the [advanced setup](advanced_setup.md)
+section.
+
+The [`lalrpop_mod!`][lalrpop_mod] macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in `grammar.lalrpop`, adding the following line
+to `lib.rs` will create a corresponding `grammar` submodule (note that you can
+also add this line to a `foo.rs` module definition instead, which will then
+create a submodule `foo::grammar`):
+
+```rust
+lalrpop_mod!(grammar);
+
+[lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
 
 #### Running manually
 

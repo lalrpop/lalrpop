@@ -61,11 +61,24 @@ fn main() {
 ```
 
 The function `process_root` processes your `src` directory, converting
-all `lalrpop` files into `rs` files. It is smart enough to check
-timestamps and do nothing if the `rs` file is newer than the `lalrpop`
-file, and to mark the generated `rs` file as read-only. It returns an
+all `lalrpop` files into `rs` files, and saving them to `OUT_DIR`. It is smart
+enough to check timestamps and do nothing if the `rs` file is newer than the
+`lalrpop` file, and to mark the generated `rs` file as read-only. It returns an
 `io::Result<()>`, so the `unwrap()` call just asserts that no
 file-system errors occurred.
 
-*NOTE:* On Windows, the necessary APIs are not yet stable, so
+The [`lalrpop_mod!`][lalrpop_mod] macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in `grammar.lalrpop`, adding the following line
+to `lib.rs` will create a corresponding `grammar` submodule (note that you can
+also add this line to a `foo.rs` module definition instead, which will then
+create a submodule `foo::grammar`):
+
+```rust
+lalrpop_mod!(grammar);
+```
+
+[lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
+
+_NOTE:_ On Windows, the necessary APIs are not yet stable, so
 timestamp checking is disabled.
