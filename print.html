@@ -246,7 +246,7 @@ This is the code that will execute to convert from the thing that was matched
 <a href="tutorial/index.html">the tutorial</a>, which will introduce you
 to the syntax of LALRPOP files and so forth.</p>
 <p>But if you've done this before, or you're just the impatient sort,
-here is a quick 'cheat sheet' for setting up your project.  First, add
+here is a quick 'cheat sheet' for setting up your project. First, add
 the following lines to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml"># The generated code depends on lalrpop-util.
 [dependencies]
@@ -266,18 +266,36 @@ that looks like:</p>
 }</code></pre></pre>
 <p>(If you already have a <code>build.rs</code> file, you should be able to just
 call <code>process_root</code> in addition to whatever else that file is doing.)</p>
-<p>That's it! Note that <code>process_root</code> simply uses the default settings.
-If you want to configure how LALRPOP executes, see the
-<a href="advanced_setup.html">advanced setup</a> section.</p>
-<h4 id="running-manually"><a class="header" href="#running-manually">Running manually</a></h4>
-<p>If you prefer, you can also run the <code>lalrpop</code> crate as an
-executable. Simply run <code>cargo install lalrpop</code> and then you will get a
-<code>lalrpop</code> binary you can execute, like so:</p>
-<pre><code>lalrpop file.lalrpop
+<p>In this case, <code>process_root</code> simply uses the default settings, which takes
+files in <code>src/</code> ending with the <code>.lalrpop</code> extension, and generates
+corresponding Rust source files with the same name in <code>OUT_DIR</code>. If you want to
+configure how LALRPOP executes, see the <a href="advanced_setup.html">advanced setup</a>
+section.</p>
+<p>The [<code>lalrpop_mod!</code>][lalrpop_mod] macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in <code>grammar.lalrpop</code>, adding the following line
+to <code>lib.rs</code> will create a corresponding <code>grammar</code> submodule (note that you can
+also add this line to a <code>foo.rs</code> module definition instead, which will then
+create a submodule <code>foo::grammar</code>):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>lalrpop_mod!(grammar);
+
+[lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
+
+### Running manually
+
+If you prefer, you can also run the `lalrpop` crate as an
+executable. Simply run `cargo install lalrpop` and then you will get a
+`lalrpop` binary you can execute, like so:
+
+<span class="boring">}</span></code></pre></pre>
+<p>lalrpop file.lalrpop</p>
+<pre><code>
+This will generate `file.rs` for you. Note that it only executes if
+`file.lalrpop` is newer than `file.rs`; if you'd prefer to execute
+unconditionally, pass `-f` (also try `--help` for other options).
 </code></pre>
-<p>This will generate <code>file.rs</code> for you. Note that it only executes if
-<code>file.lalrpop</code> is newer than <code>file.rs</code>; if you'd prefer to execute
-unconditionally, pass <code>-f</code> (also try <code>--help</code> for other options).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cheatsheet"><a class="header" href="#cheatsheet">Cheatsheet</a></h1>
 <p>Users of Lalrpop have compiled the following cheatsheet table as a quick way to
 look up useful Lalrpop-isms. If you are looking for a specific piece of
@@ -367,11 +385,21 @@ your Rust code. This should just look like the following:</p>
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>The function <code>process_root</code> processes your <code>src</code> directory, converting
-all <code>lalrpop</code> files into <code>rs</code> files. It is smart enough to check
-timestamps and do nothing if the <code>rs</code> file is newer than the <code>lalrpop</code>
-file, and to mark the generated <code>rs</code> file as read-only. It returns an
+all <code>lalrpop</code> files into <code>rs</code> files, and saving them to <code>OUT_DIR</code>. It is smart
+enough to check timestamps and do nothing if the <code>rs</code> file is newer than the
+<code>lalrpop</code> file, and to mark the generated <code>rs</code> file as read-only. It returns an
 <code>io::Result&lt;()&gt;</code>, so the <code>unwrap()</code> call just asserts that no
 file-system errors occurred.</p>
+<p>The <a href="https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html"><code>lalrpop_mod!</code></a> macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in <code>grammar.lalrpop</code>, adding the following line
+to <code>lib.rs</code> will create a corresponding <code>grammar</code> submodule (note that you can
+also add this line to a <code>foo.rs</code> module definition instead, which will then
+create a submodule <code>foo::grammar</code>):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>lalrpop_mod!(grammar);
+<span class="boring">}</span></code></pre></pre>
 <p><em>NOTE:</em> On Windows, the necessary APIs are not yet stable, so
 timestamp checking is disabled.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="parsing-parenthesized-numbers"><a class="header" href="#parsing-parenthesized-numbers">Parsing parenthesized numbers</a></h1>

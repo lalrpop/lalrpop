@@ -218,11 +218,21 @@ your Rust code. This should just look like the following:</p>
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
 <p>The function <code>process_root</code> processes your <code>src</code> directory, converting
-all <code>lalrpop</code> files into <code>rs</code> files. It is smart enough to check
-timestamps and do nothing if the <code>rs</code> file is newer than the <code>lalrpop</code>
-file, and to mark the generated <code>rs</code> file as read-only. It returns an
+all <code>lalrpop</code> files into <code>rs</code> files, and saving them to <code>OUT_DIR</code>. It is smart
+enough to check timestamps and do nothing if the <code>rs</code> file is newer than the
+<code>lalrpop</code> file, and to mark the generated <code>rs</code> file as read-only. It returns an
 <code>io::Result&lt;()&gt;</code>, so the <code>unwrap()</code> call just asserts that no
 file-system errors occurred.</p>
+<p>The <a href="https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html"><code>lalrpop_mod!</code></a> macro generates a wrapper module in your
+crate so that you can use the generated parser from your code. For example,
+if the source grammar is located in <code>grammar.lalrpop</code>, adding the following line
+to <code>lib.rs</code> will create a corresponding <code>grammar</code> submodule (note that you can
+also add this line to a <code>foo.rs</code> module definition instead, which will then
+create a submodule <code>foo::grammar</code>):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>lalrpop_mod!(grammar);
+<span class="boring">}</span></code></pre></pre>
 <p><em>NOTE:</em> On Windows, the necessary APIs are not yet stable, so
 timestamp checking is disabled.</p>
 
