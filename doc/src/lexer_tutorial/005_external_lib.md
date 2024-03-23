@@ -1,8 +1,7 @@
 # Using an external library
 
-Writing a lexer yourself can be tricky. Fortunately, you can find on
-[crates.io](https://crates.io) many different libraries to generate a lexer for
-you.
+Writing a lexer yourself can be tricky. Fortunately, you can find many
+libraries on [crates.io](https://crates.io) to generate a lexer for you.
 
 In this tutorial, we will use [Logos](https://docs.rs/logos/latest/logos/) to
 build a simple lexer for a toy programming language. Here is an example of what
@@ -41,7 +40,11 @@ pub enum Statement {
 pub enum Expression {
   Integer(i64),
   Variable(String),
-  BinaryOperation { lhs: Box<Expression>, operator: Operator, rhs: Box<Expression> },
+  BinaryOperation {
+    lhs: Box<Expression>,
+    operator: Operator,
+    rhs: Box<Expression>,
+  },
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -242,24 +245,24 @@ rules to reference the desired token.
 Finally, we can build our rules:
 
 ```rust
-pub Script: Vec<Box<ast::Statement>> = {
+pub Script: Vec<ast::Statement> = {
   <stmts:Statement*> => stmts
 }
 
-pub Statement: Box<ast::Statement> = {
+pub Statement: ast::Statement = {
   "var" <name:"identifier"> "=" <value:Expression> ";" => {
-    Box::new(ast::Statement::Variable { name, value })
+    ast::Statement::Variable { name, value }
   },
   "print" <value:Expression> ";" => {
-    Box::new(ast::Statement::Print { value })
+    ast::Statement::Print { value }
   },
 }
 
 pub Expression: Box<ast::Expression> = {
-  #[precedence(lvl="1")]
+  #[precedence(level="1")]
   Term,
 
-  #[precedence(lvl="2")] #[assoc(side="left")]
+  #[precedence(level="2")] #[assoc(side="left")]
   <lhs:Expression> "*" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
@@ -275,7 +278,7 @@ pub Expression: Box<ast::Expression> = {
     })
   },
 
-  #[precedence(lvl="3")] #[assoc(side="left")]
+  #[precedence(level="3")] #[assoc(side="left")]
   <lhs:Expression> "+" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
@@ -292,7 +295,7 @@ pub Expression: Box<ast::Expression> = {
   },
 }
 
-pub Term: Box<ast::Expression> => {
+pub Term: Box<ast::Expression> = {
   <val:"int"> => {
     Box::new(ast::Expression::Integer(val))
   },
@@ -311,7 +314,7 @@ The last step is to run our parser:
 
 ```rust
 let source_code = std::fs::read_to_string("myscript.toy")?;
-let lexer = Lexer::new(&source_code[..]);
+let lexer = Lexer::new(&source_code);
 let parser = ScriptParser::new();
 let ast = parser.parse(lexer)?;
 
