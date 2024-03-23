@@ -9,7 +9,6 @@ lalrpop = { version = "0.20.2", path = "../../lalrpop" }
 
 [dependencies]
 lalrpop-util = { version = "0.20.2", path = "../../lalrpop-util", features = [
-    "lexer",
     "unicode",
 ] }
 logos = "0.14.0"
