@@ -79,6 +79,3 @@ lalrpop_mod!(grammar);
 ```
 
 [lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
-
-_NOTE:_ On Windows, the necessary APIs are not yet stable, so
-timestamp checking is disabled.
