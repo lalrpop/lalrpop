@@ -1,5 +1,4 @@
 use logos::Logos;
-use std::convert::Infallible;
 use std::fmt; // to implement the Display trait
 use std::num::ParseIntError;
 
@@ -16,12 +15,6 @@ impl From<ParseIntError> for LexicalError {
     }
 }
 
-impl From<Infallible> for LexicalError {
-    fn from(_: Infallible) -> Self {
-        LexicalError::InvalidToken
-    }
-}
-
 #[derive(Logos, Clone, Debug, PartialEq)]
 #[logos(skip r"[ \t\n\f]+", skip r"#.*\n?", error = LexicalError)]
 pub enum Token {
@@ -30,7 +23,7 @@ pub enum Token {
     #[token("print")]
     KeywordPrint,
 
-    #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().parse())]
+    #[regex("[_a-zA-Z][_0-9a-zA-Z]*", |lex| lex.slice().to_string())]
     Identifier(String),
     #[regex("[1-9][0-9]*", |lex| lex.slice().parse())]
     Integer(i64),
