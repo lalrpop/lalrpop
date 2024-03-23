@@ -8,7 +8,7 @@ var b = 23;
 # a comment
 print (a - b);";
 
-    let lexer = Lexer::new(&source_code[..]);
+    let lexer = Lexer::new(source_code);
     let parser = ScriptParser::new();
     let ast = parser.parse(lexer).unwrap();
 

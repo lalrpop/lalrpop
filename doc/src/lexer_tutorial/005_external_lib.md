@@ -245,16 +245,16 @@ rules to reference the desired token.
 Finally, we can build our rules:
 
 ```rust
-pub Script: Vec<Box<ast::Statement>> = {
+pub Script: Vec<ast::Statement> = {
   <stmts:Statement*> => stmts
 }
 
-pub Statement: Box<ast::Statement> = {
+pub Statement: ast::Statement = {
   "var" <name:"identifier"> "=" <value:Expression> ";" => {
-    Box::new(ast::Statement::Variable { name, value })
+    ast::Statement::Variable { name, value }
   },
   "print" <value:Expression> ";" => {
-    Box::new(ast::Statement::Print { value })
+    ast::Statement::Print { value }
   },
 }
 
@@ -314,7 +314,7 @@ The last step is to run our parser:
 
 ```rust
 let source_code = std::fs::read_to_string("myscript.toy")?;
-let lexer = Lexer::new(&source_code[..]);
+let lexer = Lexer::new(&source_code);
 let parser = ScriptParser::new();
 let ast = parser.parse(lexer)?;
 

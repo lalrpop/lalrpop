@@ -26,16 +26,16 @@ extern {
 }
 
 
-pub Script: Vec<Box<ast::Statement>> = {
+pub Script: Vec<ast::Statement> = {
   <stmts:Statement*> => stmts
 }
 
-pub Statement: Box<ast::Statement> = {
+pub Statement: ast::Statement = {
   "var" <name:"identifier"> "=" <value:Expression> ";" => {
-    Box::new(ast::Statement::Variable { name, value })
+    ast::Statement::Variable { name, value }
   },
   "print" <value:Expression> ";" => {
-    Box::new(ast::Statement::Print { value })
+    ast::Statement::Print { value }
   },
 }
 
