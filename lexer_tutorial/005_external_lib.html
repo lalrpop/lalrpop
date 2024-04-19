@@ -176,9 +176,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="using-an-external-library"><a class="header" href="#using-an-external-library">Using an external library</a></h1>
-<p>Writing a lexer yourself can be tricky. Fortunately, you can find on
-<a href="https://crates.io">crates.io</a> many different libraries to generate a lexer for
-you.</p>
+<p>Writing a lexer yourself can be tricky. Fortunately, you can find many
+libraries on <a href="https://crates.io">crates.io</a> to generate a lexer for you.</p>
 <p>In this tutorial, we will use <a href="https://docs.rs/logos/latest/logos/">Logos</a> to
 build a simple lexer for a toy programming language. Here is an example of what
 we will be able to parse:</p>
@@ -207,7 +206,11 @@ pub enum Statement {
 pub enum Expression {
   Integer(i64),
   Variable(String),
-  BinaryOperation { lhs: Box&lt;Expression&gt;, operator: Operator, rhs: Box&lt;Expression&gt; },
+  BinaryOperation {
+    lhs: Box&lt;Expression&gt;,
+    operator: Operator,
+    rhs: Box&lt;Expression&gt;,
+  },
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -387,24 +390,24 @@ rules to reference the desired token.</p>
 <p>Finally, we can build our rules:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>pub Script: Vec&lt;Box&lt;ast::Statement&gt;&gt; = {
+</span>pub Script: Vec&lt;ast::Statement&gt; = {
   &lt;stmts:Statement*&gt; =&gt; stmts
 }
 
-pub Statement: Box&lt;ast::Statement&gt; = {
+pub Statement: ast::Statement = {
   "var" &lt;name:"identifier"&gt; "=" &lt;value:Expression&gt; ";" =&gt; {
-    Box::new(ast::Statement::Variable { name, value })
+    ast::Statement::Variable { name, value }
   },
   "print" &lt;value:Expression&gt; ";" =&gt; {
-    Box::new(ast::Statement::Print { value })
+    ast::Statement::Print { value }
   },
 }
 
 pub Expression: Box&lt;ast::Expression&gt; = {
-  #[precedence(lvl="1")]
+  #[precedence(level="1")]
   Term,
 
-  #[precedence(lvl="2")] #[assoc(side="left")]
+  #[precedence(level="2")] #[assoc(side="left")]
   &lt;lhs:Expression&gt; "*" &lt;rhs:Expression&gt; =&gt; {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
@@ -420,7 +423,7 @@ pub Expression: Box&lt;ast::Expression&gt; = {
     })
   },
 
-  #[precedence(lvl="3")] #[assoc(side="left")]
+  #[precedence(level="3")] #[assoc(side="left")]
   &lt;lhs:Expression&gt; "+" &lt;rhs:Expression&gt; =&gt; {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
@@ -437,7 +440,7 @@ pub Expression: Box&lt;ast::Expression&gt; = {
   },
 }
 
-pub Term: Box&lt;ast::Expression&gt; =&gt; {
+pub Term: Box&lt;ast::Expression&gt; = {
   &lt;val:"int"&gt; =&gt; {
     Box::new(ast::Expression::Integer(val))
   },
@@ -453,7 +456,7 @@ pub Term: Box&lt;ast::Expression&gt; =&gt; {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let source_code = std::fs::read_to_string("myscript.toy")?;
-let lexer = Lexer::new(&amp;source_code[..]);
+let lexer = Lexer::new(&amp;source_code);
 let parser = ScriptParser::new();
 let ast = parser.parse(lexer)?;
 
