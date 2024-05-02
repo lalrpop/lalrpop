@@ -236,7 +236,7 @@ which, with suitable changes to the library code, works out fine.
 Our current string literals are allowed to hold a small subset of the full space of characters.
 
 If we wanted to generalize it to be able to hold arbitrary characters, we would
-need some way to denote the delimiter character `"` in ths string content.
+need some way to denote the delimiter character `"` in the string content.
 
 The usual way to do this is via an escape sequence: `\"`, which is understood by
 the lexical analyzer as *not* ending the string content.
