@@ -166,7 +166,7 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
 ///////////////////////////////////////////////////////////////////////////
 // PathEnumerator
 //
-// The path enumerater walks a trace graph searching for paths that
+// The path enumerator walks a trace graph searching for paths that
 // start at a given item and terminate at another item. If such a path
 // is found, you can then find the complete list of symbols by calling
 // `symbols_and_cursor` and also get access to the state.

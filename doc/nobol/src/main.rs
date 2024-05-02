@@ -2,7 +2,7 @@
 
 use lalrpop_util::lalrpop_mod;
 
-lalrpop_mod!(pub nobol1); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol1); // synthesized by LALRPOP
 
 #[derive(PartialEq, Debug)]
 pub struct Var(char);
@@ -33,7 +33,7 @@ fn no_ball() {
     assert_eq!(nobol1::EqlParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
 }
 
-lalrpop_mod!(pub nobol2); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol2); // synthesized by LALRPOP
 
 #[test]
 fn fair_ball() {
@@ -46,14 +46,14 @@ fn foul_ball() {
     assert_eq!(nobol2::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
 }
 
-lalrpop_mod!(pub nobol3); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol3); // synthesized by LALRPOP
 
 #[test]
 fn bunt_ball() {
     assert_eq!(nobol3::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
 }
 
-lalrpop_mod!(pub nobol4); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol4); // synthesized by LALRPOP
 
 #[test]
 #[should_panic]
@@ -61,7 +61,7 @@ fn spaceballs() {
     assert_eq!(nobol4::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
 }
 
-lalrpop_mod!(pub nobol5); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol5); // synthesized by LALRPOP
 
 #[test]
 fn homerun() {
@@ -74,7 +74,7 @@ fn homerun() {
     assert_eq!(nobol5::EqlParser::new().parse(r#"z = "x y z""#), Ok(('z', "x y z").into()));
 }
 
-lalrpop_mod!(pub nobol6); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol6); // synthesized by LALRPOP
 
 #[test]
 fn nobol6() {
@@ -98,7 +98,7 @@ fn flyball() {
     assert_eq!(nobol6::EqlParser::new().parse(r#"z = "\"\\""#), Ok(('z', "\\\"\\\\").into()));
 }
 
-lalrpop_mod!(pub nobol7); // syntesized by LALRPOP
+lalrpop_mod!(pub nobol7); // synthesized by LALRPOP
 
 #[test]
 fn nobol7() {
