@@ -200,7 +200,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
     pub fn start_parser_fn(&mut self) -> io::Result<()> {
         let parse_error_type = self.types.parse_error_type();
 
-        let (type_parameters, parameters, mut where_clauses);
+        let (type_parameters, parameters);
 
         let intern_token = self.grammar.intern_token.is_some();
         if intern_token {
@@ -209,7 +209,6 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             // user parameters
             type_parameters = vec![];
             parameters = vec![];
-            where_clauses = vec![];
         } else {
             // otherwise, we need an iterator of type `TOKENS`
             let mut user_type_parameters = String::new();
@@ -222,16 +221,13 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                     self.prefix, self.prefix, user_type_parameters,
                 ),
                 format!(
-                    "{}TOKENS: IntoIterator<Item={}TOKEN>",
-                    self.prefix, self.prefix
+                    "{}TOKENS: IntoIterator<Item={}TOKEN> {}",
+                    self.prefix,
+                    self.prefix,
+                    if self.repeatable { "+ Clone" } else { "" }
                 ),
             ];
             parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
-            where_clauses = vec![];
-
-            if self.repeatable {
-                where_clauses.push(format!("{}TOKENS: Clone", self.prefix));
-            }
         }
 
         rust!(
@@ -298,7 +294,6 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                 self.types.nonterminal_type(&self.start_symbol),
                 parse_error_type
             ))
-            .with_where_clauses(where_clauses)
             .emit()?;
         rust!(self.out, "{{");
 

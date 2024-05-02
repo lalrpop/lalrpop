@@ -52,7 +52,7 @@ fn rewrite_state_indices(grammar: &Grammar, states: &mut [core::Lr1State]) {
         if grammar
             .nonterminals
             .keys()
-            .any(|nonterminal| state.gotos.get(nonterminal).is_some())
+            .any(|nonterminal| state.gotos.contains_key(nonterminal))
         {
             start_states[index] = true;
         }
