@@ -338,7 +338,7 @@ impl Nfa {
                     .collect::<Result<Vec<_>, _>>()?;
 
                 // push edges from s0 all together so they are
-                // adjacant in the edge array
+                // adjacent in the edge array
                 for target in targets {
                     self.push_edge(s0, Noop, target);
                 }
