@@ -24,10 +24,10 @@ edition = "2021"
 rust-version = "1.70"
 
 [workspace.dependencies]
-diff = { version = "0.1.12", default_features = false }
-regex = { version = "1.3", default_features = false, features = ["std"] }
-regex-syntax = { version = "0.8.2", default_features = false }
-regex-automata = { version = "0.4", default_features = false, features = [
+diff = { version = "0.1.12", default-features = false }
+regex = { version = "1.3", default-features = false, features = ["std"] }
+regex-syntax = { version = "0.8.2", default-features = false }
+regex-automata = { version = "0.4", default-features = false, features = [
         "perf",
         "syntax",
         "hybrid",
