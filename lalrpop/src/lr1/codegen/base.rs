@@ -221,10 +221,10 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                     self.prefix, self.prefix, user_type_parameters,
                 ),
                 format!(
-                    "{}TOKENS: IntoIterator<Item={}TOKEN> {}",
+                    "{}TOKENS: IntoIterator<Item={}TOKEN>{}",
                     self.prefix,
                     self.prefix,
-                    if self.repeatable { "+ Clone" } else { "" }
+                    if self.repeatable { " + Clone" } else { "" }
                 ),
             ];
             parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
