@@ -6349,7 +6349,7 @@ _priv: (),
 pub fn parse<
     'input,
     ___TOKEN: ___ToTriple<'input, >,
-    ___TOKENS: IntoIterator<Item=___TOKEN>,
+    ___TOKENS: IntoIterator<Item=___TOKEN> ,
 >(
 &self,
 text: &'input str,

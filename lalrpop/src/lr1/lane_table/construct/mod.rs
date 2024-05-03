@@ -1,4 +1,4 @@
-//!
+//! Generate rust parser code using the lane table algorithm
 
 use crate::collections::{Map, Set};
 use crate::grammar::repr::*;
