@@ -4,20 +4,11 @@ use crate::grammar::parse_tree::*;
 use crate::grammar::pattern::*;
 use crate::tok;
 
-#[cfg(not(test))]
 #[rustfmt::skip]
 #[allow(dead_code)]
 #[allow(clippy::all)]
 mod lrgrammar;
 
-#[cfg(test)]
-lalrpop_util::lalrpop_mod!(
-    #[rustfmt::skip]
-    #[allow(dead_code)]
-    #[allow(clippy::all)]
-    lrgrammar,
-    "/src/parser/lrgrammar.rs"
-);
 
 #[cfg(test)]
 mod test;
