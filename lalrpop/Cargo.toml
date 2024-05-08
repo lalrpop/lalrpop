@@ -26,9 +26,9 @@ itertools = { version = "0.11", default-features = false, features = ["use_std"]
 petgraph = { version = "0.6", default-features = false }
 regex = { workspace = true }
 regex-syntax = { workspace = true }
+sha3 = { version = "0.10", default-features = false }
 string_cache = { version = "0.8", default-features = false }
 term = { version = "0.7", default-features = false }
-tiny-keccak = { version = "2.0.2", features = ["sha3"] }
 unicode-xid = { version = "0.2", default-features = false }
 walkdir = "2.4.0"
 

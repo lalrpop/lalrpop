@@ -16,7 +16,7 @@ use crate::tok;
 use crate::util::Sep;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
-use tiny_keccak::{Hasher, Sha3};
+use sha3::{Digest, Sha3_256};
 use walkdir::WalkDir;
 
 use std::ffi::OsStr;
@@ -44,11 +44,10 @@ fn hash_file(file: &Path) -> io::Result<String> {
     let mut file_bytes = Vec::new();
     file.read_to_end(&mut file_bytes).unwrap();
 
-    let mut sha3 = Sha3::v256();
+    let mut sha3 = Sha3_256::new();
     sha3.update(&file_bytes);
 
-    let mut output = [0u8; 32];
-    sha3.finalize(&mut output);
+    let output = sha3.finalize();
 
     Ok(format!("// sha3: {:02x}", output.iter().format("")))
 }
