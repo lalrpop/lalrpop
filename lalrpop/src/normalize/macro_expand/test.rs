@@ -116,3 +116,17 @@ fn test_lookahead() {
 
     compare(actual, expected);
 }
+
+#[test]
+fn test_excessive_recursion() {
+    let grammar = parser::parse_grammar(
+        r#"
+        grammar;
+        A<I> = { "x" I "y" I "z", A<("." I)> }
+        pub P = A<()>;
+        "#,
+    )
+    .unwrap();
+
+    assert!(expand_macros(grammar).is_err());
+}

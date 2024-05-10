@@ -53,7 +53,9 @@ impl MacroExpander {
     }
 
     fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
-        let mut counter = 0;
+        let mut counter = 0; // Number of items
+        let mut loop_counter = 0;
+
         loop {
             // Find any macro uses in items added since last round and
             // replace them in place with the expanded version:
@@ -61,10 +63,29 @@ impl MacroExpander {
                 self.replace_item(item);
             }
             counter = items.len();
+            loop_counter += 1;
 
             // No more expansion to do.
             if self.expansion_stack.is_empty() {
                 return Ok(());
+            }
+
+            if loop_counter > 200 {
+                // Too much recursion
+                match self.expansion_stack.pop() {
+                    Some(sym) => {
+                        return_err!(
+                            sym.span,
+                            "Exceeded recursion cap while expanding this macro."
+                        );
+                    }
+                    None => {
+                        // This should be impossible, since we just checked is_empty(), but if the
+                        // expansion stack is empty, we're done, so I guess return Ok instead of
+                        // panicing?
+                        return Ok(());
+                    }
+                }
             }
 
             // Drain expansion stack:
