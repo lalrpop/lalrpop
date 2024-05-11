@@ -72,21 +72,13 @@ impl MacroExpander {
 
             if loop_counter > recursion_limit {
                 // Too much recursion
-                match self.expansion_stack.pop() {
-                    Some(sym) => {
-                        return_err!(
+                // We know unwrap() is safe, because we just checked is_empty()
+                let sym = self.expansion_stack.pop().unwrap();
+                return_err!(
                             sym.span,
                             "Exceeded recursion cap ({}) while expanding this macro.  This typically is a symptom of infinite recursion during macro resolution.  If you believe the recursion will complete eventually, you can increase this limit using Configuration::set_macro_recursion_limit().",
                             recursion_limit
                         );
-                    }
-                    None => {
-                        // This should be impossible, since we just checked is_empty(), but if the
-                        // expansion stack is empty, we're done, so I guess return Ok instead of
-                        // panicing?
-                        return Ok(());
-                    }
-                }
             }
 
             // Drain expansion stack:
