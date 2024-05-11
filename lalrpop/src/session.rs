@@ -58,6 +58,8 @@ pub struct Session {
     /// this value if we so choose.
     pub max_errors: usize,
 
+    pub macro_recursion_limit: u16,
+
     // Styles to use when formatting error reports
     /// Applied to the heading in a message.
     pub heading: Style,
@@ -104,6 +106,7 @@ impl Session {
             emit_report: false,
             color_config: ColorConfig::default(),
             max_errors: 1,
+            macro_recursion_limit: 200,
             heading: style::FG_WHITE.with(style::BOLD),
             ambig_symbols: style::FG_WHITE,
             observed_symbols: style::FG_BRIGHT_GREEN,
@@ -131,6 +134,7 @@ impl Session {
             emit_report: false,
             color_config: ColorConfig::IfTty,
             max_errors: 1,
+            macro_recursion_limit: 200,
             heading: Style::new(),
             ambig_symbols: Style::new(),
             observed_symbols: Style::new(),

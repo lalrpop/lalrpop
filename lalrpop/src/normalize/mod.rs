@@ -60,7 +60,7 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
     let grammar = profile!(
         session,
         "Macro expansion",
-        macro_expand::expand_macros(grammar)?
+        macro_expand::expand_macros(grammar, session.macro_recursion_limit)?
     );
     let grammar = profile!(session, "Token check", token_check::validate(grammar)?);
     let types = profile!(session, "Infer types", tyinfer::infer_types(&grammar)?);

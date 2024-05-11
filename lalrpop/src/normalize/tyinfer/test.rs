@@ -13,7 +13,7 @@ fn type_repr(s: &str) -> TypeRepr {
 
 fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
     let grammar = parser::parse_grammar(g1).unwrap();
-    let grammar = expand_macros(grammar).unwrap();
+    let grammar = expand_macros(grammar, 20).unwrap();
     let grammar = token_check::validate(grammar).unwrap();
     let types = infer_types(&grammar).unwrap();
 
@@ -56,7 +56,7 @@ grammar;
     )
     .unwrap();
 
-    let actual = expand_macros(grammar).unwrap();
+    let actual = expand_macros(grammar, 20).unwrap();
     assert!(infer_types(&actual).is_err());
 }
 
@@ -74,7 +74,7 @@ grammar;
     )
     .unwrap();
 
-    let actual = expand_macros(grammar).unwrap();
+    let actual = expand_macros(grammar, 20).unwrap();
     assert!(infer_types(&actual).is_err());
 }
 
@@ -202,7 +202,7 @@ grammar;
     )
     .unwrap();
 
-    let actual = expand_macros(grammar).unwrap();
+    let actual = expand_macros(grammar, 20).unwrap();
     assert!(infer_types(&actual).is_err());
 }
 

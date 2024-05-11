@@ -15,7 +15,7 @@ use string_cache::DefaultAtom as Atom;
 #[cfg(test)]
 mod test;
 
-pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
+pub fn expand_macros(input: Grammar, recursion_limit: u16) -> NormResult<Grammar> {
     let input = resolve::resolve(input)?;
 
     let items = input.items;
@@ -32,7 +32,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
         .collect();
 
     let mut expander = MacroExpander::new(macro_defs);
-    expander.expand(&mut items)?;
+    expander.expand(&mut items, recursion_limit)?;
 
     Ok(Grammar { items, ..input })
 }
@@ -52,7 +52,7 @@ impl MacroExpander {
         }
     }
 
-    fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
+    fn expand(&mut self, items: &mut Vec<GrammarItem>, recursion_limit: u16) -> NormResult<()> {
         let mut counter = 0; // Number of items
         let mut loop_counter = 0;
 
@@ -70,13 +70,14 @@ impl MacroExpander {
                 return Ok(());
             }
 
-            if loop_counter > 200 {
+            if loop_counter > recursion_limit {
                 // Too much recursion
                 match self.expansion_stack.pop() {
                     Some(sym) => {
                         return_err!(
                             sym.span,
-                            "Exceeded recursion cap while expanding this macro."
+                            "Exceeded recursion cap ({}) while expanding this macro.  This typically is a symptom of infinite recursion during macro resolution.  If you believe the recursion will complete eventually, you can increase this limit using Configuration::set_macro_recursion_limit().",
+                            recursion_limit
                         );
                     }
                     None => {
