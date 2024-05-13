@@ -58,6 +58,8 @@ pub struct Session {
     /// this value if we so choose.
     pub max_errors: usize,
 
+    /// Limit of depth to discover macros needing resolution.  Ensures that compilation terminates
+    /// in a finite number of steps.
     pub macro_recursion_limit: u16,
 
     // Styles to use when formatting error reports
