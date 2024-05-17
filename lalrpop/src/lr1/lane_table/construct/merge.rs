@@ -199,6 +199,7 @@ impl<'m> ContextSets<'m> {
     }
 
     fn union(&mut self, source: StateIndex, target: StateIndex) -> bool {
+        debug!("state_sets: {:?}", self.state_sets);
         let set1 = self.state_sets[&source];
         let set2 = self.state_sets[&target];
         let result = self.unify.unify_var_var(set1, set2).is_ok();

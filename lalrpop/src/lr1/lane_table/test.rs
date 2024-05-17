@@ -104,6 +104,30 @@ Y: () = {
     )
 }
 
+/// A variation on G1 to omit the possibility of shifting
+pub fn example_g2() -> Grammar {
+    normalized_grammar(
+        r#"
+grammar;
+
+pub G = {
+        "a" X "d",
+        "a" Y "c",
+        "b" X "c",
+        "b" Y "d",
+};
+
+X = {
+        "e"
+};
+
+Y = {
+        "e"
+};
+"#,
+    )
+}
+
 fn build_table<'grammar>(
     grammar: &'grammar Grammar,
     goal: &str,
@@ -294,6 +318,27 @@ P: () = {
     )
 }
 
+// The G1 example has a non-conflicting shift in the state with the reduce/reduce conflict.  This
+// test exercises the case where the reduce/reduce is the only difference.
+#[test]
+fn example_g2_build() {
+    let _tls = Tls::test();
+    let grammar = example_g2();
+
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let lr0_err = build::build_lr0_states(&grammar, nt("__G")).unwrap_err();
+    let states = build_states(&grammar, nt("__G")).expect("failed to build lane table states");
+
+    // we require more *states* than LR(0), not just different lookahead
+    assert_eq!(states.len() - lr0_err.states.len(), 1);
+
+    let tree = interpret::interpret(&states, tokens!["a", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[__G: [G: "a", [X: "e"], "d"]]"#);
+
+    let tree = interpret::interpret(&states, tokens!["b", "e", "d"]).unwrap();
+    expect_debug(&tree, r#"[__G: [G: "b", [Y: "e"], "d"]]"#);
+}
+
 #[test]
 fn large_conflict_1() {
     let _tls = Tls::test();
@@ -320,7 +365,7 @@ fn large_conflict_1() {
 | S5    |       |       | ["a"]      | ["r"] | {S16}      |
 | S7    |       |       | ["c", "w"] | ["d"] | {S16}      |
 | S16   |       |       |            |       | {S27}      |
-| S27   | ["s"] | ["k"] |            |       | {S32}      |
+| S27   | ["s"] | ["k"] | []         | []    | {S32}      |
 | S32   |       |       | ["z"]      | ["u"] | {S16}      |
 "#
         .trim_start(),
