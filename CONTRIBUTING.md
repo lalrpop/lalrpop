@@ -2,10 +2,8 @@
 
 Before doing anything else, run `cargo build -p lalrpop`!
 
-From now on use `cargo compile/test -p lalrpop --features=test` instead of
-`cargo build -p lalrpop`.
-
-Just before your final commit, run `sh update_lrgrammar.sh`
+When making changes the alter the generated code, use `sh update_lrgrammar.sh`
+to pass the `verify_lalrpop_generates_itself` test.
 
 
 ### Contributor's "How to"
@@ -37,20 +35,8 @@ generate your own `lrgrammar.rs` parser. That's how you do it:
 $ cargo build -p lalrpop # --release
 ```
 
-Now you need to tell cargo that you're using `lalrpop/src/parser/lrgrammar.lalrpop` to generate
-a new `lrgrammar.rs` inside `{CARGO_OUT_DIR}` and use it for the compilation:
-
-```sh
-$ cargo build/test -p lalrpop --features=test
-# or
-$ cargo build/test -p lalrpop --all-features
-```
-
-When this flag is passed, cargo uses not `lalrpop/src/parser/lrgrammar.rs` but the newly generated
-`lrgrammar.rs` instead (generating it if needed). From now on you use this command.
-
-Once you're done with your work, all the tests are passed, and you are ready to finally commit
-you changes run
+Once you're done with your work, make sure that you are running against an
+updated version of the grammar.
 
 ```sh
 $ sh update_lrgrammar.sh
