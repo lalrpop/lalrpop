@@ -15,7 +15,7 @@ use string_cache::DefaultAtom as Atom;
 #[cfg(test)]
 mod test;
 
-pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
+pub fn expand_macros(input: Grammar, recursion_limit: u16) -> NormResult<Grammar> {
     let input = resolve::resolve(input)?;
 
     let items = input.items;
@@ -32,7 +32,7 @@ pub fn expand_macros(input: Grammar) -> NormResult<Grammar> {
         .collect();
 
     let mut expander = MacroExpander::new(macro_defs);
-    expander.expand(&mut items)?;
+    expander.expand(&mut items, recursion_limit)?;
 
     Ok(Grammar { items, ..input })
 }
@@ -52,8 +52,10 @@ impl MacroExpander {
         }
     }
 
-    fn expand(&mut self, items: &mut Vec<GrammarItem>) -> NormResult<()> {
-        let mut counter = 0;
+    fn expand(&mut self, items: &mut Vec<GrammarItem>, recursion_limit: u16) -> NormResult<()> {
+        let mut counter = 0; // Number of items
+        let mut loop_counter = 0;
+
         loop {
             // Find any macro uses in items added since last round and
             // replace them in place with the expanded version:
@@ -61,10 +63,22 @@ impl MacroExpander {
                 self.replace_item(item);
             }
             counter = items.len();
+            loop_counter += 1;
 
             // No more expansion to do.
             if self.expansion_stack.is_empty() {
                 return Ok(());
+            }
+
+            if loop_counter > recursion_limit {
+                // Too much recursion
+                // We know unwrap() is safe, because we just checked is_empty()
+                let sym = self.expansion_stack.pop().unwrap();
+                return_err!(
+                            sym.span,
+                            "Exceeded recursion cap ({}) while expanding this macro.  This typically is a symptom of infinite recursion during macro resolution.  If you believe the recursion will complete eventually, you can increase this limit using Configuration::set_macro_recursion_limit().",
+                            recursion_limit
+                        );
             }
 
             // Drain expansion stack:

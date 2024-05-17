@@ -158,6 +158,12 @@ impl Configuration {
         self
     }
 
+    /// Set the max macro recursion depth.  As lalrpop is resolving a macro, it may discover new macros uses in the macro definition to resolve.  Typically deep recursion indicates a recursive macro use that is non-resolvable.  The default resolution depth is 200.
+    pub fn set_macro_recursion_limit(&mut self, val: u16) -> &mut Configuration {
+        self.session.macro_recursion_limit = val;
+        self
+    }
+
     /// Sets the features used during compilation, disables the use of cargo features.
     /// (Default: Loaded from `CARGO_FEATURE_{}` environment variables).
     pub fn set_features<I>(&mut self, iterable: I) -> &mut Configuration

@@ -17,7 +17,7 @@ grammar;
     )
     .unwrap();
 
-    let actual = expand_macros(grammar).unwrap();
+    let actual = expand_macros(grammar, 20).unwrap();
 
     let expected = parser::parse_grammar(
         r##"
@@ -74,7 +74,7 @@ grammar;
     )
     .unwrap();
 
-    let actual = expand_macros(grammar).unwrap();
+    let actual = expand_macros(grammar, 20).unwrap();
 
     let expected = parser::parse_grammar(
         r#"
@@ -103,7 +103,7 @@ fn test_lookahead() {
     )
     .unwrap();
 
-    let actual = expand_macros(grammar).unwrap();
+    let actual = expand_macros(grammar, 20).unwrap();
 
     let expected = parser::parse_grammar(
         r#"
@@ -115,4 +115,33 @@ fn test_lookahead() {
     .unwrap();
 
     compare(actual, expected);
+}
+
+#[test]
+fn test_excessive_recursion() {
+    let grammar = parser::parse_grammar(
+        r#"
+        grammar;
+        A<I> = { "x" I "y" I "z", A<("." I)> }
+        pub P = A<()>;
+        "#,
+    )
+    .unwrap();
+
+    assert!(expand_macros(grammar, 20).is_err());
+
+    let grammar2 = parser::parse_grammar(
+        r#"
+         grammar;
+         A<I> = { "a" B<("." I)> };
+         B<I> = { "b" C<("," I)> };
+         C<I> = { "c" I };
+         pub D = A<"d"> B<"d"> C<"d">;
+         "#,
+    )
+    .unwrap();
+
+    assert!(expand_macros(grammar2.clone(), 2).is_err());
+
+    assert!(expand_macros(grammar2, 3).is_ok());
 }
