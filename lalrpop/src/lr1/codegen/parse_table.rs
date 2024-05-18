@@ -601,7 +601,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 .map(|k2| state_lookup(k, k2))
                 .enumerate()
                 // Group consecutive indices so we can compress then as a..=b
-                .group_by(|(_, (next_state, _))| *next_state);
+                .chunk_by(|(_, (next_state, _))| *next_state);
             let mut row = Vec::new();
             row.extend(&iter);
 
@@ -622,7 +622,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 .drain(..)
                 // We always emit a catch-all for 0 error states (which will never be hit)
                 .filter_map(|(opt, group)| opt.map(|next_state| (next_state, group)))
-                .group_by(|(next_state, _)| *next_state))
+                .chunk_by(|(next_state, _)| *next_state))
                 .into_iter()
                 .enumerate()
                 .map(|(i, (next_state, group_group))| {

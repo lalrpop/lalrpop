@@ -22,7 +22,7 @@ doctest = false
 ascii-canvas = { version = "3.0", default-features = false }
 bit-set = { version = "0.5.2", default-features = false }
 ena = { version = "0.14", default-features = false }
-itertools = { version = "0.11", default-features = false, features = ["use_std"] }
+itertools = { version = "0.13", default-features = false, features = ["use_std"] }
 petgraph = { version = "0.6", default-features = false }
 regex = { workspace = true }
 regex-syntax = { workspace = true }
