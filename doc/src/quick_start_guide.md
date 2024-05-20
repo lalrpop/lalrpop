@@ -46,6 +46,7 @@ create a submodule `foo::grammar`):
 
 ```rust
 lalrpop_mod!(grammar);
+```
 
 [lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
 
