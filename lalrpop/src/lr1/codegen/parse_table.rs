@@ -600,7 +600,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                 .into_iter()
                 .map(|k2| state_lookup(k, k2))
                 .enumerate()
-                // Group consecutive indices so we can compress then as a..=b
+                // Group consecutive indices so we can compress them as a..=b
                 .chunk_by(|(_, (next_state, _))| *next_state);
             let mut row = Vec::new();
             row.extend(&iter);
