@@ -271,7 +271,7 @@ files in <code>src/</code> ending with the <code>.lalrpop</code> extension, and 
 corresponding Rust source files with the same name in <code>OUT_DIR</code>. If you want to
 configure how LALRPOP executes, see the <a href="advanced_setup.html">advanced setup</a>
 section.</p>
-<p>The [<code>lalrpop_mod!</code>][lalrpop_mod] macro generates a wrapper module in your
+<p>The <a href="https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html"><code>lalrpop_mod!</code></a> macro generates a wrapper module in your
 crate so that you can use the generated parser from your code. For example,
 if the source grammar is located in <code>grammar.lalrpop</code>, adding the following line
 to <code>lib.rs</code> will create a corresponding <code>grammar</code> submodule (note that you can
@@ -280,22 +280,16 @@ create a submodule <code>foo::grammar</code>):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>lalrpop_mod!(grammar);
-
-[lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
-
-### Running manually
-
-If you prefer, you can also run the `lalrpop` crate as an
-executable. Simply run `cargo install lalrpop` and then you will get a
-`lalrpop` binary you can execute, like so:
-
 <span class="boring">}</span></code></pre></pre>
-<p>lalrpop file.lalrpop</p>
-<pre><code>
-This will generate `file.rs` for you. Note that it only executes if
-`file.lalrpop` is newer than `file.rs`; if you'd prefer to execute
-unconditionally, pass `-f` (also try `--help` for other options).
+<h4 id="running-manually"><a class="header" href="#running-manually">Running manually</a></h4>
+<p>If you prefer, you can also run the <code>lalrpop</code> crate as an
+executable. Simply run <code>cargo install lalrpop</code> and then you will get a
+<code>lalrpop</code> binary you can execute, like so:</p>
+<pre><code>lalrpop file.lalrpop
 </code></pre>
+<p>This will generate <code>file.rs</code> for you. Note that it only executes if
+<code>file.lalrpop</code> is newer than <code>file.rs</code>; if you'd prefer to execute
+unconditionally, pass <code>-f</code> (also try <code>--help</code> for other options).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cheatsheet"><a class="header" href="#cheatsheet">Cheatsheet</a></h1>
 <p>Users of Lalrpop have compiled the following cheatsheet table as a quick way to
 look up useful Lalrpop-isms. If you are looking for a specific piece of
