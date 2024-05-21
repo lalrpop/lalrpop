@@ -19,16 +19,18 @@ exclude = ["build.rs"]
 doctest = false
 
 [dependencies]
-ascii-canvas = { version = "3.0", default-features = false }
+anstream = { version = "0.6", default-features = false, features = ["auto"] }
+ascii-canvas = { version = "3.0", default-features = false, git = "https://github.com/Pat-Lafon/ascii-canvas.git" }
 bit-set = { version = "0.5.2", default-features = false }
 ena = { version = "0.14", default-features = false }
-itertools = { version = "0.13", default-features = false, features = ["use_std"] }
+itertools = { version = "0.13", default-features = false, features = [
+    "use_std",
+] }
 petgraph = { version = "0.6", default-features = false }
 regex = { workspace = true }
 regex-syntax = { workspace = true }
 sha3 = { version = "0.10", default-features = false }
 string_cache = { version = "0.8", default-features = false }
-term = { version = "0.7", default-features = false }
 unicode-xid = { version = "0.2", default-features = false }
 walkdir = "2.4.0"
 
@@ -43,7 +45,7 @@ diff = { workspace = true }
 rand = "0.8"
 
 [features]
-default=["lexer", "unicode", "pico-args"]
+default = ["lexer", "unicode", "pico-args"]
 unicode = ["regex/unicode", "regex-syntax/unicode", "lalrpop-util/unicode"]
 lexer = ["lalrpop-util/lexer"]
 

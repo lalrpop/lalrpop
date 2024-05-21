@@ -14,6 +14,8 @@ use crate::session::{ColorConfig, Session};
 use crate::tls::Tls;
 use crate::tok;
 use crate::util::Sep;
+use anstream::AutoStream;
+use anstream::StripStream;
 use itertools::Itertools;
 use lalrpop_util::ParseError;
 use sha3::{Digest, Sha3_256};
@@ -27,9 +29,6 @@ use std::process::exit;
 use std::rc::Rc;
 
 mod action;
-mod fake_term;
-
-use self::fake_term::FakeTerminal;
 
 const LALRPOP_VERSION_HEADER: &str = concat!(
     "// auto-generated: \"",
@@ -356,14 +355,14 @@ fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
     exit(1);
 }
 
-fn report_message(message: Message) -> term::Result<()> {
+fn report_message(message: Message) -> std::io::Result<()> {
     let content = InlineBuilder::new().push(Box::new(message)).end();
     report_content(&*content)?;
     println!();
     Ok(())
 }
 
-fn report_content(content: &dyn Content) -> term::Result<()> {
+fn report_content(content: &dyn Content) -> std::io::Result<()> {
     // FIXME -- can we query the size of the terminal somehow?
     let canvas = content.emit_to_canvas(80);
 
@@ -374,14 +373,13 @@ fn report_content(content: &dyn Content) -> term::Result<()> {
     };
 
     if try_colors {
-        if let Some(mut stdout) = term::stdout() {
-            return canvas.write_to(&mut *stdout);
-        }
+        let mut stdout = AutoStream::new(std::io::stdout(), anstream::ColorChoice::Auto);
+        return canvas.write_to(&mut stdout);
     }
 
     let stdout = io::stdout();
-    let mut stdout = FakeTerminal::new(stdout.lock());
-    canvas.write_to(&mut stdout)
+    let stdout = StripStream::new(stdout);
+    canvas.write_to(&mut stdout.lock())
 }
 
 fn emit_module_attributes<W: Write>(
