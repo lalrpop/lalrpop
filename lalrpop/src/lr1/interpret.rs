@@ -37,7 +37,7 @@ where
     Ok(m.state_stack)
 }
 
-struct Machine<'grammar, L: LookaheadInterpret + 'grammar> {
+struct Machine<'grammar, L: LookaheadInterpret> {
     states: &'grammar [State<'grammar, L>],
     state_stack: Vec<StateIndex>,
     data_stack: Vec<ParseTree>,
@@ -155,13 +155,13 @@ where
 }
 
 impl Debug for ParseTree {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
 
 impl Display for ParseTree {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             ParseTree::Nonterminal(ref id, ref trees) => {
                 write!(fmt, "[{}: {}]", id, Sep(", ", trees))

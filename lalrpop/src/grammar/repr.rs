@@ -494,7 +494,7 @@ impl Types {
 }
 
 impl Display for WhereClause {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
             WhereClause::Forall { binder, clause } => {
                 write!(fmt, "for<{}> {}", Sep(", ", binder), clause)
@@ -506,13 +506,13 @@ impl Display for WhereClause {
 }
 
 impl Display for Parameter {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}: {}", self.name, self.ty)
     }
 }
 
 impl Display for TypeRepr {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeRepr::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
             TypeRepr::Slice(ref ty) => write!(fmt, "[{}]", ty),
@@ -564,13 +564,13 @@ impl Display for TypeRepr {
 }
 
 impl Debug for TypeRepr {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
 
 impl Display for NominalTypeRepr {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         if self.types.is_empty() {
             write!(fmt, "{}", self.path)
         } else {
@@ -580,7 +580,7 @@ impl Display for NominalTypeRepr {
 }
 
 impl Debug for NominalTypeRepr {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
@@ -615,7 +615,7 @@ impl Symbol {
 }
 
 impl Display for Symbol {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
             Symbol::Nonterminal(id) => write!(fmt, "{}", id),
             Symbol::Terminal(id) => write!(fmt, "{}", id),
@@ -624,7 +624,7 @@ impl Display for Symbol {
 }
 
 impl Debug for Symbol {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
@@ -639,7 +639,7 @@ impl From<Symbol> for Box<dyn Content> {
 }
 
 impl Debug for Production {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(
             fmt,
             "{} = {} => {:?};",
@@ -651,7 +651,7 @@ impl Debug for Production {
 }
 
 impl Debug for ActionFnDefn {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}", self.to_fn_string("_"))
     }
 }

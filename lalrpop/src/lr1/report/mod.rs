@@ -18,7 +18,7 @@ static INDENT_STRING: &str = "    ";
 
 struct ReportGenerator<'report, W>
 where
-    W: Write + 'report,
+    W: Write,
 {
     pub out: &'report mut W,
 }
@@ -393,7 +393,7 @@ where
     m.map(|k| k.display_len()).fold(0, max)
 }
 
-fn get_width_for_gotos<L>(state: &State<L>) -> usize
+fn get_width_for_gotos<L>(state: &State<'_, L>) -> usize
 where
     L: Lookahead,
 {

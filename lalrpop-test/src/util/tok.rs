@@ -78,7 +78,7 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok<'_>, usize)> {
 
 fn take_while<F>(
     slice_start: usize,
-    char_indices: &mut CharIndices,
+    char_indices: &mut CharIndices<'_>,
     f: F,
 ) -> (usize, Option<(usize, char)>)
 where

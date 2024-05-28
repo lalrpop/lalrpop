@@ -192,7 +192,7 @@ impl<W: Write> RustWrite<W> {
     }
 }
 
-pub struct FnHeader<'me, W: Write + 'me> {
+pub struct FnHeader<'me, W: Write> {
     write: &'me mut RustWrite<W>,
     visibility: &'me Visibility,
     name: String,

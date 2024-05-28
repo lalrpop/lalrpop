@@ -11,7 +11,7 @@ use std::io::{self, Write};
 /// Base struct for various kinds of code generator. The flavor of
 /// code generator is customized by supplying distinct types for `C`
 /// (e.g., `self::ascent::RecursiveAscent`).
-pub struct CodeGenerator<'codegen, 'grammar: 'codegen, W: Write + 'codegen, C> {
+pub struct CodeGenerator<'codegen, 'grammar, W: Write, C> {
     /// the complete grammar
     pub grammar: &'grammar Grammar,
 
@@ -161,7 +161,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
         rust!(self.out, "#[rustfmt::skip]");
         rust!(
             self.out,
-            "#[allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
+            "#[allow(explicit_outlives_requirements, non_snake_case, non_camel_case_types, unused_mut, unused_variables, \
              unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding, clippy::needless_raw_string_hashes)]"
         );
         rust!(self.out, "mod {}parse{} {{", self.prefix, self.start_symbol);

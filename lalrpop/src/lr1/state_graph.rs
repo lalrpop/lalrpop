@@ -12,7 +12,7 @@ pub struct StateGraph {
 }
 
 impl StateGraph {
-    pub fn new<L>(states: &[State<L>]) -> StateGraph
+    pub fn new<L>(states: &[State<'_, L>]) -> StateGraph
     where
         L: Lookahead,
     {

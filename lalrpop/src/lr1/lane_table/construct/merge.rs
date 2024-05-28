@@ -14,7 +14,7 @@ use ena::unify::InPlaceUnificationTable;
 /// set of S will be compatible with the reduced context of T2).
 ///
 /// [r]: ../README.md
-pub struct Merge<'m, 'grammar: 'm> {
+pub struct Merge<'m, 'grammar> {
     table: &'m LaneTable<'grammar>,
     states: &'m mut Vec<Lr1State<'grammar>>,
     visited: Set<StateIndex>,

@@ -35,9 +35,12 @@ pub fn use_lane_table() -> bool {
 
 pub fn build_lr1_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
     let (method_name, method_fn) = if use_lane_table() {
-        ("lane", build_lane_table_states as ConstructionFunction)
+        ("lane", build_lane_table_states as ConstructionFunction<'_>)
     } else {
-        ("legacy", build_lr1_states_legacy as ConstructionFunction)
+        (
+            "legacy",
+            build_lr1_states_legacy as ConstructionFunction<'_>,
+        )
     };
 
     profile! {

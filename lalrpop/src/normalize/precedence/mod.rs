@@ -303,7 +303,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
 fn replace_nonterm(
     alt: &mut Alternative,
     target: &NonterminalString,
-    subst: Substitution,
+    subst: Substitution<'_>,
     dir: Direction,
 ) {
     replace_symbols(&mut alt.expr.symbols, target, subst, dir);

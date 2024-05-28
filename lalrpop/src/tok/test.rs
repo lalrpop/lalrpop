@@ -8,7 +8,7 @@ enum Expectation<'a> {
 
 use self::Expectation::*;
 
-fn gen_test(input: &str, expected: Vec<(&str, Expectation)>) {
+fn gen_test(input: &str, expected: Vec<(&str, Expectation<'_>)>) {
     // use $ to signal EOL because it can be replaced with a single space
     // for spans, and because it applies also to r#XXX# style strings:
     let input = input.replace('$', "\n");
@@ -37,7 +37,7 @@ fn gen_test(input: &str, expected: Vec<(&str, Expectation)>) {
     assert_eq!(None, tokenizer.nth(len));
 }
 
-fn test(input: &str, expected: Vec<(&str, Tok)>) {
+fn test(input: &str, expected: Vec<(&str, Tok<'_>)>) {
     let generic_expected = expected
         .into_iter()
         .map(|(span, tok)| (span, ExpectTok(tok)))

@@ -88,13 +88,13 @@ impl<T> FieldPattern<T> {
 }
 
 impl<T: Display> Display for Pattern<T> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}", self.kind)
     }
 }
 
 impl<T: Display> Display for PatternKind<T> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             PatternKind::Path(ref path) => write!(fmt, "{}", path),
             PatternKind::Enum(ref path, ref pats) => write!(fmt, "{}({})", path, Sep(", ", pats)),
@@ -122,7 +122,7 @@ impl<T: Display> Display for PatternKind<T> {
 }
 
 impl<T: Display> Display for FieldPattern<T> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}: {}", self.field_name, self.pattern)
     }
 }

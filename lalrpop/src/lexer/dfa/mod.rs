@@ -312,13 +312,13 @@ impl Item {
 }
 
 impl Debug for DfaStateIndex {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "Dfa{}", self.0)
     }
 }
 
 impl Display for DfaStateIndex {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Debug::fmt(self, fmt)
     }
 }
@@ -336,7 +336,7 @@ impl DfaStateIndex {
 }
 
 impl Debug for Item {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "({:?}:{:?})", self.nfa_index, self.nfa_state)
     }
 }

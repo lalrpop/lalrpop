@@ -30,7 +30,7 @@ impl Content for Styled {
 }
 
 impl Debug for Styled {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         fmt.debug_struct("Styled")
             .field("content", &self.content)
             .finish()
