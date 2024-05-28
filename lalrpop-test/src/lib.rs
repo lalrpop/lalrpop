@@ -1,5 +1,6 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
 #![allow(unused_doc_comments)]
+#![warn(rust_2018_idioms)]
 
 use std::cell::RefCell;
 use std::fs;
