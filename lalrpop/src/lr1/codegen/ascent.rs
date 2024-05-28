@@ -567,7 +567,7 @@ impl<'ascent, 'grammar, W: Write>
             )))
             .with_parameters(fn_args)
             .with_return_type(format!(
-                "core::result::Result<(core::option::Option<{}>, {}Nonterminal<{}>), {}>",
+                "Result<(Option<{}>, {}Nonterminal<{}>), {}>",
                 triple_type,
                 self.prefix,
                 Sep(", ", &self.custom.nonterminal_type_params),
@@ -579,7 +579,7 @@ impl<'ascent, 'grammar, W: Write>
 
         rust!(
             self.out,
-            "let mut {}result: (core::option::Option<{}>, {}Nonterminal<{}>);",
+            "let mut {}result: (Option<{}>, {}Nonterminal<{}>);",
             self.prefix,
             triple_type,
             self.prefix,
@@ -627,17 +627,14 @@ impl<'ascent, 'grammar, W: Write>
 
         let mut base_args = vec![format!("{}tokens: &mut {}TOKENS", self.prefix, self.prefix)];
         if !starts_with_terminal {
-            base_args.push(format!(
-                "{}lookahead: core::option::Option<{}>",
-                self.prefix, triple_type,
-            ));
+            base_args.push(format!("{}lookahead: Option<{}>", self.prefix, triple_type,));
         }
 
         // "Optional symbols" may or may not be consumed, so take an
         // `&mut Option`
         let optional_args = (0..optional_prefix.len()).map(|i| {
             format!(
-                "{}sym{}: &mut core::option::Option<{}>",
+                "{}sym{}: &mut Option<{}>",
                 self.prefix,
                 i,
                 self.types
@@ -873,7 +870,7 @@ impl<'ascent, 'grammar, W: Write>
             // this only occurs in the start state
             rust!(
                 self.out,
-                "let {}start: {} = core::default::Default::default();",
+                "let {}start: {} = Default::default();",
                 self.prefix,
                 loc_type,
             );

@@ -1177,11 +1177,7 @@ impl Path {
     pub fn option() -> Path {
         Path {
             absolute: false,
-            ids: vec![
-                Atom::from("core"),
-                Atom::from("option"),
-                Atom::from("Option"),
-            ],
+            ids: vec![Atom::from("Option")],
         }
     }
 
