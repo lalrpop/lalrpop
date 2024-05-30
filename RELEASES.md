@@ -1,3 +1,29 @@
+<a name="0.21.0"></a>
+## 0.21.0 (2024-05-30)
+
+Since the last release, a fair number of the commits have been focussed on cleaning
+up and improving LALRPOP's documentation. Shout out to Yudai Takada, George
+White, and Dinu Blanovschi.
+
+#### Bugfixes
+
+* A long-standing bug where LALRPOP would throw a "no entry found for key"
+  exception when trying to handle a particular reduce/reduce conflict has been
+  resolved.
+* LALRPOP will stop expanding macros infinitely during build time via a new
+  `macro_expansion_limit`.
+
+#### Compatibility note
+
+Adding a limit to the number of times that LALRPOP will attempt to expand a
+macro is technically a breaking change. However, the default limit of `200`
+should be more than enough for the grammars we are currently aware of(which
+almost always need a limit of less than 5). This limit is customizable via `Configuration::set_macro_expansion_limit`.
+
+If you have a grammar that uses a significant amount of macro expansion steps,
+we would be very interested in a pr that adds it to the test suite.
+
+
 <a name="0.20.2"></a>
 ## 0.20.2 (2024-02-**)
 
