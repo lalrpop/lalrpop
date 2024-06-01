@@ -8,8 +8,7 @@ White, and Dinu Blanovschi.
 #### Bugfixes
 
 * A long-standing bug where LALRPOP would throw a "no entry found for key"
-  exception when trying to handle a particular reduce/reduce conflict has been
-  resolved.
+  exception when trying to handle certain grammars has been resolved.
 * LALRPOP will stop expanding macros infinitely during build time via a new
   `macro_expansion_limit`.
 
