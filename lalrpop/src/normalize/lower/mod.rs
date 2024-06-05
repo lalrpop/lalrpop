@@ -137,7 +137,6 @@ impl<'s> LowerState<'s> {
                     self.nonterminals.insert(
                         nt_name.clone(),
                         r::NonterminalData {
-                            name: nt_name.clone(),
                             visibility: nt.visibility.clone(),
                             annotations: nt.annotations,
                             span: nt.span,
@@ -246,7 +245,6 @@ impl<'s> LowerState<'s> {
                 self.nonterminals.insert(
                     fake_name.clone(),
                     r::NonterminalData {
-                        name: fake_name.clone(),
                         visibility: nt.visibility.clone(),
                         annotations: vec![],
                         span: nt.span,

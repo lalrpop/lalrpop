@@ -85,7 +85,6 @@ pub struct TerminalSet {
 
 #[derive(Clone, Debug)]
 pub struct NonterminalData {
-    pub name: NonterminalString,
     pub visibility: Visibility,
     pub span: Span,
     pub annotations: Vec<Annotation>,
