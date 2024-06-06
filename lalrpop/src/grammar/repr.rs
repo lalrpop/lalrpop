@@ -54,7 +54,6 @@ pub struct Grammar {
     pub action_fn_defns: Vec<ActionFnDefn>,
     pub terminals: TerminalSet,
     pub nonterminals: Map<NonterminalString, NonterminalData>,
-    pub token_span: Span,
     pub conversions: Map<TerminalString, Pattern<TypeRepr>>,
     pub types: Types,
     pub module_attributes: Vec<String>,
@@ -86,7 +85,6 @@ pub struct TerminalSet {
 
 #[derive(Clone, Debug)]
 pub struct NonterminalData {
-    pub name: NonterminalString,
     pub visibility: Visibility,
     pub span: Span,
     pub annotations: Vec<Annotation>,

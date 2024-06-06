@@ -49,7 +49,6 @@ impl<'s> LowerState<'s> {
         let start_symbols = self.synthesize_start_symbols(&grammar);
 
         let mut uses = vec![];
-        let mut token_span = None;
         let internal_token_path = Path {
             absolute: false,
             ids: vec![Atom::from("Token")],
@@ -68,7 +67,6 @@ impl<'s> LowerState<'s> {
                 }
 
                 pt::GrammarItem::InternToken(data) => {
-                    token_span = Some(grammar.span);
                     let span = grammar.span;
                     let input_str = r::TypeRepr::Ref {
                         lifetime: Some(Lifetime::input()),
@@ -109,7 +107,6 @@ impl<'s> LowerState<'s> {
 
                 pt::GrammarItem::ExternToken(data) => {
                     if let Some(enum_token) = data.enum_token {
-                        token_span = Some(enum_token.type_span);
                         self.conversions
                             .extend(enum_token.conversions.iter().map(|conversion| {
                                 (
@@ -140,7 +137,6 @@ impl<'s> LowerState<'s> {
                     self.nonterminals.insert(
                         nt_name.clone(),
                         r::NonterminalData {
-                            name: nt_name.clone(),
                             visibility: nt.visibility.clone(),
                             annotations: nt.annotations,
                             span: nt.span,
@@ -199,7 +195,6 @@ impl<'s> LowerState<'s> {
             nonterminals: self.nonterminals,
             conversions: self.conversions.into_iter().collect(),
             types: self.types,
-            token_span: token_span.unwrap(),
             type_parameters: grammar.type_parameters,
             parameters,
             where_clauses,
@@ -250,7 +245,6 @@ impl<'s> LowerState<'s> {
                 self.nonterminals.insert(
                     fake_name.clone(),
                     r::NonterminalData {
-                        name: fake_name.clone(),
                         visibility: nt.visibility.clone(),
                         annotations: vec![],
                         span: nt.span,
