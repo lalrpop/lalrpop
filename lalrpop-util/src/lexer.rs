@@ -11,7 +11,7 @@ use regex_automata::{Anchored, Input, MatchKind};
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Token<'input>(pub usize, pub &'input str);
 impl<'a> fmt::Display for Token<'a> {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         fmt::Display::fmt(self.1, formatter)
     }
 }

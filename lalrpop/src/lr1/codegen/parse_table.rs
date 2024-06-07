@@ -42,7 +42,7 @@ enum Comment<'a, T> {
 }
 
 impl<'a, T: fmt::Display> fmt::Display for Comment<'a, T> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Comment::Goto(ref token, new_state) => {
                 write!(f, " // on {}, goto {}", token, new_state)
@@ -682,7 +682,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     fn write_reduction<'s>(
         custom: &TableDriven<'grammar>,
-        state: &'s Lr1State,
+        state: &'s Lr1State<'_>,
         token: &Token,
     ) -> (i32, Comment<'s, Token>) {
         let reduction = state

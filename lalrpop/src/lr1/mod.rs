@@ -45,7 +45,7 @@ pub fn generate_report<'grammar, W: Write + 'grammar>(
 
 /// By packing all states which start a reduction we can generate a smaller goto table as any
 /// states not starting a reduction will not need a row
-fn rewrite_state_indices(grammar: &Grammar, states: &mut [core::Lr1State]) {
+fn rewrite_state_indices(grammar: &Grammar, states: &mut [core::Lr1State<'_>]) {
     let mut start_states = vec![false; states.len()];
     for (index, state) in states.iter_mut().enumerate() {
         debug_assert!(state.index.0 == index);

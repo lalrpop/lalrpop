@@ -162,7 +162,7 @@ impl Validator {
 
     fn validate_alternative(
         &self,
-        scope: &ScopeChain,
+        scope: &ScopeChain<'_>,
         alternative: &mut Alternative,
     ) -> NormResult<()> {
         if let Some(ref condition) = alternative.condition {
@@ -186,7 +186,7 @@ impl Validator {
         Ok(())
     }
 
-    fn validate_expr(&self, scope: &ScopeChain, expr: &mut ExprSymbol) -> NormResult<()> {
+    fn validate_expr(&self, scope: &ScopeChain<'_>, expr: &mut ExprSymbol) -> NormResult<()> {
         for symbol in &mut expr.symbols {
             self.validate_symbol(scope, symbol)?;
         }
@@ -194,7 +194,7 @@ impl Validator {
         Ok(())
     }
 
-    fn validate_symbol(&self, scope: &ScopeChain, symbol: &mut Symbol) -> NormResult<()> {
+    fn validate_symbol(&self, scope: &ScopeChain<'_>, symbol: &mut Symbol) -> NormResult<()> {
         match symbol.kind {
             SymbolKind::Expr(ref mut expr) => {
                 self.validate_expr(scope, expr)?;
@@ -261,7 +261,7 @@ impl Validator {
         Ok(())
     }
 
-    fn rewrite_ambiguous_id(&self, scope: &ScopeChain, symbol: &mut Symbol) -> NormResult<()> {
+    fn rewrite_ambiguous_id(&self, scope: &ScopeChain<'_>, symbol: &mut Symbol) -> NormResult<()> {
         let id = if let SymbolKind::AmbiguousId(ref name) = symbol.kind {
             name.clone()
         } else {
@@ -275,7 +275,7 @@ impl Validator {
         Ok(())
     }
 
-    fn validate_id(&self, scope: &ScopeChain, span: Span, id: &Atom) -> NormResult<Def> {
+    fn validate_id(&self, scope: &ScopeChain<'_>, span: Span, id: &Atom) -> NormResult<Def> {
         match scope.def(id) {
             Some(def) => Ok(def),
             None => return_err!(span, "no definition found for `{}`", id),

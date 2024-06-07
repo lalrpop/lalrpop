@@ -377,7 +377,7 @@ impl Content for ExamplePicture {
 }
 
 impl Debug for ExamplePicture {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Debug::fmt(&self.example, fmt)
     }
 }

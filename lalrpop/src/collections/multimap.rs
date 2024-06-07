@@ -45,7 +45,7 @@ impl<K: Ord, C: Collection> Multimap<K, C> {
         self.map.get(key)
     }
 
-    pub fn iter(&self) -> btree_map::Iter<K, C> {
+    pub fn iter(&self) -> btree_map::Iter<'_, K, C> {
         self.map.iter()
     }
 

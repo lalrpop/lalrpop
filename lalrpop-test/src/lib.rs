@@ -1,5 +1,6 @@
 #![cfg_attr(not(test), allow(dead_code, unused_imports))]
 #![allow(unused_doc_comments)]
+#![warn(rust_2018_idioms)]
 
 use std::cell::RefCell;
 use std::fs;
@@ -275,7 +276,7 @@ fn expr_intern_tok_test_err() {
 fn parse_error_map_token_and_location() {
     let expr = "(1+\n(2++3))";
     let result = expr_intern_tok::ExprParser::new().parse(1, expr);
-    let err: lalrpop_util::ParseError<usize, expr_intern_tok::Token, &'static str> =
+    let err: lalrpop_util::ParseError<usize, expr_intern_tok::Token<'_>, &'static str> =
         result.unwrap_err();
 
     let message = err
@@ -907,7 +908,7 @@ fn lexer_generic_test() {
     let input = "2 + 3";
     let lexer = Lexer::new(input);
     let parser = lexer_generic::AdditionParser::new();
-    let result = parser.parse::<Lexer, _, _>(input, lexer);
+    let result = parser.parse::<Lexer<'_>, _, _>(input, lexer);
 
     assert_eq!(Ok(5), result);
 }

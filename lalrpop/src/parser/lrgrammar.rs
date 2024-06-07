@@ -12,11 +12,11 @@ use super::Top;
 extern crate lalrpop_util as ___lalrpop_util;
 #[allow(unused_imports)]
 use self::___lalrpop_util::state_machine as ___state_machine;
-extern crate core;
+#[allow(unused_extern_crates)]
 extern crate alloc;
 
 #[rustfmt::skip]
-#[allow(non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding, clippy::needless_raw_string_hashes)]
+#[allow(explicit_outlives_requirements, non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding, clippy::needless_raw_string_hashes)]
 mod ___parse___Top {
 
 use string_cache::DefaultAtom as Atom;
@@ -31,7 +31,7 @@ use super::super::Top;
 extern crate lalrpop_util as ___lalrpop_util;
 #[allow(unused_imports)]
 use self::___lalrpop_util::state_machine as ___state_machine;
-extern crate core;
+#[allow(unused_extern_crates)]
 extern crate alloc;
 use super::___ToTriple;
 #[allow(dead_code)]
@@ -39,13 +39,13 @@ pub(crate) enum ___Symbol<'input>
  {
 Variant0(Tok<'input>),
 Variant1(&'input str),
-Variant2(core::option::Option<Tok<'input>>),
+Variant2(Option<Tok<'input>>),
 Variant3(TypeRef),
-Variant4(core::option::Option<TypeRef>),
+Variant4(Option<TypeRef>),
 Variant5(Vec<TypeBoundParameter<TypeRef>>),
-Variant6(core::option::Option<Vec<TypeBoundParameter<TypeRef>>>),
+Variant6(Option<Vec<TypeBoundParameter<TypeRef>>>),
 Variant7(Condition),
-Variant8(core::option::Option<Condition>),
+Variant8(Option<Condition>),
 Variant9(()),
 Variant10(Alternative),
 Variant11(alloc::vec::Vec<Alternative>),
@@ -78,13 +78,13 @@ Variant37(alloc::vec::Vec<TypeParameter>),
 Variant38(alloc::vec::Vec<TypeRef>),
 Variant39(usize),
 Variant40(ActionKind),
-Variant41(core::option::Option<ActionKind>),
-Variant42(core::option::Option<Alternative>),
+Variant41(Option<ActionKind>),
+Variant42(Option<Alternative>),
 Variant43(Vec<Alternative>),
 Variant44(Annotation),
 Variant45(alloc::vec::Vec<Annotation>),
 Variant46((Atom, String)),
-Variant47(core::option::Option<(Atom, String)>),
+Variant47(Option<(Atom, String)>),
 Variant48(AssociatedType),
 Variant49(alloc::vec::Vec<AssociatedType>),
 Variant50(Vec<Conversion>),
@@ -97,28 +97,28 @@ Variant56(Vec<Symbol>),
 Variant57(Vec<TypeParameter>),
 Variant58(Vec<TypeRef>),
 Variant59(ConditionOp),
-Variant60(core::option::Option<Conversion>),
+Variant60(Option<Conversion>),
 Variant61(EnumToken),
 Variant62(ExprSymbol),
 Variant63(GrammarItem),
-Variant64(core::option::Option<FieldPattern<TypeRef>>),
+Variant64(Option<FieldPattern<TypeRef>>),
 Variant65(Grammar),
 Variant66(alloc::vec::Vec<GrammarItem>),
-Variant67(core::option::Option<Parameter>),
-Variant68(core::option::Option<Vec<Parameter>>),
-Variant69(core::option::Option<Vec<TypeParameter>>),
-Variant70(core::option::Option<WhereClause<TypeRef>>),
-Variant71(core::option::Option<Vec<WhereClause<TypeRef>>>),
-Variant72(core::option::Option<Lifetime>),
+Variant67(Option<Parameter>),
+Variant68(Option<Vec<Parameter>>),
+Variant69(Option<Vec<TypeParameter>>),
+Variant70(Option<WhereClause<TypeRef>>),
+Variant71(Option<Vec<WhereClause<TypeRef>>>),
+Variant72(Option<Lifetime>),
 Variant73(MatchContents),
-Variant74(core::option::Option<MatchItem>),
+Variant74(Option<MatchItem>),
 Variant75(MatchMapping),
 Variant76(TerminalLiteral),
 Variant77(MatchToken),
 Variant78((NonterminalString, Vec<NonterminalString>)),
-Variant79(core::option::Option<NonterminalString>),
+Variant79(Option<NonterminalString>),
 Variant80(Path),
-Variant81(core::option::Option<Pattern<TypeRef>>),
+Variant81(Option<Pattern<TypeRef>>),
 Variant82(PatternKind<TypeRef>),
 Variant83(Vec<Lifetime>),
 Variant84(Vec<TypeBound<TypeRef>>),
@@ -126,12 +126,12 @@ Variant85(TerminalString),
 Variant86(RepeatOp),
 Variant87(String),
 Variant88(alloc::vec::Vec<String>),
-Variant89(core::option::Option<Symbol>),
+Variant89(Option<Symbol>),
 Variant90(SymbolKind),
 Variant91(Top),
-Variant92(core::option::Option<TypeBound<TypeRef>>),
-Variant93(core::option::Option<TypeBoundParameter<TypeRef>>),
-Variant94(core::option::Option<TypeParameter>),
+Variant92(Option<TypeBound<TypeRef>>),
+Variant93(Option<TypeBoundParameter<TypeRef>>),
+Variant94(Option<TypeParameter>),
 Variant95(Visibility),
 }
 const ___ACTION: &[i16] = &[
@@ -8245,6 +8245,248 @@ Some((___l, ___Symbol::Variant26(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
+fn ___pop_Variant47<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<(Atom, String)>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant41<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<ActionKind>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant41(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant42<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Alternative>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant42(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant8<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Condition>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant8(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant60<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Conversion>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant60(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant64<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<FieldPattern<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant64(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant72<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Lifetime>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant72(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant74<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<MatchItem>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant74(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant79<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<NonterminalString>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant79(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant67<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Parameter>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant67(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant81<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Pattern<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant81(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant89<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Symbol>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant89(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant2<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Tok<'input>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant2(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant92<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<TypeBound<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant92(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant93<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<TypeBoundParameter<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant93(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant94<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<TypeParameter>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant94(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant4<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<TypeRef>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant4(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant68<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Vec<Parameter>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant68(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant6<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Vec<TypeBoundParameter<TypeRef>>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant6(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant69<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Vec<TypeParameter>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant69(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant71<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<Vec<WhereClause<TypeRef>>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant71(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant70<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<WhereClause<TypeRef>>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant70(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
 fn ___pop_Variant16<
   'input,
 >(
@@ -8792,248 +9034,6 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant19(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant47<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<(Atom, String)>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant41<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<ActionKind>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant41(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant42<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Alternative>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant42(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant8<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Condition>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant8(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant60<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Conversion>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant60(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant64<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<FieldPattern<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant64(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant72<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Lifetime>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant72(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant74<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<MatchItem>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant74(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant79<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<NonterminalString>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant79(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant67<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Parameter>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant67(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant81<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Pattern<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant81(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant89<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Symbol>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant89(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant2<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Tok<'input>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant2(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant92<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<TypeBound<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant92(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant93<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant93(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant94<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<TypeParameter>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant94(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant4<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<TypeRef>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant4(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant68<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Vec<Parameter>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant68(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant6<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant6(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant69<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Vec<TypeParameter>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant69(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant71<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant71(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant70<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, core::option::Option<WhereClause<TypeRef>>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant70(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -18914,9 +18914,9 @@ text: &'input str,
 (_, lo, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, hi, _): (usize, usize, usize),
-(_, tps, _): (usize, core::option::Option<Vec<TypeParameter>>, usize),
-(_, parameters, _): (usize, core::option::Option<Vec<Parameter>>, usize),
-(_, where_clauses, _): (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+(_, tps, _): (usize, Option<Vec<TypeParameter>>, usize),
+(_, parameters, _): (usize, Option<Vec<Parameter>>, usize),
+(_, where_clauses, _): (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, items, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -19075,7 +19075,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, params, _): (usize, Vec<TypeRef>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, ret, _): (usize, core::option::Option<TypeRef>, usize),
+(_, ret, _): (usize, Option<TypeRef>, usize),
 ) -> TypeBound<TypeRef>
 {
 TypeBound::Fn { forall: f, path: p, parameters: params, ret }
@@ -19089,7 +19089,7 @@ fn ___action18<
 text: &'input str,
 (_, f, _): (usize, Vec<TypeParameter>, usize),
 (_, p, _): (usize, Path, usize),
-(_, params, _): (usize, core::option::Option<Vec<TypeBoundParameter<TypeRef>>>, usize),
+(_, params, _): (usize, Option<Vec<TypeBoundParameter<TypeRef>>>, usize),
 ) -> TypeBound<TypeRef>
 {
 TypeBound::Trait { forall: f, path: p, parameters: params.unwrap_or(vec![]) }
@@ -19288,7 +19288,7 @@ text: &'input str,
 (_, lo, _): (usize, usize, usize),
 (_, n, _): (usize, (NonterminalString, Vec<NonterminalString>), usize),
 (_, hi, _): (usize, usize, usize),
-(_, t, _): (usize, core::option::Option<TypeRef>, usize),
+(_, t, _): (usize, Option<TypeRef>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, a, _): (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
@@ -19330,7 +19330,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, lo, _): (usize, usize, usize),
 (_, id, _): (usize, Atom, usize),
-(_, arg, _): (usize, core::option::Option<(Atom, String)>, usize),
+(_, arg, _): (usize, Option<(Atom, String)>, usize),
 (_, hi, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> Annotation
@@ -19401,7 +19401,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, ___0, _): (usize, Vec<Alternative>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, _, _): (usize, core::option::Option<Tok<'input>>, usize),
+(_, _, _): (usize, Option<Tok<'input>>, usize),
 ) -> Vec<Alternative>
 {
 ___0
@@ -19416,8 +19416,8 @@ text: &'input str,
 (_, ann, _): (usize, alloc::vec::Vec<Annotation>, usize),
 (_, lo, _): (usize, usize, usize),
 (_, s, _): (usize, alloc::vec::Vec<Symbol>, usize),
-(_, c, _): (usize, core::option::Option<Condition>, usize),
-(_, a, _): (usize, core::option::Option<ActionKind>, usize),
+(_, c, _): (usize, Option<Condition>, usize),
+(_, a, _): (usize, Option<ActionKind>, usize),
 (_, hi, _): (usize, usize, usize),
 ) -> Alternative
 {
@@ -19439,7 +19439,7 @@ fn ___action42<
 >(
 text: &'input str,
 (_, lo, _): (usize, usize, usize),
-(_, c, _): (usize, core::option::Option<Condition>, usize),
+(_, c, _): (usize, Option<Condition>, usize),
 (_, a, _): (usize, ActionKind, usize),
 (_, hi, _): (usize, usize, usize),
 ) -> Alternative
@@ -19589,7 +19589,7 @@ fn ___action53<
 text: &'input str,
 (_, lo, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, m, _): (usize, core::option::Option<Tok<'input>>, usize),
+(_, m, _): (usize, Option<Tok<'input>>, usize),
 (_, _, _): (usize, usize, usize),
 (_, l, _): (usize, Atom, usize),
 (_, _, _): (usize, Tok<'input>, usize),
@@ -19858,8 +19858,8 @@ fn ___action73<
 >(
 text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
-(_, l, _): (usize, core::option::Option<Lifetime>, usize),
-(_, m, _): (usize, core::option::Option<Tok<'input>>, usize),
+(_, l, _): (usize, Option<Lifetime>, usize),
+(_, m, _): (usize, Option<Tok<'input>>, usize),
 (_, t, _): (usize, TypeRef, usize),
 ) -> TypeRef
 {
@@ -19939,7 +19939,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, parameters, _): (usize, Vec<TypeRef>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-(_, ret, _): (usize, core::option::Option<TypeRef>, usize),
+(_, ret, _): (usize, Option<TypeRef>, usize),
 ) -> TypeRef
 {
 TypeRef::Fn { forall, path, parameters, ret: ret.map(Box::new) }
@@ -19975,7 +19975,7 @@ fn ___action81<
     'input,
 >(
 text: &'input str,
-(_, a, _): (usize, core::option::Option<Tok<'input>>, usize),
+(_, a, _): (usize, Option<Tok<'input>>, usize),
 (_, h, _): (usize, alloc::vec::Vec<Atom>, usize),
 (_, t, _): (usize, Atom, usize),
 ) -> Path
@@ -20280,7 +20280,7 @@ text: &'input str,
 (_, p, _): (usize, Path, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, a0, _): (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
-(_, a1, _): (usize, core::option::Option<FieldPattern<TypeRef>>, usize),
+(_, a1, _): (usize, Option<FieldPattern<TypeRef>>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -20608,7 +20608,7 @@ fn ___action124<
 >(
 text: &'input str,
 (_, ___0, _): (usize, FieldPattern<TypeRef>, usize),
-) -> core::option::Option<FieldPattern<TypeRef>>
+) -> Option<FieldPattern<TypeRef>>
 {
 Some(___0)
 }
@@ -20621,7 +20621,7 @@ fn ___action125<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<FieldPattern<TypeRef>>
+) -> Option<FieldPattern<TypeRef>>
 {
 None
 }
@@ -20671,7 +20671,7 @@ fn ___action129<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
-(_, e1, _): (usize, core::option::Option<Pattern<TypeRef>>, usize),
+(_, e1, _): (usize, Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 v0.into_iter().chain(e1).collect()
@@ -20684,7 +20684,7 @@ fn ___action130<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<Conversion>, usize),
-(_, e1, _): (usize, core::option::Option<Conversion>, usize),
+(_, e1, _): (usize, Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 v0.into_iter().chain(e1).collect()
@@ -20697,7 +20697,7 @@ fn ___action131<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<MatchItem>, usize),
-(_, e1, _): (usize, core::option::Option<MatchItem>, usize),
+(_, e1, _): (usize, Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 v0.into_iter().chain(e1).collect()
@@ -20773,7 +20773,7 @@ fn ___action137<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Tok<'input>, usize),
-) -> core::option::Option<Tok<'input>>
+) -> Option<Tok<'input>>
 {
 Some(___0)
 }
@@ -20786,7 +20786,7 @@ fn ___action138<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Tok<'input>>
+) -> Option<Tok<'input>>
 {
 None
 }
@@ -20798,7 +20798,7 @@ fn ___action139<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<TypeRef>, usize),
-(_, e1, _): (usize, core::option::Option<TypeRef>, usize),
+(_, e1, _): (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 v0.into_iter().chain(e1).collect()
@@ -20811,7 +20811,7 @@ fn ___action140<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Lifetime, usize),
-) -> core::option::Option<Lifetime>
+) -> Option<Lifetime>
 {
 Some(___0)
 }
@@ -20824,7 +20824,7 @@ fn ___action141<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Lifetime>
+) -> Option<Lifetime>
 {
 None
 }
@@ -20836,7 +20836,7 @@ fn ___action142<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<Symbol>, usize),
-(_, e1, _): (usize, core::option::Option<Symbol>, usize),
+(_, e1, _): (usize, Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 v0.into_iter().chain(e1).collect()
@@ -20849,7 +20849,7 @@ fn ___action143<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Tok<'input>, usize),
-) -> core::option::Option<Tok<'input>>
+) -> Option<Tok<'input>>
 {
 Some(___0)
 }
@@ -20862,7 +20862,7 @@ fn ___action144<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Tok<'input>>
+) -> Option<Tok<'input>>
 {
 None
 }
@@ -20899,7 +20899,7 @@ fn ___action147<
 >(
 text: &'input str,
 (_, ___0, _): (usize, ActionKind, usize),
-) -> core::option::Option<ActionKind>
+) -> Option<ActionKind>
 {
 Some(___0)
 }
@@ -20912,7 +20912,7 @@ fn ___action148<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<ActionKind>
+) -> Option<ActionKind>
 {
 None
 }
@@ -20924,7 +20924,7 @@ fn ___action149<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Condition, usize),
-) -> core::option::Option<Condition>
+) -> Option<Condition>
 {
 Some(___0)
 }
@@ -20937,7 +20937,7 @@ fn ___action150<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Condition>
+) -> Option<Condition>
 {
 None
 }
@@ -20987,7 +20987,7 @@ fn ___action154<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Tok<'input>, usize),
-) -> core::option::Option<Tok<'input>>
+) -> Option<Tok<'input>>
 {
 Some(___0)
 }
@@ -21000,7 +21000,7 @@ fn ___action155<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Tok<'input>>
+) -> Option<Tok<'input>>
 {
 None
 }
@@ -21012,7 +21012,7 @@ fn ___action156<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<Alternative>, usize),
-(_, e1, _): (usize, core::option::Option<Alternative>, usize),
+(_, e1, _): (usize, Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 v0.into_iter().chain(e1).collect()
@@ -21025,7 +21025,7 @@ fn ___action157<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<NonterminalString>, usize),
-(_, e1, _): (usize, core::option::Option<NonterminalString>, usize),
+(_, e1, _): (usize, Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 v0.into_iter().chain(e1).collect()
@@ -21038,7 +21038,7 @@ fn ___action158<
 >(
 text: &'input str,
 (_, ___0, _): (usize, (Atom, String), usize),
-) -> core::option::Option<(Atom, String)>
+) -> Option<(Atom, String)>
 {
 Some(___0)
 }
@@ -21051,7 +21051,7 @@ fn ___action159<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<(Atom, String)>
+) -> Option<(Atom, String)>
 {
 None
 }
@@ -21063,7 +21063,7 @@ fn ___action160<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 Some(___0)
 }
@@ -21076,7 +21076,7 @@ fn ___action161<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 None
 }
@@ -21101,7 +21101,7 @@ fn ___action163<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<Parameter>, usize),
-(_, e1, _): (usize, core::option::Option<Parameter>, usize),
+(_, e1, _): (usize, Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 v0.into_iter().chain(e1).collect()
@@ -21114,7 +21114,7 @@ fn ___action164<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
-) -> core::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+) -> Option<Vec<TypeBoundParameter<TypeRef>>>
 {
 Some(___0)
 }
@@ -21127,7 +21127,7 @@ fn ___action165<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+) -> Option<Vec<TypeBoundParameter<TypeRef>>>
 {
 None
 }
@@ -21153,7 +21153,7 @@ fn ___action167<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-(_, e1, _): (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize),
+(_, e1, _): (usize, Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 v0.into_iter().chain(e1).collect()
@@ -21166,7 +21166,7 @@ fn ___action168<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 Some(___0)
 }
@@ -21179,7 +21179,7 @@ fn ___action169<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 None
 }
@@ -21204,7 +21204,7 @@ fn ___action171<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<TypeRef>, usize),
-(_, e1, _): (usize, core::option::Option<TypeRef>, usize),
+(_, e1, _): (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 v0.into_iter().chain(e1).collect()
@@ -21217,7 +21217,7 @@ fn ___action172<
 >(
 text: &'input str,
 (_, mut v, _): (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
-(_, e, _): (usize, core::option::Option<TypeBound<TypeRef>>, usize),
+(_, e, _): (usize, Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 match e {
@@ -21245,7 +21245,7 @@ fn ___action174<
 >(
 text: &'input str,
 (_, mut v, _): (usize, alloc::vec::Vec<Lifetime>, usize),
-(_, e, _): (usize, core::option::Option<Lifetime>, usize),
+(_, e, _): (usize, Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 match e {
@@ -21261,7 +21261,7 @@ fn ___action175<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
-(_, e1, _): (usize, core::option::Option<WhereClause<TypeRef>>, usize),
+(_, e1, _): (usize, Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 v0.into_iter().chain(e1).collect()
@@ -21274,7 +21274,7 @@ fn ___action176<
 >(
 text: &'input str,
 (_, v0, _): (usize, alloc::vec::Vec<TypeParameter>, usize),
-(_, e1, _): (usize, core::option::Option<TypeParameter>, usize),
+(_, e1, _): (usize, Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 v0.into_iter().chain(e1).collect()
@@ -21312,7 +21312,7 @@ fn ___action179<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<WhereClause<TypeRef>>, usize),
-) -> core::option::Option<Vec<WhereClause<TypeRef>>>
+) -> Option<Vec<WhereClause<TypeRef>>>
 {
 Some(___0)
 }
@@ -21325,7 +21325,7 @@ fn ___action180<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Vec<WhereClause<TypeRef>>>
+) -> Option<Vec<WhereClause<TypeRef>>>
 {
 None
 }
@@ -21337,7 +21337,7 @@ fn ___action181<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<Parameter>, usize),
-) -> core::option::Option<Vec<Parameter>>
+) -> Option<Vec<Parameter>>
 {
 Some(___0)
 }
@@ -21350,7 +21350,7 @@ fn ___action182<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Vec<Parameter>>
+) -> Option<Vec<Parameter>>
 {
 None
 }
@@ -21362,7 +21362,7 @@ fn ___action183<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Vec<TypeParameter>, usize),
-) -> core::option::Option<Vec<TypeParameter>>
+) -> Option<Vec<TypeParameter>>
 {
 Some(___0)
 }
@@ -21375,7 +21375,7 @@ fn ___action184<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Vec<TypeParameter>>
+) -> Option<Vec<TypeParameter>>
 {
 None
 }
@@ -21586,7 +21586,7 @@ fn ___action201<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeParameter, usize),
-) -> core::option::Option<TypeParameter>
+) -> Option<TypeParameter>
 {
 Some(___0)
 }
@@ -21599,7 +21599,7 @@ fn ___action202<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeParameter>
+) -> Option<TypeParameter>
 {
 None
 }
@@ -21649,7 +21649,7 @@ fn ___action206<
 >(
 text: &'input str,
 (_, ___0, _): (usize, WhereClause<TypeRef>, usize),
-) -> core::option::Option<WhereClause<TypeRef>>
+) -> Option<WhereClause<TypeRef>>
 {
 Some(___0)
 }
@@ -21662,7 +21662,7 @@ fn ___action207<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<WhereClause<TypeRef>>
+) -> Option<WhereClause<TypeRef>>
 {
 None
 }
@@ -21750,7 +21750,7 @@ fn ___action214<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeBound<TypeRef>, usize),
-) -> core::option::Option<TypeBound<TypeRef>>
+) -> Option<TypeBound<TypeRef>>
 {
 Some(___0)
 }
@@ -21763,7 +21763,7 @@ fn ___action215<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeBound<TypeRef>>
+) -> Option<TypeBound<TypeRef>>
 {
 None
 }
@@ -21813,7 +21813,7 @@ fn ___action219<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 Some(___0)
 }
@@ -21826,7 +21826,7 @@ fn ___action220<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 None
 }
@@ -21876,7 +21876,7 @@ fn ___action224<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeBoundParameter<TypeRef>, usize),
-) -> core::option::Option<TypeBoundParameter<TypeRef>>
+) -> Option<TypeBoundParameter<TypeRef>>
 {
 Some(___0)
 }
@@ -21889,7 +21889,7 @@ fn ___action225<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeBoundParameter<TypeRef>>
+) -> Option<TypeBoundParameter<TypeRef>>
 {
 None
 }
@@ -21939,7 +21939,7 @@ fn ___action229<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Parameter, usize),
-) -> core::option::Option<Parameter>
+) -> Option<Parameter>
 {
 Some(___0)
 }
@@ -21952,7 +21952,7 @@ fn ___action230<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Parameter>
+) -> Option<Parameter>
 {
 None
 }
@@ -22002,7 +22002,7 @@ fn ___action234<
 >(
 text: &'input str,
 (_, ___0, _): (usize, NonterminalString, usize),
-) -> core::option::Option<NonterminalString>
+) -> Option<NonterminalString>
 {
 Some(___0)
 }
@@ -22015,7 +22015,7 @@ fn ___action235<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<NonterminalString>
+) -> Option<NonterminalString>
 {
 None
 }
@@ -22065,7 +22065,7 @@ fn ___action239<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Alternative, usize),
-) -> core::option::Option<Alternative>
+) -> Option<Alternative>
 {
 Some(___0)
 }
@@ -22078,7 +22078,7 @@ fn ___action240<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Alternative>
+) -> Option<Alternative>
 {
 None
 }
@@ -22128,7 +22128,7 @@ fn ___action244<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Symbol, usize),
-) -> core::option::Option<Symbol>
+) -> Option<Symbol>
 {
 Some(___0)
 }
@@ -22141,7 +22141,7 @@ fn ___action245<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Symbol>
+) -> Option<Symbol>
 {
 None
 }
@@ -22191,7 +22191,7 @@ fn ___action249<
 >(
 text: &'input str,
 (_, ___0, _): (usize, TypeRef, usize),
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 Some(___0)
 }
@@ -22204,7 +22204,7 @@ fn ___action250<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 None
 }
@@ -22304,7 +22304,7 @@ fn ___action258<
 >(
 text: &'input str,
 (_, ___0, _): (usize, MatchItem, usize),
-) -> core::option::Option<MatchItem>
+) -> Option<MatchItem>
 {
 Some(___0)
 }
@@ -22317,7 +22317,7 @@ fn ___action259<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<MatchItem>
+) -> Option<MatchItem>
 {
 None
 }
@@ -22367,7 +22367,7 @@ fn ___action263<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Conversion, usize),
-) -> core::option::Option<Conversion>
+) -> Option<Conversion>
 {
 Some(___0)
 }
@@ -22380,7 +22380,7 @@ fn ___action264<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Conversion>
+) -> Option<Conversion>
 {
 None
 }
@@ -22430,7 +22430,7 @@ fn ___action268<
 >(
 text: &'input str,
 (_, ___0, _): (usize, Pattern<TypeRef>, usize),
-) -> core::option::Option<Pattern<TypeRef>>
+) -> Option<Pattern<TypeRef>>
 {
 Some(___0)
 }
@@ -22443,7 +22443,7 @@ fn ___action269<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> core::option::Option<Pattern<TypeRef>>
+) -> Option<Pattern<TypeRef>>
 {
 None
 }
@@ -23059,7 +23059,7 @@ fn ___action309<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, core::option::Option<Lifetime>, usize),
+___1: (usize, Option<Lifetime>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, TypeRef, usize),
 ) -> TypeRef
@@ -23088,7 +23088,7 @@ fn ___action310<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, core::option::Option<Lifetime>, usize),
+___1: (usize, Option<Lifetime>, usize),
 ___2: (usize, TypeRef, usize),
 ) -> TypeRef
 {
@@ -23118,7 +23118,7 @@ fn ___action311<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 let ___start0 = ___0.0;
 let ___end0 = ___1.2;
@@ -23283,7 +23283,7 @@ fn ___action316<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
-) -> core::option::Option<TypeRef>
+) -> Option<TypeRef>
 {
 let ___start0 = ___0.0;
 let ___end0 = ___1.2;
@@ -23385,7 +23385,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
 ___2: (usize, Tok<'input>, usize),
-) -> core::option::Option<Vec<TypeBoundParameter<TypeRef>>>
+) -> Option<Vec<TypeBoundParameter<TypeRef>>>
 {
 let ___start0 = ___0.0;
 let ___end0 = ___2.2;
@@ -23469,7 +23469,7 @@ fn ___action322<
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Condition, usize),
-) -> core::option::Option<Condition>
+) -> Option<Condition>
 {
 let ___start0 = ___0.0;
 let ___end0 = ___1.2;
@@ -23497,7 +23497,7 @@ ___1: (usize, usize, usize),
 ___2: (usize, alloc::vec::Vec<Symbol>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Condition, usize),
-___5: (usize, core::option::Option<ActionKind>, usize),
+___5: (usize, Option<ActionKind>, usize),
 ___6: (usize, usize, usize),
 ) -> Alternative
 {
@@ -23530,7 +23530,7 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, usize, usize),
 ___2: (usize, alloc::vec::Vec<Symbol>, usize),
-___3: (usize, core::option::Option<ActionKind>, usize),
+___3: (usize, Option<ActionKind>, usize),
 ___4: (usize, usize, usize),
 ) -> Alternative
 {
@@ -23722,7 +23722,7 @@ fn ___action331<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<Alternative>, usize),
+___0: (usize, Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 let ___start0 = ___0.0;
@@ -23748,7 +23748,7 @@ fn ___action332<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Alternative>, usize),
-___1: (usize, core::option::Option<Alternative>, usize),
+___1: (usize, Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
 let ___start0 = ___0.0;
@@ -23824,7 +23824,7 @@ fn ___action335<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<Conversion>, usize),
+___0: (usize, Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 let ___start0 = ___0.0;
@@ -23850,7 +23850,7 @@ fn ___action336<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Conversion>, usize),
-___1: (usize, core::option::Option<Conversion>, usize),
+___1: (usize, Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
 let ___start0 = ___0.0;
@@ -23928,7 +23928,7 @@ fn ___action339<
 text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
-___2: (usize, core::option::Option<FieldPattern<TypeRef>>, usize),
+___2: (usize, Option<FieldPattern<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -23960,7 +23960,7 @@ text: &'input str,
 ___0: (usize, Path, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
-___3: (usize, core::option::Option<FieldPattern<TypeRef>>, usize),
+___3: (usize, Option<FieldPattern<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
@@ -24102,7 +24102,7 @@ fn ___action345<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<Parameter>, usize),
+___0: (usize, Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 let ___start0 = ___0.0;
@@ -24128,7 +24128,7 @@ fn ___action346<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Parameter>, usize),
-___1: (usize, core::option::Option<Parameter>, usize),
+___1: (usize, Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
 let ___start0 = ___0.0;
@@ -24204,7 +24204,7 @@ fn ___action349<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<WhereClause<TypeRef>>, usize),
+___0: (usize, Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -24230,7 +24230,7 @@ fn ___action350<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
-___1: (usize, core::option::Option<WhereClause<TypeRef>>, usize),
+___1: (usize, Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -24462,7 +24462,7 @@ fn ___action359<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<Lifetime>, usize),
+___0: (usize, Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 let ___start0 = ___0.0;
@@ -24488,7 +24488,7 @@ fn ___action360<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Lifetime>, usize),
-___1: (usize, core::option::Option<Lifetime>, usize),
+___1: (usize, Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
 let ___start0 = ___0.0;
@@ -24564,7 +24564,7 @@ fn ___action363<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<MatchItem>, usize),
+___0: (usize, Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 let ___start0 = ___0.0;
@@ -24590,7 +24590,7 @@ fn ___action364<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<MatchItem>, usize),
-___1: (usize, core::option::Option<MatchItem>, usize),
+___1: (usize, Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
 let ___start0 = ___0.0;
@@ -24666,7 +24666,7 @@ fn ___action367<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<NonterminalString>, usize),
+___0: (usize, Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 let ___start0 = ___0.0;
@@ -24692,7 +24692,7 @@ fn ___action368<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
-___1: (usize, core::option::Option<NonterminalString>, usize),
+___1: (usize, Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
 let ___start0 = ___0.0;
@@ -24768,7 +24768,7 @@ fn ___action371<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<Pattern<TypeRef>>, usize),
+___0: (usize, Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -24794,7 +24794,7 @@ fn ___action372<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
-___1: (usize, core::option::Option<Pattern<TypeRef>>, usize),
+___1: (usize, Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -24870,7 +24870,7 @@ fn ___action375<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<Symbol>, usize),
+___0: (usize, Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 let ___start0 = ___0.0;
@@ -24896,7 +24896,7 @@ fn ___action376<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Symbol>, usize),
-___1: (usize, core::option::Option<Symbol>, usize),
+___1: (usize, Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
 let ___start0 = ___0.0;
@@ -24972,7 +24972,7 @@ fn ___action379<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<TypeBound<TypeRef>>, usize),
+___0: (usize, Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -24998,7 +24998,7 @@ fn ___action380<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
-___1: (usize, core::option::Option<TypeBound<TypeRef>>, usize),
+___1: (usize, Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -25074,7 +25074,7 @@ fn ___action383<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize),
+___0: (usize, Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -25100,7 +25100,7 @@ fn ___action384<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
-___1: (usize, core::option::Option<TypeBoundParameter<TypeRef>>, usize),
+___1: (usize, Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
 let ___start0 = ___0.0;
@@ -25176,7 +25176,7 @@ fn ___action387<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<TypeParameter>, usize),
+___0: (usize, Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 let ___start0 = ___0.0;
@@ -25202,7 +25202,7 @@ fn ___action388<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
-___1: (usize, core::option::Option<TypeParameter>, usize),
+___1: (usize, Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
 let ___start0 = ___0.0;
@@ -25278,7 +25278,7 @@ fn ___action391<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<TypeRef>, usize),
+___0: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0;
@@ -25304,7 +25304,7 @@ fn ___action392<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
-___1: (usize, core::option::Option<TypeRef>, usize),
+___1: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0;
@@ -25380,7 +25380,7 @@ fn ___action395<
     'input,
 >(
 text: &'input str,
-___0: (usize, core::option::Option<TypeRef>, usize),
+___0: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0;
@@ -25406,7 +25406,7 @@ fn ___action396<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
-___1: (usize, core::option::Option<TypeRef>, usize),
+___1: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
 let ___start0 = ___0.0;
@@ -25434,7 +25434,7 @@ ___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
-___4: (usize, core::option::Option<ActionKind>, usize),
+___4: (usize, Option<ActionKind>, usize),
 ___5: (usize, usize, usize),
 ) -> Alternative
 {
@@ -25467,7 +25467,7 @@ fn ___action398<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
-___2: (usize, core::option::Option<ActionKind>, usize),
+___2: (usize, Option<ActionKind>, usize),
 ___3: (usize, usize, usize),
 ) -> Alternative
 {
@@ -25557,7 +25557,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Atom, usize),
-___3: (usize, core::option::Option<(Atom, String)>, usize),
+___3: (usize, Option<(Atom, String)>, usize),
 ___4: (usize, usize, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Annotation
@@ -25834,9 +25834,9 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, usize, usize),
-___5: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___6: (usize, core::option::Option<Vec<Parameter>>, usize),
-___7: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<TypeParameter>>, usize),
+___6: (usize, Option<Vec<Parameter>>, usize),
+___7: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___8: (usize, Tok<'input>, usize),
 ___9: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -26300,7 +26300,7 @@ ___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
-___4: (usize, core::option::Option<ActionKind>, usize),
+___4: (usize, Option<ActionKind>, usize),
 ) -> Alternative
 {
 let ___start0 = ___4.2;
@@ -26331,7 +26331,7 @@ fn ___action424<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<Annotation>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
-___2: (usize, core::option::Option<ActionKind>, usize),
+___2: (usize, Option<ActionKind>, usize),
 ) -> Alternative
 {
 let ___start0 = ___2.2;
@@ -26415,7 +26415,7 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Atom, usize),
-___3: (usize, core::option::Option<(Atom, String)>, usize),
+___3: (usize, Option<(Atom, String)>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Annotation
 {
@@ -26666,9 +26666,9 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, core::option::Option<Vec<Parameter>>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<Parameter>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -27496,9 +27496,9 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, core::option::Option<Vec<Parameter>>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<Parameter>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -27536,9 +27536,9 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, core::option::Option<Vec<Parameter>>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<Parameter>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -28688,9 +28688,9 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, core::option::Option<Vec<Parameter>>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<Parameter>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -28725,9 +28725,9 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, core::option::Option<Vec<Parameter>>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<Parameter>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -28763,9 +28763,9 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, core::option::Option<Vec<Parameter>>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<Parameter>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -28802,9 +28802,9 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, core::option::Option<Vec<Parameter>>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<Parameter>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -28938,9 +28938,9 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -28973,8 +28973,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29008,9 +29008,9 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29045,8 +29045,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29083,9 +29083,9 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29120,8 +29120,8 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29157,9 +29157,9 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29196,8 +29196,8 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<TypeParameter>>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29236,7 +29236,7 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29270,7 +29270,7 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29305,7 +29305,7 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29337,7 +29337,7 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29372,7 +29372,7 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29408,7 +29408,7 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29445,7 +29445,7 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29479,7 +29479,7 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, Tok<'input>, usize),
-___3: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___3: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29517,7 +29517,7 @@ ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29553,7 +29553,7 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29590,7 +29590,7 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29624,7 +29624,7 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
@@ -29661,7 +29661,7 @@ ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
-___6: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29699,7 +29699,7 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29738,7 +29738,7 @@ ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
-___5: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
@@ -29774,7 +29774,7 @@ ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ___2: (usize, alloc::vec::Vec<Annotation>, usize),
 ___3: (usize, Tok<'input>, usize),
-___4: (usize, core::option::Option<Vec<WhereClause<TypeRef>>>, usize),
+___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar

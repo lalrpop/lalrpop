@@ -133,7 +133,7 @@ impl FileText {
 struct Repeat(char, usize);
 
 impl Display for Repeat {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         for _ in 0..self.1 {
             write!(fmt, "{}", self.0)?;
         }

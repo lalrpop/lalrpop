@@ -813,7 +813,7 @@ fn is_identifier_continue(c: char) -> bool {
 /// representation to the text it represents. The `idx0` argument should be the
 /// position in the input stream of the first character of `text`, the position
 /// after the opening double-quote.
-pub fn apply_string_escapes(code: &str, idx0: usize) -> Result<Cow<str>, Error> {
+pub fn apply_string_escapes(code: &str, idx0: usize) -> Result<Cow<'_, str>, Error> {
     if !code.contains('\\') {
         Ok(code.into())
     } else {

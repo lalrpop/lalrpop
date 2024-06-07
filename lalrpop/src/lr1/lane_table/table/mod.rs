@@ -43,7 +43,7 @@ pub struct LaneTable<'grammar> {
 }
 
 impl<'grammar> LaneTable<'grammar> {
-    pub fn new(grammar: &'grammar Grammar, conflicts: usize) -> LaneTable {
+    pub fn new(grammar: &'grammar Grammar, conflicts: usize) -> LaneTable<'_> {
         LaneTable {
             _grammar: grammar,
             conflicts,
@@ -148,7 +148,7 @@ impl<'grammar> LaneTable<'grammar> {
 }
 
 impl<'grammar> Debug for LaneTable<'grammar> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         let indices: Set<StateIndex> = self
             .lookaheads
             .keys()

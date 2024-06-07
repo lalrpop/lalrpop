@@ -7,7 +7,7 @@ use std::fmt::{Debug, Error, Formatter};
 use std::hash::Hash;
 
 pub trait Lookahead: Clone + Debug + Eq + Ord + Hash + Collection<Item = Self> {
-    fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error>;
+    fn fmt_as_item_suffix(&self, fmt: &mut Formatter<'_>) -> Result<(), Error>;
 
     fn conflicts<'grammar>(this_state: &State<'grammar, Self>) -> Vec<Conflict<'grammar, Self>>;
 }
@@ -24,7 +24,7 @@ impl Collection for Nil {
 }
 
 impl Lookahead for Nil {
-    fn fmt_as_item_suffix(&self, _fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt_as_item_suffix(&self, _fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Ok(())
     }
 
@@ -74,7 +74,7 @@ pub enum Token {
 }
 
 impl Lookahead for TokenSet {
-    fn fmt_as_item_suffix(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt_as_item_suffix(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, " {:?}", self)
     }
 
@@ -285,7 +285,7 @@ impl<'iter> Iterator for TokenSetIter<'iter> {
 }
 
 impl Debug for TokenSet {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         let terminals: Vec<_> = self.iter().collect();
         Debug::fmt(&terminals, fmt)
     }

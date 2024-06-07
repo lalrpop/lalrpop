@@ -10,7 +10,7 @@ use crate::lr1::state_graph::StateGraph;
 
 use super::table::{ConflictIndex, LaneTable};
 
-pub struct LaneTracer<'trace, 'grammar: 'trace, L: Lookahead + 'trace> {
+pub struct LaneTracer<'trace, 'grammar, L: Lookahead> {
     states: &'trace [State<'grammar, L>],
     first_sets: &'trace FirstSets,
     state_graph: &'trace StateGraph,

@@ -141,13 +141,13 @@ struct TraceGraphEdge<'grammar> {
 }
 
 impl<'grammar> Debug for TraceGraphEdge<'grammar> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "({:?} -{:?}-> {:?})", self.from, self.label, self.to)
     }
 }
 
 impl<'grammar> Debug for TraceGraph<'grammar> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         let mut s = fmt.debug_list();
         for (node, &index) in &self.indices {
             for edge in self.graph.edges_directed(index, EdgeDirection::Outgoing) {
@@ -171,12 +171,12 @@ impl<'grammar> Debug for TraceGraph<'grammar> {
 // is found, you can then find the complete list of symbols by calling
 // `symbols_and_cursor` and also get access to the state.
 
-pub struct PathEnumerator<'graph, 'grammar: 'graph> {
+pub struct PathEnumerator<'graph, 'grammar> {
     graph: &'graph TraceGraph<'grammar>,
     stack: Vec<EnumeratorState<'graph, 'grammar>>,
 }
 
-struct EnumeratorState<'graph, 'grammar: 'graph> {
+struct EnumeratorState<'graph, 'grammar> {
     index: NodeIndex,
     symbol_sets: SymbolSets<'grammar>,
     edges: Edges<'graph, SymbolSets<'grammar>, Directed>,
@@ -416,7 +416,7 @@ impl<'graph, 'grammar> Iterator for PathEnumerator<'graph, 'grammar> {
 // Like the path enumerator, but tests for examples with some specific
 // lookahead
 
-pub struct FilteredPathEnumerator<'graph, 'grammar: 'graph> {
+pub struct FilteredPathEnumerator<'graph, 'grammar> {
     base: PathEnumerator<'graph, 'grammar>,
     first_sets: &'graph FirstSets,
     lookahead: TokenSet,

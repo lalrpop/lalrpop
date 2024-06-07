@@ -8,7 +8,7 @@ mod reduce;
 mod shift;
 mod trace_graph;
 
-pub struct Tracer<'trace, 'grammar: 'trace> {
+pub struct Tracer<'trace, 'grammar> {
     states: &'trace [Lr1State<'grammar>],
     first_sets: &'trace FirstSets,
     state_graph: StateGraph,

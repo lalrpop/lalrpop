@@ -38,7 +38,7 @@ macro_rules! tokens {
 
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token) -> Lr1Items<'g> {
     let set = TokenSet::from(la);
-    let lr1: Lr<TokenSet> = Lr::new(grammar, nt(nonterminal), set.clone());
+    let lr1: Lr<'_, TokenSet> = Lr::new(grammar, nt(nonterminal), set.clone());
     let items = lr1.transitive_closure(lr1.items(&nt(nonterminal), index, &set));
     items
 }

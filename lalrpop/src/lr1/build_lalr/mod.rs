@@ -47,8 +47,8 @@ pub fn collapse_to_lalr_states<'grammar>(lr_states: &[Lr1State<'grammar>]) -> Lr
     // Now compress them. This vector stores, for each state, the
     // LALR(1) state to which we will remap it.
     let mut remap: Vec<_> = (0..lr_states.len()).map(|_| StateIndex(0)).collect();
-    let mut lalr1_map: Map<Vec<Lr0Item>, StateIndex> = map();
-    let mut lalr1_states: Vec<Lalr1State> = vec![];
+    let mut lalr1_map: Map<Vec<Lr0Item<'_>>, StateIndex> = map();
+    let mut lalr1_states: Vec<Lalr1State<'_>> = vec![];
 
     for (lr1_index, lr1_state) in lr_states.iter().enumerate() {
         let lr0_kernel: Vec<_> = lr1_state

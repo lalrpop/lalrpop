@@ -110,7 +110,7 @@ pub enum MatchMapping {
 }
 
 impl Debug for MatchMapping {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
             MatchMapping::Terminal(term) => write!(fmt, "{:?}", term),
             MatchMapping::Skip => write!(fmt, "{{ }}"),
@@ -118,7 +118,7 @@ impl Debug for MatchMapping {
     }
 }
 impl Display for MatchMapping {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
             MatchMapping::Terminal(term) => write!(fmt, "{}", term),
             MatchMapping::Skip => write!(fmt, "{{ }}"),
@@ -731,7 +731,7 @@ impl Name {
 }
 
 impl Display for Visibility {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             Visibility::Pub(Some(ref path)) => write!(fmt, "pub({}) ", path),
             Visibility::Pub(None) => write!(fmt, "pub "),
@@ -742,7 +742,7 @@ impl Display for Visibility {
 }
 
 impl<T: Display> Display for WhereClause<T> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             WhereClause::Lifetime {
                 ref lifetime,
@@ -787,7 +787,7 @@ impl<T: Display> Display for WhereClause<T> {
 }
 
 impl<T: Display> Display for TypeBound<T> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeBound::Lifetime(ref l) => write!(fmt, "{}", l),
             TypeBound::Fn {
@@ -857,7 +857,7 @@ impl<T: Display> Display for TypeBound<T> {
 }
 
 impl<T: Display> Display for TypeBoundParameter<T> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeBoundParameter::Lifetime(ref l) => write!(fmt, "{}", l),
             TypeBoundParameter::TypeParameter(ref t) => write!(fmt, "{}", t),
@@ -867,7 +867,7 @@ impl<T: Display> Display for TypeBoundParameter<T> {
 }
 
 impl Display for TerminalString {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TerminalString::Literal(ref s) => write!(fmt, "{}", s),
             TerminalString::Bare(ref s) => write!(fmt, "{}", s),
@@ -877,25 +877,25 @@ impl Display for TerminalString {
 }
 
 impl Debug for TerminalString {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
 
 impl Display for Lifetime {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(&self.0, fmt)
     }
 }
 
 impl Debug for Lifetime {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
 
 impl Display for TerminalLiteral {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TerminalLiteral::Quoted(ref s) => write!(fmt, "{:?}", s.as_ref()), // the Debug impl adds the `"` and escaping
             TerminalLiteral::Regex(ref s) => write!(fmt, "r#{:?}#", s.as_ref()), // FIXME -- need to determine proper number of #
@@ -904,13 +904,13 @@ impl Display for TerminalLiteral {
 }
 
 impl Debug for TerminalLiteral {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}", self)
     }
 }
 
 impl Display for Path {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(
             fmt,
             "{}{}",
@@ -921,25 +921,25 @@ impl Display for Path {
 }
 
 impl Display for NonterminalString {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}", self.0)
     }
 }
 
 impl Debug for NonterminalString {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(self, fmt)
     }
 }
 
 impl Display for Symbol {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         Display::fmt(&self.kind, fmt)
     }
 }
 
 impl Display for SymbolKind {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             SymbolKind::Expr(ref expr) => write!(fmt, "{}", expr),
             SymbolKind::Terminal(ref s) => write!(fmt, "{}", s),
@@ -957,7 +957,7 @@ impl Display for SymbolKind {
 }
 
 impl Display for Name {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         if self.mutable {
             write!(fmt, "mut {}", self.name)
         } else {
@@ -967,13 +967,13 @@ impl Display for Name {
 }
 
 impl Display for RepeatSymbol {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}{}", self.symbol, self.op)
     }
 }
 
 impl Display for RepeatOp {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             RepeatOp::Plus => write!(fmt, "+"),
             RepeatOp::Star => write!(fmt, "*"),
@@ -983,7 +983,7 @@ impl Display for RepeatOp {
 }
 
 impl Display for ExprSymbol {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "({})", Sep(" ", &self.symbols))
     }
 }
@@ -1013,13 +1013,13 @@ impl RepeatSymbol {
 }
 
 impl Display for MacroSymbol {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(fmt, "{}<{}>", self.name, Sep(", ", &self.args))
     }
 }
 
 impl Display for TypeParameter {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeParameter::Lifetime(ref s) => write!(fmt, "{}", s),
             TypeParameter::Id(ref s) => write!(fmt, "{}", s),
@@ -1028,7 +1028,7 @@ impl Display for TypeParameter {
 }
 
 impl Display for TypeRef {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeRef::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
             TypeRef::Slice(ref ty) => write!(fmt, "[{}]", ty),
@@ -1177,11 +1177,7 @@ impl Path {
     pub fn option() -> Path {
         Path {
             absolute: false,
-            ids: vec![
-                Atom::from("core"),
-                Atom::from("option"),
-                Atom::from("Option"),
-            ],
+            ids: vec![Atom::from("Option")],
         }
     }
 

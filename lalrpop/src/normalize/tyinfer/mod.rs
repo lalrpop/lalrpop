@@ -232,7 +232,7 @@ impl<'grammar> TypeInferencer<'grammar> {
 
     fn push<F, R>(&mut self, id: &NonterminalString, f: F) -> NormResult<R>
     where
-        F: FnOnce(&mut TypeInferencer) -> NormResult<R>,
+        F: FnOnce(&mut TypeInferencer<'_>) -> NormResult<R>,
     {
         self.stack.push(id.clone());
         let r = f(self);

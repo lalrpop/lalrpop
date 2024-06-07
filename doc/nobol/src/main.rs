@@ -123,7 +123,7 @@ fn main() {
 }
 
 /// Simplified version of `tok::apply_string_escapes` for illustrative purposes.
-pub fn apply_string_escapes(content: &str) -> std::borrow::Cow<str> {
+pub fn apply_string_escapes(content: &str) -> std::borrow::Cow<'_, str> {
     if !content.contains('\\') {
         content.into()
     } else {

@@ -17,14 +17,14 @@ mod test;
 
 pub fn report_error<E>(
     grammar: &Grammar,
-    error: &Lr1TableConstructionError,
+    error: &Lr1TableConstructionError<'_>,
     reporter: impl FnMut(Message) -> Result<(), E>,
 ) -> Result<(), E> {
     let mut cx = ErrorReportingCx::new(grammar, &error.states, &error.conflicts);
     cx.report_errors(reporter)
 }
 
-struct ErrorReportingCx<'cx, 'grammar: 'cx> {
+struct ErrorReportingCx<'cx, 'grammar> {
     grammar: &'grammar Grammar,
     first_sets: FirstSets,
     states: &'cx [Lr1State<'grammar>],

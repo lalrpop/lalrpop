@@ -28,7 +28,7 @@ grammar;
         <v:`(<"Id"> ",")*`> <e:`"Id"?`> => v.into_iter().chain(e.into_iter()).collect();
 
     #[inline]
-    `"Id"?`: core::option::Option<#"Id"#> = {
+    `"Id"?`: Option<#"Id"#> = {
         "Id" => Some(<>),
         => None
     };

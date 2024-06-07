@@ -185,14 +185,15 @@ impl<W: Write> RustWrite<W> {
             "use self::{p}lalrpop_util::state_machine as {p}state_machine;",
             p = prefix,
         );
-        rust!(self, "extern crate core;");
+        // https://doc.rust-lang.org/edition-guide/rust-2018/path-changes.html#an-exception
+        rust!(self, "#[allow(unused_extern_crates)]");
         rust!(self, "extern crate alloc;");
 
         Ok(())
     }
 }
 
-pub struct FnHeader<'me, W: Write + 'me> {
+pub struct FnHeader<'me, W: Write> {
     write: &'me mut RustWrite<W>,
     visibility: &'me Visibility,
     name: String,

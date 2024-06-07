@@ -32,7 +32,7 @@ where
 
 pub fn test_loc<R: Debug + Eq, F>(parse_fn: F, input: &str, expected: R)
 where
-    F: FnOnce(Vec<(usize, Tok, usize)>) -> Result<R, ParseError<usize, Tok, &'static str>>,
+    F: FnOnce(Vec<(usize, Tok<'_>, usize)>) -> Result<R, ParseError<usize, Tok<'_>, &'static str>>,
 {
     // create tokens
     let tokens = tok::tokenize(input);
@@ -64,7 +64,7 @@ where
 struct ExpectedDebug<'a>(&'a str);
 
 impl<'a> Debug for ExpectedDebug<'a> {
-    fn fmt(&self, fmt: &mut Formatter) -> Result<(), Error> {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         // Ignore trailing commas in multiline Debug representation.
         // Needed to work around rust-lang/rust#59076.
         let s = self.0.replace(",\n", "\n");
