@@ -20,7 +20,7 @@ should be more than enough for the grammars we are currently aware of(which
 almost always need a limit of less than 5). This limit is customizable via `Configuration::set_macro_expansion_limit`.
 
 If you have a grammar that uses a significant amount of macro expansion steps,
-we would be very interested in a pr that adds it to the test suite.
+we would be very interested in a PR that adds it to the test suite.
 
 
 <a name="0.20.2"></a>
