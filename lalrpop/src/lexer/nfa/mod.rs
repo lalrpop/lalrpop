@@ -9,7 +9,6 @@ use regex_syntax::hir::{
 use std::char;
 use std::fmt::{Debug, Error as FmtError, Formatter};
 use std::ops::RangeInclusive;
-use std::usize;
 
 #[cfg(test)]
 mod interpret;
