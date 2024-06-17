@@ -28,7 +28,7 @@
 //! ```
 //!
 //! * -- in this case, those "user-declared" parameters are inserted by
-//! the "internal tokenizer".
+//!   the "internal tokenizer".
 
 use crate::grammar::repr as r;
 use crate::rust::RustWrite;
