@@ -26,18 +26,26 @@ file that looks like:
 
 ```rust
 fn main() {
-    lalrpop::process_root().unwrap();
+    lalrpop::process_src().unwrap();
 }
 ```
 
 (If you already have a `build.rs` file, you should be able to just
-call `process_root` in addition to whatever else that file is doing.)
+call `process_src` in addition to whatever else that file is doing.)
 
-In this case, `process_root` simply uses the default settings, which takes
+In this case, `process_src` simply uses the default settings, which takes
 files in `src/` ending with the `.lalrpop` extension, and generates
 corresponding Rust source files with the same name in `OUT_DIR`. If you want to
 configure how LALRPOP executes, see the [advanced setup](advanced_setup.md)
 section.
+
+Some projects, for example those which build multiple crates in the same
+workspace, will not have a top level source directory.  For example, your
+project may have a build.rs at the top level with `foo/src` and `bar/src`
+containing source files for crates `foo` and `bar`, respectively.  In this
+situation, you could either call `process_root()` from the top level build.rs,
+which searches *all* files in the current directory, not just in `./src`, or
+you could modify crate level build.rs files at your discretion.
 
 The [`lalrpop_mod!`][lalrpop_mod] macro generates a wrapper module in your
 crate so that you can use the generated parser from your code. For example,
