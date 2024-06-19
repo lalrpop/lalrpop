@@ -18,7 +18,7 @@ storing the errors we found during parsing. Since the result of `!`
 contains a token, error recovery requires that tokens can be cloned.
 We need to replace the begin "grammar" line of the LALRPOP file with this:
 
-```
+```lalrpop
 use lalrpop_util::ErrorRecovery;
 
 grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, Token<'input>, &'static str>>);
@@ -53,10 +53,10 @@ Term: Box<Expr> = {
 };
 ```
 
-Now we can add a test that includes various errors (e.g., missing 
-operands). Note that now the `parse` method takes two arguments 
-instead of one, which is caused by that we rewrote the "grammar" line 
-in the LALRPOP file. You can see that the parser recovered from missing 
+Now we can add a test that includes various errors (e.g., missing
+operands). Note that now the `parse` method takes two arguments
+instead of one, which is caused by that we rewrote the "grammar" line
+in the LALRPOP file. You can see that the parser recovered from missing
 operands by inserting this `!` token where necessary.
 
 ```rust
@@ -82,4 +82,5 @@ fn calculator7() {
     assert_eq!(errors.len(), 4);
 }
 ```
+
 [calculator7]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator7.lalrpop

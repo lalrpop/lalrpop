@@ -1,10 +1,11 @@
 # Passing state parameter
 
 By default, the parser doesn't take any argument other than the input.
-When building the AST, it might be useful to pass parameters to the parser, which might be needed to the construction of the tree.
+When building the AST, it might be useful to pass parameters to the parser,
+which might be needed to the construction of the tree.
 
-Going back to the calculator4 example it is possible to pass an argument to the parser :
-
+Going back to the calculator4 example it is possible to pass an argument to the
+parser :
 
 ```rust
 grammar(scale: i32);
@@ -31,10 +32,12 @@ fn calculator8() {
 }
 ```
 
-For a more practical example with a custom tree structure, check out [this parser][expr_arena] using [this structure][expr_arena_ast] to build the AST.
+For a more practical example with a custom tree structure, check out
+[this parser][expr_arena] using [this structure][expr_arena_ast] to build the
+AST.
 
-Note: The state parameter must implement the Copy trait.  For types that don't implement Copy, you should pass them as a reference instead.
-
+Note: The state parameter must implement the Copy trait.  For types that don't
+implement Copy, you should pass them as a reference instead.
 
 [expr_arena]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop
 [expr_arena_ast]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs

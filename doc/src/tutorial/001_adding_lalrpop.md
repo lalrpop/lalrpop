@@ -13,7 +13,7 @@ fine).
 To start, let's use `cargo new` to make a new project. We'll call it
 `calculator`:
 
-```
+```bash
 > cargo new --bin calculator
 ```
 
@@ -23,7 +23,7 @@ look something like:
 
 [calculator-Cargo.toml]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/Cargo.toml
 
-```
+```toml
 [package]
 name = "calculator"
 version = "0.1.0"
@@ -48,9 +48,10 @@ The `[dependencies]` section describes the dependencies that LALRPOP
 needs at runtime. All LALRPOP parsers require at least the
 `lalrpop-util` crate.
 
-Next we have to add `build.rs` itself. For those unfamiliar with [this feature], the `build.rs` file
-should be placed next to your `Cargo.toml` file and not inside the `src` folder with the rest of
-your Rust code. This should just look like the following:
+Next we have to add `build.rs` itself. For those unfamiliar with
+[this feature], the `build.rs` file should be placed next to your `Cargo.toml`
+file and not inside the `src` folder with the rest of your Rust code. This
+should just look like the following:
 
 [this feature]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
 

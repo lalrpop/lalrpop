@@ -13,7 +13,7 @@ parsing bigger expressions, and come back here only when you find you
 want more control. You may also be interested in the
 [tutorial on writing a custom lexer][lexer tutorial].
 
-#### Terminals vs nonterminals
+## Terminals vs nonterminals
 
 You may have noticed that our grammar included two distinct kinds of
 symbols. There were the nonterminals, `Term` and `Num`, which we
@@ -44,14 +44,16 @@ without having any idea about your grammar or where you are in your
 grammar. Next, the parser proper is a bit of code that looks at this
 stream of tokens and figures out which nonterminals apply:
 
-              +-------------------+    +---------------------+
-      Text -> | Lexer             | -> | Parser              |
-              |                   |    |                     |
-              | Applies regex to  |    | Consumes terminals, |
-              | produce terminals |    | executes your code  |
-              +-------------------+    | as it recognizes    |
-                                       | nonterminals        |
-                                       +---------------------+
+```text
+        +-------------------+    +---------------------+
+Text -> | Lexer             | -> | Parser              |
+        |                   |    |                     |
+        | Applies regex to  |    | Consumes terminals, |
+        | produce terminals |    | executes your code  |
+        +-------------------+    | as it recognizes    |
+                                 | nonterminals        |
+                                 +---------------------+
+```
 
 LALRPOP's default lexer is based on regular expressions. By default,
 it works by extracting all the terminals (e.g., `"("` or `r"\d+"`)
@@ -60,7 +62,7 @@ will walk over the string and, at each point, find the longest match
 from the literals and regular expressions in your grammar and produces
 one of those. As an example, let's look again at our example grammar:
 
-```
+```lalrpop
 pub Term: i32 = {
     <n:Num> => n,
     "(" <t:Term> ")" => t,
@@ -78,7 +80,7 @@ This grammar in fact contains three terminals:
 When we generate a lexer, it is effectively going to be checking for
 each of these three terminals in a loop, sort of like this pseudocode:
 
-```
+```text
 let mut i = 0; // index into string
 loop {
     skip whitespace; // we do this implicitly, at least by default
@@ -91,7 +93,7 @@ loop {
 Note that this has nothing to do with your grammar. For example, the tokenizer
 would happily tokenize a string like this one, which doesn't fit our grammar:
 
-```
+```text
   (  22   44  )     )
   ^  ^^   ^^  ^     ^
   |  |    |   |     ")" terminal
@@ -108,7 +110,7 @@ When these tokens are fed into the **parser**, it would notice that we
 have one left paren but then two numbers (`r"[0-9]+"` terminals), and
 hence report an error.
 
-#### Precedence of fixed strings
+## Precedence of fixed strings
 
 Terminals in LALRPOP can be specified (by default) in two ways. As a
 fixed string (like `"("`) or a regular expression (like
@@ -120,7 +122,7 @@ parses parenthesized numbers, producing a `i32`. We're going to modify
 if to produce a **string**, and we'll add an "easter egg" so that `22`
 (or `(22)`, `((22))`, etc) produces the string `"Twenty-two"`:
 
-```
+```lalrpop
 pub Term = {
     Num,
     "(" <Term> ")",
@@ -150,7 +152,7 @@ fn calculator2b() {
 }
 ```
 
-#### Ambiguities between regular expressions
+## Ambiguities between regular expressions
 
 In the previous section, we saw that fixed strings have precedence
 over regular expressions. But what if we have two regular expressions
@@ -158,7 +160,7 @@ that can match the same input? Which one wins? For example, consider
 this variation of the grammar above, where we also try to support
 parenthesized **identifiers** like `((foo22))`:
 
-```
+```lalrpop
 pub Term = {
     Num,
     "(" <Term> ")",
@@ -177,7 +179,7 @@ could be considered to match either `r"[0-9]+"` **or** `r"\w+"`. If
 you try this grammar, you'll find that LALRPOP helpfully reports an
 error:
 
-```
+```text
 error: ambiguity detected between the terminal `r#"\w+"#` and the terminal `r#"[0-9]+"#`
 
       r"\w+" => <>.to_string(),
@@ -193,7 +195,7 @@ not always convenient to make your regular expressions completely
 disjoint like that. Another option is to use a `match` declaration,
 which lets you control the precedence between regular expressions.
 
-#### Simple `match` declarations
+## Simple `match` declarations
 
 A `match` declaration lets you explicitly give the precedence between
 terminals. In its simplest form, it consists of just ordering regular
@@ -203,7 +205,7 @@ our conflict above by giving `r"[0-9]+"` **precedence** over `r"\w+"`,
 thus saying that if something can be lexed as a number, we'll do that,
 and otherwise consider it to be an identifier.
 
-```
+```lalrpop
 match {
     r"[0-9]+"
 } else {
@@ -255,7 +257,7 @@ precedence. Since the `22` is not listed explicitly, it gets added at
 the last level, where the `_` appears. We can fix this by adjusting
 our `match` to mention `22` explicitly:
 
-```
+```lalrpop
 match {
     r"[0-9]+",
     "22"
@@ -273,17 +275,17 @@ must not overlap.
 
 With this new `match` declaration, we will find that our tests all pass.
 
-#### Renaming `match` declarations
+## Renaming `match` declarations
 
 There is one final twist before we reach the
-[final version of our example that you will find in the repository][calculator2b]. We
-can also use `match` declarations to give names to regular
+[final version of our example][calculator2b] that you will find in the
+repository. We can also use `match` declarations to give names to regular
 expressions, so that we don't have to type them directly in our
 grammar. For example, maybe instead of writing `r"\w+"`, we would
 prefer to write `ID`. We could do that by modifying the match declaration like
 so:
 
-```
+```lalrpop
 match {
     r"[0-9]+",
     "22"
@@ -295,7 +297,7 @@ match {
 
 And then adjusting the definition of `Term` to reference `ID` instead:
 
-```
+```lalrpop
 pub Term = {
     Num,
     "(" <Term> ")",
@@ -309,9 +311,10 @@ kind of symbol you want (i.e., you can also map to a string literal or
 even a regular expression). Whatever symbol appears after the `=>` is
 what you should use in your grammar. As an example, some languages
 have case-insensitive keywords; if you wanted to write `"BEGIN"` in the
-grammar itself, but have that map to a regular expression in the lexer, you might write:
+grammar itself, but have that map to a regular expression in the lexer, you
+might write:
 
-```
+```lalrpop
 match {
     r"(?i)begin" => "BEGIN",
     ...
@@ -321,12 +324,12 @@ match {
 And now any reference in your grammar to `"BEGIN"` will actually match
 any capitalization.
 
-#### Customizing skipping between tokens
+## Customizing skipping between tokens
 
-If we want to support comments we will need to skip more than just whitespace in our lexer.
-To this end `ignore patterns` can be specified.
+If we want to support comments we will need to skip more than just whitespace
+in our lexer. To this end `ignore patterns` can be specified.
 
-```
+```lalrpop
 match {
     r"\s*" => { }, // The default whitespace skipping is disabled if an `ignore pattern` is specified
     r"//[^\n\r]*[\n\r]*" => { }, // Skip `// comments`
@@ -334,7 +337,7 @@ match {
 }
 ```
 
-#### Unicode compatibility
+## Unicode compatibility
 
 LALRPOP is capable of lexing tokens that match the full unicode character set,
 or those that just match ASCII.  If you need unicode matching, you should

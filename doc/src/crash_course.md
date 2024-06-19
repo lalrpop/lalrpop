@@ -7,7 +7,7 @@ a nice way of writing out what kinds of inputs are legal.  In our
 example, we want to support parenthesized numbers, so things like
 `123`, `(123)`, etc. We can express this with a simple grammar like:
 
-```
+```lalrpop
 Term = Num | "(" Term ")"
 ```
 
@@ -18,7 +18,7 @@ do that with a regular expression).  Now imagine a potential input
 like `((123))`. We can show how this would be parsed by writing out
 something called a "parse tree":
 
-```
+```text
 (  (  1  2  3  )  )
 |  |  |     |  |  |
 |  |  +-Num-+  |  |

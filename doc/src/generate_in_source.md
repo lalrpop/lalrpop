@@ -1,3 +1,5 @@
+# Generating files in the source tree
+
 Up to version 0.15, LALRPOP was generating its files in the same directory
 of the input files. Since 0.16, files are generated in the Cargo's
 **output directory**.
