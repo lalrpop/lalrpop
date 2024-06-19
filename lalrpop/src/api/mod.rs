@@ -245,10 +245,21 @@ impl Configuration {
 
 /// Process all files in the current directory, which -- unless you
 /// have changed it -- is typically the root of the crate being compiled.
+/// If your project only builds one crate and your files are in a ./src directory, you should use
+/// `process_src()` instead
 ///
 /// Equivalent to `Configuration::new().process_current_dir()`.
 pub fn process_root() -> Result<(), Box<dyn Error>> {
     Configuration::new().process_current_dir()
+}
+
+/// Process all files in ./src.  In many cargo projects which build only one crate, this is the
+/// normal location for source files.  If you are running lalrpop from a top level build.rs in a
+/// project that builds multiple crates, you may want `process_root()` instead.
+pub fn process_src() -> Result<(), Box<dyn Error>> {
+    Configuration::new()
+        .set_in_dir(Path::new("./src"))
+        .process()
 }
 
 /// Deprecated in favor of `Configuration`.

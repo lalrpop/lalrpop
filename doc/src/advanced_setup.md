@@ -5,11 +5,11 @@ like this:
 
 ```rust
 fn main() {
-    lalrpop::process_root().unwrap();
+    lalrpop::process_src().unwrap();
 }
 ```
 
-This `process_root()` call simply applies the default configuration:
+This `process_src()` call simply applies the default configuration:
 so it will transform `.lalrpop` files into `.rs` files *in-place* (in
 your `src` directory), and it will only do so if the `.lalrpop` file
 has actually changed. But you can also use the
