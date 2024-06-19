@@ -24,5 +24,10 @@ jobs:
           chmod +x "$_"
         working-directory: ./doc
 
+      - name: Lint book
+        run: |
+          sudo gem install mdl
+          mdl doc
+
       - run: env PATH=$PWD:$PATH mdbook build
         working-directory: ./doc
