@@ -13,8 +13,8 @@ fine).
 To start, let's use `cargo new` to make a new project. We'll call it
 `calculator`:
 
-```bash
-> cargo new --bin calculator
+```console
+cargo new --bin calculator
 ```
 
 We now have to edit the generated [`calculator/Cargo.toml`][calculator-Cargo.toml]
