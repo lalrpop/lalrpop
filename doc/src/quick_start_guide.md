@@ -58,7 +58,7 @@ If you prefer, you can also run the `lalrpop` crate as an
 executable. Simply run `cargo install lalrpop` and then you will get a
 `lalrpop` binary you can execute, like so:
 
-```bash
+```console
 lalrpop file.lalrpop
 ```
 
