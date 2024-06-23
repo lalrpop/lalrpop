@@ -58,5 +58,5 @@ So this approach has been abandoned a while ago.
 
 1. Run `./version.sh <NEW VERSION>`.
 2. Commit the changes
-3. Run `./publish.sh`
-4. Push to the lalrpop repo
+3. Run `cargo publish` for lalrpop and lalrpop-util
+4. Tag new release
