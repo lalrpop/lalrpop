@@ -1,7 +1,7 @@
 <a name="0.21.0"></a>
 ## 0.21.0 (2024-05-30)
 
-Since the last release, a fair number of the commits have been focussed on cleaning
+Since the last release, a fair number of the commits have been focused on cleaning
 up and improving LALRPOP's documentation. Shout out to Yudai Takada, George
 White, and Dinu Blanovschi.
 
