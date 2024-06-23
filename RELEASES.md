@@ -16,7 +16,7 @@ White, and Dinu Blanovschi.
 
 Adding a limit to the number of times that LALRPOP will attempt to expand a
 macro is technically a breaking change. However, the default limit of `200`
-should be more than enough for the grammars we are currently aware of(which
+should be more than enough for the grammars we are currently aware of (which
 almost always need a limit of less than 5). This limit is customizable via `Configuration::set_macro_expansion_limit`.
 
 If you have a grammar that uses a significant amount of macro expansion steps,
