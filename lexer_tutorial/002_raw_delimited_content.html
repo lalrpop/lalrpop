@@ -184,7 +184,7 @@ as we saw in the earlier sections.</p>
 <p>However, clean lexical separations can be hard to identify in some languages.</p>
 <p>Consider parsing a language with string literals. We will define a simple one;
 all it can do is bind variables, which are always single characters, like this:</p>
-<pre><code>x = "a"
+<pre><code class="language-text">x = "a"
 y = "bc"
 </code></pre>
 <p>Using what we have learned so far, we might try a grammar like the following one:</p>
@@ -199,20 +199,20 @@ pub Lit: Lit = "\"" &lt;r"[a-z]*"&gt; "\"" =&gt; &lt;&gt;.into();
 pub Eql: Eql = &lt;Var&gt; "=" &lt;Lit&gt; =&gt; (&lt;&gt;).into();
 </code></pre>
 <p>Unfortunately, this does not work; attempting to process the above grammar yields:</p>
-<pre><code>error: ambiguity detected between the terminal `r#"[x-z]"#` and the terminal `r#"[a-z]*"#`
+<pre><code class="language-text">error: ambiguity detected between the terminal `r#"[x-z]"#` and the terminal `r#"[a-z]*"#`
 </code></pre>
 <p>We saw the explanation for why this happens in the previous section: the two
 regular expressions overlap, and the generated lexer does not know how to
 resolve the ambiguity between them.</p>
-<h4 id="cut-to-the-chase"><a class="header" href="#cut-to-the-chase">Cut to the chase?</a></h4>
+<h2 id="cut-to-the-chase"><a class="header" href="#cut-to-the-chase">Cut to the chase?</a></h2>
 <p>If you want to know "the right way" to solve this problem, you
 can skip straight to <a href="#The-right-way-to-do-this">the end</a>.</p>
 <p>But if you want to understand <em>why</em> it is the right answer, you may
 benefit from taking the detour that starts now.</p>
-<h4 id="exploring-our-options"><a class="header" href="#exploring-our-options">Exploring our options</a></h4>
+<h2 id="exploring-our-options"><a class="header" href="#exploring-our-options">Exploring our options</a></h2>
 <p>A <code>match</code> declaration here, as suggested in the previous chapter, might seem
 like it fixes the problem:</p>
-<pre><code>use super::{Var, Lit, Eql};
+<pre><code class="language-lalrpop">use super::{Var, Lit, Eql};
 
 grammar;
 
@@ -238,8 +238,8 @@ fn fair_ball() {
     assert_eq!(nobol2::EqlParser::new().parse(r#"z = "xyz""#), Ok(('z', "xyz").into()));
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Unfortunately, the <code>match</code> is actually only papering over the fundamental problem here.
-Consider this variant of the previous test:</p>
+<p>Unfortunately, the <code>match</code> is actually only papering over the fundamental
+problem here. Consider this variant of the previous test:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
@@ -248,7 +248,7 @@ fn foul_ball() {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>The above produces:</p>
-<pre><code>---- foul_ball stdout ----
+<pre><code class="language-text">---- foul_ball stdout ----
 thread 'foul_ball' panicked at 'assertion failed: `(left == right)`
   left: `Err(UnrecognizedToken { token: (5, Token(3, "x"), 6), expected: ["r#\"[a-z]*\"#"] })`,
  right: `Ok(Eql(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:43:5
@@ -299,13 +299,13 @@ fn spaceballs() {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>we get the following error output:</p>
-<pre><code>thread 'spaceballs' panicked at 'assertion failed: `(left == right)`
+<pre><code class="language-text">thread 'spaceballs' panicked at 'assertion failed: `(left == right)`
   left: `Err(UnrecognizedToken { token: (0, Token(2, "z "), 2), expected: ["r#\"[x-z]*\"#"] })`,
  right: `Ok(Eql(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:58:5
 </code></pre>
 <p>Our attempt to generalize what strings can contain has caused problems for
 how the <em>rest</em> of the input is tokenized.</p>
-<h4 id="the-right-way-to-do-this"><a class="header" href="#the-right-way-to-do-this">The right way to do this</a></h4>
+<h2 id="the-right-way-to-do-this"><a class="header" href="#the-right-way-to-do-this">The right way to do this</a></h2>
 <p>Let us revisit the original rule in the grammar for string literals, from our
 first version:</p>
 <pre><code class="language-lalrpop">pub Lit: Lit = "\"" &lt;r"[a-z]*"&gt; "\"" =&gt; &lt;&gt;.into();
@@ -320,7 +320,8 @@ generated lexer does not infer this from our rules; it just blindly looks for
 something matching the string content regular expression <em>anywhere</em>
 in the input.</p>
 <p>You could solve this with a custom lexer (treated in the next section).</p>
-<p>But a simpler solution is to read the string delimiters and the string content as a <em>single token</em>, like so:</p>
+<p>But a simpler solution is to read the string delimiters and the string content
+as a <em>single token</em>, like so:</p>
 <pre><code class="language-lalrpop">pub Var: Var = &lt;r"[a-z]"&gt; =&gt; &lt;&gt;.chars().next().unwrap().into();
 
 pub Lit: Lit = &lt;l:r#""[a-z ]*""#&gt; =&gt; l[1..l.len()-1].into();
@@ -331,7 +332,9 @@ pub Eql: Eql = &lt;Var&gt; "=" &lt;Lit&gt; =&gt; (&lt;&gt;).into();
 there is no longer any ambiguity between the different regular expressions that
 drive the tokenizer.)</p>
 <p>With this definition of the grammar, all of these tests pass:</p>
-<pre><code>#[test]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
 fn homerun() {
     assert_eq!(nobol5::VarParser::new().parse("x"), Ok('x'.into()));
     assert_eq!(nobol5::LitParser::new().parse(r#""abc""#), Ok("abc".into()));
@@ -341,14 +344,15 @@ fn homerun() {
     assert_eq!(nobol5::EqlParser::new().parse(r#"z = "x""#), Ok(('z', "x").into()));
     assert_eq!(nobol5::EqlParser::new().parse(r#"z = "x y z""#), Ok(('z', "x y z").into()));
 }
-</code></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Furthermore, we can now remove other artificial limits in our language.
 For example, we can make our identifiers more than one character:</p>
 <pre><code class="language-lalrpop">pub Var: Var = &lt;r"[a-z]+"&gt; =&gt; &lt;&gt;.into()
 </code></pre>
 <p>which, with suitable changes to the library code, works out fine.</p>
-<h4 id="escape-sequences"><a class="header" href="#escape-sequences">Escape sequences</a></h4>
-<p>Our current string literals are allowed to hold a small subset of the full space of characters.</p>
+<h2 id="escape-sequences"><a class="header" href="#escape-sequences">Escape sequences</a></h2>
+<p>Our current string literals are allowed to hold a small subset of the full
+space of characters.</p>
 <p>If we wanted to generalize it to be able to hold arbitrary characters, we would
 need some way to denote the delimiter character <code>"</code> in the string content.</p>
 <p>The usual way to do this is via an escape sequence: <code>\"</code>, which is understood by
@@ -367,15 +371,17 @@ fn popfly() {
 }
 <span class="boring">}</span></code></pre></pre>
 <p>yields this output:</p>
-<pre><code>thread 'popfly' panicked at 'assertion failed: `(left == right)`
+<pre><code class="language-text">thread 'popfly' panicked at 'assertion failed: `(left == right)`
   left: `Ok(Eql(Var('z'), Lit("\\\"\\\\")))`,
  right: `Ok(Eql(Var('z'), Lit("\"\\")))`', doc/nobol/src/main.rs:91:5
 </code></pre>
-<p>This can be readily addressed by adding some code to post-process the token to remove the
-backslashes:</p>
+<p>This can be readily addressed by adding some code to post-process the token to
+remove the backslashes:</p>
 <pre><code class="language-lalrpop">pub Lit: Lit = &lt;l:r#""(\\\\|\\"|[^"\\])*""#&gt; =&gt; Lit(apply_string_escapes(&amp;l[1..l.len()-1]).into());
 </code></pre>
-<p>where <code>apply_string_escapes</code> is a helper routine that searches for backslashes in the content and performs the corresponding replacement with the character denoted by the escape sequence.</p>
+<p>where <code>apply_string_escapes</code> is a helper routine that searches for backslashes
+in the content and performs the corresponding replacement with the character
+denoted by the escape sequence.</p>
 
                     </main>
 

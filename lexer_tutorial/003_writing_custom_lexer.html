@@ -176,7 +176,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="writing-a-custom-lexer"><a class="header" href="#writing-a-custom-lexer">Writing a custom lexer</a></h1>
-<p>Let's say we want to parse the Whitespace language, so we've put together a grammar like the following:</p>
+<p>Let's say we want to parse the Whitespace language, so we've put together a
+grammar like the following:</p>
 <pre><code class="language-lalrpop">pub Program = &lt;Statement*&gt;;
 
 Statement: ast::Stmt = {
@@ -206,26 +207,45 @@ MathOp: ast::Stmt = {
 
 // Remainder omitted
 </code></pre>
-<p>Naturally, it doesn't work. By default, LALRPOP generates a tokenizer that skips all whitespace -- including newlines. What we <em>want</em> is to capture whitespace characters and ignore the rest as comments, and LALRPOP does the opposite of that.</p>
-<p>At the moment, LALRPOP doesn't allow you to configure the default tokenizer. In the future it will become quite flexible, but for now we have to write our own.</p>
-<p>Let's start by defining the stream format. The parser will accept an iterator where each item in the stream has the following structure:</p>
+<p>Naturally, it doesn't work. By default, LALRPOP generates a tokenizer that
+skips all whitespace -- including newlines. What we <em>want</em> is to capture
+whitespace characters and ignore the rest as comments, and LALRPOP does the
+opposite of that.</p>
+<p>At the moment, LALRPOP doesn't allow you to configure the default tokenizer. In
+the future it will become quite flexible, but for now we have to write our own.</p>
+<p>Let's start by defining the stream format. The parser will accept an iterator
+where each item in the stream has the following structure:</p>
 <pre><code class="language-lalrpop">pub type Spanned&lt;Tok, Loc, Error&gt; = Result&lt;(Loc, Tok, Loc), Error&gt;;
 </code></pre>
-<p><code>Loc</code> is typically just a <code>usize</code>, representing a byte offset into the input string. Each token is accompanied by two of them, marking the start and end positions where it was found. <code>Error</code> can be pretty much anything you choose. And of course <code>Tok</code> is the meat of the stream, defining what possible values the tokens themselves can have. Following the conventions of Rust iterators, we'll signal a valid token with <code>Some(Ok(...))</code>, an error with <code>Some(Err(...))</code>, and EOF with <code>None</code>.</p>
-<p>(Note that the term "tokenizer" normally refers to a piece of code that simply splits up the stream, whereas a "lexer" also tags each token with its lexical category. What we're writing is the latter.)</p>
-<p>Whitespace is a simple language from a lexical standpoint, with only three valid tokens:</p>
+<p><code>Loc</code> is typically just a <code>usize</code>, representing a byte offset into the input
+string. Each token is accompanied by two of them, marking the start and end
+positions where it was found. <code>Error</code> can be pretty much anything you choose.
+And of course <code>Tok</code> is the meat of the stream, defining what possible values
+the tokens themselves can have. Following the conventions of Rust iterators,
+we'll signal a valid token with <code>Some(Ok(...))</code>, an error with
+<code>Some(Err(...))</code>, and EOF with <code>None</code>.</p>
+<p>(Note that the term "tokenizer" normally refers to a piece of code that simply
+splits up the stream, whereas a "lexer" also tags each token with its lexical
+category. What we're writing is the latter.)</p>
+<p>Whitespace is a simple language from a lexical standpoint, with only three
+valid tokens:</p>
 <pre><code class="language-lalrpop">pub enum Tok {
     Space,
     Tab,
     Linefeed,
 }
 </code></pre>
-<p>Everything else is a comment. There are no invalid lexes, so we'll define our own error type, a void enum:</p>
+<p>Everything else is a comment. There are no invalid lexes, so we'll define our
+own error type, a void enum:</p>
 <pre><code class="language-lalrpop">pub enum LexicalError {
     // Not possible
 }
 </code></pre>
-<p>Now for the lexer itself. We'll take a string slice as its input. For each token we process, we'll want to know the character value, and the byte offset in the string where it begins. We can do that by wrapping the <code>CharIndices</code> iterator, which yields tuples of <code>(usize, char)</code> representing exactly that information.</p>
+<p>Now for the lexer itself. We'll take a string slice as its input. For each
+token we process, we'll want to know the character value, and the byte offset
+in the string where it begins. We can do that by wrapping the <code>CharIndices</code>
+iterator, which yields tuples of <code>(usize, char)</code> representing exactly that
+information.</p>
 <pre><code class="language-lalrpop">use std::str::CharIndices;
 
 pub struct Lexer&lt;'input&gt; {
@@ -238,7 +258,8 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     }
 }
 </code></pre>
-<p>(The lifetime parameter <code>'input</code> indicates that the Lexer cannot outlive the string it's trying to parse.)</p>
+<p>(The lifetime parameter <code>'input</code> indicates that the Lexer cannot outlive the
+string it's trying to parse.)</p>
 <p>Let's review our rules:</p>
 <ul>
 <li>For a space character, we output <code>Tok::Space</code>.</li>
@@ -247,7 +268,9 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
 <li>We skip all other characters.</li>
 <li>If we've reached the end of the string, we'll return <code>None</code> to signal EOF.</li>
 </ul>
-<p>Writing a lexer for a language with multi-character tokens can get very complicated, but this is so straightforward, we can translate it directly into code without thinking very hard. Here's our <code>Iterator</code> implementation:</p>
+<p>Writing a lexer for a language with multi-character tokens can get very
+complicated, but this is so straightforward, we can translate it directly into
+code without thinking very hard. Here's our <code>Iterator</code> implementation:</p>
 <pre><code class="language-lalrpop">impl&lt;'input&gt; Iterator for Lexer&lt;'input&gt; {
     type Item = Spanned&lt;Tok, usize, LexicalError&gt;;
 
@@ -267,16 +290,20 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
 </code></pre>
 <p>That's it. That's all we need.</p>
 <h2 id="updating-the-parser"><a class="header" href="#updating-the-parser">Updating the parser</a></h2>
-<p>To use this with LALRPOP, we need to expose its API to the parser. It's pretty easy to do, but also somewhat magical, so pay close attention. Pick a convenient place in the grammar file (I chose the bottom) and insert an <code>extern</code> block:</p>
+<p>To use this with LALRPOP, we need to expose its API to the parser. It's pretty
+easy to do, but also somewhat magical, so pay close attention. Pick a
+convenient place in the grammar file (I chose the bottom) and insert an <code>extern</code>
+block:</p>
 <pre><code class="language-lalrpop">extern {
     // ...
 }
 </code></pre>
-<p>Now we tell LALRPOP about the <code>Location</code> and <code>Error</code> types, as if we're writing a trait:</p>
+<p>Now we tell LALRPOP about the <code>Location</code> and <code>Error</code> types, as if we're
+writing a trait:</p>
 <pre><code class="language-lalrpop">extern {
     type Location = usize;
     type Error = lexer::LexicalError;
-    
+
     // ...
 }
 </code></pre>
@@ -290,7 +317,10 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     }
 }
 </code></pre>
-<p>Now we have to declare each of our terminals. For each variant of <code>Tok</code>, we pick what name the parser will see, and write a pattern of the form <code>name =&gt; lexer::Tok::Variant</code>, similar to how action code works in grammar rules. The name can be an identifier, or a string literal. We'll use the latter.</p>
+<p>Now we have to declare each of our terminals. For each variant of <code>Tok</code>, we
+pick what name the parser will see, and write a pattern of the form
+<code>name =&gt; lexer::Tok::Variant</code>, similar to how action code works in grammar
+rules. The name can be an identifier, or a string literal. We'll use the latter.</p>
 <p>Here's the whole thing:</p>
 <pre><code class="language-lalrpop">extern {
     type Location = usize;
@@ -303,7 +333,8 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     }
 }
 </code></pre>
-<p>From now on, the parser will take a <code>Lexer</code> as its input instead of a string slice, like so:</p>
+<p>From now on, the parser will take a <code>Lexer</code> as its input instead of a string
+slice, like so:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>    let lexer = lexer::Lexer::new("\n\n\n");
@@ -311,7 +342,9 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
         ...
     }
 <span class="boring">}</span></code></pre></pre>
-<p>And any time we write a string literal in the grammar, it'll substitute a variant of our <code>Tok</code> enum. This means <strong>we don't have to change any of the rules we already wrote!</strong> This will work as-is:</p>
+<p>And any time we write a string literal in the grammar, it'll substitute a
+variant of our <code>Tok</code> enum. This means <strong>we don't have to change any of the
+rules we already wrote!</strong> This will work as-is:</p>
 <pre><code class="language-lalrpop">FlowCtrl: ast::Stmt = {
     " " " " &lt;Label&gt; =&gt; ast::Stmt::Mark(&lt;&gt;),
     " " "\t" &lt;Label&gt; =&gt; ast::Stmt::Call(&lt;&gt;),

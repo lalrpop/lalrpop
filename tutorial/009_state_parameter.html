@@ -177,8 +177,10 @@
                     <main>
                         <h1 id="passing-state-parameter"><a class="header" href="#passing-state-parameter">Passing state parameter</a></h1>
 <p>By default, the parser doesn't take any argument other than the input.
-When building the AST, it might be useful to pass parameters to the parser, which might be needed to the construction of the tree.</p>
-<p>Going back to the calculator4 example it is possible to pass an argument to the parser :</p>
+When building the AST, it might be useful to pass parameters to the parser,
+which might be needed to the construction of the tree.</p>
+<p>Going back to the calculator4 example it is possible to pass an argument to the
+parser :</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>grammar(scale: i32);
@@ -202,8 +204,11 @@ fn calculator8() {
     assert_eq!(&amp;format!("{:?}", expr), "((22 * 44) + 66)");
 }
 <span class="boring">}</span></code></pre></pre>
-<p>For a more practical example with a custom tree structure, check out <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this parser</a> using <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs">this structure</a> to build the AST.</p>
-<p>Note: The state parameter must implement the Copy trait.  For types that don't implement Copy, you should pass them as a reference instead.</p>
+<p>For a more practical example with a custom tree structure, check out
+<a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop">this parser</a> using <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena_ast.rs">this structure</a> to build the
+AST.</p>
+<p>Note: The state parameter must implement the Copy trait.  For types that don't
+implement Copy, you should pass them as a reference instead.</p>
 
                     </main>
 

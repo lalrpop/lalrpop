@@ -187,12 +187,12 @@ as it's not too picky (the emacs rust-mode, in particular, works just
 fine).</p>
 <p>To start, let's use <code>cargo new</code> to make a new project. We'll call it
 <code>calculator</code>:</p>
-<pre><code>&gt; cargo new --bin calculator
+<pre><code class="language-console">cargo new --bin calculator
 </code></pre>
 <p>We now have to edit the generated <a href="https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/Cargo.toml"><code>calculator/Cargo.toml</code></a>
 file to invoke the LALRPOP preprocessor. The resulting file should
 look something like:</p>
-<pre><code>[package]
+<pre><code class="language-toml">[package]
 name = "calculator"
 version = "0.1.0"
 authors = ["Niko Matsakis &lt;niko@alum.mit.edu&gt;"]
@@ -211,9 +211,10 @@ case, just LALRPOP.</p>
 <p>The <code>[dependencies]</code> section describes the dependencies that LALRPOP
 needs at runtime. All LALRPOP parsers require at least the
 <code>lalrpop-util</code> crate.</p>
-<p>Next we have to add <code>build.rs</code> itself. For those unfamiliar with <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">this feature</a>, the <code>build.rs</code> file
-should be placed next to your <code>Cargo.toml</code> file and not inside the <code>src</code> folder with the rest of
-your Rust code. This should just look like the following:</p>
+<p>Next we have to add <code>build.rs</code> itself. For those unfamiliar with
+<a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">this feature</a>, the <code>build.rs</code> file should be placed next to your <code>Cargo.toml</code>
+file and not inside the <code>src</code> folder with the rest of your Rust code. This
+should just look like the following:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>

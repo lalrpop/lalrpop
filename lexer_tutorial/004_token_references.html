@@ -176,11 +176,13 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="using-tokens-with-references"><a class="header" href="#using-tokens-with-references">Using tokens with references</a></h1>
-<p>When using a custom lexer, you might want tokens to hold references to the original input.
-This allows to use references to the input when the grammar can have arbitrary symbols such as variable names.
-Using references instead of copying the symbols can improve performance and memory usage of the parser.</p>
+<p>When using a custom lexer, you might want tokens to hold references to the
+original input. This allows to use references to the input when the grammar can
+have arbitrary symbols such as variable names. Using references instead of
+copying the symbols can improve performance and memory usage of the parser.</p>
 <h2 id="the-lexer"><a class="header" href="#the-lexer">The Lexer</a></h2>
-<p>We can now create a new calculator parser that can deal with symbols the same way an interpreter would deal with variables.
+<p>We can now create a new calculator parser that can deal with symbols the same
+way an interpreter would deal with variables.
 First we need the corresponding AST :</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -256,7 +258,9 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>It's  quite simple, it returns any operator, and if it detects any other character, stores the beginning then continues to the next operator and sends the symbol it just parsed.</p>
+<p>It's  quite simple, it returns any operator, and if it detects any other
+character, stores the beginning then continues to the next operator and sends
+the symbol it just parsed.</p>
 <h2 id="the-parser"><a class="header" href="#the-parser">The parser</a></h2>
 <p>We can then take a look at the corresponding parser with a new grammar:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -266,7 +270,8 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     "(" &lt;Expr&gt; ")"
 };
 <span class="boring">}</span></code></pre></pre>
-<p>We need to pass the input to the parser so that the input's lifetime is known to the borrow checker when compiling the generated parser.</p>
+<p>We need to pass the input to the parser so that the input's lifetime is known
+to the borrow checker when compiling the generated parser.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>grammar&lt;'input&gt;(input: &amp;'input str);
@@ -277,7 +282,7 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
 </span>extern {
     type Location = usize;
     type Error = ();
-    
+
     enum Tok&lt;'input&gt; {
         "num" =&gt; Tok::NumSymbol(&lt;&amp;'input str&gt;),
         "FactorOp" =&gt; Tok::FactorOp(&lt;Opcode&gt;),
@@ -287,7 +292,7 @@ impl&lt;'input&gt; Lexer&lt;'input&gt; {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<h1 id="calling-the-parser"><a class="header" href="#calling-the-parser">Calling the parser</a></h1>
+<h2 id="calling-the-parser"><a class="header" href="#calling-the-parser">Calling the parser</a></h2>
 <p>We can finally run the parser we built:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

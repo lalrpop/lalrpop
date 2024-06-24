@@ -175,7 +175,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>For getting started with LALRPOP, it's probably best if you read
+                        <h1 id="quick-start-guide"><a class="header" href="#quick-start-guide">Quick Start Guide</a></h1>
+<p>For getting started with LALRPOP, it's probably best if you read
 <a href="tutorial/index.html">the tutorial</a>, which will introduce you
 to the syntax of LALRPOP files and so forth.</p>
 <p>But if you've done this before, or you're just the impatient sort,
@@ -192,8 +193,8 @@ lalrpop = "0.20.2"
 # built-in lexer feature is not included
 # lalrpop = { version = "0.20.2", default-features = false }
 </code></pre>
-<p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a> file
-that looks like:</p>
+<p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a>
+file that looks like:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     lalrpop::process_root().unwrap();
 }</code></pre></pre>
@@ -214,11 +215,11 @@ create a submodule <code>foo::grammar</code>):</p>
 </span><span class="boring">fn main() {
 </span>lalrpop_mod!(grammar);
 <span class="boring">}</span></code></pre></pre>
-<h4 id="running-manually"><a class="header" href="#running-manually">Running manually</a></h4>
+<h2 id="running-manually"><a class="header" href="#running-manually">Running manually</a></h2>
 <p>If you prefer, you can also run the <code>lalrpop</code> crate as an
 executable. Simply run <code>cargo install lalrpop</code> and then you will get a
 <code>lalrpop</code> binary you can execute, like so:</p>
-<pre><code>lalrpop file.lalrpop
+<pre><code class="language-console">lalrpop file.lalrpop
 </code></pre>
 <p>This will generate <code>file.rs</code> for you. Note that it only executes if
 <code>file.lalrpop</code> is newer than <code>file.rs</code>; if you'd prefer to execute

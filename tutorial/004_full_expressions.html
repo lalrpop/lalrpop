@@ -223,7 +223,7 @@ version of your top-level as an atomic expression, which lets people
 reset.</p>
 <p>To see why this works, consider the two possible parse trees for
 something like <code>2+3*4</code>:</p>
-<pre><code>2 + 3   *    4          2   +  3   *    4
+<pre><code class="language-text">2 + 3   *    4          2   +  3   *    4
 | | |   |    |          |   |  |   |    |
 | | +-Factor-+    OR    +-Expr-+   |    |
 | |     |                   |      |    |
@@ -240,7 +240,7 @@ the <code>precedence</code> and <code>assoc</code> attribute macros.
 These macros generate the same thing as tiered expressions do, but they can
 reduce code complexity when working with many levels of precedence.
 The above <code>Expr</code> grammar can be rewritten to the following using them:</p>
-<pre><code>pub Expr: i32 = {
+<pre><code class="language-lalrpop">pub Expr: i32 = {
     #[precedence(level="0")] // Highest precedence
     Term,
     #[precedence(level="1")] #[assoc(side="left")]
@@ -252,11 +252,12 @@ The above <code>Expr</code> grammar can be rewritten to the following using them
 };
 </code></pre>
 <p>The <code>precedence</code> level specifies the order of operations starting from zero.
-In this example it means that <code>13 + 7 * 3</code> would be evaluated as <code>(13 + (7 * 3))</code>
-because multiplication has a lower <code>precedence</code> level than addition.</p>
-<p>By using <code>assoc</code> you can specify if the expression is left-associative or right-associative.
-This is required to make the grammar unambiguous, otherwise <code>1 + 2 + 3</code> could
-both be interpreted as <code>(1 + (2 + 3))</code> and <code>((1 + 2) + 3)</code>.</p>
+In this example it means that <code>13 + 7 * 3</code> would be evaluated as
+<code>(13 + (7 * 3))</code> because multiplication has a lower <code>precedence</code> level than
+addition.</p>
+<p>By using <code>assoc</code> you can specify if the expression is left-associative or
+right-associative. This is required to make the grammar unambiguous, otherwise
+<code>1 + 2 + 3</code> could both be interpreted as <code>(1 + (2 + 3))</code> and <code>((1 + 2) + 3)</code>.</p>
 <p>Finally, note that we only write <code>pub</code> before the nonterminal we're
 interested in parsing (<code>Expr</code>) and not any of the helpers. Nonterminals
 marked <code>pub</code> have extra code generated, like the <code>new()</code> method used to

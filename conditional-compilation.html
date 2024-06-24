@@ -175,8 +175,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>LALRPOP support conditional compilation of public non-terminal declarations via <code>#[cfg(feature = "FEATURE")]</code> attributes.
-If run in a build script LALRPOP will automatically pickup the features from <code>cargo</code> and use those. Alternatively an explicit set of features can be set using the <code>Configuration</code> type.</p>
+                        <h1 id="conditional-compilation"><a class="header" href="#conditional-compilation">Conditional compilation</a></h1>
+<p>LALRPOP support conditional compilation of public non-terminal declarations via
+<code>#[cfg(feature = "FEATURE")]</code> attributes. If run in a build script LALRPOP will
+automatically pickup the features from <code>cargo</code> and use those. Alternatively an
+explicit set of features can be set using the <code>Configuration</code> type.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[cfg(feature = "FEATURE")]
