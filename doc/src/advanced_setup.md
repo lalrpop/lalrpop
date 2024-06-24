@@ -1,4 +1,4 @@
-### Customizing the Build Process
+# Customizing the Build Process
 
 When you setup LALRPOP, you create a `build.rs` file that looks something
 like this:
@@ -28,10 +28,11 @@ fn main() {
 }
 ```
 
-#### Rerun Directives
+## Rerun Directives
 
-Cargo will rerun the build script on each compilation even if the lalrpop file has not changed.
-To disable this behavior, use the `emit_rerun_directives` function when setting up your lalrpop `Configuration`.
+Cargo will rerun the build script on each compilation even if the lalrpop file
+has not changed. To disable this behavior, use the `emit_rerun_directives`
+function when setting up your lalrpop `Configuration`.
 
 ```rust
 fn main() {
@@ -41,9 +42,10 @@ fn main() {
 }
 ```
 
-By default, this is set to false in case other parts of the build script or compilation code expects `build.rs` to be run unconditionally.
+By default, this is set to false in case other parts of the build script or
+compilation code expects `build.rs` to be run unconditionally.
 
-### Using the Legacy LALR Parser
+## Using the Legacy LALR Parser
 
 By default, LALRPOP uses the [lane table][]
 algorithm which is LR(1) but creates much smaller tables. There is no longer

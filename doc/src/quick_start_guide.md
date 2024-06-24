@@ -1,3 +1,5 @@
+# Quick Start Guide
+
 For getting started with LALRPOP, it's probably best if you read
 [the tutorial](tutorial/index.md), which will introduce you
 to the syntax of LALRPOP files and so forth.
@@ -19,8 +21,8 @@ lalrpop = "0.20.2"
 # lalrpop = { version = "0.20.2", default-features = false }
 ```
 
-Next create a [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scripts.html) file
-that looks like:
+Next create a [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scripts.html)
+file that looks like:
 
 ```rust
 fn main() {
@@ -50,13 +52,13 @@ lalrpop_mod!(grammar);
 
 [lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
 
-#### Running manually
+## Running manually
 
 If you prefer, you can also run the `lalrpop` crate as an
 executable. Simply run `cargo install lalrpop` and then you will get a
 `lalrpop` binary you can execute, like so:
 
-```
+```console
 lalrpop file.lalrpop
 ```
 

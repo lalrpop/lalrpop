@@ -11,7 +11,7 @@ However, clean lexical separations can be hard to identify in some languages.
 Consider parsing a language with string literals. We will define a simple one;
 all it can do is bind variables, which are always single characters, like this:
 
-```
+```text
 x = "a"
 y = "bc"
 ```
@@ -32,7 +32,7 @@ pub Eql: Eql = <Var> "=" <Lit> => (<>).into();
 
 Unfortunately, this does not work; attempting to process the above grammar yields:
 
-```
+```text
 error: ambiguity detected between the terminal `r#"[x-z]"#` and the terminal `r#"[a-z]*"#`
 ```
 
@@ -40,7 +40,7 @@ We saw the explanation for why this happens in the previous section: the two
 regular expressions overlap, and the generated lexer does not know how to
 resolve the ambiguity between them.
 
-#### Cut to the chase?
+## Cut to the chase?
 
 If you want to know "the right way" to solve this problem, you
 can skip straight to [the end][].
@@ -50,12 +50,12 @@ can skip straight to [the end][].
 But if you want to understand *why* it is the right answer, you may
 benefit from taking the detour that starts now.
 
-#### Exploring our options
+## Exploring our options
 
 A `match` declaration here, as suggested in the previous chapter, might seem
 like it fixes the problem:
 
-```
+```lalrpop
 use super::{Var, Lit, Eql};
 
 grammar;
@@ -84,8 +84,8 @@ fn fair_ball() {
 }
 ```
 
-Unfortunately, the `match` is actually only papering over the fundamental problem here.
-Consider this variant of the previous test:
+Unfortunately, the `match` is actually only papering over the fundamental
+problem here. Consider this variant of the previous test:
 
 ```rust
 #[test]
@@ -96,7 +96,7 @@ fn foul_ball() {
 
 The above produces:
 
-```
+```text
 ---- foul_ball stdout ----
 thread 'foul_ball' panicked at 'assertion failed: `(left == right)`
   left: `Err(UnrecognizedToken { token: (5, Token(3, "x"), 6), expected: ["r#\"[a-z]*\"#"] })`,
@@ -161,7 +161,7 @@ fn spaceballs() {
 
 we get the following error output:
 
-```
+```text
 thread 'spaceballs' panicked at 'assertion failed: `(left == right)`
   left: `Err(UnrecognizedToken { token: (0, Token(2, "z "), 2), expected: ["r#\"[x-z]*\"#"] })`,
  right: `Ok(Eql(Var('z'), Lit("x")))`', doc/nobol/src/main.rs:58:5
@@ -170,8 +170,7 @@ thread 'spaceballs' panicked at 'assertion failed: `(left == right)`
 Our attempt to generalize what strings can contain has caused problems for
 how the *rest* of the input is tokenized.
 
-
-#### The right way to do this
+## The right way to do this
 
 Let us revisit the original rule in the grammar for string literals, from our
 first version:
@@ -193,7 +192,8 @@ in the input.
 
 You could solve this with a custom lexer (treated in the next section).
 
-But a simpler solution is to read the string delimiters and the string content as a *single token*, like so:
+But a simpler solution is to read the string delimiters and the string content
+as a *single token*, like so:
 
 ```lalrpop
 pub Var: Var = <r"[a-z]"> => <>.chars().next().unwrap().into();
@@ -209,7 +209,7 @@ drive the tokenizer.)
 
 With this definition of the grammar, all of these tests pass:
 
-```
+```rust
 #[test]
 fn homerun() {
     assert_eq!(nobol5::VarParser::new().parse("x"), Ok('x'.into()));
@@ -231,9 +231,10 @@ pub Var: Var = <r"[a-z]+"> => <>.into()
 
 which, with suitable changes to the library code, works out fine.
 
-#### Escape sequences
+## Escape sequences
 
-Our current string literals are allowed to hold a small subset of the full space of characters.
+Our current string literals are allowed to hold a small subset of the full
+space of characters.
 
 If we wanted to generalize it to be able to hold arbitrary characters, we would
 need some way to denote the delimiter character `"` in the string content.
@@ -261,17 +262,19 @@ fn popfly() {
 
 yields this output:
 
-```
+```text
 thread 'popfly' panicked at 'assertion failed: `(left == right)`
   left: `Ok(Eql(Var('z'), Lit("\\\"\\\\")))`,
  right: `Ok(Eql(Var('z'), Lit("\"\\")))`', doc/nobol/src/main.rs:91:5
 ```
 
-This can be readily addressed by adding some code to post-process the token to remove the
-backslashes:
+This can be readily addressed by adding some code to post-process the token to
+remove the backslashes:
 
 ```lalrpop
 pub Lit: Lit = <l:r#""(\\\\|\\"|[^"\\])*""#> => Lit(apply_string_escapes(&l[1..l.len()-1]).into());
 ```
 
-where `apply_string_escapes` is a helper routine that searches for backslashes in the content and performs the corresponding replacement with the character denoted by the escape sequence.
+where `apply_string_escapes` is a helper routine that searches for backslashes
+in the content and performs the corresponding replacement with the character
+denoted by the escape sequence.

@@ -1,6 +1,7 @@
 # Fine control over the lexer
 
-This part is about controlling the inner workings of LALRPOP's built-in lexer generator and using your own hand written parser.
+This part is about controlling the inner workings of LALRPOP's built-in lexer
+generator and using your own hand written parser.
 
 - [LALRPOP's lexer generator](001_lexer_gen.md)
 - [Lexing raw delimited content](002_raw_delimited_content.md)

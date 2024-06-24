@@ -1,12 +1,14 @@
 # Using tokens with references
 
-When using a custom lexer, you might want tokens to hold references to the original input.
-This allows to use references to the input when the grammar can have arbitrary symbols such as variable names.
-Using references instead of copying the symbols can improve performance and memory usage of the parser.
+When using a custom lexer, you might want tokens to hold references to the
+original input. This allows to use references to the input when the grammar can
+have arbitrary symbols such as variable names. Using references instead of
+copying the symbols can improve performance and memory usage of the parser.
 
 ## The Lexer
 
-We can now create a new calculator parser that can deal with symbols the same way an interpreter would deal with variables.
+We can now create a new calculator parser that can deal with symbols the same
+way an interpreter would deal with variables.
 First we need the corresponding AST :
 
 ``` rust
@@ -19,7 +21,6 @@ pub enum ExprSymbol<'input>{
 
 Then, we need to build the tokens:
 
-
 ``` rust
 #[derive(Copy, Clone, Debug)]
 pub enum Tok<'input> {
@@ -30,6 +31,7 @@ pub enum Tok<'input> {
     ParenClose,
 }
 ```
+
 Notice the NumSymbol type holding a reference to the original input.
 It represents both numbers and variable names as a slice of the original input.
 
@@ -52,6 +54,7 @@ impl<'input> Lexer<'input> {
     }
 }
 ```
+
 It needs to hold a reference to the input to put slices in the tokens.
 
 ``` rust
@@ -85,7 +88,10 @@ impl<'input> Iterator for Lexer<'input> {
     }
 }
 ```
-It's  quite simple, it returns any operator, and if it detects any other character, stores the beginning then continues to the next operator and sends the symbol it just parsed.
+
+It's  quite simple, it returns any operator, and if it detects any other
+character, stores the beginning then continues to the next operator and sends
+the symbol it just parsed.
 
 ## The parser
 
@@ -98,7 +104,9 @@ Term: Box<ExprSymbol<'input>> = {
 };
 ```
 
-We need to pass the input to the parser so that the input's lifetime is known to the borrow checker when compiling the generated parser.
+We need to pass the input to the parser so that the input's lifetime is known
+to the borrow checker when compiling the generated parser.
+
 ``` rust
 grammar<'input>(input: &'input str);
 ```
@@ -109,7 +117,7 @@ Then we just need to define the tokens the same as before :
 extern {
     type Location = usize;
     type Error = ();
-    
+
     enum Tok<'input> {
         "num" => Tok::NumSymbol(<&'input str>),
         "FactorOp" => Tok::FactorOp(<Opcode>),
@@ -120,7 +128,8 @@ extern {
 }
 ```
 
-# Calling the parser
+## Calling the parser
+
 We can finally run the parser we built:
 
 ``` rust

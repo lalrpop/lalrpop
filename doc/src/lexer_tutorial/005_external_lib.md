@@ -7,7 +7,7 @@ In this tutorial, we will use [Logos](https://docs.rs/logos/latest/logos/) to
 build a simple lexer for a toy programming language. Here is an example of what
 we will be able to parse:
 
-```
+```text
 var a = 42;
 var b = 23;
 
