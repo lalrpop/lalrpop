@@ -148,6 +148,7 @@ fn emit_lookaround_action_code<W: Write>(
     _defn: &r::ActionFnDefn,
     data: &r::LookaroundActionFnDefn,
 ) -> io::Result<()> {
+    rust!(rust, "#[allow(clippy::needless_lifetimes)]");
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),

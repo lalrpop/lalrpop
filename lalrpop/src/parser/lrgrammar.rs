@@ -21381,6 +21381,7 @@ None
 }
 
 #[allow(unused_variables)]
+#[allow(clippy::needless_lifetimes)]
 fn ___action185<
     'input,
 >(
@@ -21393,6 +21394,7 @@ ___lookahead: &usize,
 }
 
 #[allow(unused_variables)]
+#[allow(clippy::needless_lifetimes)]
 fn ___action186<
     'input,
 >(
