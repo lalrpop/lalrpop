@@ -5,6 +5,7 @@ members = [
         "doc/pascal/lalrpop",
         "doc/whitespace",
         "doc/lexer",
+        "doc/lexer-modes",
         "lalrpop-test",
         "lalrpop-util",
         "lalrpop",
