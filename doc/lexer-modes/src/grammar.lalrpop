@@ -1,0 +1,116 @@
+// -*- mode: Rust; -*-
+//
+// This grammar parses a list of `length:value` pairs.
+//
+// In order to parse the `value` part, we have to know the length.
+// The value part can't be parsed by the grammar, but it can be lexed
+// by the lexer.  The complication is that only the grammar can detect
+// that the lexer need to change modes.  So we need some way for the
+// parser to communicate that to the lexer.  This is possible, albeit
+// a bit awkward, using some shared state.
+
+//  When we observe the length, the parser changes the lexer to
+// "literal parsing" mode.  When next called, the lexer returns a
+// token containing the next `n` bytes, and then returns to normal
+// lexing mode.
+use std::cell::RefCell;
+use std::rc::Rc;
+
+use crate::Value;
+use crate::lexer;
+use crate::lexer::LexerMode;
+use crate::lexer::LexicalError;
+
+// Because `mode` has to be `Copy`, we have to pass a reference to the
+// `Rc<RefCell<LexerMode>>`.
+grammar<'input, 'mode>(mode: &'mode Rc<RefCell<LexerMode>>);
+
+// Zero or more whitespace separated values.
+pub List: Vec<Value> = {
+    Whitespace* <ValueWhitespace*>
+};
+
+Whitespace = {
+    SPACE, HTAB, VTAB, CR, LF, FORMFEED,
+};
+
+ValueWhitespace = {
+    <Value> Whitespace*
+}
+
+// A value is of the form: `n:bytes` where `n` is a count and bytes is
+// exactly `n` literal bytes.
+Value: Value = {
+    LiteralCount COLON <literal:LITERAL> => {
+        Value {
+            value: literal.as_bytes().to_vec()
+        }
+    }
+}
+
+// We factor this production out of the Literal production so that we
+// can change the lexer mode after we lex the COLON, but before we lex
+// the literal data.
+LiteralCount: () = {
+    <count:Decimal> => {
+        // Change the lexer to literal parsing.
+        mode.borrow_mut().literal = Some(count);
+    }
+}
+
+// A Number.
+Decimal: usize = {
+    N_0 => 0,
+    <x:LeadingDecimalDigit> <y:DecimalDigit*> =>? {
+        let count = std::iter::once(x).chain(y.into_iter())
+            .map(|t| t.as_bytes()[0] as char)
+            .collect::<String>();
+        let count = count.parse::<usize>()
+            .map_err(|err| {
+                LexicalError::LengthOverflow(
+                    format!("Parsing {}: {}", count, err))
+            })?;
+
+        Ok(count)
+    }
+};
+
+LeadingDecimalDigit = {
+    N_1, N_2, N_3, N_4, N_5, N_6, N_7, N_8, N_9
+};
+
+DecimalDigit = {
+    N_0, N_1, N_2, N_3, N_4, N_5, N_6, N_7, N_8, N_9
+};
+
+extern {
+    type Location = usize;
+    type Error = LexicalError;
+
+    enum lexer::Token<'input> {
+        COLON => lexer::Token::COLON,
+
+        // Whitespace.
+        SPACE => lexer::Token::SPACE,
+        HTAB => lexer::Token::HTAB,
+        VTAB => lexer::Token::VTAB,
+        CR => lexer::Token::CR,
+        LF => lexer::Token::LF,
+        FORMFEED => lexer::Token::FORMFEED,
+
+        // Digits.
+        N_0 => lexer::Token::N_0,
+        N_1 => lexer::Token::N_1,
+        N_2 => lexer::Token::N_2,
+        N_3 => lexer::Token::N_3,
+        N_4 => lexer::Token::N_4,
+        N_5 => lexer::Token::N_5,
+        N_6 => lexer::Token::N_6,
+        N_7 => lexer::Token::N_7,
+        N_8 => lexer::Token::N_8,
+        N_9 => lexer::Token::N_9,
+
+        OTHER => lexer::Token::OTHER(_),
+        LITERAL => lexer::Token::LITERAL(_),
+    }
+}
