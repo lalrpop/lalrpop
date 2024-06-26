@@ -14,7 +14,7 @@ Here's an example rule using location tracking macros:
 ```lalrpop
 Symbol = {
     <start: @L> <s: r"a-z"> <end: @R> => {
-        // @L is the byte location of the start of our string
+        // `start` is the byte location of the start of our string
         // s is the string itself
         // @R is the byte location of the end
     }
