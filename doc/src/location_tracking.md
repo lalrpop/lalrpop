@@ -15,8 +15,8 @@ Here's an example rule using location tracking macros:
 Symbol = {
     <start: @L> <s: r"a-z"> <end: @R> => {
         // `start` is the byte location of the start of our string
-        // s is the string itself
-        // @R is the byte location of the end
+        // `s` is the string itself
+        // `end` is the byte location of the end
     }
 }
 ```
