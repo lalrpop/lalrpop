@@ -82,8 +82,9 @@ lalrpop_mod!(grammar);
 
 The code that LALRPOP generates sometimes falls afoul of code linters for
 cosmetic reasons which don't apply to macro generated code. Currently, there is
-not a blanket `#[automatically_derived]` because action code provided
-by the user may be worth linting on.
+```suggestion
+not a blanket `#[automatically_derived]` attribute in the generated parser
+because action code provided by the user may be worth linting on.
 
 Users can provide
 any number of attributes which they would like applied to the generated module.
