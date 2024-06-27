@@ -4,10 +4,10 @@ Sometimes it may be helpful to know where in the input stream a particular
 token was encountered. For example, this can be useful when generating
 user-visible messages that reference specific points in the input.
 
-This is achieved via the location tracking macros, `@L` and `@R`.  `@L` looks
-ahead to the token immediately to its right, and binds the the location (in
-bytes) in the input stream where that token starts.  Similarly, `@R` binds the
-location where the token immediately to the left ends.
+This is achieved via the location tracking macros, `@L` and `@R`.  `@L`
+binds the start position - in bytes - of the token immediately to its right
+in the input stream. Similarly, `@R` binds the index of the last byte _plus
+one_ of the token immediately to its left.
 
 Here's an example rule using location tracking macros:
 
