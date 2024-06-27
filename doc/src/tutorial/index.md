@@ -25,11 +25,7 @@ Here are some topics that I aim to cover when I get time to write about them:
 - Passing state and type/lifetime parameters to your action code (see e.g.
   [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop)
   invoked [from here]).
-- Integrating with external tokenizers (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr.lalrpop)
-  invoked [from here]).
 - Conditional macros (no good test to point you at yet, sorry)
-- Fallible action code that produces a `Result` (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/error.lalrpop)
-  invoked [from here]).
 - Converting to use `LALR(1)` instead of `LR(1)` (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop)
   invoked [from here]).
 - Plans for future features
