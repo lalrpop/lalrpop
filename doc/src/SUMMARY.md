@@ -23,6 +23,7 @@
 - [Advanced setup](advanced_setup.md)
    - [Generate in source tree](generate_in_source.md)
    - [Conditional compilation](conditional-compilation.md)
+   - [Location Tracking](location_tracking.md)
 
 -----------
 [Contributors](misc/contributors.md)
