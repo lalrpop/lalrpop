@@ -62,7 +62,7 @@ LiteralCount: () = {
 Decimal: usize = {
     N_0 => 0,
     <x:LeadingDecimalDigit> <y:DecimalDigit*> =>? {
-        let count = std::iter::once(x).chain(y.into_iter())
+        let count = std::iter::once(x).chain(y)
             .map(|t| t.as_bytes()[0] as char)
             .collect::<String>();
         let count = count.parse::<usize>()
