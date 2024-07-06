@@ -88,7 +88,11 @@ provide any number of attributes which they would like applied to the generated
 module. This is particularly useful for suppressing noisy lints.
 
 ```rust
-lalrpop_mod!(#[allow(clippy::ptr_arg)]#[rustfmt::skip] parser);
+lalrpop_mod!(
+    #[allow(clippy::ptr_arg)]
+    #[rustfmt::skip]
+    parser
+);
 ```
 
 [lalrpop_mod]: https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html
