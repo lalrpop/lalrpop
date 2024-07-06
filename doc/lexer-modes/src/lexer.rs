@@ -12,6 +12,12 @@ pub struct LexerMode {
     pub literal: Option<usize>,
 }
 
+impl Default for LexerMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl LexerMode {
     pub fn new() -> Self {
         Self { literal: None }
@@ -80,27 +86,27 @@ impl<'a> Token<'a> {
     pub fn as_bytes(&self) -> &'a [u8] {
         use self::Token::*;
         match self {
-            COLON => &[':' as u8],
+            COLON => &[b':'],
 
             // Whitespace.
-            SPACE => &[' ' as u8],
-            HTAB => &['\t' as u8],
+            SPACE => &[b' '],
+            HTAB => &[b'\t'],
             VTAB => &[0x0b],
             CR => &[0x0d],
             LF => &[0x0a],
             FORMFEED => &[0x0c],
 
             // Digits.
-            N_0 => &['0' as u8],
-            N_1 => &['1' as u8],
-            N_2 => &['2' as u8],
-            N_3 => &['3' as u8],
-            N_4 => &['4' as u8],
-            N_5 => &['5' as u8],
-            N_6 => &['6' as u8],
-            N_7 => &['7' as u8],
-            N_8 => &['8' as u8],
-            N_9 => &['9' as u8],
+            N_0 => &[b'0'],
+            N_1 => &[b'1'],
+            N_2 => &[b'2'],
+            N_3 => &[b'3'],
+            N_4 => &[b'4'],
+            N_5 => &[b'5'],
+            N_6 => &[b'6'],
+            N_7 => &[b'7'],
+            N_8 => &[b'8'],
+            N_9 => &[b'9'],
 
             OTHER(bytes) => bytes,
 
@@ -154,7 +160,7 @@ impl<'input> Iterator for Lexer<'input> {
         } else {
             // We are in normal mode.  Return the next token.
 
-            match *self.input.get(0)? as char {
+            match *self.input.first()? as char {
                 ':' => (1, COLON),
 
                 // Whitespace.
