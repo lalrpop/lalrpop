@@ -182,6 +182,9 @@ pub struct ErrorRecovery<L, T, E> {
 ///
 /// // define a public module
 /// lalrpop_mod!(pub parser);
+///
+/// // specify attributes for the generated module
+/// lalrpop_mod!(#[allow(clippy::ptr_arg)]#[rustfmt::skip] parser);
 /// ```
 
 #[macro_export]
