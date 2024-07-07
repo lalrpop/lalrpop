@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Advanced setup</title>
+        <title>Location Tracking</title>
 
 
         <!-- Custom HTML head -->
@@ -90,7 +90,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li class="chapter-item expanded "><a href="crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li class="chapter-item expanded "><a href="quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li class="chapter-item expanded "><a href="cheatsheet.html"><strong aria-hidden="true">4.</strong> Cheatsheet</a></li><li class="chapter-item expanded "><a href="tutorial/index.html"><strong aria-hidden="true">5.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">5.1.</strong> Adding LALRPOP to your project</a></li><li class="chapter-item expanded "><a href="tutorial/002_paren_numbers.html"><strong aria-hidden="true">5.2.</strong> Parsing parenthesized numbers</a></li><li class="chapter-item expanded "><a href="tutorial/003_type_inference.html"><strong aria-hidden="true">5.3.</strong> Type inference</a></li><li class="chapter-item expanded "><a href="tutorial/004_full_expressions.html"><strong aria-hidden="true">5.4.</strong> Handling full expressions</a></li><li class="chapter-item expanded "><a href="tutorial/005_building_asts.html"><strong aria-hidden="true">5.5.</strong> Building ASTs</a></li><li class="chapter-item expanded "><a href="tutorial/006_macros.html"><strong aria-hidden="true">5.6.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tutorial/007_fallible_actions.html"><strong aria-hidden="true">5.7.</strong> Fallible actions</a></li><li class="chapter-item expanded "><a href="tutorial/008_error_recovery.html"><strong aria-hidden="true">5.8.</strong> Error recovery</a></li><li class="chapter-item expanded "><a href="tutorial/009_state_parameter.html"><strong aria-hidden="true">5.9.</strong> Passing state parameter</a></li></ol></li><li class="chapter-item expanded "><a href="lexer_tutorial/index.html"><strong aria-hidden="true">6.</strong> Controlling the lexer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lexer_tutorial/001_lexer_gen.html"><strong aria-hidden="true">6.1.</strong> LALRPOP's lexer generator</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/002_raw_delimited_content.html"><strong aria-hidden="true">6.2.</strong> Lexing raw delimited content</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/003_writing_custom_lexer.html"><strong aria-hidden="true">6.3.</strong> Writing a custom lexer</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/004_token_references.html"><strong aria-hidden="true">6.4.</strong> Using tokens with references</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/005_external_lib.html"><strong aria-hidden="true">6.5.</strong> Using an external library</a></li></ol></li><li class="chapter-item expanded "><a href="advanced_setup.html" class="active"><strong aria-hidden="true">7.</strong> Advanced setup</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="generate_in_source.html"><strong aria-hidden="true">7.1.</strong> Generate in source tree</a></li><li class="chapter-item expanded "><a href="conditional-compilation.html"><strong aria-hidden="true">7.2.</strong> Conditional compilation</a></li><li class="chapter-item expanded "><a href="location_tracking.html"><strong aria-hidden="true">7.3.</strong> Location Tracking</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/contributors.html">Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> LALRPOP</a></li><li class="chapter-item expanded "><a href="crash_course.html"><strong aria-hidden="true">2.</strong> Crash course on parsers</a></li><li class="chapter-item expanded "><a href="quick_start_guide.html"><strong aria-hidden="true">3.</strong> Quick start guide</a></li><li class="chapter-item expanded "><a href="cheatsheet.html"><strong aria-hidden="true">4.</strong> Cheatsheet</a></li><li class="chapter-item expanded "><a href="tutorial/index.html"><strong aria-hidden="true">5.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/001_adding_lalrpop.html"><strong aria-hidden="true">5.1.</strong> Adding LALRPOP to your project</a></li><li class="chapter-item expanded "><a href="tutorial/002_paren_numbers.html"><strong aria-hidden="true">5.2.</strong> Parsing parenthesized numbers</a></li><li class="chapter-item expanded "><a href="tutorial/003_type_inference.html"><strong aria-hidden="true">5.3.</strong> Type inference</a></li><li class="chapter-item expanded "><a href="tutorial/004_full_expressions.html"><strong aria-hidden="true">5.4.</strong> Handling full expressions</a></li><li class="chapter-item expanded "><a href="tutorial/005_building_asts.html"><strong aria-hidden="true">5.5.</strong> Building ASTs</a></li><li class="chapter-item expanded "><a href="tutorial/006_macros.html"><strong aria-hidden="true">5.6.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tutorial/007_fallible_actions.html"><strong aria-hidden="true">5.7.</strong> Fallible actions</a></li><li class="chapter-item expanded "><a href="tutorial/008_error_recovery.html"><strong aria-hidden="true">5.8.</strong> Error recovery</a></li><li class="chapter-item expanded "><a href="tutorial/009_state_parameter.html"><strong aria-hidden="true">5.9.</strong> Passing state parameter</a></li></ol></li><li class="chapter-item expanded "><a href="lexer_tutorial/index.html"><strong aria-hidden="true">6.</strong> Controlling the lexer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lexer_tutorial/001_lexer_gen.html"><strong aria-hidden="true">6.1.</strong> LALRPOP's lexer generator</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/002_raw_delimited_content.html"><strong aria-hidden="true">6.2.</strong> Lexing raw delimited content</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/003_writing_custom_lexer.html"><strong aria-hidden="true">6.3.</strong> Writing a custom lexer</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/004_token_references.html"><strong aria-hidden="true">6.4.</strong> Using tokens with references</a></li><li class="chapter-item expanded "><a href="lexer_tutorial/005_external_lib.html"><strong aria-hidden="true">6.5.</strong> Using an external library</a></li></ol></li><li class="chapter-item expanded "><a href="advanced_setup.html"><strong aria-hidden="true">7.</strong> Advanced setup</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="generate_in_source.html"><strong aria-hidden="true">7.1.</strong> Generate in source tree</a></li><li class="chapter-item expanded "><a href="conditional-compilation.html"><strong aria-hidden="true">7.2.</strong> Conditional compilation</a></li><li class="chapter-item expanded "><a href="location_tracking.html" class="active"><strong aria-hidden="true">7.3.</strong> Location Tracking</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/contributors.html">Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -175,54 +175,44 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="customizing-the-build-process"><a class="header" href="#customizing-the-build-process">Customizing the Build Process</a></h1>
-<p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
-like this:</p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::process_root().unwrap();
-}</code></pre></pre>
-<p>This <code>process_root()</code> call simply applies the default configuration:
-so it will transform <code>.lalrpop</code> files into <code>.rs</code> files <em>in-place</em> (in
-your <code>src</code> directory), and it will only do so if the <code>.lalrpop</code> file
-has actually changed. But you can also use the
-<a href="https://docs.rs/lalrpop/*/lalrpop/struct.Configuration.html"><code>Configuration</code></a> struct to get more detailed control.</p>
-<p>For example, to <strong>force</strong> the use of colors in the output (ignoring
-the TTY settings), you might make your <code>build.rs</code> file look like so:</p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::Configuration::new()
-        .always_use_colors()
-        .process_current_dir();
-}</code></pre></pre>
-<h2 id="rerun-directives"><a class="header" href="#rerun-directives">Rerun Directives</a></h2>
-<p>Cargo will rerun the build script on each compilation even if the lalrpop file
-has not changed. To disable this behavior, use the <code>emit_rerun_directives</code>
-function when setting up your lalrpop <code>Configuration</code>.</p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::Configuration::new()
-        .emit_rerun_directives(true)
-        .process_current_dir();
-}</code></pre></pre>
-<p>By default, this is set to false in case other parts of the build script or
-compilation code expects <code>build.rs</code> to be run unconditionally.</p>
-<h2 id="using-the-legacy-lalr-parser"><a class="header" href="#using-the-legacy-lalr-parser">Using the Legacy LALR Parser</a></h2>
-<p>By default, LALRPOP uses the <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop/src/lr1/lane_table/README.md">lane table</a>
-algorithm which is LR(1) but creates much smaller tables. There is no longer
-any clear benefit to using the previous LALR implementation but it is still
-available.</p>
-<p>To enable it, build with the <code>LALRPOP_LANE_TABLE=disabled</code> environment
-variable by setting <code>std::env::set_var</code> in your <code>build.rs</code> and add the
-<code>#[LALR]</code> attribute above the <code>grammar;</code> declaration in your lalrpop grammar
-file.</p>
+                        <h1 id="location-tracking"><a class="header" href="#location-tracking">Location Tracking</a></h1>
+<p>Sometimes it may be helpful to know where in the input stream a particular
+token was encountered. For example, this can be useful when generating
+user-visible messages that reference specific points in the input.</p>
+<p>This is achieved via the location tracking macros, <code>@L</code> and <code>@R</code>.  <code>@L</code>
+binds the start position - in bytes - of the token immediately to its right
+in the input stream. Similarly, <code>@R</code> binds the index of the last byte <em>plus
+one</em> of the token immediately to its left.  Both symbols bind as type <code>usize</code></p>
+<p>Here's an example rule using location tracking macros:</p>
+<pre><code class="language-lalrpop">Symbol = {
+    &lt;start: @L&gt; &lt;s: r"a-z"&gt; &lt;end: @R&gt; =&gt; {
+        // `start` is the byte location of the start of our string
+        // `s` is the string itself
+        // `end` is the byte location of the end
+    }
+}
+</code></pre>
+<p>You can also see another example in <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/intern_tok.lalrpop">this test</a>,
+where location tracking is wrapped in a macro.</p>
+<p>Since <code>@R2</code> binds to the index of the byte immediately to the right of the
+token, this makes the bound values suitable to immediately construct a <a href="https://doc.rust-lang.org/std/ops/struct.Range.html">Range</a>
+which is bounded inclusively above and exclusively below:</p>
+<pre><code class="language-lalrpop">Symbol: Range&lt;usize&gt; = {
+    &lt;start: @L&gt; &lt;s: r"a-z"&gt; &lt;end: @R&gt; =&gt; {
+        start..end
+    }
+}
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="lexer_tutorial/005_external_lib.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="conditional-compilation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="generate_in_source.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="misc/contributors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -232,11 +222,11 @@ file.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="lexer_tutorial/005_external_lib.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="conditional-compilation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="generate_in_source.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="misc/contributors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
