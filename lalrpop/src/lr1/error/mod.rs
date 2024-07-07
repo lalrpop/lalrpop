@@ -365,7 +365,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .push(nonterminal)
             .punctuated(").")
             .text("For more information, see the section on inlining")
-            .text("in the LALROP manual.")
+            .text("in the LALRPOP manual.")
             .end()
             .end()
             .end()
