@@ -1,0 +1,11 @@
+[package]
+name = "lexer-modes"
+version = "0.1.0"
+edition = "2021"
+authors = ["Neal H. Walfield <neal@sequoia-pgp.org>"]
+
+[build-dependencies]
+lalrpop = { version = "0.20.2", path = "../../lalrpop" }
+
+[dependencies]
+lalrpop-util = { version = "0.20.2", path = "../../lalrpop-util" }
