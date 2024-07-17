@@ -23,7 +23,6 @@ use std::ffi::OsStr;
 use std::fs;
 use std::io::{self, BufRead, IsTerminal, Read, Write};
 use std::path::{Path, PathBuf};
-use std::process::exit;
 use std::rc::Rc;
 
 mod action;
@@ -277,6 +276,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 pt::Span(location, location),
                 &format!("invalid character `{}`", ch),
             );
+            return Err(io::Error::from(io::ErrorKind::InvalidData));
         }
 
         Err(ParseError::UnrecognizedEof { location, .. }) => {
@@ -285,6 +285,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 pt::Span(location, location),
                 "unexpected end of file",
             );
+            return Err(io::Error::from(io::ErrorKind::UnexpectedEof));
         }
 
         Err(ParseError::UnrecognizedToken {
@@ -298,6 +299,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 pt::Span(lo, hi),
                 &format!("unexpected token: `{}`", text),
             );
+            return Err(io::Error::from(io::ErrorKind::InvalidData));
         }
 
         Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
@@ -307,6 +309,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 pt::Span(lo, hi),
                 &format!("extra token at end of input: `{}`", text),
             );
+            return Err(io::Error::from(io::ErrorKind::InvalidData));
         }
 
         Err(ParseError::User { error }) => {
@@ -336,24 +339,26 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 file_text,
                 pt::Span(error.location, error.location + 1),
                 string,
-            )
+            );
+            return Err(io::Error::from(io::ErrorKind::InvalidData));
         }
     };
 
     match normalize::normalize(session, grammar) {
         Ok(grammar) => Ok(grammar),
-        Err(error) => report_error(file_text, error.span, &error.message),
+        Err(error) => {
+            report_error(file_text, error.span, &error.message);
+            Err(io::Error::from(io::ErrorKind::InvalidData))
+        }
     }
 }
 
-fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> ! {
+fn report_error(file_text: &FileText, span: pt::Span, message: &str) {
     println!("{} error: {}", file_text.span_str(span), message);
 
     let out = io::stderr();
     let mut out = out.lock();
     file_text.highlight(span, &mut out).unwrap();
-
-    exit(1);
 }
 
 fn report_message(message: Message) -> term::Result<()> {
@@ -426,7 +431,7 @@ fn emit_recursive_ascent(
 
     if grammar.start_nonterminals.is_empty() {
         println!("Error: no public symbols declared in grammar");
-        exit(1);
+        return Err(io::Error::from(io::ErrorKind::InvalidData));
     }
 
     // Find a better visibility for some generated items.
@@ -466,7 +471,7 @@ fn emit_recursive_ascent(
             Ok(states) => states,
             Err(error) => {
                 let _ = lr1::report_error(grammar, &error, report_message);
-                exit(1) // FIXME -- propagate up instead of calling `exit`
+                return Err(io::Error::from(io::ErrorKind::InvalidData));
             }
         };
 
