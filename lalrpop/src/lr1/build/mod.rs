@@ -165,7 +165,7 @@ impl<'grammar, L: LookaheadBuild> Lr<'grammar, L> {
                     .push((item.lookahead.clone(), item.production));
             }
 
-            // check for shift-reduce conflicts (reduce-reduce detected above)
+            // check for conflicts
             conflicts.extend(L::conflicts(&this_state));
 
             // extract a new state
