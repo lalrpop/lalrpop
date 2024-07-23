@@ -8,6 +8,7 @@
 // ε shows up in lalrpop/src/lr1/example/test.rs
 #![cfg_attr(test, allow(dead_code, mixed_script_confusables))]
 #![warn(rust_2018_idioms)]
+#![deny(clippy::exit)]
 
 // hoist the modules that define macros up earlier
 #[macro_use]
