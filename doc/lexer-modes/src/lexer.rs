@@ -86,27 +86,27 @@ impl<'a> Token<'a> {
     pub fn as_bytes(&self) -> &'a [u8] {
         use self::Token::*;
         match self {
-            COLON => &[b':'],
+            COLON => b":",
 
             // Whitespace.
-            SPACE => &[b' '],
-            HTAB => &[b'\t'],
+            SPACE => b" ",
+            HTAB => b"\t",
             VTAB => &[0x0b],
             CR => &[0x0d],
             LF => &[0x0a],
             FORMFEED => &[0x0c],
 
             // Digits.
-            N_0 => &[b'0'],
-            N_1 => &[b'1'],
-            N_2 => &[b'2'],
-            N_3 => &[b'3'],
-            N_4 => &[b'4'],
-            N_5 => &[b'5'],
-            N_6 => &[b'6'],
-            N_7 => &[b'7'],
-            N_8 => &[b'8'],
-            N_9 => &[b'9'],
+            N_0 => b"0",
+            N_1 => b"1",
+            N_2 => b"2",
+            N_3 => b"3",
+            N_4 => b"4",
+            N_5 => b"5",
+            N_6 => b"6",
+            N_7 => b"7",
+            N_8 => b"8",
+            N_9 => b"9",
 
             OTHER(bytes) => bytes,
 
