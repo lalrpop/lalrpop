@@ -86,6 +86,17 @@ impl FileText {
         }
     }
 
+    pub fn span_text(&self, span: pt::Span) -> &str {
+        let (start_line, start_col) = self.line_col(span.0);
+        let (end_line, end_col) = self.line_col(span.1);
+
+        if start_line == end_line {
+            &self.line_text(start_line)[start_col..end_col]
+        } else {
+            todo!()
+        }
+    }
+
     pub fn highlight(&self, span: pt::Span, out: &mut dyn Write) -> io::Result<()> {
         let (start_line, start_col) = self.line_col(span.0);
         let (end_line, end_col) = self.line_col(span.1);
