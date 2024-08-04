@@ -256,6 +256,7 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
 /// Process all files in ./src.  In many cargo projects which build only one crate, this is the
 /// normal location for source files.  If you are running lalrpop from a top level build.rs in a
 /// project that builds multiple crates, you may want `process_root()` instead.
+/// See `Configuration` if you would like more fine-grain control over lalrpop.
 pub fn process_src() -> Result<(), Box<dyn Error>> {
     Configuration::new().set_in_dir("./src").process()
 }
