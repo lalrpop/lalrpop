@@ -94,14 +94,29 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         &mut self,
         mut reporter: impl FnMut(Message) -> Result<(), E>,
     ) -> Result<(), E> {
-        for conflict in &token_conflicts(self.conflicts) {
-            reporter(self.report_error(conflict))?
+        for conflict_group in &token_conflicts(self.conflicts) {
+            let (naive_conflicts, better_conflicts): (Vec<_>, Vec<_>) = conflict_group
+                .iter()
+                .map(|c| (c, self.classify(c)))
+                .partition(|c| matches!(c.1, ConflictClassification::Naive));
+            let conflicts = if better_conflicts.is_empty() {
+                naive_conflicts
+            } else {
+                better_conflicts
+            };
+            for (conflict, conflict_class) in conflicts {
+                reporter(self.report_error(conflict, conflict_class))?
+            }
         }
         Ok(())
     }
 
-    fn report_error(&mut self, conflict: &TokenConflict<'grammar>) -> Message {
-        match self.classify(conflict) {
+    fn report_error(
+        &mut self,
+        conflict: &TokenConflict<'grammar>,
+        conflict_class: ConflictClassification,
+    ) -> Message {
+        match conflict_class {
             ConflictClassification::Ambiguity { action, reduce } => {
                 self.report_error_ambiguity(conflict, action, reduce)
             }
@@ -770,16 +785,20 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
 
 fn token_conflicts<'grammar>(
     conflicts: &[Conflict<'grammar, TokenSet>],
-) -> Vec<TokenConflict<'grammar>> {
+) -> Vec<Vec<TokenConflict<'grammar>>> {
     conflicts
         .iter()
-        .flat_map(|conflict| {
-            conflict.lookahead.iter().map(move |token| Conflict {
-                state: conflict.state,
-                lookahead: token,
-                production: conflict.production,
-                action: conflict.action.clone(),
-            })
+        .map(|conflict| {
+            conflict
+                .lookahead
+                .iter()
+                .map(move |token| Conflict {
+                    state: conflict.state,
+                    lookahead: token,
+                    production: conflict.production,
+                    action: conflict.action.clone(),
+                })
+                .collect()
         })
         .collect()
 }
