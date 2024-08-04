@@ -263,15 +263,22 @@ lalrpop = "0.20.2"
 <p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a>
 file that looks like:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::process_root().unwrap();
+    lalrpop::process_src().unwrap();
 }</code></pre></pre>
 <p>(If you already have a <code>build.rs</code> file, you should be able to just
-call <code>process_root</code> in addition to whatever else that file is doing.)</p>
-<p>In this case, <code>process_root</code> simply uses the default settings, which takes
+call <code>process_src</code> in addition to whatever else that file is doing.)</p>
+<p>In this case, <code>process_src</code> simply uses the default settings, which takes
 files in <code>src/</code> ending with the <code>.lalrpop</code> extension, and generates
 corresponding Rust source files with the same name in <code>OUT_DIR</code>. If you want to
 configure how LALRPOP executes, see the <a href="advanced_setup.html">advanced setup</a>
 section.</p>
+<p>Some projects, for example those which build multiple crates in the same
+workspace, will not have a top level source directory.  For example, your
+project may have a build.rs at the top level with <code>foo/src</code> and <code>bar/src</code>
+containing source files for crates <code>foo</code> and <code>bar</code>, respectively.  In this
+situation, you could either call <code>process_root()</code> from the top level build.rs,
+which searches <em>all</em> files in the current directory, not just in <code>./src</code>, or
+you could modify crate level build.rs files at your discretion.</p>
 <p>The <a href="https://docs.rs/lalrpop-util/latest/lalrpop_util/macro.lalrpop_mod.html"><code>lalrpop_mod!</code></a> macro generates a wrapper module in your
 crate so that you can use the generated parser from your code. For example,
 if the source grammar is located in <code>grammar.lalrpop</code>, adding the following line
@@ -2227,9 +2234,9 @@ println!("{:?}", ast);
 <p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
 like this:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::process_root().unwrap();
+    lalrpop::process_src().unwrap();
 }</code></pre></pre>
-<p>This <code>process_root()</code> call simply applies the default configuration:
+<p>This <code>process_src()</code> call simply applies the default configuration:
 so it will transform <code>.lalrpop</code> files into <code>.rs</code> files <em>in-place</em> (in
 your <code>src</code> directory), and it will only do so if the <code>.lalrpop</code> file
 has actually changed. But you can also use the
