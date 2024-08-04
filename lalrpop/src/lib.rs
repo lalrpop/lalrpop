@@ -40,5 +40,6 @@ mod test_util;
 pub use crate::api::process_root;
 #[allow(deprecated)]
 pub use crate::api::process_root_unconditionally;
+pub use crate::api::process_src;
 pub use crate::api::Configuration;
 use ascii_canvas::style;
