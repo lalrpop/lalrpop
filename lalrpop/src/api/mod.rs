@@ -257,9 +257,7 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
 /// normal location for source files.  If you are running lalrpop from a top level build.rs in a
 /// project that builds multiple crates, you may want `process_root()` instead.
 pub fn process_src() -> Result<(), Box<dyn Error>> {
-    Configuration::new()
-        .set_in_dir(Path::new("./src"))
-        .process()
+    Configuration::new().set_in_dir("./src").process()
 }
 
 /// Deprecated in favor of `Configuration`.
