@@ -81,12 +81,12 @@ Variant40(ActionKind),
 Variant41(Option<ActionKind>),
 Variant42(Option<Alternative>),
 Variant43(Vec<Alternative>),
-Variant44(Annotation),
-Variant45(alloc::vec::Vec<Annotation>),
-Variant46((Atom, String)),
-Variant47(Option<(Atom, String)>),
-Variant48(AssociatedType),
-Variant49(alloc::vec::Vec<AssociatedType>),
+Variant44(AssociatedType),
+Variant45(alloc::vec::Vec<AssociatedType>),
+Variant46(Attribute),
+Variant47(alloc::vec::Vec<Attribute>),
+Variant48((Atom, String)),
+Variant49(Option<(Atom, String)>),
 Variant50(Vec<Conversion>),
 Variant51(Vec<Parameter>),
 Variant52(Vec<WhereClause<TypeRef>>),
@@ -698,7 +698,7 @@ const ___ACTION: &[i16] = &[
 // State 280
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 281
-0,0,-127,0,0,0,0,-127,0,0,0,0,-127,0,0,-127,-127,-127,0,-127,0,-127,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-127,0,0,0,-127,-127,-127,-127,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,-132,0,0,0,0,-132,0,0,0,0,-132,0,0,-132,-132,-132,0,-132,0,-132,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-132,0,0,0,-132,-132,-132,-132,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 282
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 283
@@ -760,7 +760,7 @@ const ___ACTION: &[i16] = &[
 // State 311
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 312
-0,0,-128,0,0,0,0,-128,0,0,0,0,-128,0,0,-128,-128,-128,0,-128,0,-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-128,0,0,0,-128,-128,-128,-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,-133,0,0,0,0,-133,0,0,0,0,-133,0,0,-133,-133,-133,0,-133,0,-133,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-133,0,0,0,-133,-133,-133,-133,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 313
 0,0,-429,0,0,0,0,0,0,0,0,0,0,-429,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-429,-429,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 314
@@ -960,7 +960,7 @@ const ___ACTION: &[i16] = &[
 // State 411
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,470,0,0,0,0,0,0,0,0,0,0,
 // State 412
-0,0,-124,0,0,0,0,-124,0,0,0,0,-124,0,0,-124,-124,-124,0,-124,0,-124,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-124,0,0,0,-124,-124,-124,-124,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,-129,0,0,0,0,-129,0,0,0,0,-129,0,0,-129,-129,-129,0,-129,0,-129,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-129,0,0,0,-129,-129,-129,-129,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 413
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,160,0,0,0,0,0,0,0,0,
 // State 414
@@ -1074,7 +1074,7 @@ const ___ACTION: &[i16] = &[
 // State 468
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,212,0,0,0,0,0,0,0,0,
 // State 469
-0,0,-123,0,0,0,0,-123,0,0,0,0,-123,0,0,-123,-123,-123,0,-123,0,-123,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-123,0,0,0,-123,-123,-123,-123,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,-128,0,0,0,0,-128,0,0,0,0,-128,0,0,-128,-128,-128,0,-128,0,-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-128,0,0,0,-128,-128,-128,-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 470
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,504,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 471
@@ -1084,7 +1084,7 @@ const ___ACTION: &[i16] = &[
 // State 473
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,216,0,0,0,217,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 474
--135,0,0,0,0,0,0,0,0,-135,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-135,0,0,0,0,0,0,0,0,0,0,0,
+-126,0,0,0,0,0,0,0,0,-126,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-126,0,0,0,0,0,0,0,0,0,0,0,
 // State 475
 0,-201,0,-201,0,0,0,-201,0,0,0,0,0,-201,0,-201,-201,-201,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-201,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 476
@@ -1166,7 +1166,7 @@ const ___ACTION: &[i16] = &[
 // State 514
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-103,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-103,0,0,-103,0,0,0,0,0,0,0,0,
 // State 515
--136,0,0,0,0,0,0,0,0,-136,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-136,0,0,0,0,0,0,0,0,0,0,0,
+-127,0,0,0,0,0,0,0,0,-127,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-127,0,0,0,0,0,0,0,0,0,0,0,
 // State 516
 0,-202,0,-202,0,0,0,-202,0,0,0,0,0,-202,0,-202,-202,-202,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-202,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 517
@@ -1258,7 +1258,7 @@ const ___ACTION: &[i16] = &[
 // State 560
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-493,0,-493,0,-493,0,0,0,0,0,-493,0,0,-493,0,0,0,0,0,0,-493,0,0,-493,-493,-493,0,0,0,0,0,0,0,0,
 // State 561
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-129,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-134,0,0,0,0,0,0,0,0,0,0,
 // State 562
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-64,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-64,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 // State 563
@@ -1320,7 +1320,7 @@ const ___ACTION: &[i16] = &[
 // State 591
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-190,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-190,0,0,0,0,0,0,0,0,0,0,0,
 // State 592
--132,0,0,0,0,0,0,0,0,-132,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-132,0,0,0,0,0,0,0,0,0,0,0,
+-123,0,0,0,0,0,0,0,0,-123,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-123,0,0,0,0,0,0,0,0,0,0,0,
 // State 593
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-462,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-462,0,0,0,0,-462,0,0,0,0,0,0,0,0,
 // State 594
@@ -2594,10 +2594,19 @@ _ => 509,
 _ => 510,
 },
 67 => match state {
+166 | 223 | 254 => 515,
+_ => 474,
+},
+69 => match state {
+167 => 223,
+222 => 254,
+_ => 166,
+},
+70 => match state {
 6 | 21 | 24 | 48 | 63 | 218 => 312,
 _ => 281,
 },
-69 => match state {
+72 => match state {
 1 => 6,
 7 => 21,
 8 => 24,
@@ -2605,16 +2614,7 @@ _ => 281,
 165 | 216 | 221 | 248 | 253 | 268 => 218,
 _ => 63,
 },
-70 => 411,
-72 => match state {
-166 | 223 | 254 => 515,
-_ => 474,
-},
-74 => match state {
-167 => 223,
-222 => 254,
-_ => 166,
-},
+73 => 411,
 75 => 550,
 76 => 574,
 77 => 353,
@@ -3074,13 +3074,13 @@ None
 }).collect()
 }
 struct ___StateMachine<'input>
-where 
+where
 {
 text: &'input str,
 ___phantom: core::marker::PhantomData<(&'input ())>,
 }
 impl<'input> ___state_machine::ParserDefinition for ___StateMachine<'input>
-where 
+where
 {
 type Location = usize;
 type Error = tok::Error;
@@ -4009,67 +4009,67 @@ nonterminal_produced: 67,
 }
 123 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 4,
-nonterminal_produced: 67,
+states_to_pop: 0,
+nonterminal_produced: 68,
 }
 }
 124 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
+states_to_pop: 1,
 nonterminal_produced: 68,
 }
 }
 125 => {
 ___state_machine::SimulatedReduce::Reduce {
 states_to_pop: 1,
-nonterminal_produced: 68,
-}
-}
-126 => {
-___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
 nonterminal_produced: 69,
 }
 }
-127 => {
+126 => {
 ___state_machine::SimulatedReduce::Reduce {
 states_to_pop: 2,
 nonterminal_produced: 69,
 }
 }
-128 => {
+127 => {
 ___state_machine::SimulatedReduce::Reduce {
 states_to_pop: 5,
 nonterminal_produced: 70,
 }
 }
+128 => {
+___state_machine::SimulatedReduce::Reduce {
+states_to_pop: 4,
+nonterminal_produced: 70,
+}
+}
 129 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
+states_to_pop: 0,
 nonterminal_produced: 71,
 }
 }
 130 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
+states_to_pop: 1,
 nonterminal_produced: 71,
 }
 }
 131 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 5,
+states_to_pop: 1,
 nonterminal_produced: 72,
 }
 }
 132 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 0,
-nonterminal_produced: 73,
+states_to_pop: 2,
+nonterminal_produced: 72,
 }
 }
 133 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 1,
+states_to_pop: 5,
 nonterminal_produced: 73,
 }
 }
@@ -4081,7 +4081,7 @@ nonterminal_produced: 74,
 }
 135 => {
 ___state_machine::SimulatedReduce::Reduce {
-states_to_pop: 2,
+states_to_pop: 0,
 nonterminal_produced: 74,
 }
 }
@@ -8014,14 +8014,14 @@ Some((___l, ___Symbol::Variant9(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
-fn ___pop_Variant46<
+fn ___pop_Variant48<
   'input,
 >(
 ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, (Atom, String), usize)
  {
 match ___symbols.pop() {
-Some((___l, ___Symbol::Variant46(___v), ___r)) => (___l, ___v, ___r),
+Some((___l, ___Symbol::Variant48(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -8062,21 +8062,10 @@ fn ___pop_Variant44<
   'input,
 >(
 ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, Annotation, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant44(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant48<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, AssociatedType, usize)
  {
 match ___symbols.pop() {
-Some((___l, ___Symbol::Variant48(___v), ___r)) => (___l, ___v, ___r),
+Some((___l, ___Symbol::Variant44(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -8088,6 +8077,17 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant20(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant46<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Attribute, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant46(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -8245,14 +8245,14 @@ Some((___l, ___Symbol::Variant26(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
-fn ___pop_Variant47<
+fn ___pop_Variant49<
   'input,
 >(
 ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, Option<(Atom, String)>, usize)
  {
 match ___symbols.pop() {
-Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
+Some((___l, ___Symbol::Variant49(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -8843,21 +8843,10 @@ fn ___pop_Variant45<
   'input,
 >(
 ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, alloc::vec::Vec<Annotation>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant45(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
-fn ___pop_Variant49<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
 ) -> (usize, alloc::vec::Vec<AssociatedType>, usize)
  {
 match ___symbols.pop() {
-Some((___l, ___Symbol::Variant49(___v), ___r)) => (___l, ___v, ___r),
+Some((___l, ___Symbol::Variant45(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -8869,6 +8858,17 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant21(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant47<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, alloc::vec::Vec<Attribute>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant47(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -10990,7 +10990,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Symbol+, "if", Cond, Action => ActionFn(456);
+// Alternative = Symbol+, "if", Cond, Action => ActionFn(462);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant40(___symbols);
 let ___sym2 = ___pop_Variant7(___symbols);
@@ -10998,7 +10998,7 @@ let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
-let ___nt = super::___action456::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
+let ___nt = super::___action462::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (4, 64)
 }
@@ -11011,16 +11011,16 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Annotation+, Symbol+, "if", Cond, Action => ActionFn(457);
+// Alternative = Attribute+, Symbol+, "if", Cond, Action => ActionFn(463);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant40(___symbols);
 let ___sym3 = ___pop_Variant7(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant31(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
-let ___nt = super::___action457::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+let ___nt = super::___action463::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (5, 64)
 }
@@ -11033,14 +11033,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Symbol+, "if", Cond => ActionFn(458);
+// Alternative = Symbol+, "if", Cond => ActionFn(464);
 assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym2.2;
-let ___nt = super::___action458::<>(text, ___sym0, ___sym1, ___sym2);
+let ___nt = super::___action464::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (3, 64)
 }
@@ -11053,15 +11053,15 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Annotation+, Symbol+, "if", Cond => ActionFn(459);
+// Alternative = Attribute+, Symbol+, "if", Cond => ActionFn(465);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant7(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant31(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
-let ___nt = super::___action459::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
+let ___nt = super::___action465::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (4, 64)
 }
@@ -11074,13 +11074,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Symbol+, Action => ActionFn(460);
+// Alternative = Symbol+, Action => ActionFn(466);
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant40(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym1.2;
-let ___nt = super::___action460::<>(text, ___sym0, ___sym1);
+let ___nt = super::___action466::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (2, 64)
 }
@@ -11093,14 +11093,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Annotation+, Symbol+, Action => ActionFn(461);
+// Alternative = Attribute+, Symbol+, Action => ActionFn(467);
 assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant40(___symbols);
 let ___sym1 = ___pop_Variant31(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym2.2;
-let ___nt = super::___action461::<>(text, ___sym0, ___sym1, ___sym2);
+let ___nt = super::___action467::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (3, 64)
 }
@@ -11113,11 +11113,11 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Symbol+ => ActionFn(462);
+// Alternative = Symbol+ => ActionFn(468);
 let ___sym0 = ___pop_Variant31(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym0.2;
-let ___nt = super::___action462::<>(text, ___sym0);
+let ___nt = super::___action468::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (1, 64)
 }
@@ -11130,13 +11130,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Alternative = Annotation+, Symbol+ => ActionFn(463);
+// Alternative = Attribute+, Symbol+ => ActionFn(469);
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant31(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym1.2;
-let ___nt = super::___action463::<>(text, ___sym0, ___sym1);
+let ___nt = super::___action469::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (2, 64)
 }
@@ -11279,16 +11279,16 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Annotation = "#", "[", Id, AnnotationArg, "]" => ActionFn(470);
+// AssociatedType = "type", Id, "=", TypeRef, ";" => ActionFn(427);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
-let ___sym3 = ___pop_Variant46(___symbols);
-let ___sym2 = ___pop_Variant20(___symbols);
-let ___sym1 = ___pop_Variant0(___symbols);
+let ___sym3 = ___pop_Variant3(___symbols);
+let ___sym2 = ___pop_Variant0(___symbols);
+let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
-let ___nt = super::___action470::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+let ___nt = super::___action427::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant44(___nt), ___end));
 (5, 67)
 }
@@ -11301,17 +11301,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Annotation = "#", "[", Id, "]" => ActionFn(471);
-assert!(___symbols.len() >= 4);
-let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant20(___symbols);
-let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
-let ___nt = super::___action471::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
-___symbols.push((___start, ___Symbol::Variant44(___nt), ___end));
-(4, 67)
+// AssociatedType* =  => ActionFn(132);
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
+let ___end = ___start;
+let ___nt = super::___action132::<>(text, &___start, &___end);
+___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
+(0, 68)
 }
 fn ___reduce124<
     'input,
@@ -11322,12 +11317,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Annotation* =  => ActionFn(187);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
-let ___nt = super::___action187::<>(text, &___start, &___end);
+// AssociatedType* = AssociatedType+ => ActionFn(133);
+let ___sym0 = ___pop_Variant45(___symbols);
+let ___start = ___sym0.0;
+let ___end = ___sym0.2;
+let ___nt = super::___action133::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
-(0, 68)
+(1, 68)
 }
 fn ___reduce125<
     'input,
@@ -11338,13 +11334,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Annotation* = Annotation+ => ActionFn(188);
-let ___sym0 = ___pop_Variant45(___symbols);
+// AssociatedType+ = AssociatedType => ActionFn(256);
+let ___sym0 = ___pop_Variant44(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym0.2;
-let ___nt = super::___action188::<>(text, ___sym0);
+let ___nt = super::___action256::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
-(1, 68)
+(1, 69)
 }
 fn ___reduce126<
     'input,
@@ -11355,13 +11351,15 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Annotation+ = Annotation => ActionFn(197);
-let ___sym0 = ___pop_Variant44(___symbols);
+// AssociatedType+ = AssociatedType+, AssociatedType => ActionFn(257);
+assert!(___symbols.len() >= 2);
+let ___sym1 = ___pop_Variant44(___symbols);
+let ___sym0 = ___pop_Variant45(___symbols);
 let ___start = ___sym0.0;
-let ___end = ___sym0.2;
-let ___nt = super::___action197::<>(text, ___sym0);
+let ___end = ___sym1.2;
+let ___nt = super::___action257::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
-(1, 69)
+(2, 69)
 }
 fn ___reduce127<
     'input,
@@ -11372,15 +11370,18 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Annotation+ = Annotation+, Annotation => ActionFn(198);
-assert!(___symbols.len() >= 2);
-let ___sym1 = ___pop_Variant44(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+// Attribute = "#", "[", Id, AttributeArg, "]" => ActionFn(476);
+assert!(___symbols.len() >= 5);
+let ___sym4 = ___pop_Variant0(___symbols);
+let ___sym3 = ___pop_Variant48(___symbols);
+let ___sym2 = ___pop_Variant20(___symbols);
+let ___sym1 = ___pop_Variant0(___symbols);
+let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
-let ___end = ___sym1.2;
-let ___nt = super::___action198::<>(text, ___sym0, ___sym1);
-___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
-(2, 69)
+let ___end = ___sym4.2;
+let ___nt = super::___action476::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+___symbols.push((___start, ___Symbol::Variant46(___nt), ___end));
+(5, 70)
 }
 fn ___reduce128<
     'input,
@@ -11391,18 +11392,17 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AnnotationArg = "(", Id, "=", "StringLiteral", ")" => ActionFn(34);
-assert!(___symbols.len() >= 5);
-let ___sym4 = ___pop_Variant0(___symbols);
-let ___sym3 = ___pop_Variant1(___symbols);
-let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant20(___symbols);
+// Attribute = "#", "[", Id, "]" => ActionFn(477);
+assert!(___symbols.len() >= 4);
+let ___sym3 = ___pop_Variant0(___symbols);
+let ___sym2 = ___pop_Variant20(___symbols);
+let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
-let ___end = ___sym4.2;
-let ___nt = super::___action34::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+let ___end = ___sym3.2;
+let ___nt = super::___action477::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant46(___nt), ___end));
-(5, 70)
+(4, 70)
 }
 fn ___reduce129<
     'input,
@@ -11413,13 +11413,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AnnotationArg? = AnnotationArg => ActionFn(158);
-let ___sym0 = ___pop_Variant46(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
-let ___nt = super::___action158::<>(text, ___sym0);
+// Attribute* =  => ActionFn(187);
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
+let ___end = ___start;
+let ___nt = super::___action187::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
-(1, 71)
+(0, 71)
 }
 fn ___reduce130<
     'input,
@@ -11430,12 +11429,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AnnotationArg? =  => ActionFn(159);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
-let ___nt = super::___action159::<>(text, &___start, &___end);
+// Attribute* = Attribute+ => ActionFn(188);
+let ___sym0 = ___pop_Variant47(___symbols);
+let ___start = ___sym0.0;
+let ___end = ___sym0.2;
+let ___nt = super::___action188::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
-(0, 71)
+(1, 71)
 }
 fn ___reduce131<
     'input,
@@ -11446,18 +11446,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AssociatedType = "type", Id, "=", TypeRef, ";" => ActionFn(428);
-assert!(___symbols.len() >= 5);
-let ___sym4 = ___pop_Variant0(___symbols);
-let ___sym3 = ___pop_Variant3(___symbols);
-let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant20(___symbols);
-let ___sym0 = ___pop_Variant0(___symbols);
+// Attribute+ = Attribute => ActionFn(197);
+let ___sym0 = ___pop_Variant46(___symbols);
 let ___start = ___sym0.0;
-let ___end = ___sym4.2;
-let ___nt = super::___action428::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
-___symbols.push((___start, ___Symbol::Variant48(___nt), ___end));
-(5, 72)
+let ___end = ___sym0.2;
+let ___nt = super::___action197::<>(text, ___sym0);
+___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
+(1, 72)
 }
 fn ___reduce132<
     'input,
@@ -11468,12 +11463,15 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AssociatedType* =  => ActionFn(132);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
-let ___nt = super::___action132::<>(text, &___start, &___end);
-___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
-(0, 73)
+// Attribute+ = Attribute+, Attribute => ActionFn(198);
+assert!(___symbols.len() >= 2);
+let ___sym1 = ___pop_Variant46(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
+let ___start = ___sym0.0;
+let ___end = ___sym1.2;
+let ___nt = super::___action198::<>(text, ___sym0, ___sym1);
+___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
+(2, 72)
 }
 fn ___reduce133<
     'input,
@@ -11484,13 +11482,18 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AssociatedType* = AssociatedType+ => ActionFn(133);
-let ___sym0 = ___pop_Variant49(___symbols);
+// AttributeArg = "(", Id, "=", "StringLiteral", ")" => ActionFn(34);
+assert!(___symbols.len() >= 5);
+let ___sym4 = ___pop_Variant0(___symbols);
+let ___sym3 = ___pop_Variant1(___symbols);
+let ___sym2 = ___pop_Variant0(___symbols);
+let ___sym1 = ___pop_Variant20(___symbols);
+let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
-let ___end = ___sym0.2;
-let ___nt = super::___action133::<>(text, ___sym0);
-___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
-(1, 73)
+let ___end = ___sym4.2;
+let ___nt = super::___action34::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+___symbols.push((___start, ___Symbol::Variant48(___nt), ___end));
+(5, 73)
 }
 fn ___reduce134<
     'input,
@@ -11501,11 +11504,11 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AssociatedType+ = AssociatedType => ActionFn(256);
+// AttributeArg? = AttributeArg => ActionFn(158);
 let ___sym0 = ___pop_Variant48(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym0.2;
-let ___nt = super::___action256::<>(text, ___sym0);
+let ___nt = super::___action158::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
 (1, 74)
 }
@@ -11518,15 +11521,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// AssociatedType+ = AssociatedType+, AssociatedType => ActionFn(257);
-assert!(___symbols.len() >= 2);
-let ___sym1 = ___pop_Variant48(___symbols);
-let ___sym0 = ___pop_Variant49(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
-let ___nt = super::___action257::<>(text, ___sym0, ___sym1);
+// AttributeArg? =  => ActionFn(159);
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
+let ___end = ___start;
+let ___nt = super::___action159::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
-(2, 74)
+(0, 74)
 }
 fn ___reduce136<
     'input,
@@ -12558,7 +12558,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// ExternToken = "extern", "{", EnumToken, "}" => ActionFn(472);
+// ExternToken = "extern", "{", EnumToken, "}" => ActionFn(456);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant61(___symbols);
@@ -12566,7 +12566,7 @@ let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
-let ___nt = super::___action472::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
+let ___nt = super::___action456::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (4, 94)
 }
@@ -12579,16 +12579,16 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// ExternToken = "extern", "{", EnumToken, AssociatedType+, "}" => ActionFn(473);
+// ExternToken = "extern", "{", EnumToken, AssociatedType+, "}" => ActionFn(457);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
-let ___sym3 = ___pop_Variant49(___symbols);
+let ___sym3 = ___pop_Variant45(___symbols);
 let ___sym2 = ___pop_Variant61(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
-let ___nt = super::___action473::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+let ___nt = super::___action457::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (5, 94)
 }
@@ -12601,16 +12601,16 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// ExternToken = "extern", "{", AssociatedType+, EnumToken, "}" => ActionFn(474);
+// ExternToken = "extern", "{", AssociatedType+, EnumToken, "}" => ActionFn(458);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant61(___symbols);
-let ___sym2 = ___pop_Variant49(___symbols);
+let ___sym2 = ___pop_Variant45(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
-let ___nt = super::___action474::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+let ___nt = super::___action458::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (5, 94)
 }
@@ -12623,17 +12623,17 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// ExternToken = "extern", "{", AssociatedType+, EnumToken, AssociatedType+, "}" => ActionFn(475);
+// ExternToken = "extern", "{", AssociatedType+, EnumToken, AssociatedType+, "}" => ActionFn(459);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
-let ___sym4 = ___pop_Variant49(___symbols);
+let ___sym4 = ___pop_Variant45(___symbols);
 let ___sym3 = ___pop_Variant61(___symbols);
-let ___sym2 = ___pop_Variant49(___symbols);
+let ___sym2 = ___pop_Variant45(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
-let ___nt = super::___action475::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
+let ___nt = super::___action459::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (6, 94)
 }
@@ -12646,14 +12646,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// ExternToken = "extern", "{", "}" => ActionFn(476);
+// ExternToken = "extern", "{", "}" => ActionFn(460);
 assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym2.2;
-let ___nt = super::___action476::<>(text, ___sym0, ___sym1, ___sym2);
+let ___nt = super::___action460::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (3, 94)
 }
@@ -12666,15 +12666,15 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// ExternToken = "extern", "{", AssociatedType+, "}" => ActionFn(477);
+// ExternToken = "extern", "{", AssociatedType+, "}" => ActionFn(461);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant49(___symbols);
+let ___sym2 = ___pop_Variant45(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
-let ___nt = super::___action477::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
+let ___nt = super::___action461::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (4, 94)
 }
@@ -14185,14 +14185,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(742);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(742);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
 let ___nt = super::___action742::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
@@ -14208,14 +14208,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(743);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(743);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -14232,14 +14232,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(744);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(744);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -14256,14 +14256,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(745);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";" => ActionFn(745);
 assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant0(___symbols);
 let ___sym6 = ___pop_Variant52(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14281,13 +14281,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(746);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(746);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
 let ___nt = super::___action746::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
@@ -14303,13 +14303,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(747);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(747);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -14326,13 +14326,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(748);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(748);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -14349,13 +14349,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(749);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";" => ActionFn(749);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14373,13 +14373,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(750);
+// Grammar = Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(750);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
 let ___nt = super::___action750::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
@@ -14395,13 +14395,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(751);
+// Grammar = Use+, Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(751);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -14418,13 +14418,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(752);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(752);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -14441,13 +14441,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(753);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";" => ActionFn(753);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14465,12 +14465,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarParameters, ";" => ActionFn(754);
+// Grammar = Attribute+, "grammar", GrammarParameters, ";" => ActionFn(754);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
 let ___nt = super::___action754::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
@@ -14486,12 +14486,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(755);
+// Grammar = Use+, Attribute+, "grammar", GrammarParameters, ";" => ActionFn(755);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -14508,12 +14508,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(756);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarParameters, ";" => ActionFn(756);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -14530,12 +14530,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";" => ActionFn(757);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarParameters, ";" => ActionFn(757);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14553,13 +14553,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(758);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(758);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
 let ___nt = super::___action758::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
@@ -14575,13 +14575,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(759);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(759);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -14598,13 +14598,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(760);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(760);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -14621,13 +14621,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(761);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";" => ActionFn(761);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14645,12 +14645,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(762);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(762);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
 let ___nt = super::___action762::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
@@ -14666,12 +14666,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(763);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(763);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -14688,12 +14688,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(764);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(764);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -14710,12 +14710,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";" => ActionFn(765);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, ";" => ActionFn(765);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14733,12 +14733,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(766);
+// Grammar = Attribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(766);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
 let ___nt = super::___action766::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
@@ -14754,12 +14754,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(767);
+// Grammar = Use+, Attribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(767);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -14776,12 +14776,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(768);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(768);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -14798,12 +14798,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";" => ActionFn(769);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarWhereClauses, ";" => ActionFn(769);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14821,11 +14821,11 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", ";" => ActionFn(770);
+// Grammar = Attribute+, "grammar", ";" => ActionFn(770);
 assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym2.2;
 let ___nt = super::___action770::<>(text, ___sym0, ___sym1, ___sym2);
@@ -14841,11 +14841,11 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", ";" => ActionFn(771);
+// Grammar = Use+, Attribute+, "grammar", ";" => ActionFn(771);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
@@ -14862,11 +14862,11 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", ";" => ActionFn(772);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", ";" => ActionFn(772);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
@@ -14883,11 +14883,11 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";" => ActionFn(773);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", ";" => ActionFn(773);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -14905,7 +14905,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(774);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(774);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -14913,7 +14913,7 @@ let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
 let ___nt = super::___action774::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
@@ -14929,7 +14929,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(775);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(775);
 assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -14937,7 +14937,7 @@ let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym7.2;
@@ -14954,7 +14954,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(776);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(776);
 assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
@@ -14962,7 +14962,7 @@ let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym7.2;
@@ -14979,7 +14979,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(777);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(777);
 assert!(___symbols.len() >= 9);
 let ___sym8 = ___pop_Variant66(___symbols);
 let ___sym7 = ___pop_Variant0(___symbols);
@@ -14987,7 +14987,7 @@ let ___sym6 = ___pop_Variant52(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15005,14 +15005,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(778);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(778);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
 let ___nt = super::___action778::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
@@ -15028,14 +15028,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(779);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(779);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -15052,14 +15052,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(780);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(780);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -15076,14 +15076,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(781);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarParameters, ";", GrammarItem+ => ActionFn(781);
 assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant51(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15101,14 +15101,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(782);
+// Grammar = Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(782);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
 let ___nt = super::___action782::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
@@ -15124,14 +15124,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(783);
+// Grammar = Use+, Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(783);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -15148,14 +15148,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(784);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(784);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -15172,14 +15172,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(785);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(785);
 assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15197,13 +15197,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(786);
+// Grammar = Attribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(786);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant51(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
 let ___nt = super::___action786::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
@@ -15219,13 +15219,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(787);
+// Grammar = Use+, Attribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(787);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -15242,13 +15242,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(788);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(788);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant51(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -15265,13 +15265,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(789);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarParameters, ";", GrammarItem+ => ActionFn(789);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant51(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15289,14 +15289,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(790);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(790);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
 let ___nt = super::___action790::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
@@ -15312,14 +15312,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(791);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(791);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -15336,14 +15336,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(792);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(792);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
@@ -15360,14 +15360,14 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(793);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, GrammarWhereClauses, ";", GrammarItem+ => ActionFn(793);
 assert!(___symbols.len() >= 8);
 let ___sym7 = ___pop_Variant66(___symbols);
 let ___sym6 = ___pop_Variant0(___symbols);
 let ___sym5 = ___pop_Variant52(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15385,13 +15385,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(794);
+// Grammar = Attribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(794);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
 let ___nt = super::___action794::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
@@ -15407,13 +15407,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(795);
+// Grammar = Use+, Attribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(795);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -15430,13 +15430,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(796);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(796);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant57(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -15453,13 +15453,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(797);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarTypeParameters, ";", GrammarItem+ => ActionFn(797);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant57(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15477,13 +15477,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(798);
+// Grammar = Attribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(798);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant52(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
 let ___nt = super::___action798::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
@@ -15499,13 +15499,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(799);
+// Grammar = Use+, Attribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(799);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -15522,13 +15522,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(800);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(800);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
@@ -15545,13 +15545,13 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(801);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", GrammarWhereClauses, ";", GrammarItem+ => ActionFn(801);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant66(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
 let ___sym4 = ___pop_Variant52(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -15569,12 +15569,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Annotation+, "grammar", ";", GrammarItem+ => ActionFn(802);
+// Grammar = Attribute+, "grammar", ";", GrammarItem+ => ActionFn(802);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant66(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
 let ___nt = super::___action802::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
@@ -15590,12 +15590,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(803);
+// Grammar = Use+, Attribute+, "grammar", ";", GrammarItem+ => ActionFn(803);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant66(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -15612,12 +15612,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(804);
+// Grammar = ShebangAttribute+, Attribute+, "grammar", ";", GrammarItem+ => ActionFn(804);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant66(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
-let ___sym1 = ___pop_Variant45(___symbols);
+let ___sym1 = ___pop_Variant47(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
@@ -15634,12 +15634,12 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Grammar = ShebangAttribute+, Use+, Annotation+, "grammar", ";", GrammarItem+ => ActionFn(805);
+// Grammar = ShebangAttribute+, Use+, Attribute+, "grammar", ";", GrammarItem+ => ActionFn(805);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant66(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
-let ___sym2 = ___pop_Variant45(___symbols);
+let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant66(___symbols);
 let ___sym0 = ___pop_Variant88(___symbols);
 let ___start = ___sym0.0;
@@ -16400,7 +16400,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Nonterminal = Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(466);
+// Nonterminal = Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(472);
 assert!(___symbols.len() >= 6);
 let ___sym5 = ___pop_Variant43(___symbols);
 let ___sym4 = ___pop_Variant0(___symbols);
@@ -16410,7 +16410,7 @@ let ___sym1 = ___pop_Variant78(___symbols);
 let ___sym0 = ___pop_Variant95(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym5.2;
-let ___nt = super::___action466::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
+let ___nt = super::___action472::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (6, 123)
 }
@@ -16423,7 +16423,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Nonterminal = Annotation+, Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(467);
+// Nonterminal = Attribute+, Visibility, NonterminalName, ":", TypeRef, "=", Alternatives => ActionFn(473);
 assert!(___symbols.len() >= 7);
 let ___sym6 = ___pop_Variant43(___symbols);
 let ___sym5 = ___pop_Variant0(___symbols);
@@ -16431,10 +16431,10 @@ let ___sym4 = ___pop_Variant3(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant78(___symbols);
 let ___sym1 = ___pop_Variant95(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym6.2;
-let ___nt = super::___action467::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
+let ___nt = super::___action473::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (7, 123)
 }
@@ -16447,7 +16447,7 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Nonterminal = Visibility, NonterminalName, "=", Alternatives => ActionFn(468);
+// Nonterminal = Visibility, NonterminalName, "=", Alternatives => ActionFn(474);
 assert!(___symbols.len() >= 4);
 let ___sym3 = ___pop_Variant43(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
@@ -16455,7 +16455,7 @@ let ___sym1 = ___pop_Variant78(___symbols);
 let ___sym0 = ___pop_Variant95(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym3.2;
-let ___nt = super::___action468::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
+let ___nt = super::___action474::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (4, 123)
 }
@@ -16468,16 +16468,16 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
-// Nonterminal = Annotation+, Visibility, NonterminalName, "=", Alternatives => ActionFn(469);
+// Nonterminal = Attribute+, Visibility, NonterminalName, "=", Alternatives => ActionFn(475);
 assert!(___symbols.len() >= 5);
 let ___sym4 = ___pop_Variant43(___symbols);
 let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant78(___symbols);
 let ___sym1 = ___pop_Variant95(___symbols);
-let ___sym0 = ___pop_Variant45(___symbols);
+let ___sym0 = ___pop_Variant47(___symbols);
 let ___start = ___sym0.0;
 let ___end = ___sym4.2;
-let ___nt = super::___action469::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
+let ___nt = super::___action475::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (5, 123)
 }
@@ -18910,7 +18910,7 @@ fn ___action6<
 text: &'input str,
 (_, module_attributes, _): (usize, alloc::vec::Vec<String>, usize),
 (_, uses, _): (usize, alloc::vec::Vec<GrammarItem>, usize),
-(_, annotations, _): (usize, alloc::vec::Vec<Annotation>, usize),
+(_, attributes, _): (usize, alloc::vec::Vec<Attribute>, usize),
 (_, lo, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
 (_, hi, _): (usize, usize, usize),
@@ -18928,7 +18928,7 @@ text: &'input str,
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses.unwrap_or(vec![]),
                   items: uses.into_iter().chain(items).collect(),
-                  annotations,
+                  attributes,
                   module_attributes }
     }
 }
@@ -19283,7 +19283,7 @@ fn ___action33<
     'input,
 >(
 text: &'input str,
-(_, annotations, _): (usize, alloc::vec::Vec<Annotation>, usize),
+(_, attributes, _): (usize, alloc::vec::Vec<Attribute>, usize),
 (_, v, _): (usize, Visibility, usize),
 (_, lo, _): (usize, usize, usize),
 (_, n, _): (usize, (NonterminalString, Vec<NonterminalString>), usize),
@@ -19297,7 +19297,7 @@ text: &'input str,
         GrammarItem::Nonterminal(NonterminalData { visibility: v,
                                                    span: Span(lo, hi),
                                                    name: n.0,
-                                                   annotations,
+                                                   attributes,
                                                    args: n.1,
                                                    type_decl: t,
                                                    alternatives: a })
@@ -19333,10 +19333,10 @@ text: &'input str,
 (_, arg, _): (usize, Option<(Atom, String)>, usize),
 (_, hi, _): (usize, usize, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-) -> Annotation
+) -> Attribute
 {
 {
-        Annotation { id_span: Span(lo, hi), id, arg }
+        Attribute { id_span: Span(lo, hi), id, arg }
     }
 }
 
@@ -19413,7 +19413,7 @@ fn ___action41<
     'input,
 >(
 text: &'input str,
-(_, ann, _): (usize, alloc::vec::Vec<Annotation>, usize),
+(_, attr, _): (usize, alloc::vec::Vec<Attribute>, usize),
 (_, lo, _): (usize, usize, usize),
 (_, s, _): (usize, alloc::vec::Vec<Symbol>, usize),
 (_, c, _): (usize, Option<Condition>, usize),
@@ -19427,7 +19427,7 @@ text: &'input str,
             expr: ExprSymbol { symbols: s },
             condition: c,
             action: a,
-            annotations: ann,
+            attributes: attr,
         }
     }
 }
@@ -19450,7 +19450,7 @@ text: &'input str,
             expr: ExprSymbol { symbols: vec![] },
             condition: c,
             action: Some(a),
-            annotations: vec![],
+            attributes: vec![],
         }
     }
 }
@@ -21414,7 +21414,7 @@ fn ___action187<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> alloc::vec::Vec<Annotation>
+) -> alloc::vec::Vec<Attribute>
 {
 alloc::vec![]
 }
@@ -21425,8 +21425,8 @@ fn ___action188<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, alloc::vec::Vec<Annotation>, usize),
-) -> alloc::vec::Vec<Annotation>
+(_, v, _): (usize, alloc::vec::Vec<Attribute>, usize),
+) -> alloc::vec::Vec<Attribute>
 {
 v
 }
@@ -21537,8 +21537,8 @@ fn ___action197<
     'input,
 >(
 text: &'input str,
-(_, ___0, _): (usize, Annotation, usize),
-) -> alloc::vec::Vec<Annotation>
+(_, ___0, _): (usize, Attribute, usize),
+) -> alloc::vec::Vec<Attribute>
 {
 alloc::vec![___0]
 }
@@ -21549,9 +21549,9 @@ fn ___action198<
     'input,
 >(
 text: &'input str,
-(_, v, _): (usize, alloc::vec::Vec<Annotation>, usize),
-(_, e, _): (usize, Annotation, usize),
-) -> alloc::vec::Vec<Annotation>
+(_, v, _): (usize, alloc::vec::Vec<Attribute>, usize),
+(_, e, _): (usize, Attribute, usize),
+) -> alloc::vec::Vec<Attribute>
 {
 { let mut v = v; v.push(e); v }
 }
@@ -23308,7 +23308,7 @@ fn ___action317<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, usize, usize),
 ___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
@@ -23347,7 +23347,7 @@ fn ___action318<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, usize, usize),
 ___3: (usize, (NonterminalString, Vec<NonterminalString>), usize),
@@ -23494,7 +23494,7 @@ fn ___action323<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, usize, usize),
 ___2: (usize, alloc::vec::Vec<Symbol>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -23529,7 +23529,7 @@ fn ___action324<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, usize, usize),
 ___2: (usize, alloc::vec::Vec<Symbol>, usize),
 ___3: (usize, Option<ActionKind>, usize),
@@ -25432,7 +25432,7 @@ fn ___action397<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
@@ -25467,7 +25467,7 @@ fn ___action398<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Option<ActionKind>, usize),
 ___3: (usize, usize, usize),
@@ -25557,41 +25557,6 @@ fn ___action401<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, Tok<'input>, usize),
-___2: (usize, Atom, usize),
-___3: (usize, Option<(Atom, String)>, usize),
-___4: (usize, usize, usize),
-___5: (usize, Tok<'input>, usize),
-) -> Annotation
-{
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
-let ___temp0 = ___action186(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action35(
-text,
-___0,
-___1,
-___temp0,
-___2,
-___3,
-___4,
-___5,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action402<
-    'input,
->(
-text: &'input str,
-___0: (usize, Tok<'input>, usize),
 ___1: (usize, Atom, usize),
 ___2: (usize, usize, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -25612,6 +25577,41 @@ text,
 ___0,
 ___temp0,
 ___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action402<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, Option<(Atom, String)>, usize),
+___4: (usize, usize, usize),
+___5: (usize, Tok<'input>, usize),
+) -> Attribute
+{
+let ___start0 = ___1.2;
+let ___end0 = ___2.0;
+let ___temp0 = ___action186(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action35(
+text,
+___0,
+___1,
+___temp0,
 ___2,
 ___3,
 ___4,
@@ -25833,7 +25833,7 @@ fn ___action409<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, usize, usize),
 ___5: (usize, Option<Vec<TypeParameter>>, usize),
@@ -25999,7 +25999,7 @@ fn ___action414<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, usize, usize),
@@ -26038,7 +26038,7 @@ fn ___action415<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, usize, usize),
@@ -26298,7 +26298,7 @@ fn ___action423<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
@@ -26331,7 +26331,7 @@ fn ___action424<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Option<ActionKind>, usize),
 ) -> Alternative
@@ -26415,39 +26415,6 @@ fn ___action427<
 >(
 text: &'input str,
 ___0: (usize, Tok<'input>, usize),
-___1: (usize, Tok<'input>, usize),
-___2: (usize, Atom, usize),
-___3: (usize, Option<(Atom, String)>, usize),
-___4: (usize, Tok<'input>, usize),
-) -> Annotation
-{
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
-let ___temp0 = ___action185(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action401(
-text,
-___0,
-___1,
-___2,
-___3,
-___temp0,
-___4,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action428<
-    'input,
->(
-text: &'input str,
-___0: (usize, Tok<'input>, usize),
 ___1: (usize, Atom, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, TypeRef, usize),
@@ -26462,13 +26429,46 @@ text,
 &___end0,
 );
 let ___temp0 = (___start0, ___temp0, ___end0);
-___action402(
+___action401(
 text,
 ___0,
 ___1,
 ___temp0,
 ___2,
 ___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action428<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, Option<(Atom, String)>, usize),
+___4: (usize, Tok<'input>, usize),
+) -> Attribute
+{
+let ___start0 = ___3.2;
+let ___end0 = ___4.0;
+let ___temp0 = ___action185(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action402(
+text,
+___0,
+___1,
+___2,
+___3,
+___temp0,
 ___4,
 )
 }
@@ -26666,7 +26666,7 @@ fn ___action435<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Option<Vec<Parameter>>, usize),
@@ -26813,7 +26813,7 @@ fn ___action440<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, Tok<'input>, usize),
@@ -26850,7 +26850,7 @@ fn ___action441<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Visibility, usize),
 ___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
 ___3: (usize, Tok<'input>, usize),
@@ -27057,7 +27057,7 @@ fn ___action448<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
@@ -27088,7 +27088,7 @@ fn ___action449<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
@@ -27119,7 +27119,7 @@ fn ___action450<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, ActionKind, usize),
 ) -> Alternative
@@ -27146,7 +27146,7 @@ fn ___action451<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
@@ -27271,502 +27271,6 @@ fn ___action456<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Symbol>, usize),
-___1: (usize, Tok<'input>, usize),
-___2: (usize, Condition, usize),
-___3: (usize, ActionKind, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action448(
-text,
-___temp0,
-___0,
-___1,
-___2,
-___3,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action457<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
-___1: (usize, alloc::vec::Vec<Symbol>, usize),
-___2: (usize, Tok<'input>, usize),
-___3: (usize, Condition, usize),
-___4: (usize, ActionKind, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
-let ___temp0 = ___action188(
-text,
-___0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action448(
-text,
-___temp0,
-___1,
-___2,
-___3,
-___4,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action458<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Symbol>, usize),
-___1: (usize, Tok<'input>, usize),
-___2: (usize, Condition, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action449(
-text,
-___temp0,
-___0,
-___1,
-___2,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action459<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
-___1: (usize, alloc::vec::Vec<Symbol>, usize),
-___2: (usize, Tok<'input>, usize),
-___3: (usize, Condition, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
-let ___temp0 = ___action188(
-text,
-___0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action449(
-text,
-___temp0,
-___1,
-___2,
-___3,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action460<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Symbol>, usize),
-___1: (usize, ActionKind, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action450(
-text,
-___temp0,
-___0,
-___1,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action461<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
-___1: (usize, alloc::vec::Vec<Symbol>, usize),
-___2: (usize, ActionKind, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
-let ___temp0 = ___action188(
-text,
-___0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action450(
-text,
-___temp0,
-___1,
-___2,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action462<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Symbol>, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action451(
-text,
-___temp0,
-___0,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action463<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
-___1: (usize, alloc::vec::Vec<Symbol>, usize),
-) -> Alternative
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
-let ___temp0 = ___action188(
-text,
-___0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action451(
-text,
-___temp0,
-___1,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action464<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, Tok<'input>, usize),
-___3: (usize, Option<Vec<TypeParameter>>, usize),
-___4: (usize, Option<Vec<Parameter>>, usize),
-___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
-___6: (usize, Tok<'input>, usize),
-___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
-) -> Grammar
-{
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action435(
-text,
-___0,
-___1,
-___temp0,
-___2,
-___3,
-___4,
-___5,
-___6,
-___7,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action465<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
-___3: (usize, Tok<'input>, usize),
-___4: (usize, Option<Vec<TypeParameter>>, usize),
-___5: (usize, Option<Vec<Parameter>>, usize),
-___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
-___7: (usize, Tok<'input>, usize),
-___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
-) -> Grammar
-{
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
-let ___temp0 = ___action188(
-text,
-___2,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action435(
-text,
-___0,
-___1,
-___temp0,
-___3,
-___4,
-___5,
-___6,
-___7,
-___8,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action466<
-    'input,
->(
-text: &'input str,
-___0: (usize, Visibility, usize),
-___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-___2: (usize, Tok<'input>, usize),
-___3: (usize, TypeRef, usize),
-___4: (usize, Tok<'input>, usize),
-___5: (usize, Vec<Alternative>, usize),
-) -> GrammarItem
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action440(
-text,
-___temp0,
-___0,
-___1,
-___2,
-___3,
-___4,
-___5,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action467<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
-___1: (usize, Visibility, usize),
-___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-___3: (usize, Tok<'input>, usize),
-___4: (usize, TypeRef, usize),
-___5: (usize, Tok<'input>, usize),
-___6: (usize, Vec<Alternative>, usize),
-) -> GrammarItem
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
-let ___temp0 = ___action188(
-text,
-___0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action440(
-text,
-___temp0,
-___1,
-___2,
-___3,
-___4,
-___5,
-___6,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action468<
-    'input,
->(
-text: &'input str,
-___0: (usize, Visibility, usize),
-___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-___2: (usize, Tok<'input>, usize),
-___3: (usize, Vec<Alternative>, usize),
-) -> GrammarItem
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___temp0 = ___action187(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action441(
-text,
-___temp0,
-___0,
-___1,
-___2,
-___3,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action469<
-    'input,
->(
-text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
-___1: (usize, Visibility, usize),
-___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
-___3: (usize, Tok<'input>, usize),
-___4: (usize, Vec<Alternative>, usize),
-) -> GrammarItem
-{
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
-let ___temp0 = ___action188(
-text,
-___0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action441(
-text,
-___temp0,
-___1,
-___2,
-___3,
-___4,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action470<
-    'input,
->(
-text: &'input str,
-___0: (usize, Tok<'input>, usize),
-___1: (usize, Tok<'input>, usize),
-___2: (usize, Atom, usize),
-___3: (usize, (Atom, String), usize),
-___4: (usize, Tok<'input>, usize),
-) -> Annotation
-{
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
-let ___temp0 = ___action158(
-text,
-___3,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action427(
-text,
-___0,
-___1,
-___2,
-___temp0,
-___4,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action471<
-    'input,
->(
-text: &'input str,
-___0: (usize, Tok<'input>, usize),
-___1: (usize, Tok<'input>, usize),
-___2: (usize, Atom, usize),
-___3: (usize, Tok<'input>, usize),
-) -> Annotation
-{
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
-let ___temp0 = ___action159(
-text,
-&___start0,
-&___end0,
-);
-let ___temp0 = (___start0, ___temp0, ___end0);
-___action427(
-text,
-___0,
-___1,
-___2,
-___temp0,
-___3,
-)
-}
-
-#[allow(unused_variables)]
-#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
-fn ___action472<
-    'input,
->(
-text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, EnumToken, usize),
@@ -27803,7 +27307,7 @@ ___3,
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
     clippy::just_underscores_and_digits)]
-fn ___action473<
+fn ___action457<
     'input,
 >(
 text: &'input str,
@@ -27843,7 +27347,7 @@ ___4,
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
     clippy::just_underscores_and_digits)]
-fn ___action474<
+fn ___action458<
     'input,
 >(
 text: &'input str,
@@ -27883,7 +27387,7 @@ ___4,
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
     clippy::just_underscores_and_digits)]
-fn ___action475<
+fn ___action459<
     'input,
 >(
 text: &'input str,
@@ -27923,7 +27427,7 @@ ___5,
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
     clippy::just_underscores_and_digits)]
-fn ___action476<
+fn ___action460<
     'input,
 >(
 text: &'input str,
@@ -27952,7 +27456,7 @@ ___2,
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
     clippy::just_underscores_and_digits)]
-fn ___action477<
+fn ___action461<
     'input,
 >(
 text: &'input str,
@@ -27973,6 +27477,502 @@ ___action433(
 text,
 ___0,
 ___1,
+___temp0,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action462<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+___3: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action448(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action463<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Condition, usize),
+___4: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.2;
+let ___temp0 = ___action188(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action448(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action464<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Condition, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action449(
+text,
+___temp0,
+___0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action465<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Condition, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.2;
+let ___temp0 = ___action188(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action449(
+text,
+___temp0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action466<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
+___1: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action450(
+text,
+___temp0,
+___0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action467<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
+___2: (usize, ActionKind, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.2;
+let ___temp0 = ___action188(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action450(
+text,
+___temp0,
+___1,
+___2,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action468<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Symbol>, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action451(
+text,
+___temp0,
+___0,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action469<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
+___1: (usize, alloc::vec::Vec<Symbol>, usize),
+) -> Alternative
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.2;
+let ___temp0 = ___action188(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action451(
+text,
+___temp0,
+___1,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action470<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Option<Vec<TypeParameter>>, usize),
+___4: (usize, Option<Vec<Parameter>>, usize),
+___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
+___6: (usize, Tok<'input>, usize),
+___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___1.2;
+let ___end0 = ___2.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action435(
+text,
+___0,
+___1,
+___temp0,
+___2,
+___3,
+___4,
+___5,
+___6,
+___7,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action471<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<String>, usize),
+___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Option<Vec<TypeParameter>>, usize),
+___5: (usize, Option<Vec<Parameter>>, usize),
+___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
+___7: (usize, Tok<'input>, usize),
+___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
+) -> Grammar
+{
+let ___start0 = ___2.0;
+let ___end0 = ___2.2;
+let ___temp0 = ___action188(
+text,
+___2,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action435(
+text,
+___0,
+___1,
+___temp0,
+___3,
+___4,
+___5,
+___6,
+___7,
+___8,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action472<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Visibility, usize),
+___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, TypeRef, usize),
+___4: (usize, Tok<'input>, usize),
+___5: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action440(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+___4,
+___5,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action473<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, TypeRef, usize),
+___5: (usize, Tok<'input>, usize),
+___6: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.2;
+let ___temp0 = ___action188(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action440(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+___5,
+___6,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action474<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Visibility, usize),
+___1: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___2: (usize, Tok<'input>, usize),
+___3: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.0;
+let ___temp0 = ___action187(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action441(
+text,
+___temp0,
+___0,
+___1,
+___2,
+___3,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action475<
+    'input,
+>(
+text: &'input str,
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
+___1: (usize, Visibility, usize),
+___2: (usize, (NonterminalString, Vec<NonterminalString>), usize),
+___3: (usize, Tok<'input>, usize),
+___4: (usize, Vec<Alternative>, usize),
+) -> GrammarItem
+{
+let ___start0 = ___0.0;
+let ___end0 = ___0.2;
+let ___temp0 = ___action188(
+text,
+___0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action441(
+text,
+___temp0,
+___1,
+___2,
+___3,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action476<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, (Atom, String), usize),
+___4: (usize, Tok<'input>, usize),
+) -> Attribute
+{
+let ___start0 = ___3.0;
+let ___end0 = ___3.2;
+let ___temp0 = ___action158(
+text,
+___3,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action428(
+text,
+___0,
+___1,
+___2,
+___temp0,
+___4,
+)
+}
+
+#[allow(unused_variables)]
+#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
+    clippy::just_underscores_and_digits)]
+fn ___action477<
+    'input,
+>(
+text: &'input str,
+___0: (usize, Tok<'input>, usize),
+___1: (usize, Tok<'input>, usize),
+___2: (usize, Atom, usize),
+___3: (usize, Tok<'input>, usize),
+) -> Attribute
+{
+let ___start0 = ___2.2;
+let ___end0 = ___3.0;
+let ___temp0 = ___action159(
+text,
+&___start0,
+&___end0,
+);
+let ___temp0 = (___start0, ___temp0, ___end0);
+___action428(
+text,
+___0,
+___1,
+___2,
 ___temp0,
 ___3,
 )
@@ -28704,7 +28704,7 @@ text,
 &___end0,
 );
 let ___temp0 = (___start0, ___temp0, ___end0);
-___action464(
+___action470(
 text,
 ___0,
 ___1,
@@ -28741,7 +28741,7 @@ text,
 ___7,
 );
 let ___temp0 = (___start0, ___temp0, ___end0);
-___action464(
+___action470(
 text,
 ___0,
 ___1,
@@ -28763,7 +28763,7 @@ fn ___action502<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Option<Vec<Parameter>>, usize),
@@ -28779,7 +28779,7 @@ text,
 &___end0,
 );
 let ___temp0 = (___start0, ___temp0, ___end0);
-___action465(
+___action471(
 text,
 ___0,
 ___1,
@@ -28802,7 +28802,7 @@ fn ___action503<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Option<Vec<Parameter>>, usize),
@@ -28818,7 +28818,7 @@ text,
 ___8,
 );
 let ___temp0 = (___start0, ___temp0, ___end0);
-___action465(
+___action471(
 text,
 ___0,
 ___1,
@@ -29083,7 +29083,7 @@ fn ___action512<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -29120,7 +29120,7 @@ fn ___action513<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
@@ -29157,7 +29157,7 @@ fn ___action514<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -29196,7 +29196,7 @@ fn ___action515<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<TypeParameter>>, usize),
 ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
@@ -29515,7 +29515,7 @@ fn ___action524<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -29552,7 +29552,7 @@ fn ___action525<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
@@ -29589,7 +29589,7 @@ fn ___action526<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
@@ -29624,7 +29624,7 @@ fn ___action527<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -29659,7 +29659,7 @@ fn ___action528<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -29698,7 +29698,7 @@ fn ___action529<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
@@ -29737,7 +29737,7 @@ fn ___action530<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
@@ -29774,7 +29774,7 @@ fn ___action531<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30453,7 +30453,7 @@ fn ___action552<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -30490,7 +30490,7 @@ fn ___action553<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -30527,7 +30527,7 @@ fn ___action554<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30562,7 +30562,7 @@ fn ___action555<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30597,7 +30597,7 @@ fn ___action556<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30632,7 +30632,7 @@ fn ___action557<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30667,7 +30667,7 @@ fn ___action558<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30700,7 +30700,7 @@ fn ___action559<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -30733,7 +30733,7 @@ fn ___action560<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -30772,7 +30772,7 @@ fn ___action561<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -30811,7 +30811,7 @@ fn ___action562<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30848,7 +30848,7 @@ fn ___action563<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30885,7 +30885,7 @@ fn ___action564<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -30922,7 +30922,7 @@ fn ___action565<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30959,7 +30959,7 @@ fn ___action566<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -30994,7 +30994,7 @@ fn ___action567<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
@@ -32588,7 +32588,7 @@ fn ___action620<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -32626,7 +32626,7 @@ fn ___action621<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -32662,7 +32662,7 @@ fn ___action622<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -32698,7 +32698,7 @@ fn ___action623<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -32732,7 +32732,7 @@ fn ___action624<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32768,7 +32768,7 @@ fn ___action625<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32802,7 +32802,7 @@ fn ___action626<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32836,7 +32836,7 @@ fn ___action627<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -32868,7 +32868,7 @@ fn ___action628<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32904,7 +32904,7 @@ fn ___action629<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -32938,7 +32938,7 @@ fn ___action630<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -32972,7 +32972,7 @@ fn ___action631<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -33004,7 +33004,7 @@ fn ___action632<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -33038,7 +33038,7 @@ fn ___action633<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -33070,7 +33070,7 @@ fn ___action634<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -33102,7 +33102,7 @@ fn ___action635<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -33132,7 +33132,7 @@ fn ___action636<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -33172,7 +33172,7 @@ fn ___action637<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -33210,7 +33210,7 @@ fn ___action638<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -33248,7 +33248,7 @@ fn ___action639<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -33284,7 +33284,7 @@ fn ___action640<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -33322,7 +33322,7 @@ fn ___action641<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -33358,7 +33358,7 @@ fn ___action642<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -33394,7 +33394,7 @@ fn ___action643<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -33428,7 +33428,7 @@ fn ___action644<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -33466,7 +33466,7 @@ fn ___action645<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -33502,7 +33502,7 @@ fn ___action646<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -33538,7 +33538,7 @@ fn ___action647<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -33572,7 +33572,7 @@ fn ___action648<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -33608,7 +33608,7 @@ fn ___action649<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -33642,7 +33642,7 @@ fn ___action650<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
@@ -33676,7 +33676,7 @@ fn ___action651<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
@@ -36391,7 +36391,7 @@ fn ___action742<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -36427,7 +36427,7 @@ fn ___action743<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -36462,7 +36462,7 @@ fn ___action744<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -36500,7 +36500,7 @@ fn ___action745<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -36535,7 +36535,7 @@ fn ___action746<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -36569,7 +36569,7 @@ fn ___action747<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -36602,7 +36602,7 @@ fn ___action748<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -36638,7 +36638,7 @@ fn ___action749<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -36671,7 +36671,7 @@ fn ___action750<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -36705,7 +36705,7 @@ fn ___action751<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -36738,7 +36738,7 @@ fn ___action752<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -36774,7 +36774,7 @@ fn ___action753<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -36807,7 +36807,7 @@ fn ___action754<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -36839,7 +36839,7 @@ fn ___action755<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -36870,7 +36870,7 @@ fn ___action756<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -36904,7 +36904,7 @@ fn ___action757<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -36935,7 +36935,7 @@ fn ___action758<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -36969,7 +36969,7 @@ fn ___action759<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37002,7 +37002,7 @@ fn ___action760<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37038,7 +37038,7 @@ fn ___action761<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37071,7 +37071,7 @@ fn ___action762<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -37103,7 +37103,7 @@ fn ___action763<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -37134,7 +37134,7 @@ fn ___action764<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -37168,7 +37168,7 @@ fn ___action765<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -37199,7 +37199,7 @@ fn ___action766<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -37231,7 +37231,7 @@ fn ___action767<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -37262,7 +37262,7 @@ fn ___action768<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -37296,7 +37296,7 @@ fn ___action769<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -37327,7 +37327,7 @@ fn ___action770<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -37357,7 +37357,7 @@ fn ___action771<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -37386,7 +37386,7 @@ fn ___action772<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -37418,7 +37418,7 @@ fn ___action773<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
@@ -37447,7 +37447,7 @@ fn ___action774<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -37485,7 +37485,7 @@ fn ___action775<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -37522,7 +37522,7 @@ fn ___action776<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -37562,7 +37562,7 @@ fn ___action777<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -37599,7 +37599,7 @@ fn ___action778<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<Parameter>, usize),
@@ -37635,7 +37635,7 @@ fn ___action779<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -37670,7 +37670,7 @@ fn ___action780<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<Parameter>, usize),
@@ -37708,7 +37708,7 @@ fn ___action781<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<Parameter>, usize),
@@ -37743,7 +37743,7 @@ fn ___action782<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37779,7 +37779,7 @@ fn ___action783<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37814,7 +37814,7 @@ fn ___action784<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37852,7 +37852,7 @@ fn ___action785<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -37887,7 +37887,7 @@ fn ___action786<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -37921,7 +37921,7 @@ fn ___action787<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -37954,7 +37954,7 @@ fn ___action788<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -37990,7 +37990,7 @@ fn ___action789<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -38023,7 +38023,7 @@ fn ___action790<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -38059,7 +38059,7 @@ fn ___action791<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -38094,7 +38094,7 @@ fn ___action792<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -38132,7 +38132,7 @@ fn ___action793<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
@@ -38167,7 +38167,7 @@ fn ___action794<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -38201,7 +38201,7 @@ fn ___action795<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -38234,7 +38234,7 @@ fn ___action796<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -38270,7 +38270,7 @@ fn ___action797<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -38303,7 +38303,7 @@ fn ___action798<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
@@ -38337,7 +38337,7 @@ fn ___action799<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -38370,7 +38370,7 @@ fn ___action800<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
@@ -38406,7 +38406,7 @@ fn ___action801<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
@@ -38439,7 +38439,7 @@ fn ___action802<
     'input,
 >(
 text: &'input str,
-___0: (usize, alloc::vec::Vec<Annotation>, usize),
+___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
@@ -38471,7 +38471,7 @@ fn ___action803<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
@@ -38502,7 +38502,7 @@ fn ___action804<
 >(
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
-___1: (usize, alloc::vec::Vec<Annotation>, usize),
+___1: (usize, alloc::vec::Vec<Attribute>, usize),
 ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
@@ -38536,7 +38536,7 @@ fn ___action805<
 text: &'input str,
 ___0: (usize, alloc::vec::Vec<String>, usize),
 ___1: (usize, alloc::vec::Vec<GrammarItem>, usize),
-___2: (usize, alloc::vec::Vec<Annotation>, usize),
+___2: (usize, alloc::vec::Vec<Attribute>, usize),
 ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),

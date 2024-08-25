@@ -50,12 +50,12 @@ impl<'grammar> Validator<'grammar> {
             Atom::from(RECURSIVE_ASCENT),
             Atom::from(TEST_ALL),
         ];
-        for annotation in &self.grammar.annotations {
-            if !allowed_names.contains(&annotation.id) {
+        for attribute in &self.grammar.attributes {
+            if !allowed_names.contains(&attribute.id) {
                 return_err!(
-                    annotation.id_span,
-                    "unrecognized annotation `{}`",
-                    annotation.id
+                    attribute.id_span,
+                    "unrecognized attribute `{}`",
+                    attribute.id
                 );
             }
         }
@@ -117,40 +117,40 @@ impl<'grammar> Validator<'grammar> {
                     if data.visibility.is_pub() && !data.args.is_empty() {
                         return_err!(data.span, "macros cannot be marked public");
                     }
-                    let inline_annotation = Atom::from(INLINE);
-                    let cfg_annotation = Atom::from(CFG);
-                    let known_annotations = [inline_annotation.clone(), cfg_annotation.clone()];
-                    let mut found_annotations = set();
-                    for annotation in &data.annotations {
-                        if !known_annotations.contains(&annotation.id) {
+                    let inline_attribute = Atom::from(INLINE);
+                    let cfg_attribute = Atom::from(CFG);
+                    let known_attributes = [inline_attribute.clone(), cfg_attribute.clone()];
+                    let mut found_attributes = set();
+                    for attribute in &data.attributes {
+                        if !known_attributes.contains(&attribute.id) {
                             return_err!(
-                                annotation.id_span,
-                                "unrecognized annotation `{}`",
-                                annotation.id
+                                attribute.id_span,
+                                "unrecognized attribute `{}`",
+                                attribute.id
                             );
-                        } else if !found_annotations.insert(annotation.id.clone()) {
+                        } else if !found_attributes.insert(attribute.id.clone()) {
                             return_err!(
-                                annotation.id_span,
-                                "duplicate annotation `{}`",
-                                annotation.id
+                                attribute.id_span,
+                                "duplicate attribute `{}`",
+                                attribute.id
                             );
-                        } else if annotation.id == inline_annotation && data.visibility.is_pub() {
+                        } else if attribute.id == inline_attribute && data.visibility.is_pub() {
                             return_err!(
-                                annotation.id_span,
+                                attribute.id_span,
                                 "public items cannot be marked #[inline]"
                             );
-                        } else if annotation.id == cfg_annotation {
+                        } else if attribute.id == cfg_attribute {
                             if data.visibility.is_pub() {
-                                match annotation.arg {
+                                match attribute.arg {
                                     Some((ref name, _)) if name == "feature" => (),
                                     _ => return_err!(
-                                        annotation.id_span,
+                                        attribute.id_span,
                                         r#"`cfg` annotations must have a `feature = "my_feature" argument"#
                                     ),
                                 }
                             } else {
                                 return_err!(
-                                    annotation.id_span,
+                                    attribute.id_span,
                                     "private items cannot be marked #[cfg]"
                                 );
                             }
@@ -171,32 +171,32 @@ impl<'grammar> Validator<'grammar> {
 
     fn validate_precedence(&self, alternatives: &[Alternative]) -> NormResult<()> {
         let with_precedence = alternatives.iter().any(|alt| {
-            alt.annotations
+            alt.attributes
                 .iter()
-                .any(|ann| ann.id == *precedence::PREC_ANNOT || ann.id == *precedence::ASSOC_ANNOT)
+                .any(|attr| attr.id == *precedence::PREC_ATTR || attr.id == *precedence::ASSOC_ATTR)
         });
 
         if alternatives.is_empty() || !with_precedence {
             return Ok(());
         }
 
-        // Used to check the absence of associativity annotations at the minimum level.
+        // Used to check the absence of associativity attributes at the minimum level.
         let mut min_lvl = u32::MAX;
-        let mut min_prec_ann: Option<&Annotation> = None;
+        let mut min_prec_ann: Option<&Attribute> = None;
 
-        // Check that at least the first alternative has a precedence annotation
+        // Check that at least the first alternative has a precedence attribute
         alternatives
             .first()
             .map(|first| {
-                let ann_prec_opt = first
-                    .annotations
+                let attr_prec_opt = first
+                    .attributes
                     .iter()
-                    .find(|ann| ann.id == *precedence::PREC_ANNOT);
+                    .find(|attr| attr.id == *precedence::PREC_ATTR);
 
-                if ann_prec_opt.is_none() {
+                if attr_prec_opt.is_none() {
                     return_err!(
                         first.span,
-                        "missing precedence annotation on the first alternative"
+                        "missing precedence attribute on the first alternative"
                     );
                 } else {
                     Ok(())
@@ -204,50 +204,50 @@ impl<'grammar> Validator<'grammar> {
             })
             .transpose()?;
 
-        // Check that annotations are well-formed
+        // Check that attributes are well-formed
         alternatives.iter().try_for_each(|alt| {
-            let ann_prec_opt = alt.annotations.iter().find(|ann| ann.id == *precedence::PREC_ANNOT);
-            let ann_assoc_opt = alt.annotations.iter().find(|ann| ann.id == *precedence::ASSOC_ANNOT);
+            let attr_prec_opt = alt.attributes.iter().find(|attr| attr.id == *precedence::PREC_ATTR);
+            let attr_assoc_opt = alt.attributes.iter().find(|attr| attr.id == *precedence::ASSOC_ATTR);
 
-            if let Some(ann_prec) = ann_prec_opt {
-                match &ann_prec.arg {
+            if let Some(attr_prec) = attr_prec_opt {
+                match &attr_prec.arg {
                     Some((name, value)) if name == &Atom::from(precedence::LVL_ARG) => {
                         if let Ok(lvl) = value.parse::<u32>() {
                             if lvl < min_lvl {
                                 min_lvl = lvl;
-                                min_prec_ann = ann_assoc_opt;
+                                min_prec_ann = attr_assoc_opt;
                             }
-                            else if lvl == min_lvl && min_prec_ann.is_none() && ann_assoc_opt.is_some() {
-                                min_prec_ann = ann_assoc_opt;
+                            else if lvl == min_lvl && min_prec_ann.is_none() && attr_assoc_opt.is_some() {
+                                min_prec_ann = attr_assoc_opt;
                             }
                         }
                         else {
-                            return_err!(ann_prec.id_span, "could not parse the precedence level `{}`, expected integer", value);
+                            return_err!(attr_prec.id_span, "could not parse the precedence level `{}`, expected integer", value);
                         }
                     }
-                    Some((name, _)) => return_err!(ann_prec.id_span, "invalid argument `{}` for precedence annotation, expected `{}`", name, precedence::LVL_ARG),
-                    None => return_err!(ann_prec.id_span, "missing argument for precedence annotation, expected `{}`", precedence::LVL_ARG),
+                    Some((name, _)) => return_err!(attr_prec.id_span, "invalid argument `{}` for precedence attribute, expected `{}`", name, precedence::LVL_ARG),
+                    None => return_err!(attr_prec.id_span, "missing argument for precedence attribute, expected `{}`", precedence::LVL_ARG),
                 }
             }
 
-            if let Some(ann_assoc) = ann_assoc_opt {
-                match &ann_assoc.arg {
+            if let Some(attr_assoc) = attr_assoc_opt {
+                match &attr_assoc.arg {
                     Some((name, value)) if name == &Atom::from(precedence::SIDE_ARG) => {
                         if value.parse::<precedence::Assoc>().is_err() {
-                            return_err!(ann_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right`, `none` or `all`", value);
+                            return_err!(attr_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right`, `none` or `all`", value);
                         }
                     }
-                    Some((name, _)) => return_err!(ann_assoc.id_span, "invalid argument `{}` for associativity annotation, expected `{}`", name, precedence::SIDE_ARG),
-                    None => return_err!(ann_assoc.id_span, "missing argument for associativity annotation, expected `{}`", precedence::SIDE_ARG),
+                    Some((name, _)) => return_err!(attr_assoc.id_span, "invalid argument `{}` for associativity attribute, expected `{}`", name, precedence::SIDE_ARG),
+                    _ => return_err!(attr_assoc.id_span, "missing argument for associativity attribute, expected `{}`", precedence::SIDE_ARG),
                 }
             }
 
             Ok(())
         })?;
 
-        if let Some(ann) = min_prec_ann {
+        if let Some(attr) = min_prec_ann {
             return_err!(
-                ann.id_span,
+                attr.id_span,
                 "cannot set associativity on the first precedence level {}",
                 min_lvl
             );
@@ -260,16 +260,16 @@ impl<'grammar> Validator<'grammar> {
         self.validate_expr(&alternative.expr)?;
 
         let allowed_names = [
-            Atom::from(precedence::PREC_ANNOT),
-            Atom::from(precedence::ASSOC_ANNOT),
+            Atom::from(precedence::PREC_ATTR),
+            Atom::from(precedence::ASSOC_ATTR),
         ];
 
-        for annotation in &alternative.annotations {
-            if !allowed_names.contains(&annotation.id) {
+        for attribute in &alternative.attributes {
+            if !allowed_names.contains(&attribute.id) {
                 return_err!(
-                    annotation.id_span,
-                    "unrecognized annotation `{}`",
-                    annotation.id
+                    attribute.id_span,
+                    "unrecognized attribute `{}`",
+                    attribute.id
                 );
             }
         }
@@ -357,7 +357,7 @@ impl<'grammar> Validator<'grammar> {
             SymbolKind::Nonterminal(_) => { /* see resolve */ }
             SymbolKind::Error => {
                 let mut algorithm = r::Algorithm::default();
-                read_algorithm(&self.grammar.annotations, &mut algorithm);
+                read_algorithm(&self.grammar.attributes, &mut algorithm);
                 if algorithm.codegen == r::LrCodeGeneration::RecursiveAscent {
                     return_err!(
                         symbol.span,

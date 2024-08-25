@@ -21,7 +21,7 @@ pub struct Grammar {
     pub parameters: Vec<Parameter>,
     pub where_clauses: Vec<WhereClause<TypeRef>>,
     pub items: Vec<GrammarItem>,
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
     pub module_attributes: Vec<String>,
 }
 
@@ -379,7 +379,7 @@ impl Visibility {
 pub struct NonterminalData {
     pub visibility: Visibility,
     pub name: NonterminalString,
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
     pub span: Span,
     pub args: Vec<NonterminalString>, // macro arguments
     pub type_decl: Option<TypeRef>,
@@ -387,7 +387,7 @@ pub struct NonterminalData {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct Annotation {
+pub struct Attribute {
     pub id_span: Span,
     pub id: Atom,
     pub arg: Option<(Atom, String)>,
@@ -405,7 +405,7 @@ pub struct Alternative {
     // => { code }
     pub action: Option<ActionKind>,
 
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -1190,21 +1190,18 @@ impl Path {
     }
 }
 
-pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) {
-    for annotation in annotations {
-        if annotation.id == *LALR {
+pub fn read_algorithm(attributes: &[Attribute], algorithm: &mut r::Algorithm) {
+    for attribute in attributes {
+        if attribute.id == *LALR {
             algorithm.lalr = true;
-        } else if annotation.id == *TABLE_DRIVEN {
+        } else if attribute.id == *TABLE_DRIVEN {
             algorithm.codegen = r::LrCodeGeneration::TableDriven;
-        } else if annotation.id == *RECURSIVE_ASCENT {
+        } else if attribute.id == *RECURSIVE_ASCENT {
             algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
-        } else if annotation.id == *TEST_ALL {
+        } else if attribute.id == *TEST_ALL {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         } else {
-            panic!(
-                "validation permitted unknown annotation: {:?}",
-                annotation.id,
-            );
+            panic!("validation permitted unknown attribute: {:?}", attribute.id,);
         }
     }
 }

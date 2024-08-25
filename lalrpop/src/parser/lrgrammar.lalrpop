@@ -21,7 +21,7 @@ pub Top: Top = {
 Grammar: Grammar =
     <module_attributes:ShebangAttribute*>
     <uses:Use*>
-    <annotations:Annotation*>
+    <attributes:Attribute*>
     <lo:@L> "grammar" <hi:@R>
     <tps:GrammarTypeParameters?>
     <parameters:GrammarParameters?>
@@ -34,7 +34,7 @@ Grammar: Grammar =
                   parameters: parameters.unwrap_or(vec![]),
                   where_clauses: where_clauses.unwrap_or(vec![]),
                   items: uses.into_iter().chain(items).collect(),
-                  annotations,
+                  attributes,
                   module_attributes }
     };
 
@@ -111,24 +111,24 @@ Visibility: Visibility = {
 };
 
 Nonterminal: GrammarItem =
-    <annotations:Annotation*>
+    <attributes:Attribute*>
     <v:Visibility> <lo:@L> <n:NonterminalName> <hi:@R>
     <t:(":" <TypeRef>)?> "=" <a:Alternatives> => {
         GrammarItem::Nonterminal(NonterminalData { visibility: v,
                                                    span: Span(lo, hi),
                                                    name: n.0,
-                                                   annotations,
+                                                   attributes,
                                                    args: n.1,
                                                    type_decl: t,
                                                    alternatives: a })
     };
 
-AnnotationArg: (Atom, String) =
+AttributeArg: (Atom, String) =
     "(" <name:Id> "=" <value:"StringLiteral"> ")" => (name, value.into());
 
-Annotation: Annotation =
-    "#" "[" <lo:@L> <id:Id> <arg: AnnotationArg?> <hi:@R> "]" => {
-        Annotation { id_span: Span(lo, hi), id, arg }
+Attribute: Attribute =
+    "#" "[" <lo:@L> <id:Id> <arg: AttributeArg?> <hi:@R> "]" => {
+        Attribute { id_span: Span(lo, hi), id, arg }
     };
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
@@ -143,14 +143,14 @@ Alternatives: Vec<Alternative> = {
 };
 
 Alternative: Alternative = {
-    <ann:Annotation*>
+    <attr:Attribute*>
     <lo:@L> <s:Symbol+> <c:("if" <Cond>)?> <a:Action?> <hi:@R> => {
         Alternative {
             span: Span(lo, hi),
             expr: ExprSymbol { symbols: s },
             condition: c,
             action: a,
-            annotations: ann,
+            attributes: attr,
         }
     },
     <lo:@L> <c:("if" <Cond>)?> <a:Action> <hi:@R> => {
@@ -159,7 +159,7 @@ Alternative: Alternative = {
             expr: ExprSymbol { symbols: vec![] },
             condition: c,
             action: Some(a),
-            annotations: vec![],
+            attributes: vec![],
         }
     },
 };

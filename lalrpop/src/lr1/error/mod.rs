@@ -341,7 +341,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .text("Hint:")
             .styled(Tls::session().hint_text)
             .text("It appears you could resolve this problem by adding")
-            .text("the annotation `#[inline]` to the definition of")
+            .text("the attribute `#[inline]` to the definition of")
             .push(nonterminal)
             .verbatimed()
             .punctuated(".")
@@ -374,7 +374,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .text(symbol) // intentionally disable coloring here, looks better
             .adjacent_text("`", "?`")
             .text(
-                "(or, alternatively, by adding the annotation `#[inline]` \
+                "(or, alternatively, by adding the attribute `#[inline]` \
                  to the definition of",
             )
             .push(nonterminal)

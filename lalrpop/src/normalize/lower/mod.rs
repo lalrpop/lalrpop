@@ -138,7 +138,7 @@ impl<'s> LowerState<'s> {
                         nt_name.clone(),
                         r::NonterminalData {
                             visibility: nt.visibility.clone(),
-                            annotations: nt.annotations,
+                            attributes: nt.attributes,
                             span: nt.span,
                             productions,
                         },
@@ -170,7 +170,7 @@ impl<'s> LowerState<'s> {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         }
 
-        read_algorithm(&grammar.annotations, &mut algorithm);
+        read_algorithm(&grammar.attributes, &mut algorithm);
 
         let all_terminals: Vec<_> = self
             .conversions
@@ -245,7 +245,7 @@ impl<'s> LowerState<'s> {
                     fake_name.clone(),
                     r::NonterminalData {
                         visibility: nt.visibility.clone(),
-                        annotations: vec![],
+                        attributes: vec![],
                         span: nt.span,
                         productions: vec![production],
                     },
@@ -501,11 +501,11 @@ where
 
 fn cfg_active(session: &Session, nt: &pt::NonterminalData) -> bool {
     let cfg_atom = Atom::from(CFG);
-    nt.annotations
+    nt.attributes
         .iter()
-        .filter(|ann| ann.id == cfg_atom)
-        .all(|ann| {
-            ann.arg.as_ref().map_or(false, |(_, feature)| {
+        .filter(|attr| attr.id == cfg_atom)
+        .all(|attr| {
+            attr.arg.as_ref().map_or(false, |(_, feature)| {
                 session
                     .features
                     .as_ref()

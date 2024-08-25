@@ -12,7 +12,7 @@ use string_cache::DefaultAtom as Atom;
 
 // These concepts we re-use wholesale
 pub use crate::grammar::parse_tree::{
-    Annotation, InternToken, Lifetime, Name, NonterminalString, Path, Span, TerminalLiteral,
+    Attribute, InternToken, Lifetime, Name, NonterminalString, Path, Span, TerminalLiteral,
     TerminalString, TypeBound, TypeParameter, Visibility,
 };
 
@@ -87,7 +87,7 @@ pub struct TerminalSet {
 pub struct NonterminalData {
     pub visibility: Visibility,
     pub span: Span,
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
     pub productions: Vec<Production>,
 }
 
