@@ -121,15 +121,19 @@ Nonterminal: GrammarItem =
                                                    args: n.1,
                                                    type_decl: t,
                                                    alternatives: a })
-    };
+};
 
-AttributeArg: (Atom, String) =
-    "(" <name:Id> "=" <value:"StringLiteral"> ")" => (name, value.into());
+Attribute: Attribute = "#" "[" <AttributeInner> "]";
 
-Attribute: Attribute =
-    "#" "[" <lo:@L> <id:Id> <arg: AttributeArg?> <hi:@R> "]" => {
-        Attribute { id_span: Span(lo, hi), id, arg }
-    };
+AttributeInner: Attribute =
+    <lo:@L> <id:Id> <arg: AttributeArg?> <hi:@R> => {
+        Attribute { id_span: Span(lo, hi), id, arg: arg.unwrap_or_default() }
+};
+
+AttributeArg: (AttributeArg) = {
+    "(" <Comma<AttributeInner>> ")" => AttributeArg::Paren(<>),
+    "=" <value:"StringLiteral"> => AttributeArg::Equal(value.into()),
+};
 
 NonterminalName: (NonterminalString, Vec<NonterminalString>) = {
     <MacroId> "<" <Comma<NotMacroId>> ">",

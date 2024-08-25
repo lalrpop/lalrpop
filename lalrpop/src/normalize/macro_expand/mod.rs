@@ -1,8 +1,8 @@
 use crate::grammar::consts::INLINE;
 use crate::grammar::parse_tree::{
-    ActionKind, Alternative, Attribute, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-    MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span,
-    Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
+    ActionKind, Alternative, Attribute, AttributeArg, Condition, ConditionOp, ExprSymbol, Grammar,
+    GrammarItem, MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp,
+    RepeatSymbol, Span, Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
 };
 use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::resolve;
@@ -645,6 +645,6 @@ fn inline(span: Span) -> Vec<Attribute> {
     vec![Attribute {
         id_span: span,
         id: Atom::from(INLINE),
-        arg: None,
+        arg: AttributeArg::Empty,
     }]
 }

@@ -141,8 +141,8 @@ impl<'grammar> Validator<'grammar> {
                             );
                         } else if attribute.id == cfg_attribute {
                             if data.visibility.is_pub() {
-                                match attribute.arg {
-                                    Some((ref name, _)) if name == "feature" => (),
+                                match attribute.get_arg_equal() {
+                                    Some((name, _)) if name == "feature" => (),
                                     _ => return_err!(
                                         attribute.id_span,
                                         r#"`cfg` annotations must have a `feature = "my_feature" argument"#
@@ -210,7 +210,7 @@ impl<'grammar> Validator<'grammar> {
             let attr_assoc_opt = alt.attributes.iter().find(|attr| attr.id == *precedence::ASSOC_ATTR);
 
             if let Some(attr_prec) = attr_prec_opt {
-                match &attr_prec.arg {
+                match attr_prec.get_arg_equal() {
                     Some((name, value)) if name == &Atom::from(precedence::LVL_ARG) => {
                         if let Ok(lvl) = value.parse::<u32>() {
                             if lvl < min_lvl {
@@ -231,7 +231,7 @@ impl<'grammar> Validator<'grammar> {
             }
 
             if let Some(attr_assoc) = attr_assoc_opt {
-                match &attr_assoc.arg {
+                match attr_assoc.get_arg_equal() {
                     Some((name, value)) if name == &Atom::from(precedence::SIDE_ARG) => {
                         if value.parse::<precedence::Assoc>().is_err() {
                             return_err!(attr_assoc.id_span, "could not parse the associativity `{}`, expected `left`, `right`, `none` or `all`", value);

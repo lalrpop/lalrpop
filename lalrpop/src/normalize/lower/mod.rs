@@ -505,7 +505,7 @@ fn cfg_active(session: &Session, nt: &pt::NonterminalData) -> bool {
         .iter()
         .filter(|attr| attr.id == cfg_atom)
         .all(|attr| {
-            attr.arg.as_ref().map_or(false, |(_, feature)| {
+            attr.get_arg_equal().map_or(false, |(_, feature)| {
                 session
                     .features
                     .as_ref()
