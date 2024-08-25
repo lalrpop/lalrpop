@@ -140,20 +140,7 @@ impl<'grammar> Validator<'grammar> {
                                 "public items cannot be marked #[inline]"
                             );
                         } else if attribute.id == cfg_attribute {
-                            if data.visibility.is_pub() {
-                                match attribute.get_arg_equal() {
-                                    Some((name, _)) if name == "feature" => (),
-                                    _ => return_err!(
-                                        attribute.id_span,
-                                        r#"`cfg` annotations must have a `feature = "my_feature" argument"#
-                                    ),
-                                }
-                            } else {
-                                return_err!(
-                                    attribute.id_span,
-                                    "private items cannot be marked #[cfg]"
-                                );
-                            }
+                            self.validate_cfg_attr(attribute)?;
                         }
                     }
 
@@ -400,5 +387,60 @@ impl<'grammar> Validator<'grammar> {
         }
 
         Ok(())
+    }
+
+    fn validate_cfg_attr(&self, attr: &Attribute) -> NormResult<()> {
+        // example of valid formats:
+        // #[cfg(feature = "x")]
+        // #[cfg(not(feature = "x"))]
+        // #[cfg(any(not(all(feature = "x", feature = "y")), feature = "z"))]
+        fn validate_cfg_arg(attr: &Attribute) -> NormResult<()> {
+            if attr.id == *"feature" {
+                match &attr.arg {
+                    AttributeArg::Equal(_) => Ok(()),
+                    _ => return_err!(
+                        attr.id_span,
+                        r#"expected a `not()`, `any()`, `all()` or `feature = "my_feature" argument"#
+                    ),
+                }
+            } else if attr.id == *"not" {
+                match &attr.arg {
+                    AttributeArg::Paren(attrs) => match attrs.first() {
+                        Some(attr) => validate_cfg_arg(attr),
+                        None => return_err!(attr.id_span, r#"`not` takes one argument"#),
+                    },
+                    _ => return_err!(attr.id_span, r#"`not` takes one argument"#),
+                }
+            } else if attr.id == *"any" {
+                match &attr.arg {
+                    AttributeArg::Paren(attrs) if !attrs.is_empty() => {
+                        for attr in attrs.iter() {
+                            validate_cfg_arg(attr)?;
+                        }
+                        Ok(())
+                    }
+                    _ => return_err!(attr.id_span, r#"`any` takes at least one argument"#),
+                }
+            } else if attr.id == *"all" {
+                match &attr.arg {
+                    AttributeArg::Paren(attrs) if !attrs.is_empty() => {
+                        for attr in attrs.iter() {
+                            validate_cfg_arg(attr)?;
+                        }
+                        Ok(())
+                    }
+                    _ => return_err!(attr.id_span, r#"`all` takes at least one argument"#),
+                }
+            } else {
+                return_err!(attr.id_span, r#"unexpected `cfg` argument `{}`"#, attr.id)
+            }
+        }
+        match &attr.arg {
+            AttributeArg::Paren(attrs) => match attrs.first() {
+                Some(attr) => validate_cfg_arg(attr),
+                None => return_err!(attr.id_span, r#"`cfg` attributes take one argument"#),
+            },
+            _ => return_err!(attr.id_span, r#"`cfg` attributes take one argument"#),
+        }
     }
 }

@@ -51,6 +51,11 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
             prevalidate::validate(&grammar)?;
         }
     );
+    let grammar = profile!(
+        session,
+        "Grammar preprocessing",
+        preprocess::preprocess(session, grammar)?
+    );
     let grammar = profile!(session, "Grammar resolution", resolve::resolve(grammar)?);
     let grammar = profile!(
         session,
@@ -69,6 +74,9 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
 }
 
 // These are executed *IN ORDER*:
+
+// Eliminate nonterminals with cfg directives that evaluate to false.
+mod preprocess;
 
 // Check most safety conditions.
 mod prevalidate;
