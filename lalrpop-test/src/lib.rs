@@ -192,6 +192,9 @@ pub fn use_cfg_created_parser() {
     #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();
     cfg::AlwaysCreatedParser::new();
+    cfg::CreatedWithNotParser::new();
+    cfg::CreatedWithAnyParser::new();
+    cfg::CreatedWithAllParser::new();
 }
 
 /// This constant is here so that some of the generator parsers can

@@ -80,6 +80,15 @@ fn pub_inline_attribute() {
 }
 
 #[test]
+fn missing_cfg_attribute_arg() {
+    check_err(
+        r#"`cfg` attributes take one argument"#,
+        r#"grammar; #[cfg] pub Term = ();"#,
+        r#"           ~~~                "#,
+    )
+}
+
+#[test]
 fn multiple_match_token() {
     check_err(
         r#"multiple match definitions are not permitted"#,

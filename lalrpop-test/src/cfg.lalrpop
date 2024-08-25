@@ -12,3 +12,33 @@ pub Created: () = {
     "x" => ()
 };
 
+#[cfg(not(feature = "test-not-set"))]
+pub CreatedWithNot: () = {
+    "x" => ()
+};
+
+#[cfg(not(feature = "test-set"))]
+pub NotCreatedWithNot: () = {
+    "x" => ()
+};
+
+#[cfg(any(feature = "test-not-set", feature = "test-set"))]
+pub CreatedWithAny: () = {
+    "x" => ()
+};
+
+#[cfg(any(feature = "test-not-set"))]
+pub NotCreatedWithAny: () = {
+    "x" => ()
+};
+
+#[cfg(all(feature = "test-set"))]
+pub CreatedWithAll: () = {
+    "x" => ()
+};
+
+#[cfg(all(feature = "test-set", feature = "test-not-set"))]
+pub NotCreatedWithAll: () = {
+    "x" => ()
+};
+
