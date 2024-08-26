@@ -199,10 +199,10 @@ authors = ["Niko Matsakis &lt;niko@alum.mit.edu&gt;"]
 edition = "2021"
 
 [build-dependencies] # &lt;-- We added this and everything after!
-lalrpop = "0.20.2"
+lalrpop = "0.21.0"
 
 [dependencies]
-lalrpop-util = { version = "0.20.2", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.21.0", features = ["lexer", "unicode"] }
 </code></pre>
 <p>Cargo can run <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">build scripts</a> as a pre-processing step,
 named <code>build.rs</code> by default. The <code>[build-dependencies]</code>
