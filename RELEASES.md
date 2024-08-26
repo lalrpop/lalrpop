@@ -5,6 +5,14 @@ Since the last release, a fair number of the commits have been focused on cleani
 up and improving LALRPOP's documentation. Shout out to Yudai Takada, George
 White, and Dinu Blanovschi.
 
+#### Features
+
+* LALRPOP now throws an error in more cases where it would previously just write
+  out an error message and exit.
+* `lalrpop::process_src` is now the recommended function to use in `build.rs`
+  files. Previously the documentation incorrectly suggested that
+  `lalrpop::process_root` looked in `./src` instead of `.`
+
 #### Bugfixes
 
 * A long-standing bug where LALRPOP would throw a "no entry found for key"
