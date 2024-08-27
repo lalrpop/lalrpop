@@ -56,6 +56,8 @@ So this approach has been abandoned a while ago.
 
 ### Releasing LALRPOP
 
+#### Without Cargo-Release
+
 1. Run `./version.sh <NEW VERSION>`.
 2. Commit the changes
 3. Run `cargo publish` for lalrpop and lalrpop-util
