@@ -17,7 +17,9 @@ pub struct Configuration {
 }
 
 impl Configuration {
-    /// Creates the default configuration; equivalent to `Configuration::default`.
+    /// Creates the default configuration.
+    ///
+    /// equivalent to `Configuration::default`.
     pub fn new() -> Configuration {
         Configuration::default()
     }
@@ -41,8 +43,9 @@ impl Configuration {
         self
     }
 
-    /// Specify a custom directory to search for input files.  This
-    /// directory is recursively searched for `.lalrpop` files to be
+    /// Specify a custom directory to search for input files.
+    ///
+    /// This directory is recursively searched for `.lalrpop` files to be
     /// considered as input files.  This configuration setting also
     /// impacts where output files are placed; paths are made relative
     /// to the input path before being resolved relative to the output
@@ -57,6 +60,7 @@ impl Configuration {
     }
 
     /// Specify a custom directory to use when writing output files.
+    ///
     /// By default, the output directory is the same as the input
     /// directory.
     pub fn set_out_dir<P>(&mut self, dir: P) -> &mut Self
@@ -67,8 +71,9 @@ impl Configuration {
         self
     }
 
-    /// Apply `cargo` directory location conventions, by setting the
-    /// input directory to `src` and the output directory to
+    /// Apply `cargo` directory location conventions.
+    ///
+    /// This sets the input directory to `src` and the output directory to
     /// `$OUT_DIR`.
     pub fn use_cargo_dir_conventions(&mut self) -> &mut Self {
         self.set_in_dir("src")
@@ -96,8 +101,9 @@ impl Configuration {
         self
     }
 
-    /// If true, print `rerun-if-changed` directives to standard output, so that
-    /// Cargo will only rerun the build script if any of the processed
+    /// If true, print `rerun-if-changed` directives to standard output.
+    ///
+    /// If this is set, Cargo will only rerun the build script if any of the processed
     /// `.lalrpop` files are changed. This option is independent of
     /// [`Self::force_build()`], although it would be usual to set [`Self::force_build()`] and
     /// [`Self::emit_rerun_directives()`] at the same time.
@@ -112,8 +118,9 @@ impl Configuration {
         self
     }
 
-    /// If true, emit comments into the generated code. This makes the
-    /// generated code significantly larger. Default is false.
+    /// If true, emit comments into the generated code.
+    ///
+    /// This makes the generated code significantly larger. Default is false.
     pub fn emit_comments(&mut self, val: bool) -> &mut Configuration {
         self.session.emit_comments = val;
         self
@@ -158,7 +165,12 @@ impl Configuration {
         self
     }
 
-    /// Set the max macro recursion depth.  As lalrpop is resolving a macro, it may discover new macros uses in the macro definition to resolve.  Typically deep recursion indicates a recursive macro use that is non-resolvable.  The default resolution depth is 200.
+    /// Set the max macro recursion depth.
+    ///
+    /// As lalrpop is resolving a macro, it may discover new macros uses in the
+    /// macro definition to resolve.  Typically deep recursion indicates a
+    /// recursive macro use that is non-resolvable.  The default resolution
+    /// depth is 200.
     pub fn set_macro_recursion_limit(&mut self, val: u16) -> &mut Configuration {
         self.session.macro_recursion_limit = val;
         self
@@ -243,8 +255,9 @@ impl Configuration {
     }
 }
 
-/// Process all files in the current directory, which -- unless you
-/// have changed it -- is typically the root of the crate being compiled.
+/// Process all files in the current directory.
+///
+/// Unless you have changed it this is typically the root of the crate being compiled.
 /// If your project only builds one crate and your files are in a ./src directory, you should use
 /// `process_src()` instead
 ///
@@ -253,8 +266,10 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
     Configuration::new().process_current_dir()
 }
 
-/// Process all files in ./src.  In many cargo projects which build only one crate, this is the
-/// normal location for source files.  If you are running lalrpop from a top level build.rs in a
+/// Process all files in ./src.
+///
+/// In many cargo projects which build only one crate, this is the normal
+/// location for source files.  If you are running lalrpop from a top level build.rs in a
 /// project that builds multiple crates, you may want `process_root()` instead.
 /// See `Configuration` if you would like more fine-grain control over lalrpop.
 pub fn process_src() -> Result<(), Box<dyn Error>> {
