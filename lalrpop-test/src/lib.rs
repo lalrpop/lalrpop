@@ -192,8 +192,11 @@ pub fn use_cfg_created_parser() {
     #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();
     cfg::AlwaysCreatedParser::new();
+    #[cfg(feature = "test-set")]
     cfg::CreatedWithNotParser::new();
+    #[cfg(feature = "test-set")]
     cfg::CreatedWithAnyParser::new();
+    #[cfg(feature = "test-set")]
     cfg::CreatedWithAllParser::new();
 }
 
