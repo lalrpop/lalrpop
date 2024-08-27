@@ -28,7 +28,7 @@ pub Ty: () = {
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
-    let conflict = &conflicts[0];
+    let conflict = &conflicts[0][0];
 
     println!("conflict={:?}", conflict);
 
@@ -70,7 +70,7 @@ pub Expr: () = {
     let err = build_states(&grammar, nt("Expr")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
-    let conflict = &conflicts[0];
+    let conflict = &conflicts[0][0];
 
     println!("conflict={:?}", conflict);
 
@@ -102,7 +102,7 @@ fn suggest_question_conflict() {
     let err = build_states(&grammar, nt("E")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
-    let conflict = &conflicts[0];
+    let conflict = &conflicts[0][0];
 
     println!("conflict={:?}", conflict);
 
@@ -146,7 +146,7 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
     let err = build_states(&grammar, nt("ImportDecl")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
-    let conflict = &conflicts[0];
+    let conflict = &conflicts[0][0];
 
     println!("conflict={:?}", conflict);
 
@@ -180,8 +180,69 @@ VarDecl = "let";
     let err = build_states(&grammar, nt("Func")).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
-    for conflict in &conflicts {
+    for conflict in conflicts.iter().flatten() {
         println!("conflict={:?}", conflict);
         cx.classify(conflict);
     }
+}
+
+fn verify_errors(
+    grammar: Grammar,
+    pub_state: &str,
+    unique_conflicts: usize,
+    terminal_count: usize,
+    text: &str,
+) {
+    use crate::message::{Content, Message};
+    use ascii_canvas::AsciiCanvas;
+    let _tls = Tls::test();
+    let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
+    let err = build_states(&grammar, nt(pub_state)).unwrap_err();
+    let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
+    let conflicts = super::token_conflicts(&err.conflicts);
+    assert_eq!(conflicts.len(), unique_conflicts); // One group of conflicts
+    assert_eq!(conflicts[0].len(), terminal_count); // terminal count
+
+    let mut calls = 0;
+    let test_report = |message: Message| -> Result<(), ()> {
+        let mut canvas = AsciiCanvas::new(0, message.min_width());
+        message.emit(&mut canvas);
+        assert!(canvas
+            .to_strings()
+            .iter()
+            .map(|r| r.to_string())
+            .collect::<Vec<String>>()
+            .join("\n")
+            .contains(text));
+        assert!(calls < unique_conflicts);
+        calls += 1;
+        Ok(())
+    };
+
+    cx.report_errors(test_report).unwrap();
+}
+
+#[test]
+fn compress_errors() {
+    let grammar = normalized_grammar(
+        r#"
+grammar;
+
+pub A: () = {
+        "a" B "z",
+        "a" C "z",
+}
+
+B: () = {
+        "b",
+        "q"
+}
+
+C: () = {
+        "c",
+        "q"
+}
+"#,
+    );
+    verify_errors(grammar, "A", 1, 6, "Ambiguous grammar");
 }
