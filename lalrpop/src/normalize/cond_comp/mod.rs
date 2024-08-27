@@ -9,7 +9,7 @@ use string_cache::DefaultAtom as Atom;
 #[cfg(test)]
 mod test;
 
-pub fn preprocess(session: &Session, mut grammar: Grammar) -> NormResult<Grammar> {
+pub fn remove_disabled_decls(session: &Session, mut grammar: Grammar) -> NormResult<Grammar> {
     grammar.items.retain(|item| match item {
         GrammarItem::Nonterminal(nt) => cfg_active(session, nt),
         _ => true,

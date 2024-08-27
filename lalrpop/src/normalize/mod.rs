@@ -53,8 +53,8 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
     );
     let grammar = profile!(
         session,
-        "Grammar preprocessing",
-        preprocess::preprocess(session, grammar)?
+        "Conditional compilation",
+        cond_comp::remove_disabled_decls(session, grammar)?
     );
     let grammar = profile!(session, "Grammar resolution", resolve::resolve(grammar)?);
     let grammar = profile!(
@@ -75,11 +75,11 @@ fn lower_helper(session: &Session, grammar: pt::Grammar, validate: bool) -> Norm
 
 // These are executed *IN ORDER*:
 
-// Eliminate nonterminals with cfg directives that evaluate to false.
-mod preprocess;
-
 // Check most safety conditions.
 mod prevalidate;
+
+// Eliminate nonterminals with cfg directives that evaluate to false.
+mod cond_comp;
 
 // Resolve identifiers into terminals/nonterminals etc.
 mod resolve;

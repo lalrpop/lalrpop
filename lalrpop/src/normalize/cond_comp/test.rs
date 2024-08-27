@@ -3,7 +3,7 @@ use crate::parser;
 use crate::session::Session;
 use crate::test_util::compare;
 
-use super::preprocess;
+use super::remove_disabled_decls;
 
 #[test]
 fn cfg_attr() {
@@ -59,10 +59,10 @@ F = ();
         ..Default::default()
     };
 
-    let mut preprocessed = preprocess(&session, grammar);
+    let mut grammar = remove_disabled_decls(&session, grammar);
 
     // remove attributes to compare with expected
-    match &mut preprocessed {
+    match &mut grammar {
         Ok(grammar) => grammar.items.iter_mut().for_each(|item| match item {
             super::GrammarItem::Nonterminal(nt) => nt.attributes.clear(),
             _ => (),
@@ -70,5 +70,5 @@ F = ();
         Err(_) => (),
     };
 
-    compare(preprocessed, NormResult::Ok(expected));
+    compare(grammar, NormResult::Ok(expected));
 }
