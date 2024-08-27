@@ -56,7 +56,21 @@ So this approach has been abandoned a while ago.
 
 ### Releasing LALRPOP
 
+#### Without Cargo-Release
+
 1. Run `./version.sh <NEW VERSION>`.
 2. Commit the changes
-3. Run `./publish.sh`
-4. Push to the lalrpop repo
+3. Run `cargo publish` for lalrpop and lalrpop-util
+4. Tag new release
+5. Push new tag to repository
+
+#### Cargo-Release
+
+If using [cargo-release](https://github.com/crate-ci/cargo-release):
+
+1. Run `./version.sh <NEW VERSION>`.
+2. Commit the changes
+3. `cargo release --execute --package lalrpop-util --tag-name "{{version}}"`
+4. `cargo release --execute --package lalrpop --no-tag`
+
+Drop the `--execute` flag to do a dry run and check for any issues first.
