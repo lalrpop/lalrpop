@@ -19,37 +19,21 @@ pub fn remove_disabled_decls(session: &Session, mut grammar: Grammar) -> NormRes
 
 fn cfg_active(session: &Session, nt: &NonterminalData) -> bool {
     fn test_feat_attr(attr: &Attribute, session: &Session) -> bool {
-        if attr.id == *"not" {
-            match &attr.arg {
-                AttributeArg::Paren(attrs) => attrs
-                    .first()
-                    .map_or(false, |attr| !test_feat_attr(attr, session)),
-                _ => false,
+        match &attr.arg {
+            AttributeArg::Paren(attrs) if attr.id == *"not" => attrs
+                .first()
+                .map_or(false, |attr| !test_feat_attr(attr, session)),
+            AttributeArg::Paren(attrs) if attr.id == *"all" => {
+                attrs.iter().all(|attr| test_feat_attr(attr, session))
             }
-        } else if attr.id == *"all" {
-            match &attr.arg {
-                AttributeArg::Paren(attrs) => {
-                    attrs.iter().all(|attr| test_feat_attr(attr, session))
-                }
-                _ => false,
+            AttributeArg::Paren(attrs) if attr.id == *"any" => {
+                attrs.iter().any(|attr| test_feat_attr(attr, session))
             }
-        } else if attr.id == *"any" {
-            match &attr.arg {
-                AttributeArg::Paren(attrs) => {
-                    attrs.iter().any(|attr| test_feat_attr(attr, session))
-                }
-                _ => false,
-            }
-        } else if attr.id == *"feature" {
-            match &attr.arg {
-                AttributeArg::Equal(feature) => session
-                    .features
-                    .as_ref()
-                    .map_or(false, |features| features.contains(feature)),
-                _ => false,
-            }
-        } else {
-            false
+            AttributeArg::Equal(feature) if attr.id == *"feature" => session
+                .features
+                .as_ref()
+                .map_or(false, |features| features.contains(feature)),
+            _ => false,
         }
     }
 
