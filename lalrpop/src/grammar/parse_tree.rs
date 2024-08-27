@@ -720,48 +720,12 @@ impl NonterminalData {
 
 impl Attribute {
     /// get the (key, value) of an attribute of the form #[key = "value"]
-    ///
-    /// # Panics
-    ///
-    /// panics if the attribute is not an equal, i.e. #[attr] or #[attr(...)]
-    pub fn unwrap_arg_equal(self) -> (Atom, String) {
-        match self.arg {
-            AttributeArg::Paren(arg) => {
-                let attr = arg.into_iter().next().unwrap();
-                (attr.id, attr.arg.unwrap_equal())
-            }
-            _ => panic!("not an attribute of type attr(arg = value)"),
-        }
-    }
-
-    /// get the (key, value) of an attribute of the form #[key = "value"]
     pub fn get_arg_equal(&self) -> Option<(&Atom, &String)> {
         match &self.arg {
-            AttributeArg::Paren(arg) => arg
-                .first()
-                .and_then(|attr| attr.arg.get_equal().map(|eq| (&attr.id, eq))),
-            _ => None,
-        }
-    }
-}
-
-impl AttributeArg {
-    /// unwrap the content of the `Equal` variant
-    ///
-    /// # Panics
-    ///
-    /// panics if the enum is not of the `Equal` variant
-    pub fn unwrap_equal(self) -> String {
-        match self {
-            AttributeArg::Equal(eq) => eq,
-            _ => panic!("not an equal variant"),
-        }
-    }
-
-    /// get the content of the `Equal` enum variant
-    pub fn get_equal(&self) -> Option<&String> {
-        match self {
-            AttributeArg::Equal(eq) => Some(eq),
+            AttributeArg::Paren(arg) => arg.first().and_then(|attr| match &attr.arg {
+                AttributeArg::Equal(eq) => Some((&attr.id, eq)),
+                _ => None,
+            }),
             _ => None,
         }
     }

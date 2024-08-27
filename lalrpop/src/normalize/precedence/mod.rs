@@ -184,7 +184,9 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                 .iter()
                 .position(|attr| attr.id == *PREC_ATTR)
                 .map(|index| {
-                    let (_, val) = alt.attributes.remove(index).unwrap_arg_equal();
+                    let attr = alt.attributes.remove(index);
+                    // SAFETY: see comment above
+                    let (_, val) = attr.get_arg_equal().unwrap();
                     (val.parse().unwrap(), Assoc::default())
                 })
                 .unwrap_or((last_lvl, last_assoc));
@@ -194,7 +196,9 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                 .iter()
                 .position(|attr| attr.id == *ASSOC_ATTR)
                 .map(|index| {
-                    let (_, val) = alt.attributes.remove(index).unwrap_arg_equal();
+                    let attr = alt.attributes.remove(index);
+                    // SAFETY: see comment above
+                    let (_, val) = attr.get_arg_equal().unwrap();
                     val.parse().unwrap()
                 })
                 .unwrap_or(last_assoc);
