@@ -582,7 +582,7 @@ fn emit_to_triple_trait<W: Write>(
     rust!(rust, "{{");
     rust!(
         rust,
-        "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}>;",
+        "fn to_triple(self) -> Result<({L},{T},{L}), {parse_error}>;",
         L = L,
         T = T,
         parse_error = parse_error,
@@ -603,12 +603,12 @@ fn emit_to_triple_trait<W: Write>(
         rust!(rust, "{{");
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}> {{",
+            "fn to_triple(self) -> Result<({L},{T},{L}), {parse_error}> {{",
             L = L,
             T = T,
             parse_error = parse_error,
         );
-        rust!(rust, "Ok(value)");
+        rust!(rust, "Ok(self)");
         rust!(rust, "}}");
         rust!(rust, "}}");
 
@@ -625,14 +625,14 @@ fn emit_to_triple_trait<W: Write>(
         rust!(rust, "{{");
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<({L},{T},{L}), {parse_error}> {{",
+            "fn to_triple(self) -> Result<({L},{T},{L}), {parse_error}> {{",
             L = L,
             T = T,
             parse_error = parse_error,
         );
         rust!(
             rust,
-            "value.map_err(|error| {p}lalrpop_util::ParseError::User {{ error }})",
+            "self.map_err(|error| {p}lalrpop_util::ParseError::User {{ error }})",
             p = grammar.prefix
         );
         rust!(rust, "}}");
@@ -649,11 +649,11 @@ fn emit_to_triple_trait<W: Write>(
         rust!(rust, "{{");
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<((),{T},()), {parse_error}> {{",
+            "fn to_triple(self) -> Result<((),{T},()), {parse_error}> {{",
             T = T,
             parse_error = parse_error,
         );
-        rust!(rust, "Ok(((), value, ()))");
+        rust!(rust, "Ok(((), self, ()))");
         rust!(rust, "}}");
         rust!(rust, "}}");
 
@@ -669,11 +669,11 @@ fn emit_to_triple_trait<W: Write>(
         rust!(rust, "{{");
         rust!(
             rust,
-            "fn to_triple(value: Self) -> Result<((),{T},()), {parse_error}> {{",
+            "fn to_triple(self) -> Result<((),{T},()), {parse_error}> {{",
             T = T,
             parse_error = parse_error,
         );
-        rust!(rust, "match value {{");
+        rust!(rust, "match self {{");
         rust!(rust, "Ok(v) => Ok(((), v, ())),");
         rust!(
             rust,
