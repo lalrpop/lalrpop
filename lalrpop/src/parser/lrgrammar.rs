@@ -38563,21 +38563,18 @@ ___5,
 
 pub  trait ___ToTriple<'input, >
 {
-fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>>;
+fn to_triple(self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>>;
 }
 
 impl<'input, > ___ToTriple<'input, > for (usize, Tok<'input>, usize)
 {
-fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-Ok(value)
+fn to_triple(self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
+Ok(self)
 }
 }
 impl<'input, > ___ToTriple<'input, > for Result<(usize, Tok<'input>, usize), tok::Error>
 {
-fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-match value {
-Ok(v) => Ok(v),
-Err(error) => Err(___lalrpop_util::ParseError::User { error }),
-}
+fn to_triple(self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
+self.map_err(|error| ___lalrpop_util::ParseError::User { error })
 }
 }
