@@ -38575,9 +38575,6 @@ Ok(value)
 impl<'input, > ___ToTriple<'input, > for Result<(usize, Tok<'input>, usize), tok::Error>
 {
 fn to_triple(value: Self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>> {
-match value {
-Ok(v) => Ok(v),
-Err(error) => Err(___lalrpop_util::ParseError::User { error }),
-}
+value.map_err(|error| ___lalrpop_util::ParseError::User { error })
 }
 }

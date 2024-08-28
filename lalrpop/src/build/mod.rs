@@ -630,14 +630,11 @@ fn emit_to_triple_trait<W: Write>(
             T = T,
             parse_error = parse_error,
         );
-        rust!(rust, "match value {{");
-        rust!(rust, "Ok(v) => Ok(v),");
         rust!(
             rust,
-            "Err(error) => Err({p}lalrpop_util::ParseError::User {{ error }}),",
+            "value.map_err(|error| {p}lalrpop_util::ParseError::User {{ error }})",
             p = grammar.prefix
         );
-        rust!(rust, "}}"); // match
         rust!(rust, "}}");
         rust!(rust, "}}");
     } else {
