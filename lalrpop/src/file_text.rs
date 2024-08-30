@@ -58,7 +58,7 @@ impl FileText {
         )
     }
 
-    fn line_col(&self, pos: usize) -> (usize, usize) {
+    pub fn line_col(&self, pos: usize) -> (usize, usize) {
         let num_lines = self.newlines.len();
         let line = (0..num_lines)
             .filter(|&i| self.newlines[i] > pos)

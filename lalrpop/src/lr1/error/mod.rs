@@ -411,6 +411,11 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         let styles = ExampleStyles::new();
         let span1_str = file_text.span_text(span1);
         let span2_str = file_text.span_text(span2);
+
+        // Internal lines are 0-indexed, but editors are (always?) 1-indexed
+        let span1_line = file_text.line_col(span1.0).0 + 1;
+        let span2_line = file_text.line_col(span2.0).0 + 1;
+
         MessageBuilder::new(span1)
             .heading()
             .text("Multiple productions for the same reduction")
@@ -422,9 +427,15 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 reduce.reductions.first().unwrap().nonterminal
             ))
             .push(reduce.to_symbol_list(reduce.symbols.len(), styles))
-            .wrap_text("They could be reduced using the following production:")
+            .wrap_text(format!(
+                "They could be reduced using the production on line {}:",
+                span1_line
+            ))
             .wrap_text(span1_str)
-            .wrap_text("...or using the following production:")
+            .wrap_text(format!(
+                "...or using the production on line {}:",
+                span2_line
+            ))
             .wrap_text(span2_str)
             .end()
             .end()
