@@ -201,7 +201,9 @@ fn verify_errors(
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
     assert_eq!(conflicts.len(), unique_conflicts); // One group of conflicts
-    assert_eq!(conflicts[0].len(), terminal_count); // terminal count
+    for conflict in conflicts {
+        assert_eq!(conflict.len(), terminal_count); // terminal count
+    }
 
     let mut calls = 0;
     let test_report = |message: Message| -> Result<(), ()> {
@@ -214,12 +216,13 @@ fn verify_errors(
             .collect::<Vec<String>>()
             .join("\n")
             .contains(text));
-        assert!(calls < unique_conflicts);
         calls += 1;
+        assert!(calls <= unique_conflicts);
         Ok(())
     };
 
     cx.report_errors(test_report).unwrap();
+    assert_eq!(calls, unique_conflicts);
 }
 
 #[test]
