@@ -5,6 +5,7 @@ readme = "../README.md"
 keywords = ["parser", "generator", "LR", "yacc", "grammar"]
 categories = ["parsing"]
 workspace = ".."
+default-run = "lalrpop"
 
 repository.workspace = true
 edition.workspace = true
