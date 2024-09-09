@@ -43,7 +43,7 @@ pub struct LaneTable<'grammar> {
 }
 
 impl<'grammar> LaneTable<'grammar> {
-    pub fn new(grammar: &'grammar Grammar, conflicts: usize) -> LaneTable<'_> {
+    pub fn new(grammar: &Grammar, conflicts: usize) -> LaneTable<'_> {
         LaneTable {
             _grammar: grammar,
             conflicts,
