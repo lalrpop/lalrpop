@@ -189,15 +189,23 @@ mod user_defined_error_visibility;
 lalrpop_mod_test!(zero_length_match);
 
 pub fn use_cfg_created_parser() {
+    cfg::AlwaysCreatedParser::new();
+    #[cfg(feature = "test-not-set")]
+    cfg::NotCreatedParser::new();
     #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();
-    cfg::AlwaysCreatedParser::new();
-    #[cfg(feature = "test-set")]
+    #[cfg(not(feature = "test-not-set"))]
     cfg::CreatedWithNotParser::new();
-    #[cfg(feature = "test-set")]
+    #[cfg(not(feature = "test-set"))]
+    cfg::NotCreatedWithNotParser::new();
+    #[cfg(any(feature = "test-not-set", feature = "test-set"))]
     cfg::CreatedWithAnyParser::new();
-    #[cfg(feature = "test-set")]
+    #[cfg(any(feature = "test-not-set"))]
+    cfg::NotCreatedWithAnyParser::new();
+    #[cfg(all(feature = "test-set"))]
     cfg::CreatedWithAllParser::new();
+    #[cfg(all(feature = "test-set", feature = "test-not-set"))]
+    cfg::NotCreatedWithAllParser::new();
 }
 
 /// This constant is here so that some of the generator parsers can
