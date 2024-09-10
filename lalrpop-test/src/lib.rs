@@ -206,6 +206,8 @@ pub fn use_cfg_created_parser() {
     cfg::CreatedWithAllParser::new();
     #[cfg(all(feature = "test-set", feature = "test-not-set"))]
     cfg::NotCreatedWithAllParser::new();
+    #[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
+    cfg::CreatedAnyWithAllNotNotParser::new();
 }
 
 /// This constant is here so that some of the generator parsers can

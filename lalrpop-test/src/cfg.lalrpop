@@ -42,3 +42,7 @@ pub NotCreatedWithAll: () = {
     "x" => ()
 };
 
+#[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
+pub CreatedAnyWithAllNotNot: () = {
+    "x" => ()
+};
