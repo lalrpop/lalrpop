@@ -190,7 +190,7 @@ pub struct ErrorRecovery<L, T, E> {
 #[macro_export]
 macro_rules! lalrpop_mod {
     ($(#[$attr:meta])* $vis:vis $modname:ident) => {
-        lalrpop_mod!($(#[$attr])* $vis $modname, concat!("/", stringify!($modname), ".rs"));
+        lalrpop_util::lalrpop_mod!($(#[$attr])* $vis $modname, concat!("/", stringify!($modname), ".rs"));
     };
 
     ($(#[$attr:meta])* $vis:vis $modname:ident, $source:expr) => {
