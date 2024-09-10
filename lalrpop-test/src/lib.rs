@@ -200,12 +200,15 @@ pub fn use_cfg_created_parser() {
     cfg::NotCreatedWithNotParser::new();
     #[cfg(any(feature = "test-not-set", feature = "test-set"))]
     cfg::CreatedWithAnyParser::new();
+    #[allow(clippy::non_minimal_cfg)]
     #[cfg(any(feature = "test-not-set"))]
     cfg::NotCreatedWithAnyParser::new();
+    #[allow(clippy::non_minimal_cfg)]
     #[cfg(all(feature = "test-set"))]
     cfg::CreatedWithAllParser::new();
     #[cfg(all(feature = "test-set", feature = "test-not-set"))]
     cfg::NotCreatedWithAllParser::new();
+    #[allow(clippy::non_minimal_cfg)]
     #[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
     cfg::CreatedAnyWithAllNotNotParser::new();
 }
