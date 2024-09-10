@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.21.0"
-// sha3: 41f98a6a8c1305d7ef67ac81e1eb4a8b9450d8a01a72a06b1fc8bb7900055a0b
+// sha3: 6ffe9c685b15bbfa76e648c869710856e9c4dc19f2090efa67f36fd2faa73164
 use string_cache::DefaultAtom as Atom;
 use crate::grammar::parse_tree::*;
 use crate::grammar::pattern::*;
@@ -3102,13 +3102,13 @@ None
 }).collect()
 }
 struct ___StateMachine<'input>
-where
+where 
 {
 text: &'input str,
 ___phantom: core::marker::PhantomData<(&'input ())>,
 }
 impl<'input> ___state_machine::ParserDefinition for ___StateMachine<'input>
-where
+where 
 {
 type Location = usize;
 type Error = tok::Error;
