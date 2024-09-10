@@ -63,9 +63,10 @@ F = ();
 
     // remove attributes to compare with expected
     match &mut grammar {
-        Ok(grammar) => grammar.items.iter_mut().for_each(|item| match item {
-            super::GrammarItem::Nonterminal(nt) => nt.attributes.clear(),
-            _ => (),
+        Ok(grammar) => grammar.items.iter_mut().for_each(|item| {
+            if let super::GrammarItem::Nonterminal(nt) = item {
+                nt.attributes.clear()
+            }
         }),
         Err(_) => (),
     };
