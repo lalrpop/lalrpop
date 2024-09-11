@@ -1,5 +1,3 @@
-use lalrpop_util::lalrpop_mod;
-
 macro_rules! lalrpop_mod_doc {
     ($vis:vis $name:ident) => {
         lalrpop_util::lalrpop_mod!(
