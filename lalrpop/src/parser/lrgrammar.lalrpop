@@ -351,9 +351,10 @@ AssociatedType: AssociatedType =
     };
 
 Conversion: Conversion =
-    <lo:@L> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
+    <lo:@L> <attributes:Attribute*> <from:Terminal> <start:@L> <p:"=>"> <hi:@R> =>? {
         let pattern = super::parse_pattern(p, start + 2)?;
         Ok(Conversion { span: Span(lo, hi),
+                        attributes,
                         from,
                         to: pattern })
     };
