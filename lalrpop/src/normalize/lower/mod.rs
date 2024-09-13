@@ -14,9 +14,11 @@ use crate::normalize::NormResult;
 use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
+use super::cond_comp::cfg_active;
+
 pub fn lower(session: &Session, grammar: pt::Grammar, types: r::Types) -> NormResult<r::Grammar> {
     let state = LowerState::new(session, types, &grammar);
-    state.lower(grammar)
+    state.lower(session, grammar)
 }
 
 struct LowerState<'s> {
@@ -44,7 +46,7 @@ impl<'s> LowerState<'s> {
         }
     }
 
-    fn lower(mut self, grammar: pt::Grammar) -> NormResult<r::Grammar> {
+    fn lower(mut self, session: &Session, grammar: pt::Grammar) -> NormResult<r::Grammar> {
         let start_symbols = self.synthesize_start_symbols(&grammar);
 
         let mut uses = vec![];
@@ -107,11 +109,13 @@ impl<'s> LowerState<'s> {
                 pt::GrammarItem::ExternToken(data) => {
                     if let Some(enum_token) = data.enum_token {
                         self.conversions
-                            .extend(enum_token.conversions.iter().map(|conversion| {
-                                (
-                                    conversion.from.clone(),
-                                    conversion.to.map(&mut |t| t.type_repr()),
-                                )
+                            .extend(enum_token.conversions.iter().filter_map(|conversion| {
+                                cfg_active(session, &conversion.attributes).then(|| {
+                                    (
+                                        conversion.from.clone(),
+                                        conversion.to.map(&mut |t| t.type_repr()),
+                                    )
+                                })
                             }));
                     }
                 }
