@@ -6,12 +6,16 @@ lalrpop_mod!(
     cfg
 );
 
+/// ideally this test can be run twice
+/// * expected OK:  `cargo doc --no-default-features --features test-set`
+/// * expected OK:  `cargo doc --no-default-features --features test-not-set`
+/// * expected ERR: `cargo doc --no-default-features --features test-set,test-not-set`
 pub fn use_cfg_created_parser() {
     cfg::AlwaysCreatedParser::new();
-    #[cfg(feature = "test-not-set")]
-    cfg::NotCreatedParser::new();
     #[cfg(feature = "test-set")]
     cfg::CreatedParser::new();
+    #[cfg(feature = "test-not-set")]
+    cfg::NotCreatedParser::new();
     #[cfg(not(feature = "test-not-set"))]
     cfg::CreatedWithNotParser::new();
     #[cfg(not(feature = "test-set"))]
@@ -28,5 +32,13 @@ pub fn use_cfg_created_parser() {
     cfg::NotCreatedWithAllParser::new();
     #[allow(clippy::non_minimal_cfg)]
     #[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
-    cfg::CreatedAnyWithAllNotNotParser::new();
+    cfg::CreatedWithAnyAllNotParser::new();
+    #[cfg(feature = "test-set")]
+    cfg::CreatedWithMacroParser::new();
+    #[cfg(feature = "test-not-set")]
+    cfg::NotCreatedWithMacroParser::new();
+    #[cfg(feature = "test-set")]
+    cfg::CreatedWithInlineParser::new();
+    #[cfg(feature = "test-not-set")]
+    cfg::NotCreatedWithInlineParser::new();
 }

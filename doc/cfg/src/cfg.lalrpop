@@ -43,6 +43,43 @@ pub NotCreatedWithAll: () = {
 };
 
 #[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
-pub CreatedAnyWithAllNotNot: () = {
+pub CreatedWithAnyAllNot: () = {
     "x" => ()
 };
+
+#[cfg(feature = "test-set")]
+TwiceMacro<T>: (T, T) = T T;
+
+#[cfg(feature = "test-not-set")]
+TwiceMacro<T, U>: (T, T, U, U) = T T U U;
+
+X: u32 = "x" => 0u32;
+Y: u32 = "y" => 1u32;
+
+#[cfg(feature = "test-set")]
+pub CreatedWithMacro: (u32, u32) = TwiceMacro<X>;
+
+#[cfg(feature = "test-not-set")]
+pub NotCreatedWithMacro: (u32, u32, u32, u32) = TwiceMacro<X, Y>;
+
+#[cfg(feature = "test-set")]
+#[inline]
+Inline: () = {
+    "x" => ()
+}
+
+#[cfg(feature = "test-not-set")]
+#[inline]
+Inline: () = {
+    "y" => ()
+}
+
+#[cfg(feature = "test-set")]
+pub CreatedWithInline: () = {
+    Inline => ()
+}
+
+#[cfg(feature = "test-not-set")]
+pub NotCreatedWithInline: () = {
+    Inline => ()
+}

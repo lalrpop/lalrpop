@@ -1,7 +1,7 @@
 [package]
 name = "cfg"
 version = "0.21.0"
-authors = ["Mathis Brossier @k2d222"]
+authors = ["Mathis Brossier <mathis.brossier@gmail.com>"]
 workspace = "../.." # <-- We added this and everything after!
 edition = "2021"
 
