@@ -29,10 +29,13 @@ pub fn use_cfg_created_parser() {
     #[allow(clippy::non_minimal_cfg)]
     #[cfg(all(feature = "test-set"))]
     cfg::CreatedWithAllParser::new();
-    #[cfg(all(feature = "test-set", feature = "test-not-set"))]
-    cfg::NotCreatedWithAllParser::new();
+    #[cfg(all(feature = "test-set", feature = "test-set2"))]
+    cfg::CreatedWithAll2Parser::new();
     #[allow(clippy::non_minimal_cfg)]
-    #[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
+    #[cfg(any(
+        feature = "test-set",
+        all(not(feature = "test-not-set"), feature = "test-set2")
+    ))]
     cfg::CreatedWithAnyAllNotParser::new();
     #[cfg(feature = "test-set")]
     cfg::CreatedWithMacroParser::new();

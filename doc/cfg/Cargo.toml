@@ -17,3 +17,4 @@ lalrpop-util = { version = "0.21.0", path = "../../lalrpop-util", features = [
 default = ["test-set"]
 test-set = []
 test-not-set = []
+test-set2 = []
