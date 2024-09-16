@@ -2282,14 +2282,21 @@ in your configuration:</p>
 <p>For each <code>foo.lalrpop</code> file you can simply have <code>mod foo;</code> in your source tree.
 The <code>lalrpop_mod</code> macro is not useful in this mode.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="conditional-compilation"><a class="header" href="#conditional-compilation">Conditional compilation</a></h1>
-<p>LALRPOP support conditional compilation of public non-terminal declarations via
+<p>LALRPOP support conditional compilation of non-terminal declarations via
 <code>#[cfg(feature = "FEATURE")]</code> attributes. If run in a build script LALRPOP will
 automatically pickup the features from <code>cargo</code> and use those. Alternatively an
 explicit set of features can be set using the <code>Configuration</code> type.</p>
+<p>Like rust's <code>cfg</code> attribute, the syntax accepts <code>not()</code>, <code>any()</code> and <code>all()</code>
+arguments, even nested.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[cfg(feature = "FEATURE")]
-pub MyRule : () = {
+pub MyRule1 : () = {
+    ...
+};
+
+#[cfg(any(feature = "FEATURE_A", all(not(feature = "FEATURE_B"), feature = "FEATURE_C")))]
+pub MyRule2 : () = {
     ...
 };
 <span class="boring">}</span></code></pre></pre>
