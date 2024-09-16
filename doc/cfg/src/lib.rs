@@ -1,3 +1,4 @@
+#![cfg(not(all(feature = "test-set", feature = "test-not-set")))]
 use lalrpop_util::lalrpop_mod;
 
 lalrpop_mod!(
@@ -41,4 +42,14 @@ pub fn use_cfg_created_parser() {
     cfg::CreatedWithInlineParser::new();
     #[cfg(feature = "test-not-set")]
     cfg::NotCreatedWithInlineParser::new();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_use_cfg_created_parser() {
+        use_cfg_created_parser();
+    }
 }
