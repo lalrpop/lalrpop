@@ -77,6 +77,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "cfg"
+version = "0.21.0"
+dependencies = [
+ "lalrpop",
+ "lalrpop-util",
+]
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -1,0 +1,85 @@
+grammar;
+
+pub AlwaysCreated: () = {
+};
+
+#[cfg(feature = "test-not-set")]
+pub NotCreated: () = {
+};
+
+#[cfg(feature = "test-set")]
+pub Created: () = {
+    "x" => ()
+};
+
+#[cfg(not(feature = "test-not-set"))]
+pub CreatedWithNot: () = {
+    "x" => ()
+};
+
+#[cfg(not(feature = "test-set"))]
+pub NotCreatedWithNot: () = {
+    "x" => ()
+};
+
+#[cfg(any(feature = "test-not-set", feature = "test-set"))]
+pub CreatedWithAny: () = {
+    "x" => ()
+};
+
+#[cfg(any(feature = "test-not-set"))]
+pub NotCreatedWithAny: () = {
+    "x" => ()
+};
+
+#[cfg(all(feature = "test-set"))]
+pub CreatedWithAll: () = {
+    "x" => ()
+};
+
+#[cfg(all(feature = "test-set", feature = "test-not-set"))]
+pub NotCreatedWithAll: () = {
+    "x" => ()
+};
+
+#[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
+pub CreatedWithAnyAllNot: () = {
+    "x" => ()
+};
+
+#[cfg(feature = "test-set")]
+TwiceMacro<T>: (T, T) = T T;
+
+#[cfg(feature = "test-not-set")]
+TwiceMacro<T, U>: (T, T, U, U) = T T U U;
+
+X: u32 = "x" => 0u32;
+Y: u32 = "y" => 1u32;
+
+#[cfg(feature = "test-set")]
+pub CreatedWithMacro: (u32, u32) = TwiceMacro<X>;
+
+#[cfg(feature = "test-not-set")]
+pub NotCreatedWithMacro: (u32, u32, u32, u32) = TwiceMacro<X, Y>;
+
+#[cfg(feature = "test-set")]
+#[inline]
+Inline: () = {
+    "x" => ()
+}
+
+#[cfg(feature = "test-not-set")]
+#[inline]
+Inline: () = {
+    "y" => ()
+}
+
+#[cfg(feature = "test-set")]
+pub CreatedWithInline: () = {
+    Inline => ()
+}
+
+#[cfg(feature = "test-not-set")]
+pub NotCreatedWithInline: () = {
+    Inline => ()
+}

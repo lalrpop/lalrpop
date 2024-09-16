@@ -6,6 +6,7 @@ members = [
         "doc/whitespace",
         "doc/lexer",
         "doc/lexer-modes",
+        "doc/cfg",
         "lalrpop-test",
         "lalrpop-util",
         "lalrpop",

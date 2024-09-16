@@ -155,12 +155,6 @@ lalrpop_mod_test!(
 );
 
 lalrpop_mod_test!(
-    // No parser should have been generated so nothing should be unused
-    #[deny(dead_code)]
-    cfg
-);
-
-lalrpop_mod_test!(
     #[allow(unused)]
     dyn_argument
 );
@@ -187,12 +181,6 @@ lalrpop_mod_test!(
 mod user_defined_error_visibility;
 
 lalrpop_mod_test!(zero_length_match);
-
-pub fn use_cfg_created_parser() {
-    #[cfg(feature = "test-set")]
-    cfg::CreatedParser::new();
-    cfg::AlwaysCreatedParser::new();
-}
 
 /// This constant is here so that some of the generator parsers can
 /// refer to it in order to test `super::` handling in action code.

@@ -46,7 +46,7 @@ impl<'grammar> NonterminalGraph<'grammar> {
     fn create_nodes(&mut self) {
         let inline = Atom::from(INLINE);
         for (name, data) in &self.grammar.nonterminals {
-            if data.annotations.iter().any(|a| a.id == inline) {
+            if data.attributes.iter().any(|a| a.id == inline) {
                 let index = self.graph.add_node(name.clone());
                 self.nonterminal_map.insert(name.clone(), index);
             }

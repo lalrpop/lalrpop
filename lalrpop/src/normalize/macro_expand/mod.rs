@@ -1,8 +1,8 @@
 use crate::grammar::consts::INLINE;
 use crate::grammar::parse_tree::{
-    ActionKind, Alternative, Annotation, Condition, ConditionOp, ExprSymbol, Grammar, GrammarItem,
-    MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, RepeatSymbol, Span,
-    Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
+    ActionKind, Alternative, Attribute, AttributeArg, Condition, ConditionOp, ExprSymbol, Grammar,
+    GrammarItem, MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp,
+    RepeatSymbol, Span, Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
 };
 use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::resolve;
@@ -215,7 +215,7 @@ impl MacroExpander {
                 expr: self.macro_expand_expr_symbol(&args, &alternative.expr),
                 condition: None,
                 action: alternative.action.clone(),
-                annotations: alternative.annotations.clone(),
+                attributes: alternative.attributes.clone(),
             });
         }
 
@@ -223,7 +223,7 @@ impl MacroExpander {
             visibility: mdef.visibility.clone(),
             span,
             name: msym_name,
-            annotations: mdef.annotations.clone(),
+            attributes: mdef.attributes.clone(),
             args: vec![],
             type_decl,
             alternatives,
@@ -432,7 +432,7 @@ impl MacroExpander {
             visibility: Visibility::Priv,
             span,
             name,
-            annotations: inline(span),
+            attributes: inline(span),
             args: vec![],
             type_decl: Some(ty_ref),
             alternatives: vec![Alternative {
@@ -440,7 +440,7 @@ impl MacroExpander {
                 expr,
                 condition: None,
                 action,
-                annotations: Vec::new(),
+                attributes: Vec::new(),
             }],
         }))
     }
@@ -476,7 +476,7 @@ impl MacroExpander {
                     visibility: Visibility::Priv,
                     span,
                     name,
-                    annotations: inline(span),
+                    attributes: inline(span),
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -486,7 +486,7 @@ impl MacroExpander {
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: action("alloc::vec![]"),
-                            annotations: vec![],
+                            attributes: vec![],
                         },
                         // X* = <v:X+>
                         Alternative {
@@ -505,7 +505,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("v"),
-                            annotations: vec![],
+                            attributes: vec![],
                         },
                     ],
                 }))
@@ -522,7 +522,7 @@ impl MacroExpander {
                     visibility: Visibility::Priv,
                     span,
                     name: name.clone(),
-                    annotations: vec![],
+                    attributes: vec![],
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -534,7 +534,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("alloc::vec![<>]"),
-                            annotations: vec![],
+                            attributes: vec![],
                         },
                         // X+ = <v:X+> <e:X>
                         Alternative {
@@ -559,7 +559,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("{ let mut v = v; v.push(e); v }"),
-                            annotations: vec![],
+                            attributes: vec![],
                         },
                     ],
                 }))
@@ -576,7 +576,7 @@ impl MacroExpander {
                     visibility: Visibility::Priv,
                     span,
                     name,
-                    annotations: inline(span),
+                    attributes: inline(span),
                     args: vec![],
                     type_decl: Some(ty_ref),
                     alternatives: vec![
@@ -588,7 +588,7 @@ impl MacroExpander {
                             },
                             condition: None,
                             action: action("Some(<>)"),
-                            annotations: vec![],
+                            attributes: vec![],
                         },
                         // X? = { => None; }
                         Alternative {
@@ -596,7 +596,7 @@ impl MacroExpander {
                             expr: ExprSymbol { symbols: vec![] },
                             condition: None,
                             action: action("None"),
-                            annotations: vec![],
+                            attributes: vec![],
                         },
                     ],
                 }))
@@ -615,7 +615,7 @@ impl MacroExpander {
             visibility: Visibility::Priv,
             span,
             name,
-            annotations: inline(span),
+            attributes: inline(span),
             args: vec![],
             type_decl: None,
             alternatives: vec![Alternative {
@@ -623,7 +623,7 @@ impl MacroExpander {
                 expr: ExprSymbol { symbols: vec![] },
                 condition: None,
                 action: Some(action),
-                annotations: vec![],
+                attributes: vec![],
             }],
         }))
     }
@@ -641,10 +641,10 @@ fn action(s: &str) -> Option<ActionKind> {
     Some(ActionKind::User(s.to_string()))
 }
 
-fn inline(span: Span) -> Vec<Annotation> {
-    vec![Annotation {
+fn inline(span: Span) -> Vec<Attribute> {
+    vec![Attribute {
         id_span: span,
         id: Atom::from(INLINE),
-        arg: None,
+        arg: AttributeArg::Empty,
     }]
 }

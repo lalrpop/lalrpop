@@ -1,7 +1,7 @@
 //! Precedence expander.
 //!
-//! Precedence expansion rewrites rules that contain precedence annotation into several rules
-//! without annotations. A new rule is created for each level of precedence. Recursive occurrences
+//! Precedence expansion rewrites rules that contain precedence attribute into several rules
+//! without attributes. A new rule is created for each level of precedence. Recursive occurrences
 //! of the original rule are syntactically substituted for a level rule in each alternative, where
 //! the choice of the precise rule is determined by the precedence level, the possible
 //! associativity and the position of this occurrence.
@@ -20,9 +20,9 @@ use string_cache::DefaultAtom as Atom;
 #[cfg(test)]
 mod test;
 
-pub const PREC_ANNOT: &str = "precedence";
+pub const PREC_ATTR: &str = "precedence";
 pub const LVL_ARG: &str = "level";
-pub const ASSOC_ANNOT: &str = "assoc";
+pub const ASSOC_ATTR: &str = "assoc";
 pub const SIDE_ARG: &str = "side";
 
 /// Associativity of an alternative.
@@ -125,14 +125,14 @@ impl FromStr for Assoc {
 }
 
 /// Perform precedence expansion. Rewrite rules where at least one alternative has a precedence
-/// annotation, and generate derived rules for each level of precedence.
+/// attribute, and generate derived rules for each level of precedence.
 pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     let input = resolve::resolve(input)?;
     let mut result: Vec<GrammarItem> = Vec::with_capacity(input.items.len());
 
     for item in input.items.into_iter() {
         match item {
-            GrammarItem::Nonterminal(d) if has_prec_annot(&d) => result.extend(expand_nonterm(d)?),
+            GrammarItem::Nonterminal(d) if has_prec_attr(&d) => result.extend(expand_nonterm(d)?),
             item => result.push(item),
         };
     }
@@ -143,63 +143,67 @@ pub fn expand_precedence(input: Grammar) -> NormResult<Grammar> {
     })
 }
 
-/// Determine if a rule has at least one precedence annotation.
-pub fn has_prec_annot(non_term: &NonterminalData) -> bool {
+/// Determine if a rule has at least one precedence attribute.
+pub fn has_prec_attr(non_term: &NonterminalData) -> bool {
     // After prevalidation, either at least the first alternative of a nonterminal have a
-    // precedence annotations, or none have, so we just have to check the first one.
+    // precedence attributes, or none have, so we just have to check the first one.
     non_term
         .alternatives
         .first()
         .map(|alt| {
-            alt.annotations
+            alt.attributes
                 .iter()
-                .any(|ann| ann.id == *PREC_ANNOT || ann.id == *ASSOC_ANNOT)
+                .any(|attr| attr.id == *PREC_ATTR || attr.id == *ASSOC_ATTR)
         })
         .unwrap_or(false)
 }
 
-/// Expand a rule with precedence annotations. As it implies to generate new rules, return a vector
+/// Expand a rule with precedence attributes. As it implies to generate new rules, return a vector
 /// of grammar items.
 fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> {
     let mut lvls: Vec<u32> = Vec::new();
-    let mut alts_with_ann: Vec<(u32, Assoc, Alternative)> =
+    let mut alts_with_attr: Vec<(u32, Assoc, Alternative)> =
         Vec::with_capacity(nonterm.alternatives.len());
     let _ = nonterm.alternatives.drain(..).fold(
-        // Thanks to prevalidation, the first alternative must have a precedence annotation that
+        // Thanks to prevalidation, the first alternative must have a precedence attribute that
         // will set last_lvl to an initial value
         (0, Assoc::default()),
         |(last_lvl, last_assoc): (u32, Assoc), mut alt| {
             // All the following unsafe `unwrap()`, `panic!()`, etc. should never panic thanks to
             // prevalidation. Prevalidation ensures, beside that the first alternative is annotated with
-            // a precedence level, that each precedence annotation has an argument which
-            // is parsable as an integer, and that each optional assoc annotation which a parsable
+            // a precedence level, that each precedence attribute has an argument which
+            // is parsable as an integer, and that each optional assoc attribute which a parsable
             // `Assoc`.
 
-            // Extract precedence and associativity annotations
+            // Extract precedence and associativity attributes
 
             // If there is a new precedence association, the associativity is reset to the default
             // one (that is, `FullyAssoc`), instead of using the last one encountered.
             let (lvl, last_assoc) = alt
-                .annotations
+                .attributes
                 .iter()
-                .position(|ann| ann.id == *PREC_ANNOT)
+                .position(|attr| attr.id == *PREC_ATTR)
                 .map(|index| {
-                    let (_, val) = alt.annotations.remove(index).arg.unwrap();
+                    let attr = alt.attributes.remove(index);
+                    // SAFETY: see comment above
+                    let (_, val) = attr.get_arg_equal().unwrap();
                     (val.parse().unwrap(), Assoc::default())
                 })
                 .unwrap_or((last_lvl, last_assoc));
 
             let assoc = alt
-                .annotations
+                .attributes
                 .iter()
-                .position(|ann| ann.id == *ASSOC_ANNOT)
+                .position(|attr| attr.id == *ASSOC_ATTR)
                 .map(|index| {
-                    let (_, val) = alt.annotations.remove(index).arg.unwrap();
+                    let attr = alt.attributes.remove(index);
+                    // SAFETY: see comment above
+                    let (_, val) = attr.get_arg_equal().unwrap();
                     val.parse().unwrap()
                 })
                 .unwrap_or(last_assoc);
 
-            alts_with_ann.push((lvl, assoc, alt));
+            alts_with_attr.push((lvl, assoc, alt));
             lvls.push(lvl);
             (lvl, assoc)
         },
@@ -208,7 +212,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
     lvls.sort_unstable();
     lvls.dedup();
 
-    let rest = &mut alts_with_ann.into_iter();
+    let rest = &mut alts_with_attr.into_iter();
 
     let lvl_max = *lvls.last().unwrap();
     // Iterate on pairs (lvls[i], lvls[i+1])
@@ -244,7 +248,7 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
 
             let symbol_kind = &SymbolKind::Nonterminal(name.clone());
             for (assoc, alt) in &mut alts_with_assoc {
-                let err_msg = "unexpected associativity annotation on the first precedence level";
+                let err_msg = "unexpected associativity attribute on the first precedence level";
                 let (subst, dir) = match assoc {
                     Assoc::Left => (
                         Substitution::OneThen(symbol_kind, nonterm_prev.as_ref().expect(err_msg)),
@@ -279,14 +283,14 @@ fn expand_nonterm(mut nonterm: NonterminalData) -> NormResult<Vec<GrammarItem>> 
                     },
                     condition: None,
                     action: None,
-                    annotations: vec![],
+                    attributes: vec![],
                 });
             }
 
             GrammarItem::Nonterminal(NonterminalData {
                 visibility: nonterm.visibility.clone(),
                 name,
-                annotations: nonterm.annotations.clone(),
+                attributes: nonterm.attributes.clone(),
                 span: nonterm.span,
                 args: nonterm.args.clone(), // macro arguments
                 type_decl: nonterm.type_decl.clone(),

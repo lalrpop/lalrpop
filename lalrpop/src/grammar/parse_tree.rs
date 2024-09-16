@@ -21,7 +21,7 @@ pub struct Grammar {
     pub parameters: Vec<Parameter>,
     pub where_clauses: Vec<WhereClause<TypeRef>>,
     pub items: Vec<GrammarItem>,
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
     pub module_attributes: Vec<String>,
 }
 
@@ -379,7 +379,7 @@ impl Visibility {
 pub struct NonterminalData {
     pub visibility: Visibility,
     pub name: NonterminalString,
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
     pub span: Span,
     pub args: Vec<NonterminalString>, // macro arguments
     pub type_decl: Option<TypeRef>,
@@ -387,10 +387,18 @@ pub struct NonterminalData {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct Annotation {
+pub struct Attribute {
     pub id_span: Span,
     pub id: Atom,
-    pub arg: Option<(Atom, String)>,
+    pub arg: AttributeArg,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub enum AttributeArg {
+    #[default]
+    Empty,
+    Paren(Vec<Attribute>),
+    Equal(String),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -405,7 +413,7 @@ pub struct Alternative {
     // => { code }
     pub action: Option<ActionKind>,
 
-    pub annotations: Vec<Annotation>,
+    pub attributes: Vec<Attribute>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -707,6 +715,19 @@ impl GrammarItem {
 impl NonterminalData {
     pub fn is_macro_def(&self) -> bool {
         !self.args.is_empty()
+    }
+}
+
+impl Attribute {
+    /// get the (key, value) of an attribute of the form #[key = "value"]
+    pub fn get_arg_equal(&self) -> Option<(&Atom, &String)> {
+        match &self.arg {
+            AttributeArg::Paren(arg) => arg.first().and_then(|attr| match &attr.arg {
+                AttributeArg::Equal(eq) => Some((&attr.id, eq)),
+                _ => None,
+            }),
+            _ => None,
+        }
     }
 }
 
@@ -1190,21 +1211,18 @@ impl Path {
     }
 }
 
-pub fn read_algorithm(annotations: &[Annotation], algorithm: &mut r::Algorithm) {
-    for annotation in annotations {
-        if annotation.id == *LALR {
+pub fn read_algorithm(attributes: &[Attribute], algorithm: &mut r::Algorithm) {
+    for attribute in attributes {
+        if attribute.id == *LALR {
             algorithm.lalr = true;
-        } else if annotation.id == *TABLE_DRIVEN {
+        } else if attribute.id == *TABLE_DRIVEN {
             algorithm.codegen = r::LrCodeGeneration::TableDriven;
-        } else if annotation.id == *RECURSIVE_ASCENT {
+        } else if attribute.id == *RECURSIVE_ASCENT {
             algorithm.codegen = r::LrCodeGeneration::RecursiveAscent;
-        } else if annotation.id == *TEST_ALL {
+        } else if attribute.id == *TEST_ALL {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         } else {
-            panic!(
-                "validation permitted unknown annotation: {:?}",
-                annotation.id,
-            );
+            panic!("validation permitted unknown attribute: {:?}", attribute.id,);
         }
     }
 }

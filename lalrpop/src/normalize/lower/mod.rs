@@ -2,7 +2,6 @@
 //!
 
 use crate::collections::{map, Map};
-use crate::grammar::consts::CFG;
 use crate::grammar::parse_tree as pt;
 use crate::grammar::parse_tree::{
     read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
@@ -138,7 +137,7 @@ impl<'s> LowerState<'s> {
                         nt_name.clone(),
                         r::NonterminalData {
                             visibility: nt.visibility.clone(),
-                            annotations: nt.annotations,
+                            attributes: nt.attributes,
                             span: nt.span,
                             productions,
                         },
@@ -170,7 +169,7 @@ impl<'s> LowerState<'s> {
             algorithm.codegen = r::LrCodeGeneration::TestAll;
         }
 
-        read_algorithm(&grammar.annotations, &mut algorithm);
+        read_algorithm(&grammar.attributes, &mut algorithm);
 
         let all_terminals: Vec<_> = self
             .conversions
@@ -211,13 +210,11 @@ impl<'s> LowerState<'s> {
         &mut self,
         grammar: &pt::Grammar,
     ) -> Map<NonterminalString, NonterminalString> {
-        let session = self.session;
         grammar
             .items
             .iter()
             .filter_map(GrammarItem::as_nonterminal)
             .filter(|nt| nt.visibility.is_pub())
-            .filter(|nt| cfg_active(session, nt))
             .map(|nt| {
                 // create a synthetic symbol `__Foo` for each public symbol `Foo`
                 // with a rule like:
@@ -245,7 +242,7 @@ impl<'s> LowerState<'s> {
                     fake_name.clone(),
                     r::NonterminalData {
                         visibility: nt.visibility.clone(),
-                        annotations: vec![],
+                        attributes: vec![],
                         span: nt.span,
                         productions: vec![production],
                     },
@@ -497,19 +494,4 @@ where
     debug_assert!(next_chosen.is_none());
 
     result
-}
-
-fn cfg_active(session: &Session, nt: &pt::NonterminalData) -> bool {
-    let cfg_atom = Atom::from(CFG);
-    nt.annotations
-        .iter()
-        .filter(|ann| ann.id == cfg_atom)
-        .all(|ann| {
-            ann.arg.as_ref().map_or(false, |(_, feature)| {
-                session
-                    .features
-                    .as_ref()
-                    .map_or(false, |features| features.contains(feature))
-            })
-        })
 }

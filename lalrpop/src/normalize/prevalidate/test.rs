@@ -53,30 +53,39 @@ fn multiple_extern_token() {
 }
 
 #[test]
-fn unrecognized_annotation() {
+fn unrecognized_attribute() {
     check_err(
-        r#"unrecognized annotation `foo`"#,
+        r#"unrecognized attribute `foo`"#,
         r#"grammar; #[foo] Term = ();"#,
         r#"           ~~~            "#,
     );
 }
 
 #[test]
-fn duplicate_annotation() {
+fn duplicate_attribute() {
     check_err(
-        r#"duplicate annotation `inline`"#,
+        r#"duplicate attribute `inline`"#,
         r#"grammar; #[inline] #[inline] Term = ();"#,
         r#"                     ~~~~~~            "#,
     );
 }
 
 #[test]
-fn pub_inline_annotation() {
+fn pub_inline_attribute() {
     check_err(
         r"public items cannot be marked #\[inline\]",
         r#"grammar; #[inline] pub Term = ();"#,
         r#"           ~~~~~~            "#,
     );
+}
+
+#[test]
+fn missing_cfg_attribute_arg() {
+    check_err(
+        r#"`cfg` attributes take one argument"#,
+        r#"grammar; #[cfg] pub Term = ();"#,
+        r#"           ~~~                "#,
+    )
 }
 
 #[test]
@@ -134,9 +143,9 @@ fn public_macros() {
 }
 
 #[test]
-fn alternative_unrecognized_annotation() {
+fn alternative_unrecognized_attribute() {
     check_err(
-        r#"unrecognized annotation `foo`"#,
+        r#"unrecognized attribute `foo`"#,
         r#"grammar; Term = { #[foo(bar="baz")] "a" => () };"#,
         r#"                    ~~~~~~~~~~~~~~              "#,
     );
@@ -145,7 +154,7 @@ fn alternative_unrecognized_annotation() {
 #[test]
 fn missing_precedence() {
     check_err(
-        r#"missing precedence annotation on the first alternative"#,
+        r#"missing precedence attribute on the first alternative"#,
         r#"grammar; Term = { "a" => (), #[precedence(level="1")] "b" => () };"#,
         r#"                  ~~~~~~~~~                                       "#,
     );
@@ -163,7 +172,7 @@ fn cannot_parse_precedence() {
 #[test]
 fn invalid_lvl_precedence() {
     check_err(
-        r#"invalid argument `foo` for precedence annotation, expected `level`"#,
+        r#"invalid argument `foo` for precedence attribute, expected `level`"#,
         r#"grammar; Term = { #[precedence(foo="1")] "a" => ()};"#,
         r#"                    ~~~~~~~~~~~~~~~~~~~             "#,
     );
@@ -172,7 +181,7 @@ fn invalid_lvl_precedence() {
 #[test]
 fn missing_arg_precedence() {
     check_err(
-        r#"missing argument for precedence annotation, expected `level`"#,
+        r#"missing argument for precedence attribute, expected `level`"#,
         r#"grammar; Term = { #[precedence] "a" => ()};"#,
         r#"                    ~~~~~~~~~~             "#,
     );
@@ -190,7 +199,7 @@ fn cannot_parse_assoc() {
 #[test]
 fn invalid_assoc() {
     check_err(
-        r#"invalid argument `foo` for associativity annotation, expected `side`"#,
+        r#"invalid argument `foo` for associativity attribute, expected `side`"#,
         r#"grammar; Term = { #[precedence(level="1")] #[assoc(foo="left")] "a" => ()};"#,
         r#"                                             ~~~~~~~~~~~~~~~~~             "#,
     );
@@ -199,7 +208,7 @@ fn invalid_assoc() {
 #[test]
 fn missing_arg_assoc() {
     check_err(
-        r#"missing argument for associativity annotation, expected `side`"#,
+        r#"missing argument for associativity attribute, expected `side`"#,
         r#"grammar; Term = { #[precedence(level="1")] #[assoc] "a" => ()};"#,
         r#"                                             ~~~~~             "#,
     );
