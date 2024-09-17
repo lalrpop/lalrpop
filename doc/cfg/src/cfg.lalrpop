@@ -37,12 +37,12 @@ pub CreatedWithAll: () = {
     "x" => ()
 };
 
-#[cfg(all(feature = "test-set", feature = "test-not-set"))]
-pub NotCreatedWithAll: () = {
+#[cfg(all(feature = "test-set", feature = "test-set2"))]
+pub CreatedWithAll2: () = {
     "x" => ()
 };
 
-#[cfg(any(feature = "test-set", all(not(feature = "test-not-set"))))]
+#[cfg(any(feature = "test-set", all(not(feature = "test-not-set"), feature = "test-set2")))]
 pub CreatedWithAnyAllNot: () = {
     "x" => ()
 };
