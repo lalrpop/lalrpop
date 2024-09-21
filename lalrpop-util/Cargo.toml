@@ -14,9 +14,9 @@ rust-version.workspace = true
 regex-automata = { workspace = true, optional = true }
 
 [features]
-lexer = ["regex-automata/std", "std"]
+lexer = ["regex-automata"]
 unicode = ["regex-automata?/unicode"]
-std = []
+std = ["regex-automata/perf"]
 default = ["std", "unicode"]
 
 [package.metadata.docs.rs]

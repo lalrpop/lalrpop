@@ -46,7 +46,7 @@ rand = "0.8"
 [features]
 default=["lexer", "unicode", "pico-args"]
 unicode = ["regex/unicode", "regex-syntax/unicode", "lalrpop-util/unicode"]
-lexer = ["lalrpop-util/lexer"]
+lexer = ["lalrpop-util/lexer", "lalrpop-util/std"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]

@@ -1,4 +1,5 @@
-use std::{fmt, marker::PhantomData};
+use alloc::{fmt, vec::Vec};
+use core::marker::PhantomData;
 
 use crate::ParseError;
 
