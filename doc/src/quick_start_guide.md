@@ -11,11 +11,11 @@ the following lines to your `Cargo.toml`:
 ```toml
 # The generated code depends on lalrpop-util.
 [dependencies]
-lalrpop-util = "0.21.0"
+lalrpop-util = "0.22.0"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = "0.21.0"
+lalrpop = "0.22.0"
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # lalrpop = { version = "0.21.0", default-features = false }

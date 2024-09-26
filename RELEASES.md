@@ -1,3 +1,18 @@
+<a name="0.22.0"></a>
+## 0.22.0  (2024-09-26)
+
+#### Breaking changes
+* The `lexer` feature no longer implies the `std` feature.  Now `lexer` is
+  usable in `no_std` environments.
+
+#### Features
+* Overhaul cfg attributes.  You can now include or omit grammar rules based on
+  cargo features with `not()`, `any()` and `all()` support
+
+#### Bugfixes
+* Improvements to error message reporting to improve clarity and suppress extra noise
+* `lalrpop_mod!()` now handles imports correctly
+
 <a name="0.21.0"></a>
 ## 0.21.0 (2024-05-30)
 
