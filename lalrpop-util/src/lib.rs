@@ -186,7 +186,6 @@ pub struct ErrorRecovery<L, T, E> {
 /// // specify attributes for the generated module
 /// lalrpop_mod!(#[allow(clippy::ptr_arg)]#[rustfmt::skip] parser);
 /// ```
-
 #[macro_export]
 macro_rules! lalrpop_mod {
     ($(#[$attr:meta])* $vis:vis $modname:ident) => {
