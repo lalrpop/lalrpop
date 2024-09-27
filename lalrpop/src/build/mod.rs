@@ -524,6 +524,7 @@ fn emit_recursive_ascent(
 
     action::emit_action_code(grammar, &mut rust)?;
 
+    rust!(rust, "");
     rust!(rust, "#[allow(clippy::type_complexity, dead_code)]");
     emit_to_triple_trait(grammar, max_start_nt_visibility, &mut rust)?;
 
@@ -570,7 +571,6 @@ fn emit_to_triple_trait<W: Write>(
     let where_clauses = &grammar.where_clauses;
     let to_triple_where_clauses = Sep(",", where_clauses);
 
-    rust!(rust, "");
     rust!(
         rust,
         "{} trait {}ToTriple<{}>",
