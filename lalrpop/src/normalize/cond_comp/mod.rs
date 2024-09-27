@@ -10,8 +10,15 @@ use string_cache::DefaultAtom as Atom;
 mod test;
 
 pub fn remove_disabled_decls(session: &Session, mut grammar: Grammar) -> NormResult<Grammar> {
-    grammar.items.retain(|item| match item {
-        GrammarItem::Nonterminal(nt) => cfg_active(session, &nt.attributes),
+    grammar.items.retain_mut(|item| match item {
+        GrammarItem::Nonterminal(nt) => {
+            let active = cfg_active(session, &nt.attributes);
+            if active {
+                nt.alternatives
+                    .retain_mut(|prod| cfg_active(session, &prod.attributes));
+            }
+            active
+        }
         _ => true,
     });
     Ok(grammar)
