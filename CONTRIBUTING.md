@@ -56,6 +56,9 @@ So this approach has been abandoned a while ago.
 
 ### Releasing LALRPOP
 
+#### Prerequisites
+1. `version.sh` makes use of clog-cli.  Run `cargo install clog-cli` to get it
+
 #### Without Cargo-Release
 
 1. Run `./version.sh <NEW VERSION>`.
