@@ -42,6 +42,8 @@ pub fn use_cfg_created_parser() {
     cfg::CreatedWithInlineParser::new();
     #[cfg(feature = "test-not-set")]
     cfg::NotCreatedWithInlineParser::new();
+
+    cfg::CreateAlternativesParser::new();
 }
 
 #[cfg(test)]
