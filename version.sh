@@ -30,6 +30,9 @@ clog --setversion $1
 perl -p -i -e 's/version *= *"[0-9.]+" # LALRPOP/version = "'$1'" # LALRPOP/' \
      $(ls Cargo.toml lalrpop*/Cargo.toml)
 
+perl -p -i -e 's/lalrpop-util(.*)version *= *"'$VERSION'"/lalrpop-util\1version = "'$1'"/' \
+     lalrpop/Cargo.toml
+
 perl -p -i -e 's/version *= *"'$VERSION'"/version = "'$1'"/' \
      $(find doc -name Cargo.toml)
 
