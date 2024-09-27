@@ -108,15 +108,18 @@ impl<'s> LowerState<'s> {
 
                 pt::GrammarItem::ExternToken(data) => {
                     if let Some(enum_token) = data.enum_token {
-                        self.conversions
-                            .extend(enum_token.conversions.iter().filter_map(|conversion| {
-                                cfg_active(session, &conversion.attributes).then(|| {
+                        self.conversions.extend(
+                            enum_token
+                                .conversions
+                                .iter()
+                                .filter(|conversion| cfg_active(session, &conversion.attributes))
+                                .map(|conversion| {
                                     (
                                         conversion.from.clone(),
                                         conversion.to.map(&mut |t| t.type_repr()),
                                     )
-                                })
-                            }));
+                                }),
+                        );
                     }
                 }
 
