@@ -4,7 +4,8 @@
 extern crate alloc;
 
 use alloc::{string::String, vec::Vec};
-#[rustversion::attr(since(1.81), cfg(not(feature = "std")))]
+#[rustversion::since(1.81)]
+#[cfg(not(feature = "std"))]
 use core::error::Error;
 use core::fmt;
 #[cfg(feature = "std")]
