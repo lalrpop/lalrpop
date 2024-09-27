@@ -4,6 +4,8 @@
 extern crate alloc;
 
 use alloc::{string::String, vec::Vec};
+#[cfg(not(feature = "std"))]
+use core::error::Error;
 use core::fmt;
 #[cfg(feature = "std")]
 use std::error::Error;
@@ -148,7 +150,6 @@ impl<L, T, E> From<E> for ParseError<L, T, E> {
     }
 }
 
-#[cfg(feature = "std")]
 impl<L, T, E> Error for ParseError<L, T, E>
 where
     L: fmt::Debug + fmt::Display,
