@@ -4,7 +4,7 @@
 extern crate alloc;
 
 use alloc::{string::String, vec::Vec};
-#[cfg(not(feature = "std"))]
+#[rustversion::attr(since(1.81), cfg(not(feature = "std")))]
 use core::error::Error;
 use core::fmt;
 #[cfg(feature = "std")]
@@ -150,6 +150,7 @@ impl<L, T, E> From<E> for ParseError<L, T, E> {
     }
 }
 
+#[cfg_attr(not(feature = "std"), rustversion::since(1.81))]
 impl<L, T, E> Error for ParseError<L, T, E>
 where
     L: fmt::Debug + fmt::Display,
