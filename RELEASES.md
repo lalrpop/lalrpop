@@ -3,15 +3,17 @@
 
 #### Breaking changes
 * The `lexer` feature no longer implies the `std` feature.  Now `lexer` is
-  usable in `no_std` environments.
+  usable in `no_std` environments. In `no_std`, ParseError only implements the
+  Error trait in rust 1.81 or later (since core::error was stablized in 1.81).
 
 #### Features
-* Overhaul cfg attributes.  You can now include or omit grammar rules based on
-  cargo features with `not()`, `any()` and `all()` support
+* Overhaul cfg attributes.  You can now include or omit grammar rules and
+  alternatives based on cargo features with `not()`, `any()` and `all()` support
 
 #### Bugfixes
 * Improvements to error message reporting to improve clarity and suppress extra noise
 * `lalrpop_mod!()` now handles imports correctly
+* Reenable some warnings on user code for custom lexers
 
 <a name="0.21.0"></a>
 ## 0.21.0 (2024-05-30)
