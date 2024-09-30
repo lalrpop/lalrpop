@@ -756,6 +756,9 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .emit()?;
         rust!(self.out, "{{");
 
+        // This match contains user-supplied token names.  Reenable some warnings to help them
+        // catch errors if they've got a bug in their custom lexer implementation
+        rust!(self.out, "#[warn(unused_variables)]");
         rust!(self.out, "match {p}token {{", p = self.prefix);
 
         for (terminal, index) in self.grammar.terminals.all.iter().zip(0..) {
