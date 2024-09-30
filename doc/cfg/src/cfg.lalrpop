@@ -83,3 +83,11 @@ pub CreatedWithInline: () = {
 pub NotCreatedWithInline: () = {
     Inline => ()
 }
+
+
+pub CreateAlternatives: () = {
+    #[cfg(feature = "test-set")]
+    "x" => (),
+    #[cfg(feature = "test-not-set")]
+    "x" => (),
+};

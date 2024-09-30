@@ -10,14 +10,29 @@ use string_cache::DefaultAtom as Atom;
 mod test;
 
 pub fn remove_disabled_decls(session: &Session, mut grammar: Grammar) -> NormResult<Grammar> {
-    grammar.items.retain(|item| match item {
-        GrammarItem::Nonterminal(nt) => cfg_active(session, nt),
+    grammar.items.retain_mut(|item| match item {
+        GrammarItem::ExternToken(et) => match &mut et.enum_token {
+            Some(EnumToken { conversions, .. }) => {
+                conversions.retain_mut(|c| cfg_active(session, &c.attributes));
+                true
+            }
+            None => true,
+        },
+
+        GrammarItem::Nonterminal(nt) => {
+            let active = cfg_active(session, &nt.attributes);
+            if active {
+                nt.alternatives
+                    .retain_mut(|prod| cfg_active(session, &prod.attributes));
+            }
+            active
+        }
         _ => true,
     });
     Ok(grammar)
 }
 
-fn cfg_active(session: &Session, nt: &NonterminalData) -> bool {
+pub fn cfg_active(session: &Session, attrs: &[Attribute]) -> bool {
     fn test_feat_attr(attr: &Attribute, session: &Session) -> bool {
         match &attr.arg {
             AttributeArg::Paren(attrs) if attr.id == *"not" => attrs
@@ -38,7 +53,7 @@ fn cfg_active(session: &Session, nt: &NonterminalData) -> bool {
     }
 
     let cfg_atom = Atom::from(CFG);
-    nt.attributes
+    attrs
         .iter()
         .filter(|attr| attr.id == cfg_atom)
         .all(|attr| match &attr.arg {

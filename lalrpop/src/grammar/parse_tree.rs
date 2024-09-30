@@ -200,6 +200,7 @@ pub struct EnumToken {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Conversion {
     pub span: Span,
+    pub attributes: Vec<Attribute>,
     pub from: TerminalString,
     pub to: Pattern<TypeRef>,
 }

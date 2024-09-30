@@ -249,6 +249,7 @@ impl<'grammar> Validator<'grammar> {
         let allowed_names = [
             Atom::from(precedence::PREC_ATTR),
             Atom::from(precedence::ASSOC_ATTR),
+            Atom::from(CFG),
         ];
 
         for attribute in &alternative.attributes {
