@@ -35,3 +35,4 @@ regex-automata = { version = "0.4", default-features = false, features = [
         "syntax",
         "hybrid",
 ] }
+rustversion = { version = "1.0" }
