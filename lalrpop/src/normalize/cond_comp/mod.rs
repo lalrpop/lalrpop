@@ -11,6 +11,14 @@ mod test;
 
 pub fn remove_disabled_decls(session: &Session, mut grammar: Grammar) -> NormResult<Grammar> {
     grammar.items.retain_mut(|item| match item {
+        GrammarItem::ExternToken(et) => match &mut et.enum_token {
+            Some(EnumToken { conversions, .. }) => {
+                conversions.retain_mut(|c| cfg_active(session, &c.attributes));
+                true
+            }
+            None => true,
+        },
+
         GrammarItem::Nonterminal(nt) => {
             let active = cfg_active(session, &nt.attributes);
             if active {
