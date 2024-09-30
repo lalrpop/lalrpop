@@ -2299,6 +2299,28 @@ pub MyRule1 : () = {
 pub MyRule2 : () = {
     ...
 };
+
+pub MyRule3: () = {
+    #[cfg(feature = "FEATURE_A")]
+    "A" =&gt; (),
+    #[cfg(feature = "FEATURE_B")]
+    "B" =&gt; (),
+};
+<span class="boring">}</span></code></pre></pre>
+<p>When using a custom lexer:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>extern {
+  type Location = usize;
+  type Error = LexicalError;
+  enum Token {
+    "int" =&gt; Token::Integer(&lt;i64&gt;),
+    "+" =&gt; Token::OperatorAdd,
+    // Feature flag the left shift operator
+    #[cfg(feature = "bit")]
+    "&lt;&lt;" =&gt; Token::OperatorShl,
+  }
+}
 <span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="location-tracking"><a class="header" href="#location-tracking">Location Tracking</a></h1>
 <p>Sometimes it may be helpful to know where in the input stream a particular
