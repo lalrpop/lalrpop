@@ -20,7 +20,7 @@ exclude = ["build.rs"]
 doctest = false
 
 [dependencies]
-ascii-canvas = { version = "3.0", default-features = false }
+ascii-canvas = { version = "4.0", default-features = false }
 bit-set = { version = "0.8", default-features = false }
 ena = { version = "0.14", default-features = false }
 itertools = { version = "0.13", default-features = false, features = ["use_std"] }
@@ -29,7 +29,7 @@ regex = { workspace = true }
 regex-syntax = { workspace = true }
 sha3 = { version = "0.10", default-features = false }
 string_cache = { version = "0.8", default-features = false }
-term = { version = "0.7", default-features = false }
+term = { version = "1.0", default-features = false }
 unicode-xid = { version = "0.2", default-features = false }
 walkdir = "2.4.0"
 
