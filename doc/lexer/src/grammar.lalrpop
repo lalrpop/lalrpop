@@ -22,6 +22,9 @@ extern {
     "-" => Token::OperatorSub,
     "*" => Token::OperatorMul,
     "/" => Token::OperatorDiv,
+    // The following is testing feature flags for lexing
+    #[cfg(feature = "bit")]
+    "<<" => Token::OperatorShl,
   }
 }
 
@@ -71,6 +74,16 @@ pub Expression: Box<ast::Expression> = {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Sub,
+      rhs
+    })
+  },
+
+  #[cfg(feature = "bit")]
+  #[precedence(level="4")] #[assoc(side="right")]
+    <lhs:Expression> "<<" <rhs:Expression> => {
+    Box::new(ast::Expression::BinaryOperation {
+      lhs,
+      operator: ast::Operator::Shl,
       rhs
     })
   },

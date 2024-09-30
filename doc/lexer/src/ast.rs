@@ -26,4 +26,5 @@ pub enum Operator {
     Sub,
     Mul,
     Div,
+    Shl,
 }

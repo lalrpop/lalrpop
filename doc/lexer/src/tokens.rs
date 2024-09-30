@@ -45,6 +45,10 @@ pub enum Token {
     OperatorMul,
     #[token("/")]
     OperatorDiv,
+
+    #[cfg(feature = "bit")]
+    #[token("<<")]
+    OperatorShl,
 }
 
 impl fmt::Display for Token {
