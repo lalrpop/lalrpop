@@ -3209,6 +3209,7 @@ ___token: &Tok<'input>,
 _: core::marker::PhantomData<(&'input ())>,
 ) -> Option<usize>
 {
+#[warn(unused_variables)]
 match ___token {
 Tok::Enum if true => Some(0),
 Tok::Extern if true => Some(1),
