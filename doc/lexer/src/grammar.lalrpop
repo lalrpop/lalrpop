@@ -80,7 +80,7 @@ pub Expression: Box<ast::Expression> = {
 
   #[cfg(feature = "bit")]
   #[precedence(level="4")] #[assoc(side="right")]
-    <lhs:Expression> "<<" <rhs:Expression> => {
+  <lhs:Expression> "<<" <rhs:Expression> => {
     Box::new(ast::Expression::BinaryOperation {
       lhs,
       operator: ast::Operator::Shl,
