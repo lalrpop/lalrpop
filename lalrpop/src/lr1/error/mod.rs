@@ -67,6 +67,16 @@ enum ConflictClassification {
         symbol: Symbol,
     },
 
+    /// We have two matching sets of symbols that can reduce to the same
+    /// nonterminal.  This is particularly likely with macros, such as a rule
+    /// like `X = Y | Y Z?`.  In this case, the normal ambiguity message seems
+    /// to say the same thing twice, which is confusing, so clarify
+    AmbiguousReduction {
+        reduce: Example,
+        span1: Span,
+        span2: Span,
+    },
+
     /// Can't say much beyond that a conflict occurred.
     InsufficientLookahead { action: Example, reduce: Example },
 
@@ -136,6 +146,11 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                 nonterminal,
                 symbol,
             } => self.report_error_suggest_question(conflict, shift, reduce, nonterminal, symbol),
+            ConflictClassification::AmbiguousReduction {
+                reduce,
+                span1,
+                span2,
+            } => self.report_error_ambiguous_reduction(reduce, span1, span2),
             ConflictClassification::InsufficientLookahead { action, reduce } => {
                 self.report_error_insufficient_lookahead(conflict, action, reduce)
             }
@@ -386,6 +401,47 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .end()
     }
 
+    fn report_error_ambiguous_reduction(
+        &self,
+        reduce: Example,
+        span1: Span,
+        span2: Span,
+    ) -> Message {
+        let file_text = Tls::file_text();
+        let styles = ExampleStyles::new();
+        let span1_str = file_text.span_text(span1);
+        let span2_str = file_text.span_text(span2);
+
+        // Internal lines are 0-indexed, but editors are (always?) 1-indexed
+        let span1_line = file_text.line_col(span1.0).0 + 1;
+        let span2_line = file_text.line_col(span2.0).0 + 1;
+
+        MessageBuilder::new(span1)
+            .heading()
+            .text("Multiple productions for the same reduction")
+            .end()
+            .body()
+            .begin_lines()
+            .wrap_text(format!(
+                "The following symbols can be reduced into a {} in two ways",
+                reduce.reductions.first().unwrap().nonterminal
+            ))
+            .push(reduce.to_symbol_list(reduce.symbols.len(), styles))
+            .wrap_text(format!(
+                "They could be reduced using the production on line {}:",
+                span1_line
+            ))
+            .wrap_text(span1_str)
+            .wrap_text(format!(
+                "...or using the production on line {}:",
+                span2_line
+            ))
+            .wrap_text(span2_str)
+            .end()
+            .end()
+            .end()
+    }
+
     fn report_error_insufficient_lookahead(
         &self,
         conflict: &TokenConflict<'grammar>,
@@ -535,6 +591,16 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
                             shift: action.clone(),
                             reduce: reduce.clone(),
                             nonterminal: nt.clone(),
+                        };
+                    }
+                } else if let Action::Reduce(prod) = conflict.action {
+                    if (action.reductions.first().map(|r| &r.nonterminal)
+                        == reduce.reductions.first().map(|r| &r.nonterminal))
+                    {
+                        return ConflictClassification::AmbiguousReduction {
+                            reduce: action.clone(),
+                            span1: conflict.production.span,
+                            span2: prod.span,
                         };
                     }
                 }

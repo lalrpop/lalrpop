@@ -187,21 +187,24 @@ VarDecl = "let";
 }
 
 fn verify_errors(
-    grammar: Grammar,
+    grammar_text: &str,
     pub_state: &str,
     unique_conflicts: usize,
-    terminal_count: usize,
+    terminal_count: usize, // Must include Eof.  E.g. a grammar with just one real terminal has a terminal_count of 2
     text: &str,
 ) {
     use crate::message::{Content, Message};
     use ascii_canvas::AsciiCanvas;
-    let _tls = Tls::test();
+    let _tls = Tls::test_string(grammar_text);
+    let grammar = normalized_grammar(grammar_text);
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let err = build_states(&grammar, nt(pub_state)).unwrap_err();
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
     assert_eq!(conflicts.len(), unique_conflicts); // One group of conflicts
-    assert_eq!(conflicts[0].len(), terminal_count); // terminal count
+    for conflict in conflicts {
+        assert_eq!(conflict.len(), terminal_count); // terminal count
+    }
 
     let mut calls = 0;
     let test_report = |message: Message| -> Result<(), ()> {
@@ -214,18 +217,18 @@ fn verify_errors(
             .collect::<Vec<String>>()
             .join("\n")
             .contains(text));
-        assert!(calls < unique_conflicts);
         calls += 1;
+        assert!(calls <= unique_conflicts);
         Ok(())
     };
 
     cx.report_errors(test_report).unwrap();
+    assert_eq!(calls, unique_conflicts);
 }
 
 #[test]
 fn compress_errors() {
-    let grammar = normalized_grammar(
-        r#"
+    let grammar = r#"
 grammar;
 
 pub A: () = {
@@ -242,7 +245,23 @@ C: () = {
         "c",
         "q"
 }
-"#,
-    );
+"#;
     verify_errors(grammar, "A", 1, 6, "Ambiguous grammar");
+}
+
+#[test]
+fn ambiguous_reduction() {
+    let grammar = r#"
+grammar;
+
+A: () = {
+        "a" "c",
+        "a" "b"? "c"
+}
+
+pub B: () = {
+        "x" A "z"
+}
+"#;
+    verify_errors(grammar, "B", 1, 6, "same reduction");
 }

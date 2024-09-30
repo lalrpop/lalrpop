@@ -58,7 +58,7 @@ impl FileText {
         )
     }
 
-    fn line_col(&self, pos: usize) -> (usize, usize) {
+    pub fn line_col(&self, pos: usize) -> (usize, usize) {
         let num_lines = self.newlines.len();
         let line = (0..num_lines)
             .filter(|&i| self.newlines[i] > pos)
@@ -84,6 +84,10 @@ impl FileText {
             let end_offset = self.newlines[line_num + 1];
             &self.input_str[start_offset..end_offset - 1]
         }
+    }
+
+    pub fn span_text(&self, span: pt::Span) -> &str {
+        &self.input_str[span.0..span.1]
     }
 
     pub fn highlight(&self, span: pt::Span, out: &mut dyn Write) -> io::Result<()> {
