@@ -18,4 +18,27 @@ pub MyRule1 : () = {
 pub MyRule2 : () = {
     ...
 };
+
+pub MyRule3: () = {
+    #[cfg(feature = "FEATURE_A")]
+    "A" => (),
+    #[cfg(feature = "FEATURE_B")]
+    "B" => (),
+};
+```
+
+When using a custom lexer:
+
+```rust
+extern {
+  type Location = usize;
+  type Error = LexicalError;
+  enum Token {
+    "int" => Token::Integer(<i64>),
+    "+" => Token::OperatorAdd,
+    // Feature flag the left shift operator
+    #[cfg(feature = "bit")]
+    "<<" => Token::OperatorShl,
+  }
+}
 ```
