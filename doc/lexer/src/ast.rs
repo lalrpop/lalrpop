@@ -26,5 +26,6 @@ pub enum Operator {
     Sub,
     Mul,
     Div,
+    #[cfg(feature = "bit")]
     Shl,
 }
