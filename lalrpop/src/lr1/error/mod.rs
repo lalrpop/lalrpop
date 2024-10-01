@@ -105,11 +105,21 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         mut reporter: impl FnMut(Message) -> Result<(), E>,
     ) -> Result<(), E> {
         for conflict_group in &token_conflicts(self.conflicts) {
-            let (naive_conflicts, better_conflicts): (Vec<_>, Vec<_>) = conflict_group
+            let (mut naive_conflicts, better_conflicts): (Vec<_>, Vec<_>) = conflict_group
                 .iter()
                 .map(|c| (c, self.classify(c)))
                 .partition(|c| matches!(c.1, ConflictClassification::Naive));
             let conflicts = if better_conflicts.is_empty() {
+                // If we have a reduce/reduce conflict, we end up with one conflict per token, but
+                // they're all the same reduce/reduce. We don't have a meaningful way to determine
+                // if some lookahead token will be more valuable to the user, so just take the
+                // first one and drop the rest as redundant
+                if matches!(
+                    naive_conflicts.first().map(|c| &c.0.action),
+                    Some(&Action::Reduce(_))
+                ) {
+                    naive_conflicts.truncate(1);
+                }
                 naive_conflicts
             } else {
                 better_conflicts
