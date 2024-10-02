@@ -184,14 +184,14 @@ here is a quick 'cheat sheet' for setting up your project. First, add
 the following lines to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml"># The generated code depends on lalrpop-util.
 [dependencies]
-lalrpop-util = "0.21.0"
+lalrpop-util = "0.22.0"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = "0.21.0"
+lalrpop = "0.22.0"
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
-# lalrpop = { version = "0.21.0", default-features = false }
+# lalrpop = { version = "0.22.0", default-features = false }
 </code></pre>
 <p>Next create a <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html"><code>build.rs</code></a>
 file that looks like:</p>
