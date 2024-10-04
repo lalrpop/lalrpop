@@ -41,7 +41,7 @@ enum Comment<'a, T> {
     Reduce(T, &'a Production),
 }
 
-impl<'a, T: fmt::Display> fmt::Display for Comment<'a, T> {
+impl<T: fmt::Display> fmt::Display for Comment<'_, T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Comment::Goto(ref token, new_state) => {

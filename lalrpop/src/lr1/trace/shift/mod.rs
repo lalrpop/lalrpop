@@ -35,7 +35,7 @@ mod test;
 /// Ultimately this "trace" is best represented as a DAG. The problem
 /// is that some of those nonterminals could, for example, be
 /// optional.
-impl<'trace, 'grammar> Tracer<'trace, 'grammar> {
+impl<'grammar> Tracer<'_, 'grammar> {
     pub fn backtrace_shift(
         mut self,
         item_state: StateIndex,

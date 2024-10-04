@@ -192,7 +192,7 @@ struct ContextSets<'m> {
     unify: &'m mut InPlaceUnificationTable<StateSet>,
 }
 
-impl<'m> ContextSets<'m> {
+impl ContextSets<'_> {
     fn context_set(&mut self, state: StateIndex) -> ContextSet {
         let state_set = self.state_sets[&state];
         self.unify.probe_value(state_set)
