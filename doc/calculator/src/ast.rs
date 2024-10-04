@@ -31,7 +31,7 @@ impl Debug for Expr {
     }
 }
 
-impl<'input> Debug for ExprSymbol<'input> {
+impl Debug for ExprSymbol<'_> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         use self::ExprSymbol::*;
         match *self {

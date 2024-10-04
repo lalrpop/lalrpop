@@ -266,7 +266,7 @@ pub struct TokenSetIter<'iter> {
     bit_set: bit_set::Iter<'iter, u32>,
 }
 
-impl<'iter> Iterator for TokenSetIter<'iter> {
+impl Iterator for TokenSetIter<'_> {
     type Item = Token;
 
     fn next(&mut self) -> Option<Token> {

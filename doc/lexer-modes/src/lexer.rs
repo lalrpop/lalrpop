@@ -76,7 +76,7 @@ pub enum Token<'a> {
     LITERAL(&'a [u8]),
 }
 
-impl<'a> fmt::Display for Token<'a> {
+impl fmt::Display for Token<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self)
     }

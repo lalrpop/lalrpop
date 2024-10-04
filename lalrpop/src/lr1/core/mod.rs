@@ -176,7 +176,7 @@ pub type LrResult<'grammar, L> =
     Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>>;
 pub type Lr1Result<'grammar> = LrResult<'grammar, TokenSet>;
 
-impl<'grammar, L: Lookahead> Debug for Item<'grammar, L> {
+impl<L: Lookahead> Debug for Item<'_, L> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         write!(
             fmt,
@@ -315,7 +315,7 @@ pub struct SymbolSets<'grammar> {
     pub suffix: &'grammar [Symbol],       // first [E, F], second []
 }
 
-impl<'grammar> SymbolSets<'grammar> {
+impl SymbolSets<'_> {
     pub fn new() -> Self {
         SymbolSets {
             prefix: &[],

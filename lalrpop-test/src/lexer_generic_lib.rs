@@ -40,7 +40,7 @@ impl<'i> Lexer<'i> {
 #[derive(Debug, PartialEq)]
 pub struct Error(String);
 
-impl<'i> Iterator for Lexer<'i> {
+impl Iterator for Lexer<'_> {
     type Item = Result<(usize, Token, usize), Error>;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -96,6 +96,6 @@ impl<'i> Iterator for Lexer<'i> {
 }
 
 /// Implement LexerTrait
-impl<'i> LexerTrait for Lexer<'i> {
+impl LexerTrait for Lexer<'_> {
     type Error = Error;
 }

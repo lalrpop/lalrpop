@@ -300,7 +300,7 @@ impl<'grammar, L: LookaheadBuild> Kernel<'grammar, L> {
     }
 }
 
-impl<'grammar, L: LookaheadBuild> kernel_set::Kernel for Kernel<'grammar, L> {
+impl<L: LookaheadBuild> kernel_set::Kernel for Kernel<'_, L> {
     type Index = StateIndex;
 
     fn index(c: usize) -> StateIndex {

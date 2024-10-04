@@ -373,13 +373,13 @@ trait HasDisplayLen {
     fn display_len(&self) -> usize;
 }
 
-impl<'a> HasDisplayLen for &'a TerminalString {
+impl HasDisplayLen for &TerminalString {
     fn display_len(&self) -> usize {
         TerminalString::display_len(self)
     }
 }
 
-impl<'a> HasDisplayLen for &'a NonterminalString {
+impl HasDisplayLen for &NonterminalString {
     fn display_len(&self) -> usize {
         self.len()
     }

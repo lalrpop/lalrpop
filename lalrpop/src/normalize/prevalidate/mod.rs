@@ -42,7 +42,7 @@ struct Validator<'grammar> {
     extern_token: Option<&'grammar ExternToken>,
 }
 
-impl<'grammar> Validator<'grammar> {
+impl Validator<'_> {
     fn validate(&self) -> NormResult<()> {
         let allowed_names = [
             Atom::from(LALR),

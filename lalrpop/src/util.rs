@@ -2,7 +2,7 @@ use std::fmt::{Display, Error, Formatter};
 
 pub struct Sep<S>(pub &'static str, pub S);
 
-impl<'a, S: Display> Display for Sep<&'a Vec<S>> {
+impl<S: Display> Display for Sep<&Vec<S>> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         let &Sep(sep, vec) = self;
         let mut elems = vec.iter();
@@ -34,7 +34,7 @@ impl<S: Display> Display for Escape<S> {
 
 pub struct Prefix<S>(pub &'static str, pub S);
 
-impl<'a, S: Display> Display for Prefix<&'a [S]> {
+impl<S: Display> Display for Prefix<&[S]> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         let &Prefix(prefix, vec) = self;
         for elem in vec.iter() {
