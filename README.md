@@ -37,6 +37,7 @@ to! Here are some tips:
 - Returning users of LALRPOP may benefit from the [cheat sheet].
 - The [advanced setup] chapter shows how to configure other aspects of LALRPOP's
   preprocessing.
+- docs.rs API documentation for [lalrpop](https://docs.rs/lalrpop/latest/lalrpop/) and [lalrpop-util]
 - If you have any questions join our [gitter lobby].
 
 ### Example Uses
@@ -56,6 +57,7 @@ to! Here are some tips:
 [RustPython]: https://github.com/RustPython/RustPython/blob/fb5ac9e79bfd5029397652a12883a8cedfa01620/compiler/parser/python.lalrpop
 [Solang]: https://github.com/hyperledger/solang/blob/b867c8a6c7a1ee89d405993abef458fc59e9b0fb/solang-parser/src/solidity.lalrpop
 [gitter lobby]: https://gitter.im/lalrpop/Lobby
+[lalrpop-util]: https://docs.rs/lalrpop-util/latest/lalrpop_util/
 
 ### Contributing
 
