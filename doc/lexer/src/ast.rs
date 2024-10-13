@@ -4,8 +4,12 @@ pub enum Statement {
         name: String,
         value: Box<Expression>,
     },
-    Print { value: Box<Expression> },
-    EPrint { value: Box<Expression> },
+    Print {
+        value: Box<Expression>,
+    },
+    EPrint {
+        value: Box<Expression>,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq)]
