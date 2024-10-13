@@ -77,4 +77,4 @@ jobs:
       - run: cargo build --bin lalrpop --features pico-args
       - name: Run feature powerset check
         # test with minimal amount of features plus a few extra on regex/regex-syntax
-        run: cargo hack test --workspace --feature-powerset --exclude-features pico-args,default --optional-deps
+        run: export CARGO_CFG_TEST=true && cargo hack test --workspace --feature-powerset --exclude-features pico-args,default --optional-deps

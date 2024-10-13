@@ -16,7 +16,6 @@ print (a - b);";
 
     assert!(matches!(ast[0], lexer::ast::Statement::Variable { .. }));
     assert!(matches!(ast[1], lexer::ast::Statement::Variable { .. }));
-    #[cfg(not(test))]
     assert!(matches!(ast[2], lexer::ast::Statement::Print { .. }));
 
     #[cfg(feature = "bit")]

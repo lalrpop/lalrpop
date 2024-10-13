@@ -4,9 +4,7 @@ pub enum Statement {
         name: String,
         value: Box<Expression>,
     },
-    #[cfg(not(test))]
     Print { value: Box<Expression> },
-    #[cfg(test)]
     EPrint { value: Box<Expression> },
 }
 
