@@ -233,10 +233,15 @@ impl Configuration {
             session.features = Some(
                 env::vars()
                     .filter_map(|(feature_var, _)| {
-                        let prefix = "CARGO_FEATURE_";
-                        feature_var
-                            .strip_prefix(prefix)
-                            .map(|feature| feature.replace('_', "-").to_ascii_lowercase())
+                        if feature_var == "CARGO_CFG_TEST" {
+                            /* panic!("lalrpop does not support the `test` feature"); */
+                            Some("test".to_string())
+                        } else {
+                            let prefix = "CARGO_FEATURE_";
+                            feature_var
+                                .strip_prefix(prefix)
+                                .map(|feature| feature.replace('_', "-").to_ascii_lowercase())
+                        }
                     })
                     .collect(),
             );

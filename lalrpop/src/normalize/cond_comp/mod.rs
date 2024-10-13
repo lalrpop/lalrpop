@@ -48,6 +48,10 @@ pub fn cfg_active(session: &Session, attrs: &[Attribute]) -> bool {
                 .features
                 .as_ref()
                 .map_or(false, |features| features.contains(feature)),
+            AttributeArg::Empty if attr.id == *"test" => session
+                .features
+                .as_ref()
+                .map_or(false, |features| features.contains("test")),
             _ => false,
         }
     }

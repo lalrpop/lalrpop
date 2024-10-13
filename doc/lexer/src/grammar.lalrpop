@@ -11,7 +11,10 @@ extern {
 
   enum Token {
     "var" => Token::KeywordVar,
+    #[cfg(not(test))]
     "print" => Token::KeywordPrint,
+    #[cfg(test)]
+    "eprint" => Token::KeywordPrint,
     "identifier" => Token::Identifier(<String>),
     "int" => Token::Integer(<i64>),
     "(" => Token::LParen,
@@ -37,8 +40,13 @@ pub Statement: ast::Statement = {
   "var" <name:"identifier"> "=" <value:Expression> ";" => {
     ast::Statement::Variable { name, value }
   },
+  #[cfg(not(test))]
   "print" <value:Expression> ";" => {
     ast::Statement::Print { value }
+  },
+  #[cfg(test)]
+  "eprint" <value:Expression> ";" => {
+    ast::Statement::EPrint { value }
   },
 }
 
