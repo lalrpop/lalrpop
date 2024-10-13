@@ -432,6 +432,11 @@ impl<'grammar> Validator<'grammar> {
                     }
                     _ => return_err!(attr.id_span, r#"`all` takes at least one argument"#),
                 }
+            } else if attr.id == *"test" {
+                match &attr.arg {
+                    AttributeArg::Empty => Ok(()),
+                    _ => return_err!(attr.id_span, r#"`test` takes no arguments"#),
+                }
             } else {
                 return_err!(attr.id_span, r#"unexpected `cfg` argument `{}`"#, attr.id)
             }

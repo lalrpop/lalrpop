@@ -31,6 +31,10 @@ extern {
   }
 }
 
+#[cfg(test)]
+pub TEST: () = {
+  "(" ")" => ()
+}
 
 pub Script: Vec<ast::Statement> = {
   <stmts:Statement*> => stmts

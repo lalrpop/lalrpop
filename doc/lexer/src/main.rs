@@ -58,6 +58,8 @@ print (a - b);";
             assert!(matches!(ast[0], lexer::ast::Statement::Variable { .. }));
             assert!(matches!(ast[1], lexer::ast::Statement::Variable { .. }));
             assert!(matches!(ast[2], lexer::ast::Statement::EPrint { .. }));
+
+            let _ = lexer::grammar::TESTParser::new();
         }
     }
 }
