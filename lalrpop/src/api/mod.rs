@@ -234,7 +234,6 @@ impl Configuration {
                 env::vars()
                     .filter_map(|(feature_var, _)| {
                         if feature_var == "CARGO_CFG_TEST" {
-                            /* panic!("lalrpop does not support the `test` feature"); */
                             Some("test".to_string())
                         } else {
                             let prefix = "CARGO_FEATURE_";
