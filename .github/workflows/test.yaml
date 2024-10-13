@@ -49,7 +49,9 @@ jobs:
       - name: Run rustfmt check
         run: cargo fmt --all -- --check
       - name: Run clippy
-        run: cargo clippy --all --all-targets -- -D warnings
+        run: cargo clippy --all --all-targets --exclude lexer -- -D warnings
+      - name: Run clippy on lexer separately
+        run: export CARGO_CFG_TEST=true && cargo clippy --all-targets --manifest-path doc/lexer/Cargo.toml -- -D warnings
   min_version:
     runs-on: ubuntu-latest
     steps:
