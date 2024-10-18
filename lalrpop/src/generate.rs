@@ -34,7 +34,7 @@ struct Generator<'grammar> {
 
 const MAX_DEPTH: u32 = 7000;
 
-impl<'grammar> Generator<'grammar> {
+impl Generator<'_> {
     fn nonterminal(&mut self, nt: NonterminalString) -> Option<ParseTree> {
         if self.depth > MAX_DEPTH {
             return None;
