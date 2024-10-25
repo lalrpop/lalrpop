@@ -1,5 +1,5 @@
-use std::fs;
 use criterion::{criterion_group, Criterion};
+use std::fs;
 
 use crate::src::parsers::json;
 
@@ -14,4 +14,3 @@ pub fn json_parse(c: &mut Criterion) {
 }
 
 criterion_group!(parser, json_parse);
-
