@@ -9,6 +9,9 @@ use std::io;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 
+#[cfg(test)]
+mod test;
+
 /// Configure various aspects of how LALRPOP works.
 /// Intended for use within a `build.rs` script.
 /// To get the default configuration, use `Configuration::new`.
