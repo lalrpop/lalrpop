@@ -36,7 +36,7 @@ fn setup() -> (path::PathBuf, LockResult<MutexGuard<'static, i32>>) {
     let orig_dir = current_dir().unwrap();
     set_current_dir(path::Path::new("./src/api/test_files")).unwrap();
     let out_dir = temp_dir().join(TEST_DIR);
-    if fs::exists(&out_dir).unwrap() {
+    if out_dir.try_exists().unwrap() {
         // unclean data from previous failed test run.  Clean up
         fs::remove_dir_all(&out_dir).unwrap();
     }
@@ -61,7 +61,7 @@ fn remove_local_generated_files() {
     for f in ["src.rs", "other.rs", "outer.rs"] {
         for loc in [".", "src", "other"] {
             let file_path = path::Path::new(loc).join(f);
-            if fs::exists(&file_path).unwrap() {
+            if file_path.try_exists().unwrap() {
                 fs::remove_file(file_path).unwrap();
             }
         }
@@ -74,27 +74,38 @@ fn remove_local_generated_files() {
 fn verify_file(filename: &str, expected_location: GenFileLoc) {
     println!("Checking the location of {}", filename);
     assert_eq!(
-        fs::exists(path::Path::new("src").join(filename)).unwrap(),
+        path::Path::new("src").join(filename).try_exists().unwrap(),
         expected_location == GenFileLoc::Src
     );
     assert_eq!(
-        fs::exists(path::Path::new("other").join(filename)).unwrap(),
+        path::Path::new("other")
+            .join(filename)
+            .try_exists()
+            .unwrap(),
         expected_location == GenFileLoc::Other
     );
     assert_eq!(
-        fs::exists(filename).unwrap(),
+        path::Path::new(filename).try_exists().unwrap(),
         expected_location == GenFileLoc::Root
     );
-    if fs::exists(temp_dir().join(CUSTOM_TEST_DIR)).unwrap() {
+    if temp_dir().join(CUSTOM_TEST_DIR).try_exists().unwrap() {
         // Some tests create a custom output directory here.  We only check for contents if it
         // exists
         assert_eq!(
-            fs::exists(temp_dir().join(CUSTOM_TEST_DIR).join(filename)).unwrap(),
+            temp_dir()
+                .join(CUSTOM_TEST_DIR)
+                .join(filename)
+                .try_exists()
+                .unwrap(),
             expected_location == GenFileLoc::CustomOut
         )
     }
     assert_eq!(
-        fs::exists(temp_dir().join(TEST_DIR).join(filename)).unwrap(),
+        temp_dir()
+            .join(TEST_DIR)
+            .join(filename)
+            .try_exists()
+            .unwrap(),
         expected_location == GenFileLoc::OutDir
     );
     // For GenFileLoc::DoesntExist, we should have returned false for all others.  There is nothing
@@ -132,7 +143,7 @@ fn test_explicit_in_out() {
     let (orig_dir, _lock) = setup();
 
     let custom_dir = temp_dir().join(CUSTOM_TEST_DIR);
-    if fs::exists(&custom_dir).unwrap() {
+    if custom_dir.try_exists().unwrap() {
         fs::remove_dir_all(&custom_dir).unwrap();
     }
     fs::create_dir(&custom_dir).unwrap();
