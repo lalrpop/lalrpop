@@ -3,9 +3,6 @@ use std::collections::HashMap;
 use grammar::parse_tree::TypeRef;
 use string_cache::DefaultAtom as Atom;
 
-#[cfg(test)]
-mod test;
-
 pub struct TokenDefinition {
     // if the enum type is `foo::bar::baz<X,Y>` then:
     enum_type: TypeRef,
