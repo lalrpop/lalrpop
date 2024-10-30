@@ -303,7 +303,7 @@ unconditionally, pass <code>-f</code> (also try <code>--help</code> for other op
 look up useful Lalrpop-isms. If you are looking for a specific piece of
 functionality, use this table to jump to the right section.</p>
 <div class="table-wrapper"><table><thead><tr><th>name</th><th>snippet</th><th>description</th><th>tutorial</th></tr></thead><tbody>
-<tr><td>position</td><td><code>&lt;left: @L&gt; T &lt;right: @R&gt;</code></td><td>captures the offset of the first byte and the offset of the last byte plus one (as <code>left</code> and <code>right</code> respectively)</td><td><a href="tutorial/index.html">index pointer</a></td></tr>
+<tr><td>position</td><td><code>&lt;left: @L&gt; T &lt;right: @R&gt;</code></td><td>captures the offset of the first byte and the offset of the last byte plus one (as <code>left</code> and <code>right</code> respectively)</td><td><a href="location_tracking.html">Location tracking</a></td></tr>
 <tr><td>error_recovery</td><td><code>! =&gt; { ... }</code></td><td>recovers from parser errors</td><td><a href="tutorial/008_error_recovery.html">Error recovery</a></td></tr>
 <tr><td>grammar_parameter</td><td><code>grammar(scale: isize);</code></td><td>input parameters usable in the generated parser</td><td><a href="tutorial/009_state_parameter.html">Passing state parameter</a></td></tr>
 <tr><td>custom_error</td><td><code>"e" =&gt;? Err(ParseError::User { error: "an error" })</code></td><td>makes an action fallible</td><td><a href="tutorial/007_fallible_actions.html">Fallible actions</a></td></tr>
