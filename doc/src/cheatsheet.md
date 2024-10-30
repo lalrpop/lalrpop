@@ -6,7 +6,7 @@ functionality, use this table to jump to the right section.
 
 | name | snippet | description | tutorial |
 |---|---|---|---|
-| position | `<left: @L> T <right: @R>` | captures the offset of the first byte and the offset of the last byte plus one (as `left` and `right` respectively) | [index pointer](tutorial/index.md) |
+| position | `<left: @L> T <right: @R>` | captures the offset of the first byte and the offset of the last byte plus one (as `left` and `right` respectively) | [Location tracking](location_tracking.md) |
 | error_recovery | `! => { ... }` | recovers from parser errors | [Error recovery](tutorial/008_error_recovery.md) |
 | grammar_parameter | `grammar(scale: isize);` | input parameters usable in the generated parser | [Passing state parameter](tutorial/009_state_parameter.md) |
 | custom_error | `"e" =>? Err(ParseError::User { error: "an error" })` | makes an action fallible | [Fallible actions](tutorial/007_fallible_actions.md) |
