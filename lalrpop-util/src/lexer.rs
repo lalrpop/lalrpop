@@ -1,3 +1,4 @@
+#![doc(hidden)]
 //! The built-in lalrpop lexer
 //!
 //! This is the code for the built in lexer, and is linked by lalrpop generated parsers to provide

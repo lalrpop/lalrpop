@@ -1,3 +1,4 @@
+#![doc(hidden)]
 //! State machine for use by lalrpop generated parsers
 //!
 //! This provides grammar-independent state machine support for generated parsers.  It is intended
