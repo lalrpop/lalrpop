@@ -1,6 +1,7 @@
 [package]
 name = "lalrpop-test"
 workspace = ".."
+publish = false
 
 repository.workspace = true
 edition.workspace = true
