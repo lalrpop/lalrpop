@@ -1,3 +1,11 @@
+#![doc(hidden)]
+//! The built-in lalrpop lexer
+//!
+//! This is the code for the built in lexer, and is linked by lalrpop generated parsers to provide
+//! lexer support when you don't write a custom lexer.
+//!
+//! Typically you don't want to use APIs from this module directly, they are public to be accessed
+//! by the generated parser.
 use alloc::{fmt, vec::Vec};
 use core::marker::PhantomData;
 
