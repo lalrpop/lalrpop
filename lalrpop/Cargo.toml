@@ -2,8 +2,6 @@
 name = "lalrpop"
 description = "convenient LR(1) parser generator"
 readme = "../README.md"
-keywords = ["parser", "generator", "LR", "yacc", "grammar"]
-categories = ["parsing"]
 workspace = ".."
 default-run = "lalrpop"
 
@@ -13,6 +11,8 @@ authors.workspace = true
 license.workspace = true
 version.workspace = true
 rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 exclude = ["build.rs"]
 

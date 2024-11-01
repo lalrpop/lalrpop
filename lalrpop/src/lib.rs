@@ -11,6 +11,10 @@
 #![cfg_attr(test, allow(dead_code, mixed_script_confusables))]
 #![warn(rust_2018_idioms)]
 #![deny(clippy::exit)]
+#![warn(clippy::cargo)]
+// This is implied by clippy::cargo, but the version overlap may happen deep in
+// our dependency tree and there's little we can do about it.
+#![allow(clippy::multiple_crate_versions)]
 
 // hoist the modules that define macros up earlier
 #[macro_use]
