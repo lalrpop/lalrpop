@@ -4,6 +4,7 @@ version = "0.22.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 workspace = "../.." # <-- We added this and everything after!
 edition = "2021"
+publish = false
 
 [build-dependencies]
 lalrpop = { version = "0.22.0", path = "../../lalrpop" }
