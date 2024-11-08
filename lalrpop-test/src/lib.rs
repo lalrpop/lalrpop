@@ -1094,9 +1094,8 @@ fn verify_lalrpop_generates_itself() {
 
     let actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
     let expected = fs::read_to_string(copied_grammar_file.with_extension("rs")).unwrap();
-    util::compare_str(
-        &actual,
-        &expected,
+    assert!(
+        actual == expected,
         "The snapshot does not match what lalrpop generates now.\n\
          Use ./update_lrgrammar.sh to generate a new snapshot of the lrgrammar",
     );
