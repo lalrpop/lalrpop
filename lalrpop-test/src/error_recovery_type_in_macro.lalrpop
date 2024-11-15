@@ -1,7 +1,6 @@
 
 use crate::util::tok::Tok;
 
-#[LALR]
 grammar<'input>();
 
 extern {
