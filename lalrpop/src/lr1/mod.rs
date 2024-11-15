@@ -3,7 +3,6 @@
 use crate::grammar::repr::*;
 
 mod build;
-mod build_lalr;
 pub mod codegen;
 mod core;
 mod error;
@@ -25,11 +24,7 @@ pub use self::error::report_error;
 pub use self::tls::Lr1Tls;
 
 pub fn build_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
-    let mut lr1_states = if !grammar.algorithm.lalr {
-        build::build_lr1_states(grammar, start)?
-    } else {
-        build_lalr::build_lalr_states(grammar, start)?
-    };
+    let mut lr1_states = build::build_lr1_states(grammar, start)?;
 
     rewrite_state_indices(grammar, &mut lr1_states);
 

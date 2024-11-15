@@ -8,46 +8,16 @@ use crate::lr1::first;
 use crate::lr1::lane_table::*;
 use crate::lr1::lookahead::*;
 use crate::tls::Tls;
-use std::env;
 
 #[cfg(test)]
 mod test;
 
-fn build_lr1_states_legacy<'grammar>(
-    grammar: &'grammar Grammar,
-    start: NonterminalString,
-) -> Lr1Result<'grammar> {
-    let eof = TokenSet::eof();
-    let mut lr1: Lr<'grammar, TokenSet> = Lr::new(grammar, start, eof);
-    lr1.set_permit_early_stop(true);
-    lr1.build_states()
-}
-
-type ConstructionFunction<'grammar> =
-    fn(&'grammar Grammar, NonterminalString) -> Lr1Result<'grammar>;
-
-pub fn use_lane_table() -> bool {
-    match env::var("LALRPOP_LANE_TABLE") {
-        Ok(ref s) => s != "disabled",
-        _ => true,
-    }
-}
-
 pub fn build_lr1_states(grammar: &Grammar, start: NonterminalString) -> Lr1Result<'_> {
-    let (method_name, method_fn) = if use_lane_table() {
-        ("lane", build_lane_table_states as ConstructionFunction<'_>)
-    } else {
-        (
-            "legacy",
-            build_lr1_states_legacy as ConstructionFunction<'_>,
-        )
-    };
-
     profile! {
         &Tls::session(),
-        format!("LR(1) state construction ({})", method_name),
+        format!("LR(1) state construction (lane)"),
         {
-            method_fn(grammar, start)
+            build_lane_table_states(grammar, start)
         }
     }
 }
@@ -77,10 +47,6 @@ impl<'grammar, L: LookaheadBuild> Lr<'grammar, L> {
             start_lookahead,
             permit_early_stop: false,
         }
-    }
-
-    fn set_permit_early_stop(&mut self, v: bool) {
-        self.permit_early_stop = v;
     }
 
     fn build_states(&self) -> Result<Vec<State<'grammar, L>>, TableConstructionError<'grammar, L>> {
