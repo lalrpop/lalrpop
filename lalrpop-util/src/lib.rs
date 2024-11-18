@@ -30,8 +30,8 @@ pub mod state_machine;
 /// For the built-in lexer, the generic parameters default to:
 /// ParseError<usize, lexer::Token<'_>, &'static str>.
 ///
-/// L: the location of the Token where the error occured
-/// T: The token encountered where the error occured
+/// L: the location of the Token where the error occurred
+/// T: The token encountered where the error occurred
 /// E: A custom user-defined error
 ///
 /// L and T are fixed types as listed above for built in lexers, and can be defined to whatever
