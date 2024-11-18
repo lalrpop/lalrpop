@@ -346,7 +346,10 @@ impl Validator<'_> {
             SymbolKind::Error => {
                 let mut algorithm = r::Algorithm::default();
                 read_algorithm(&self.grammar.attributes, &mut algorithm);
-                if algorithm.codegen == r::LrCodeGeneration::RecursiveAscent {
+                if matches!(
+                    algorithm.codegen,
+                    r::LrCodeGeneration::RecursiveAscent | r::LrCodeGeneration::TestAll
+                ) {
                     return_err!(
                         symbol.span,
                         "error recovery is not yet supported by recursive ascent parsers"
