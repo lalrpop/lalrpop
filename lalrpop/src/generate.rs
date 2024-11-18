@@ -1,7 +1,8 @@
 //! Generate valid parse trees.
 
 use crate::grammar::repr::*;
-use rand::{self, Rng};
+use rand::prelude::*;
+use rand_chacha::rand_core::SeedableRng;
 use std::iter::Iterator;
 
 #[derive(PartialEq, Eq)]
@@ -13,7 +14,7 @@ pub enum ParseTree {
 pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseTree {
     let mut gen = Generator {
         grammar,
-        rng: rand::thread_rng(),
+        rng: rand_chacha::ChaCha8Rng::seed_from_u64(0),
         depth: 0,
     };
     loop {
@@ -28,7 +29,7 @@ pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseT
 
 struct Generator<'grammar> {
     grammar: &'grammar Grammar,
-    rng: rand::rngs::ThreadRng,
+    rng: rand_chacha::ChaCha8Rng,
     depth: u32,
 }
 
