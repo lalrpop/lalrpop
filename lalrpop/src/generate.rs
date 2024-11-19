@@ -2,7 +2,6 @@
 
 use crate::grammar::repr::*;
 use rand::prelude::*;
-use rand_chacha::rand_core::SeedableRng;
 use std::iter::Iterator;
 
 #[derive(PartialEq, Eq)]
@@ -11,10 +10,14 @@ pub enum ParseTree {
     Terminal(TerminalString),
 }
 
-pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseTree {
+pub fn random_parse_tree(
+    grammar: &Grammar,
+    symbol: NonterminalString,
+    rng: &mut rand_chacha::ChaCha8Rng,
+) -> ParseTree {
     let mut gen = Generator {
         grammar,
-        rng: rand_chacha::ChaCha8Rng::seed_from_u64(0),
+        rng,
         depth: 0,
     };
     loop {
@@ -27,15 +30,15 @@ pub fn random_parse_tree(grammar: &Grammar, symbol: NonterminalString) -> ParseT
     }
 }
 
-struct Generator<'grammar> {
+struct Generator<'grammar, 'rng> {
     grammar: &'grammar Grammar,
-    rng: rand_chacha::ChaCha8Rng,
+    rng: &'rng mut rand_chacha::ChaCha8Rng,
     depth: u32,
 }
 
 const MAX_DEPTH: u32 = 7000;
 
-impl Generator<'_> {
+impl Generator<'_, '_> {
     fn nonterminal(&mut self, nt: NonterminalString) -> Option<ParseTree> {
         if self.depth > MAX_DEPTH {
             return None;
