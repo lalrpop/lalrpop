@@ -7,6 +7,9 @@ pub enum Statement {
     Print {
         value: Box<Expression>,
     },
+    EPrint {
+        value: Box<Expression>,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq)]
