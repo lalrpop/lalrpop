@@ -235,6 +235,7 @@ dependencies = [
  "petgraph",
  "pico-args",
  "rand",
+ "rand_chacha",
  "regex",
  "regex-syntax",
  "sha3",
