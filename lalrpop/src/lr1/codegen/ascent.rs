@@ -452,6 +452,8 @@ impl<'ascent, 'grammar, W: Write>
 
         // finally, emit gotos (if relevant)
         if fallthrough && !this_state.gotos.is_empty() {
+            // Sometimes we write loops that unconditionally only loop once
+            rust!(self.out, "#[allow(clippy::never_loop)]");
             rust!(self.out, "loop {{");
 
             // In most states, we know precisely when the top stack

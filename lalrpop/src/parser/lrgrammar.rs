@@ -16,7 +16,7 @@ use self::___lalrpop_util::state_machine as ___state_machine;
 extern crate alloc;
 
 #[rustfmt::skip]
-#[allow(explicit_outlives_requirements, non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::never_loop, clippy::match_single_binding)]
+#[allow(explicit_outlives_requirements, non_snake_case, non_camel_case_types, unused_mut, unused_variables, unused_imports, unused_parens, clippy::needless_lifetimes, clippy::type_complexity, clippy::needless_return, clippy::too_many_arguments, clippy::match_single_binding)]
 mod ___parse___Top {
 
 use string_cache::DefaultAtom as Atom;
