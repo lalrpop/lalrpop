@@ -37,7 +37,7 @@ pub fn cfg_active(session: &Session, attrs: &[Attribute]) -> bool {
         match &attr.arg {
             AttributeArg::Paren(attrs) if attr.id == *"not" => attrs
                 .first()
-                .map_or(false, |attr| !test_feat_attr(attr, session)),
+                .is_some_and(|attr| !test_feat_attr(attr, session)),
             AttributeArg::Paren(attrs) if attr.id == *"all" => {
                 attrs.iter().all(|attr| test_feat_attr(attr, session))
             }
@@ -47,7 +47,7 @@ pub fn cfg_active(session: &Session, attrs: &[Attribute]) -> bool {
             AttributeArg::Equal(feature) if attr.id == *"feature" => session
                 .features
                 .as_ref()
-                .map_or(false, |features| features.contains(feature)),
+                .is_some_and(|features| features.contains(feature)),
             _ => false,
         }
     }
@@ -59,7 +59,7 @@ pub fn cfg_active(session: &Session, attrs: &[Attribute]) -> bool {
         .all(|attr| match &attr.arg {
             AttributeArg::Paren(attr) => attr
                 .first()
-                .map_or(false, |attr| test_feat_attr(attr, session)),
+                .is_some_and(|attr| test_feat_attr(attr, session)),
             _ => false,
         })
 }
