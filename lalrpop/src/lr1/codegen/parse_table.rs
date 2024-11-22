@@ -1540,6 +1540,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
 
     /// Emit the array of terminal tokens for use in generating error output
     fn emit_terminal_repr_list(&mut self) -> io::Result<()> {
+        rust!(self.out, "#[allow(clippy::needless_raw_string_hashes)]");
         rust!(self.out, "const {}TERMINAL: &[&str] = &[", self.prefix);
         let all_terminals = if self.grammar.uses_error_recovery {
             // Subtract one to exclude the error terminal
