@@ -284,7 +284,6 @@ T: () = {
 fn issue_144() {
     let _tls = Tls::test();
 
-    #[allow(clippy::needless_raw_string_hashes)] // Fix merged for next clippy release, after 1.72
     let grammar = normalized_grammar(
         r##"
 grammar;

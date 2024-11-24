@@ -376,8 +376,10 @@ impl<'ascent, 'grammar, W: Write>
                     .any(|(t, _)| t.contains(&Token::Terminal(terminal.clone())))
         });
 
+        rust!(self.out, "#[allow(clippy::needless_raw_string_hashes)]");
         rust!(self.out, "let {}expected = alloc::vec![", self.prefix);
         for terminal in successful_terminals {
+            // Try to avoid terminals escaping
             rust!(self.out, "r###\"{}\"###.to_string(),", terminal);
         }
         rust!(self.out, "];");
