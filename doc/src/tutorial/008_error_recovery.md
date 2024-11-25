@@ -83,4 +83,10 @@ fn calculator7() {
 }
 ```
 
+If you're using a custom lexer, like Logos, you can still use error
+recovery with a little extra work. See error recovery with
+[custom lexer] for more information.
+
+[custom lexer]: https://lalrpop.github.io/lalrpop/lexer_tutorial/006_error_recovery_custom_lexer.html
+
 [calculator7]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator7.lalrpop
