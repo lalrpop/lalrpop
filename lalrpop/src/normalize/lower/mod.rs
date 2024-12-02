@@ -1,16 +1,16 @@
 //! Lower
 //!
 
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use crate::grammar::parse_tree as pt;
 use crate::grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
-    Path, TerminalString,
+    GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString, Path,
+    TerminalString, read_algorithm,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
 use crate::grammar::repr as r;
-use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::NormResult;
+use crate::normalize::norm_util::{self, Symbols};
 use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
@@ -140,15 +140,13 @@ impl<'s> LowerState<'s> {
                             }
                         })
                         .collect();
-                    self.nonterminals.insert(
-                        nt_name.clone(),
-                        r::NonterminalData {
+                    self.nonterminals
+                        .insert(nt_name.clone(), r::NonterminalData {
                             visibility: nt.visibility.clone(),
                             attributes: nt.attributes,
                             span: nt.span,
                             productions,
-                        },
-                    );
+                        });
                 }
             }
         }
@@ -245,15 +243,13 @@ impl<'s> LowerState<'s> {
                     action: action_fn,
                     span: nt.span,
                 };
-                self.nonterminals.insert(
-                    fake_name.clone(),
-                    r::NonterminalData {
+                self.nonterminals
+                    .insert(fake_name.clone(), r::NonterminalData {
                         visibility: nt.visibility.clone(),
                         attributes: vec![],
                         span: nt.span,
                         productions: vec![production],
-                    },
-                );
+                    });
                 (nt.name.clone(), fake_name)
             })
             .collect()
