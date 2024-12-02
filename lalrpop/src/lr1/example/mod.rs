@@ -1,8 +1,8 @@
 //! Code to compute example inputs given a backtrace.
 
 use crate::grammar::repr::*;
-use crate::message::builder::InlineBuilder;
 use crate::message::Content;
+use crate::message::builder::InlineBuilder;
 use crate::style::Style;
 use crate::tls::Tls;
 use ascii_canvas::AsciiView;

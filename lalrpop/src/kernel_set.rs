@@ -1,4 +1,4 @@
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use std::collections::VecDeque;
 use std::fmt::Debug;
 use std::hash::Hash;
