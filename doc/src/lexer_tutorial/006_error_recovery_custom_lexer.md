@@ -1,10 +1,12 @@
-# Error recovery with custom lexer
+# Error recovery with a custom lexer
 
 Features described in
 [Error recovery](https://lalrpop.github.io/lalrpop/tutorial/008_error_recovery.html)
-works well with the custom lexer, like the lexer built by yourself or Logos. Let's
-also take Logos as an example. However, you need to do a little extra work to make
-it work. In `grammar.lalrpop`, change the signature of `grammar`
+work well with the custom lexer, however error recovery only supports
+recovering from parser errors - not lexer errors.  This page shows an approach
+to recover from lexer errors.
+
+Enable error recovery:
 
 ```diff
 use lalrpop_util::ErrorRecovery;
@@ -13,10 +15,9 @@ use lalrpop_util::ErrorRecovery;
 + grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, Token, LexicalError>>);
 ```
 
-Now, everything should work as you wish. But still, there's a little problem here
-that you may encounter. If you try tweaking the toy script in previous chapter,
-with an illegal token to trigger `LexicalError::InvalidToken`, the parser will
-panic at the lexical error
+Now error recovery will work for parser errors, however if your lexer
+encounters an unexpected token, that's a *lexer* error, not a *parser* error
+so the parser is unable to recover from it.
 
 ```plaintext
 print (a - $);
@@ -49,7 +50,7 @@ impl<'input> Iterator for Lexer<'input> {
 ```
 
 and then put a new member into `Token` enum to represent the error token
-(or your custom error type)
+(or your custom error type).
 
 ```rust
 pub enum Token {
@@ -60,12 +61,14 @@ pub enum Token {
 }
 ```
 
-You see, like NaN is a number in JavaScript, we have now an `Token::Error` is
-a token in our lexer. That's something you can do with a custom lexer. And with
-the builtin lexer, you would probably need to exhaust the possible errors in the
-lexer which is a little bit more complicated and ugly.
+Like NaN is a number in JavaScript, we have now an `Token::Error` which is
+a token in our lexer.  This token can be passed to the parser, but if it is
+not used in the parser grammar, will not parse.  That transforms the lexer
+error into a recoverable parser error allowing you to have error recovery in
+this case.
 
-Also, you might need to custom your own error, turn to fallible actions for details.
+Also, you might need to custom your own error, visit the section on fallible
+actions for details.
 
 ```lalrpop
 ! => {
