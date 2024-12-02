@@ -15,7 +15,7 @@ pub fn random_parse_tree(
     symbol: NonterminalString,
     rng: &mut rand_chacha::ChaCha8Rng,
 ) -> ParseTree {
-    let mut gen = Generator {
+    let mut generator = Generator {
         grammar,
         rng,
         depth: 0,
@@ -23,10 +23,10 @@ pub fn random_parse_tree(
     loop {
         // sometimes, the random walk overflows the stack, so we have a max, and if
         // it is exceeded, we just try again
-        if let Some(result) = gen.nonterminal(symbol.clone()) {
+        if let Some(result) = generator.nonterminal(symbol.clone()) {
             return result;
         }
-        gen.depth = 0;
+        generator.depth = 0;
     }
 }
 
