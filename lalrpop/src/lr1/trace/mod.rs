@@ -1,4 +1,4 @@
-use crate::collections::{set, Set};
+use crate::collections::{Set, set};
 use crate::grammar::repr::*;
 use crate::lr1::core::*;
 use crate::lr1::first::FirstSets;

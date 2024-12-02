@@ -1,11 +1,11 @@
 //! Lower
 //!
 
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use crate::grammar::parse_tree as pt;
 use crate::grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
-    Path, TerminalString,
+    GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString, Path,
+    TerminalString, read_algorithm,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
 use crate::grammar::repr::{self as r, Span};

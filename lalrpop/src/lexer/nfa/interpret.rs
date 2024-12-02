@@ -1,6 +1,6 @@
 //! A depth-first interpreter for NFAs.
 
-use crate::lexer::nfa::{Nfa, NfaStateIndex, Noop, Other, StateKind, Test, START};
+use crate::lexer::nfa::{Nfa, NfaStateIndex, Noop, Other, START, StateKind, Test};
 use std::cmp::max;
 
 /// Interpret `nfa` applied to `test`, returning the longest matching

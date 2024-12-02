@@ -120,7 +120,10 @@ fn emit_user_action_code<W: Write>(
         ]);
     }
 
-    rust!(rust, "#[allow(clippy::too_many_arguments, clippy::needless_lifetimes, clippy::just_underscores_and_digits)]");
+    rust!(
+        rust,
+        "#[allow(clippy::too_many_arguments, clippy::needless_lifetimes, clippy::just_underscores_and_digits)]"
+    );
     rust.fn_header(
         &r::Visibility::Priv,
         format!("{}action{}", grammar.prefix, index),

@@ -429,14 +429,11 @@ fn expr_arena_test1() {
 fn expr_arena_test2() {
     use crate::expr_arena_ast::*;
     let arena = Arena::new();
-    let expected = arena.alloc(Node::Reduce(
-        Op::Mul,
-        vec![
-            arena.alloc(Node::Value(22)),
-            arena.alloc(Node::Value(3)),
-            arena.alloc(Node::Value(6)),
-        ],
-    ));
+    let expected = arena.alloc(Node::Reduce(Op::Mul, vec![
+        arena.alloc(Node::Value(22)),
+        arena.alloc(Node::Value(3)),
+        arena.alloc(Node::Value(6)),
+    ]));
     util::test_loc(
         |v| expr_arena::ExprParser::new().parse(&arena, v),
         "*(22, 3, 6)",
@@ -506,11 +503,10 @@ fn loc_test1() {
 
 #[test]
 fn loc_test2() {
-    util::test_loc(
-        |v| loc::ItemsParser::new().parse(v),
-        "+",
-        vec![(0, 0), (0, 1)],
-    );
+    util::test_loc(|v| loc::ItemsParser::new().parse(v), "+", vec![
+        (0, 0),
+        (0, 1),
+    ]);
 }
 
 #[test]
@@ -552,16 +548,13 @@ fn error_recovery_eof() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(
-        errors.borrow()[0],
-        ErrorRecovery {
-            error: ParseError::UnrecognizedEof {
-                location: (),
-                expected: vec!["\"-\"".to_string()],
-            },
-            dropped_tokens: vec![],
-        }
-    );
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedEof {
+            location: (),
+            expected: vec!["\"-\"".to_string()],
+        },
+        dropped_tokens: vec![],
+    });
 }
 
 #[test]
@@ -588,16 +581,13 @@ fn error_recovery_extra_token() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(
-        errors.borrow()[0],
-        ErrorRecovery {
-            error: ParseError::UnrecognizedToken {
-                token: ((), Tok::Plus, ()),
-                expected: vec!["\")\"".to_string()],
-            },
-            dropped_tokens: vec![((), Tok::Plus, ())],
-        }
-    );
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: ((), Tok::Plus, ()),
+            expected: vec!["\")\"".to_string()],
+        },
+        dropped_tokens: vec![((), Tok::Plus, ())],
+    });
 }
 
 #[test]
@@ -610,16 +600,13 @@ fn error_recovery_dont_drop_unrecognized_token() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(
-        errors.borrow()[0],
-        ErrorRecovery {
-            error: ParseError::UnrecognizedToken {
-                token: ((), Tok::RParen, ()),
-                expected: vec!["\"-\"".to_string()],
-            },
-            dropped_tokens: vec![],
-        }
-    );
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: ((), Tok::RParen, ()),
+            expected: vec!["\"-\"".to_string()],
+        },
+        dropped_tokens: vec![],
+    });
 }
 
 #[test]
@@ -632,16 +619,13 @@ fn error_recovery_multiple_extra_tokens() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(
-        errors.borrow()[0],
-        ErrorRecovery {
-            error: ParseError::UnrecognizedToken {
-                token: ((), Tok::Plus, ()),
-                expected: vec!["\")\"".to_string()],
-            },
-            dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
-        }
-    );
+    assert_eq!(errors.borrow()[0], ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: ((), Tok::Plus, ()),
+            expected: vec!["\")\"".to_string()],
+        },
+        dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
+    });
 }
 
 #[test]
@@ -683,16 +667,13 @@ fn error_recovery_issue_240() {
         }
     }
 
-    assert_eq!(
-        errors,
-        vec![ErrorRecovery {
-            error: ParseError::UnrecognizedToken {
-                token: (6, Tok::Div, 7),
-                expected: vec!["\")\"".to_string()],
-            },
-            dropped_tokens: vec![(6, Tok::Div, 7)],
-        },]
-    );
+    assert_eq!(errors, vec![ErrorRecovery {
+        error: ParseError::UnrecognizedToken {
+            token: (6, Tok::Div, 7),
+            expected: vec!["\")\"".to_string()],
+        },
+        dropped_tokens: vec![(6, Tok::Div, 7)],
+    },]);
 }
 
 #[test]
@@ -862,17 +843,14 @@ fn test_expected_tokens_not_overbroad_on_reduce() {
         .parse("X")
         .expect_err("should have malformed expression (missing `;`)");
 
-    assert_eq!(
-        err,
-        ParseError::UnrecognizedEof {
-            location: 1,
-            // previously this would return ")", ";", "in" because the
-            // parser state when the error was hit could reduce on
-            // each of those tokens, with the result depending on
-            // how the state was reached
-            expected: vec![r#"";""#.to_owned()],
-        }
-    );
+    assert_eq!(err, ParseError::UnrecognizedEof {
+        location: 1,
+        // previously this would return ")", ";", "in" because the
+        // parser state when the error was hit could reduce on
+        // each of those tokens, with the result depending on
+        // how the state was reached
+        expected: vec![r#"";""#.to_owned()],
+    });
 }
 
 #[test]
@@ -881,13 +859,10 @@ fn test_expected_tokens_not_overbroad_on_reduce_lalr() {
         .parse("X")
         .expect_err("should have malformed expression (missing `;`)");
 
-    assert_eq!(
-        err,
-        ParseError::UnrecognizedEof {
-            location: 1,
-            expected: vec![r#"";""#.to_owned()],
-        }
-    );
+    assert_eq!(err, ParseError::UnrecognizedEof {
+        location: 1,
+        expected: vec![r#"";""#.to_owned()],
+    });
 }
 
 #[test]
@@ -926,18 +901,26 @@ fn issue_55_test1() {
 #[test]
 fn inline_fallible() {
     assert!(inline_fallible::InlineParser::new().parse("a1").is_ok());
-    assert!(inline_fallible::MultipleInlineParser::new()
-        .parse("a2 a1")
-        .is_ok());
-    assert!(inline_fallible::InlineIntoFallibleParser::new()
-        .parse("a2")
-        .is_ok());
-    assert!(inline_fallible::ADifferentProductionIsFallibleParser::new()
-        .parse("a1")
-        .is_ok());
-    assert!(inline_fallible::RecursiveInlineParser::new()
-        .parse("c a2 d")
-        .is_ok());
+    assert!(
+        inline_fallible::MultipleInlineParser::new()
+            .parse("a2 a1")
+            .is_ok()
+    );
+    assert!(
+        inline_fallible::InlineIntoFallibleParser::new()
+            .parse("a2")
+            .is_ok()
+    );
+    assert!(
+        inline_fallible::ADifferentProductionIsFallibleParser::new()
+            .parse("a1")
+            .is_ok()
+    );
+    assert!(
+        inline_fallible::RecursiveInlineParser::new()
+            .parse("c a2 d")
+            .is_ok()
+    );
 }
 
 #[test]
@@ -955,9 +938,11 @@ fn generics_issue_104_test1() {
     // The real thing `generics_issue_104` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(generics_issue_104::SchemaParser::new()
-        .parse::<()>("grammar { foo }")
-        .is_ok());
+    assert!(
+        generics_issue_104::SchemaParser::new()
+            .parse::<()>("grammar { foo }")
+            .is_ok()
+    );
 }
 
 #[test]
@@ -969,40 +954,60 @@ fn where_clause_with_forall_test1() {
 
 #[test]
 fn test_match_section() {
-    assert!(match_section::QueryParser::new()
-        .parse("SELECT foo")
-        .is_ok());
-    assert!(match_section::QueryParser::new()
-        .parse("select foo")
-        .is_ok());
-    assert!(match_section::QueryParser::new()
-        .parse("INSERT foo")
-        .is_ok());
-    assert!(match_section::QueryParser::new()
-        .parse("UPDATE foo")
-        .is_ok());
-    assert!(match_section::QueryParser::new()
-        .parse("UPDATE update")
-        .is_err());
+    assert!(
+        match_section::QueryParser::new()
+            .parse("SELECT foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("select foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("INSERT foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("UPDATE foo")
+            .is_ok()
+    );
+    assert!(
+        match_section::QueryParser::new()
+            .parse("UPDATE update")
+            .is_err()
+    );
 }
 
 #[test]
 fn test_match_section_byte() {
-    assert!(match_section_byte::QueryParser::new()
-        .parse("SELECT foo")
-        .is_ok());
-    assert!(match_section_byte::QueryParser::new()
-        .parse("select foo")
-        .is_ok());
-    assert!(match_section_byte::QueryParser::new()
-        .parse("INSERT foo")
-        .is_ok());
-    assert!(match_section_byte::QueryParser::new()
-        .parse("UPDATE foo")
-        .is_ok());
-    assert!(match_section_byte::QueryParser::new()
-        .parse("UPDATE update")
-        .is_err());
+    assert!(
+        match_section_byte::QueryParser::new()
+            .parse("SELECT foo")
+            .is_ok()
+    );
+    assert!(
+        match_section_byte::QueryParser::new()
+            .parse("select foo")
+            .is_ok()
+    );
+    assert!(
+        match_section_byte::QueryParser::new()
+            .parse("INSERT foo")
+            .is_ok()
+    );
+    assert!(
+        match_section_byte::QueryParser::new()
+            .parse("UPDATE foo")
+            .is_ok()
+    );
+    assert!(
+        match_section_byte::QueryParser::new()
+            .parse("UPDATE update")
+            .is_err()
+    );
 }
 
 #[test]
@@ -1069,9 +1074,11 @@ fn generics_issue_417() {
     // The real thing `generics_issue_417` is testing is that the code
     // *compiles*, even though the type parameter `T` does not appear
     // in any of the arguments.
-    assert!(generics_issue_417::TupleParser::new()
-        .parse::<()>("(hello, world)")
-        .is_ok());
+    assert!(
+        generics_issue_417::TupleParser::new()
+            .parse::<()>("(hello, world)")
+            .is_ok()
+    );
 }
 
 #[test]
@@ -1089,19 +1096,21 @@ fn verify_lalrpop_generates_itself() {
     // Don't remove the .rs file that already exist
     fs::copy(&grammar_file, &copied_grammar_file).expect("no grammar file found");
 
-    assert!(Command::new("../target/debug/lalrpop")
-        .args([
-            "--force",
-            "--no-whitespace",
-            "--out-dir",
-            out_dir,
-            copied_grammar_file
-                .to_str()
-                .expect("grammar path is not UTF-8")
-        ])
-        .status()
-        .expect("lalrpop run failed")
-        .success());
+    assert!(
+        Command::new("../target/debug/lalrpop")
+            .args([
+                "--force",
+                "--no-whitespace",
+                "--out-dir",
+                out_dir,
+                copied_grammar_file
+                    .to_str()
+                    .expect("grammar path is not UTF-8")
+            ])
+            .status()
+            .expect("lalrpop run failed")
+            .success()
+    );
 
     let actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
     let expected = fs::read_to_string(copied_grammar_file.with_extension("rs")).unwrap();
@@ -1153,10 +1162,11 @@ fn test_string_tokenize() {
         .into_iter()
         .map(|t| t.1)
         .collect::<Vec<_>>();
-    assert_eq!(
-        tokens,
-        vec![Tok::Num(1), Tok::String("just testing"), Tok::Num(2)]
-    );
+    assert_eq!(tokens, vec![
+        Tok::Num(1),
+        Tok::String("just testing"),
+        Tok::Num(2)
+    ]);
 }
 
 #[test]

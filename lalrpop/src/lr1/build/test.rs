@@ -10,7 +10,7 @@ use crate::tls::Tls;
 use rand::SeedableRng;
 use string_cache::DefaultAtom as Atom;
 
-use super::{build_lr0_states, build_lr1_states, use_lane_table, Lr};
+use super::{Lr, build_lr0_states, build_lr1_states, use_lane_table};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))
