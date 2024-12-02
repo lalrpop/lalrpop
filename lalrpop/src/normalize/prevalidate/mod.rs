@@ -4,7 +4,7 @@ use super::norm_util::{self, Symbols};
 use super::precedence;
 use super::{NormError, NormResult};
 
-use crate::collections::{set, Multimap};
+use crate::collections::{Multimap, set};
 use crate::grammar::consts::*;
 use crate::grammar::parse_tree::*;
 use crate::grammar::repr as r;
@@ -74,7 +74,8 @@ impl Validator<'_> {
                         if d.enum_token.is_some() {
                             return_err!(
                                 d.span,
-                                "extern (with custom tokens) and match definitions are mutually exclusive");
+                                "extern (with custom tokens) and match definitions are mutually exclusive"
+                            );
                         }
                     }
                 }
@@ -89,7 +90,8 @@ impl Validator<'_> {
                         if data.enum_token.is_some() {
                             return_err!(
                                 d.span,
-                                "match and extern (with custom tokens) definitions are mutually exclusive");
+                                "match and extern (with custom tokens) definitions are mutually exclusive"
+                            );
                         }
                     }
 
@@ -285,7 +287,8 @@ impl Validator<'_> {
                 if norm_util::check_between_braces(action).is_in_curly_brackets() {
                     return_err!(
                         alternative.span,
-                        "Using `<>` between curly braces (e.g., `{{<>}}`) only works when your parsed values have been given names (e.g., `<x:Foo>`, not just `<Foo>`)");
+                        "Using `<>` between curly braces (e.g., `{{<>}}`) only works when your parsed values have been given names (e.g., `<x:Foo>`, not just `<Foo>`)"
+                    );
                 }
             }
         }
