@@ -184,10 +184,9 @@ mod test {
 
     #[test]
     fn test_usage_single_input() {
-        assert_eq!(
-            parse_args_slice(&["file.lalrpop"]).arg_inputs,
-            ["file.lalrpop"]
-        );
+        assert_eq!(parse_args_slice(&["file.lalrpop"]).arg_inputs, [
+            "file.lalrpop"
+        ]);
     }
 
     #[test]
