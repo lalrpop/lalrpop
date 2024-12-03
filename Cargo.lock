@@ -274,8 +274,6 @@ dependencies = [
  "lalrpop",
  "lalrpop-util",
  "logos",
- "logos-codegen",
- "logos-derive",
 ]
 
 [[package]]
