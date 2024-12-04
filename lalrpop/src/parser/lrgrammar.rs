@@ -39349,7 +39349,7 @@ ___5,
 }
 
 #[allow(clippy::type_complexity, dead_code)]
-pub  trait ___ToTriple<'input, >
+pub trait ___ToTriple<'input, >
 {
 fn to_triple(self) -> Result<(usize,Tok<'input>,usize), ___lalrpop_util::ParseError<usize, Tok<'input>, tok::Error>>;
 }
