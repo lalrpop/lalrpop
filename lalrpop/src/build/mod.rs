@@ -573,7 +573,7 @@ fn emit_to_triple_trait<W: Write>(
 
     rust!(
         rust,
-        "{} trait {}ToTriple<{}>",
+        "{}trait {}ToTriple<{}>",
         max_start_nt_visibility,
         grammar.prefix,
         user_type_parameters,
