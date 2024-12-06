@@ -1,6 +1,7 @@
-use lexer::grammar::ScriptParser;
-use lexer::lexer::Lexer;
+use crate::grammar::ScriptParser;
+use crate::lexer::Lexer;
 
+#[test]
 fn main() {
     let source_code = "var a = 42;
 var b = 23;
