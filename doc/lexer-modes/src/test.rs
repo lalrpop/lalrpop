@@ -1,9 +1,10 @@
 use std::rc::Rc;
 
-use lexer_modes::lexer::Lexer;
-use lexer_modes::ListParser;
-use lexer_modes::Value;
+use super::lexer::Lexer;
+use super::ListParser;
+use super::Value;
 
+#[test]
 fn main() {
     // Values are encoded by a length, a colon, and then the value.
     // The value doesn't need to be followed by whitespace, but it

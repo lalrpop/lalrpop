@@ -1,5 +1,8 @@
 pub mod lexer;
 
+#[cfg(test)]
+mod test;
+
 // A value.
 #[derive(Debug, PartialEq, Eq)]
 pub struct Value {
