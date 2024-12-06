@@ -47,6 +47,9 @@ compilation code expects `build.rs` to be run unconditionally.
 
 ## Using the Legacy LALR Parser
 
+**Note:** LALR support is deprecated and may be removed in a future release.
+If you really need this feature, please file a github issue and let us know.
+
 By default, LALRPOP uses the [lane table][]
 algorithm which is LR(1) but creates much smaller tables. There is no longer
 any clear benefit to using the previous LALR implementation but it is still
