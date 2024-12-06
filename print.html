@@ -1058,6 +1058,13 @@ fn calculator7() {
     assert_eq!(errors.len(), 4);
 }
 <span class="boring">}</span></code></pre></pre>
+<p>Error recovery can only handle errors reported at the parser level, not the
+lexer level.  This means that an "InvalidToken" error (or similar from a custom
+lexer) will not be recoverable.  In order to recover from lexer errors, you can
+add an <code>Error</code> token to the lexer, and rather than returning a lexer error,
+return a valid <code>Error</code> token.  A worked example for <a href="https://lalrpop.github.io/lalrpop/lexer_tutorial/006_error_recovery_custom_lexer.html">custom lexer</a>s is
+available in the book.  The same approach will work for the built in lexer as
+well.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="passing-state-parameter"><a class="header" href="#passing-state-parameter">Passing state parameter</a></h1>
 <p>By default, the parser doesn't take any argument other than the input.
 When building the AST, it might be useful to pass parameters to the parser,
@@ -2209,6 +2216,76 @@ let ast = parser.parse(lexer)?;
 
 println!("{:?}", ast);
 <span class="boring">}</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="error-recovery-with-a-custom-lexer"><a class="header" href="#error-recovery-with-a-custom-lexer">Error recovery with a custom lexer</a></h1>
+<p>Features described in
+<a href="https://lalrpop.github.io/lalrpop/tutorial/008_error_recovery.html">Error recovery</a>
+work well with the custom lexer, however error recovery only supports
+recovering from parser errors - not lexer errors.  This page shows an approach
+to recover from lexer errors.</p>
+<p>Enable error recovery:</p>
+<pre><code class="language-diff">use lalrpop_util::ErrorRecovery;
+
+- grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token&lt;'input&gt;, &amp;'static str&gt;&gt;);
++ grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token, LexicalError&gt;&gt;);
+</code></pre>
+<p>Now error recovery will work for parser errors, however if your lexer
+encounters an unexpected token, that's a <em>lexer</em> error, not a <em>parser</em> error
+so the parser is unable to recover from it.</p>
+<pre><code class="language-plaintext">print (a - $);
+
+// Err(User { error: InvalidToken })
+</code></pre>
+<p>It's caused by the inconsistency in the lexer stream, as lalrpop parser
+always expects a normal token stream. To fix this, you need to add a
+workaround in the lexer part to process the "error recovery" inside
+the lexer, for example</p>
+<pre><code class="language-diff">impl&lt;'input&gt; Iterator for Lexer&lt;'input&gt; {
+    type Item = Spanned&lt;Token, usize, LexicalError&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.token_stream
+        .next()
+-       .map(|(token, span)| Ok((span.start, token?, span.end)))
++       .map(|(token, span)|
++           match token {
++               Ok(token) =&gt; Ok((span.start, token, span.end)),
++               Err(_) =&gt; Ok((span.start, Token::Error, span.end)),
++               // or specify your lexical error to parse error
++           }
++       )
+    }
+}
+</code></pre>
+<p>and then put a new member into <code>Token</code> enum to represent the error token
+(or your custom error type).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum Token {
+    //...
+
+    // Dont forget the comma
++   Error
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Like NaN is a number in JavaScript, we have now an <code>Token::Error</code> which is
+a token in our lexer.  This token can be passed to the parser, but if it is
+not used in the parser grammar, will not parse.  That transforms the lexer
+error into a recoverable parser error allowing you to have error recovery in
+this case.</p>
+<p>Also, you might need to custom your own error, visit the section on fallible
+actions for details.</p>
+<pre><code class="language-lalrpop">! =&gt; {
+    let error = ErrorRecovery {
+        error: ParseError::User {
+            error: LexicalError::SomeCustomError,
+        },
+        dropped_tokens: Vec::new(), // or specify the dropped tokens
+    };
+    errors.push(error);
+
+    Expression::Error
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="customizing-the-build-process"><a class="header" href="#customizing-the-build-process">Customizing the Build Process</a></h1>
 <p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
 like this:</p>

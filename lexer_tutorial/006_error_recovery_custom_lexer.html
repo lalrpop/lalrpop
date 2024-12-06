@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Advanced setup</title>
+        <title>Error recovery with custom lexer</title>
 
 
         <!-- Custom HTML head -->
@@ -12,21 +12,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -35,11 +35,11 @@
 
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="../toc.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -91,7 +91,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -125,7 +125,7 @@
                     <h1 class="menu-title"></h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -154,54 +154,86 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="customizing-the-build-process"><a class="header" href="#customizing-the-build-process">Customizing the Build Process</a></h1>
-<p>When you setup LALRPOP, you create a <code>build.rs</code> file that looks something
-like this:</p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::process_src().unwrap();
-}</code></pre></pre>
-<p>This <code>process_src()</code> call simply applies the default configuration:
-so it will transform <code>.lalrpop</code> files into <code>.rs</code> files <em>in-place</em> (in
-your <code>src</code> directory), and it will only do so if the <code>.lalrpop</code> file
-has actually changed. But you can also use the
-<a href="https://docs.rs/lalrpop/*/lalrpop/struct.Configuration.html"><code>Configuration</code></a> struct to get more detailed control.</p>
-<p>For example, to <strong>force</strong> the use of colors in the output (ignoring
-the TTY settings), you might make your <code>build.rs</code> file look like so:</p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::Configuration::new()
-        .always_use_colors()
-        .process_current_dir();
-}</code></pre></pre>
-<h2 id="rerun-directives"><a class="header" href="#rerun-directives">Rerun Directives</a></h2>
-<p>Cargo will rerun the build script on each compilation even if the lalrpop file
-has not changed. To disable this behavior, use the <code>emit_rerun_directives</code>
-function when setting up your lalrpop <code>Configuration</code>.</p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    lalrpop::Configuration::new()
-        .emit_rerun_directives(true)
-        .process_current_dir();
-}</code></pre></pre>
-<p>By default, this is set to false in case other parts of the build script or
-compilation code expects <code>build.rs</code> to be run unconditionally.</p>
-<h2 id="using-the-legacy-lalr-parser"><a class="header" href="#using-the-legacy-lalr-parser">Using the Legacy LALR Parser</a></h2>
-<p>By default, LALRPOP uses the <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop/src/lr1/lane_table/README.md">lane table</a>
-algorithm which is LR(1) but creates much smaller tables. There is no longer
-any clear benefit to using the previous LALR implementation but it is still
-available.</p>
-<p>To enable it, build with the <code>LALRPOP_LANE_TABLE=disabled</code> environment
-variable by setting <code>std::env::set_var</code> in your <code>build.rs</code> and add the
-<code>#[LALR]</code> attribute above the <code>grammar;</code> declaration in your lalrpop grammar
-file.</p>
+                        <h1 id="error-recovery-with-a-custom-lexer"><a class="header" href="#error-recovery-with-a-custom-lexer">Error recovery with a custom lexer</a></h1>
+<p>Features described in
+<a href="https://lalrpop.github.io/lalrpop/tutorial/008_error_recovery.html">Error recovery</a>
+work well with the custom lexer, however error recovery only supports
+recovering from parser errors - not lexer errors.  This page shows an approach
+to recover from lexer errors.</p>
+<p>Enable error recovery:</p>
+<pre><code class="language-diff">use lalrpop_util::ErrorRecovery;
+
+- grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token&lt;'input&gt;, &amp;'static str&gt;&gt;);
++ grammar&lt;'err&gt;(errors: &amp;'err mut Vec&lt;ErrorRecovery&lt;usize, Token, LexicalError&gt;&gt;);
+</code></pre>
+<p>Now error recovery will work for parser errors, however if your lexer
+encounters an unexpected token, that's a <em>lexer</em> error, not a <em>parser</em> error
+so the parser is unable to recover from it.</p>
+<pre><code class="language-plaintext">print (a - $);
+
+// Err(User { error: InvalidToken })
+</code></pre>
+<p>It's caused by the inconsistency in the lexer stream, as lalrpop parser
+always expects a normal token stream. To fix this, you need to add a
+workaround in the lexer part to process the "error recovery" inside
+the lexer, for example</p>
+<pre><code class="language-diff">impl&lt;'input&gt; Iterator for Lexer&lt;'input&gt; {
+    type Item = Spanned&lt;Token, usize, LexicalError&gt;;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.token_stream
+        .next()
+-       .map(|(token, span)| Ok((span.start, token?, span.end)))
++       .map(|(token, span)|
++           match token {
++               Ok(token) =&gt; Ok((span.start, token, span.end)),
++               Err(_) =&gt; Ok((span.start, Token::Error, span.end)),
++               // or specify your lexical error to parse error
++           }
++       )
+    }
+}
+</code></pre>
+<p>and then put a new member into <code>Token</code> enum to represent the error token
+(or your custom error type).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum Token {
+    //...
+
+    // Dont forget the comma
++   Error
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Like NaN is a number in JavaScript, we have now an <code>Token::Error</code> which is
+a token in our lexer.  This token can be passed to the parser, but if it is
+not used in the parser grammar, will not parse.  That transforms the lexer
+error into a recoverable parser error allowing you to have error recovery in
+this case.</p>
+<p>Also, you might need to custom your own error, visit the section on fallible
+actions for details.</p>
+<pre><code class="language-lalrpop">! =&gt; {
+    let error = ErrorRecovery {
+        error: ParseError::User {
+            error: LexicalError::SomeCustomError,
+        },
+        dropped_tokens: Vec::new(), // or specify the dropped tokens
+    };
+    errors.push(error);
+
+    Expression::Error
+}
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="lexer_tutorial/006_error_recovery_custom_lexer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../lexer_tutorial/005_external_lib.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="generate_in_source.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../advanced_setup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -211,11 +243,11 @@ file.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="lexer_tutorial/006_error_recovery_custom_lexer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../lexer_tutorial/005_external_lib.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="generate_in_source.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../advanced_setup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -229,19 +261,19 @@ file.</p>
             window.playground_copyable = true;
         </script>
 
-        <script src="ace.js"></script>
-        <script src="editor.js"></script>
-        <script src="mode-rust.js"></script>
-        <script src="theme-dawn.js"></script>
-        <script src="theme-tomorrow_night.js"></script>
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
 

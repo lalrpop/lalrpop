@@ -228,6 +228,13 @@ fn calculator7() {
     assert_eq!(errors.len(), 4);
 }
 <span class="boring">}</span></code></pre></pre>
+<p>Error recovery can only handle errors reported at the parser level, not the
+lexer level.  This means that an "InvalidToken" error (or similar from a custom
+lexer) will not be recoverable.  In order to recover from lexer errors, you can
+add an <code>Error</code> token to the lexer, and rather than returning a lexer error,
+return a valid <code>Error</code> token.  A worked example for <a href="https://lalrpop.github.io/lalrpop/lexer_tutorial/006_error_recovery_custom_lexer.html">custom lexer</a>s is
+available in the book.  The same approach will work for the built in lexer as
+well.</p>
 
                     </main>
 
