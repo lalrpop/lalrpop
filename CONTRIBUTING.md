@@ -77,3 +77,25 @@ If using [cargo-release](https://github.com/crate-ci/cargo-release):
 4. `cargo release --execute --package lalrpop --no-tag`
 
 Drop the `--execute` flag to do a dry run and check for any issues first.
+
+### Running code coverage tools
+
+There are a few gotchas when running code coverage tooling on the lalrpop code
+base.  Below are instructions to get it working using [cargo-llvm-cov](https://github.com/taiki-e/cargo-llvm-cov).
+
+The first issue is that we need to build an instrumented lalrpop binary to use
+during test runs. Following the instructions [here](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-external-tests)
+will enable an instrumented binary to be built and then found by cargo during
+the test run.
+
+Second, a lot of our work happens in build scripts, which llvm-cov ignores by
+default.  To have it consider build scripts, pass the --include-build-script
+argument in your call to to `llvm-cov report` like so:
+
+```shell
+cargo llvm-cov --include-build-script report --html
+```
+
+That will make sure that build script commands (particularly
+lalrpop-test/build.rs) are part of the calculated coverage, which gives a
+much more accurate picture.
