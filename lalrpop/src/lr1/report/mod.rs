@@ -6,6 +6,9 @@ use std::io::{self, Write};
 
 use super::lookahead::*;
 
+#[cfg(test)]
+mod test;
+
 pub fn generate_report<'grammar, W: Write + 'grammar>(
     out: &'grammar mut W,
     lr1result: &Lr1Result<'grammar>,
