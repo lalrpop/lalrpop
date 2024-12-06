@@ -83,4 +83,14 @@ fn calculator7() {
 }
 ```
 
+Error recovery can only handle errors reported at the parser level, not the
+lexer level.  This means that an "InvalidToken" error (or similar from a custom
+lexer) will not be recoverable.  In order to recover from lexer errors, you can
+add an `Error` token to the lexer, and rather than returning a lexer error,
+return a valid `Error` token.  A worked example for [custom lexer]s is
+available in the book.  The same approach will work for the built in lexer as
+well.
+
+[custom lexer]: https://lalrpop.github.io/lalrpop/lexer_tutorial/006_error_recovery_custom_lexer.html
+
 [calculator7]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator7.lalrpop

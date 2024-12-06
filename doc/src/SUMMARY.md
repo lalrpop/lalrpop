@@ -20,6 +20,7 @@
    - [Writing a custom lexer](lexer_tutorial/003_writing_custom_lexer.md)
    - [Using tokens with references](lexer_tutorial/004_token_references.md)
    - [Using an external library](lexer_tutorial/005_external_lib.md)
+   - [Error recovery with custom lexer](lexer_tutorial/006_error_recovery_custom_lexer.md)
 - [Advanced setup](advanced_setup.md)
    - [Generate in source tree](generate_in_source.md)
    - [Conditional compilation](conditional-compilation.md)
