@@ -45,7 +45,6 @@ struct Validator<'grammar> {
 impl Validator<'_> {
     fn validate(&self) -> NormResult<()> {
         let allowed_names = [
-            Atom::from(LALR),
             Atom::from(TABLE_DRIVEN),
             Atom::from(RECURSIVE_ASCENT),
             Atom::from(TEST_ALL),

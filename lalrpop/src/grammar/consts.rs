@@ -16,9 +16,6 @@ pub const INLINE: &str = "inline";
 /// The attribute to request conditional compilation.
 pub const CFG: &str = "cfg";
 
-/// The attribute to request LALR.
-pub const LALR: &str = "LALR";
-
 /// The attribute to request recursive-ascent-style code generation.
 pub const TABLE_DRIVEN: &str = "table_driven";
 

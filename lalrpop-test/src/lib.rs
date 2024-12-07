@@ -39,9 +39,6 @@ lalrpop_mod_test!(sub_table);
 /// more interesting demonstration of parsing full expressions
 lalrpop_mod_test!(expr);
 
-/// more interesting demonstration of parsing full expressions, using LALR not LR
-lalrpop_mod_test!(expr_lalr);
-
 /// more interesting demonstration of parsing full expressions, using intern tok
 lalrpop_mod_test!(expr_intern_tok);
 
@@ -111,7 +108,6 @@ lalrpop_mod_test!(error_issue_113);
 lalrpop_mod_test!(error_recovery);
 lalrpop_mod_test!(error_recovery_pull_182);
 lalrpop_mod_test!(error_recovery_issue_240);
-lalrpop_mod_test!(error_recovery_lalr_loop);
 lalrpop_mod_test!(error_recovery_lock_in);
 lalrpop_mod_test!(error_recovery_span);
 lalrpop_mod_test!(
@@ -319,51 +315,6 @@ fn expr_lifetime_tok1() {
     let tokens = lifetime_tok_lib::lt_tokenize("x");
     let tree = lifetime_tok::ExprParser::new().parse(tokens).unwrap();
     assert_eq!(tree, vec!["x"]);
-}
-
-#[test]
-fn expr_lalr_test1() {
-    util::test(
-        |v| expr_lalr::ExprParser::new().parse(1, v),
-        "22 - 3",
-        22 - 3,
-    );
-}
-
-#[test]
-fn expr_lalr_test2() {
-    util::test(
-        |v| expr_lalr::ExprParser::new().parse(1, v),
-        "22 - (3 + 5)",
-        22 - (3 + 5),
-    );
-}
-
-#[test]
-fn expr_lalr_test3() {
-    util::test(
-        |v| expr_lalr::ExprParser::new().parse(1, v),
-        "22 - (3 - 5) - 13",
-        22 - (3 - 5) - 13,
-    );
-}
-
-#[test]
-fn expr_lalr_test4() {
-    util::test(
-        |v| expr_lalr::ExprParser::new().parse(1, v),
-        "22 * 3 - 6",
-        22 * 3 - 6,
-    );
-}
-
-#[test]
-fn expr_lalr_test5() {
-    util::test(
-        |v| expr_lalr::ExprParser::new().parse(11, v),
-        "22 * 3 - 6",
-        22 * 11 * 3 * 11 - 6 * 11,
-    );
 }
 
 #[test]
@@ -692,35 +643,6 @@ fn error_recovery_issue_240() {
             dropped_tokens: vec![(6, Tok::Div, 7)],
         },]
     );
-}
-
-#[test]
-fn error_recovery_lalr_loop() {
-    let mut errors = vec![];
-
-    // In LALR (or Lane Table) mode, this was causing infinite loops
-    // during recovery. We would drop tokens until EOF, but then get
-    // ourselves in an error state where EOF was (ultimately) not
-    // legal, triggering repeated error recovery. This is a variant of
-    // the 'lock-in' phenomena discussed below.
-    //
-    // The newer algorithm is not so silly, however; when we get to EOF, we roll
-    // back far enough that EOF becomes legal.
-    match util::test_err_gen(
-        |v| error_recovery_lalr_loop::ExprParser::new().parse(&mut errors, v),
-        "(+1/",
-    ) {
-        Ok(()) => {
-            assert_eq!(errors.len(), 1);
-            let (l, _error, r) = errors.pop().unwrap();
-            assert_eq!((l..r), (0..7)); // we popped everything, so this is the full string
-        }
-        r => {
-            panic!("unexpected response from parser: {:?}", r);
-        }
-    }
-
-    assert_eq!(errors, vec![]);
 }
 
 #[test]

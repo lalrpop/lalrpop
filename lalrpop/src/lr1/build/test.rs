@@ -10,7 +10,7 @@ use crate::tls::Tls;
 use rand::SeedableRng;
 use string_cache::DefaultAtom as Atom;
 
-use super::{build_lr0_states, build_lr1_states, use_lane_table, Lr};
+use super::{build_lr0_states, build_lr1_states, Lr};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))
@@ -140,7 +140,7 @@ grammar;
     // and yields expected number of states.
     let states = build_lr1_states(&grammar, nt("S")).unwrap();
     println!("{:#?}", states);
-    assert_eq!(states.len(), if use_lane_table() { 9 } else { 16 });
+    assert_eq!(states.len(), 9);
 
     // execute it on some sample inputs.
     let tree = interpret(&states, tokens!["N", "-", "(", "N", "-", "N", ")"]).unwrap();

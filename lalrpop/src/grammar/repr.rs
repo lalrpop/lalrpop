@@ -93,7 +93,6 @@ pub struct NonterminalData {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Algorithm {
-    pub lalr: bool,
     pub codegen: LrCodeGeneration,
 }
 
@@ -741,7 +740,6 @@ impl Grammar {
 impl Default for Algorithm {
     fn default() -> Self {
         Algorithm {
-            lalr: false,
             codegen: LrCodeGeneration::TableDriven,
         }
     }
