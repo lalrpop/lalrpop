@@ -3,7 +3,7 @@
 
 use super::{NormError, NormResult};
 
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use crate::grammar::parse_tree::*;
 use string_cache::DefaultAtom as Atom;
 
