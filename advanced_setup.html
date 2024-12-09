@@ -184,6 +184,8 @@ function when setting up your lalrpop <code>Configuration</code>.</p>
 <p>By default, this is set to false in case other parts of the build script or
 compilation code expects <code>build.rs</code> to be run unconditionally.</p>
 <h2 id="using-the-legacy-lalr-parser"><a class="header" href="#using-the-legacy-lalr-parser">Using the Legacy LALR Parser</a></h2>
+<p><strong>Note:</strong> LALR support is deprecated and may be removed in a future release.
+If you really need this feature, please file a github issue and let us know.</p>
 <p>By default, LALRPOP uses the <a href="https://github.com/lalrpop/lalrpop/blob/master/lalrpop/src/lr1/lane_table/README.md">lane table</a>
 algorithm which is LR(1) but creates much smaller tables. There is no longer
 any clear benefit to using the previous LALR implementation but it is still
