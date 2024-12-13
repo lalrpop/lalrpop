@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Clone)]
-pub enum Value {
+pub enum Value<'a> {
     Null,
     Boolean(bool),
-    Str(String),
+    Str(&'a str),
     Num(f64),
-    Array(Vec<Value>),
-    Object(HashMap<String, Value>),
+    Array(Vec<Value<'a>>),
+    Object(HashMap<&'a str, Value<'a>>),
 }
