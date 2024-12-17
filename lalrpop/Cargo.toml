@@ -23,6 +23,11 @@ doctest = false
 ascii-canvas = { version = "4.0", default-features = false }
 bit-set = { version = "0.8", default-features = false }
 ena = { version = "0.14", default-features = false }
+# 5.11 is pulled in as a transitive dependency from term which depends on >0.5.5.
+# The MSRV in 5.11 was bumped to 1.81.  Pin this to avoid bumping our MSRV for
+# now.  This can be dropped once our MSRV and the version of home pulled in by
+# term align.
+home = { version = "=0.5.9", default-features = false }
 itertools = { version = "0.13", default-features = false, features = [
     "use_std",
 ] }
