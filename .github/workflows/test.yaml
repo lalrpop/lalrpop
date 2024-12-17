@@ -19,7 +19,6 @@ jobs:
     strategy:
       matrix:
         rust:
-          - $MSRV
           - stable
           - beta
           - nightly
@@ -27,6 +26,8 @@ jobs:
           - true
         include:
           - rust: stable
+            cargo-update: false
+          - rust: $MSRV
             cargo-update: false
     steps:
       - uses: actions/checkout@v4
