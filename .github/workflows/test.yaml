@@ -19,7 +19,6 @@ jobs:
     strategy:
       matrix:
         rust:
-          - $MSRV
           - stable
           - beta
           - nightly
@@ -27,6 +26,8 @@ jobs:
           - true
         include:
           - rust: stable
+            cargo-update: false
+          - rust: $MSRV
             cargo-update: false
     steps:
       - uses: actions/checkout@v4
@@ -72,8 +73,6 @@ jobs:
             toolchain: $MSRV
       - name: Install cargo-hack
         uses: taiki-e/install-action@cargo-hack
-      - name: Update
-        run: cargo update
       - run: cargo build --bin lalrpop --features pico-args
       - name: Run feature powerset check
         # test with minimal amount of features plus a few extra on regex/regex-syntax
