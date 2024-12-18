@@ -2,16 +2,20 @@
 //! edges from a set of nodes and wind up with a bunch of potentially
 //! overlapping character ranges like:
 //!
+//! ```text
 //!     a-z
 //!     c-l
 //!     0-9
+//! ```
 //!
 //! This module contains code to turn those into non-overlapping ranges like:
 //!
+//! ```text
 //!     a-b
 //!     c-l
 //!     m-z
 //!     0-9
+//! ```
 //!
 //! Specifically, we want to ensure that the same set of characters is
 //! covered when we started, and that each of the input ranges is
