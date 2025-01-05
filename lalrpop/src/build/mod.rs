@@ -15,7 +15,6 @@ use crate::tls::Tls;
 use crate::tok;
 use crate::util::Sep;
 use itertools::Itertools;
-use lalrpop_util::ParseError;
 use sha3::{Digest, Sha3_256};
 use walkdir::WalkDir;
 
@@ -266,53 +265,68 @@ fn lalrpop_files<P: AsRef<Path>>(root_dir: P) -> io::Result<Vec<PathBuf>> {
 }
 
 fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::Result<r::Grammar> {
-    let grammar = match parser::parse_grammar(file_text.text()) {
-        Ok(grammar) => grammar,
+    let grammar = parser::parse_grammar(file_text.text())
+        .map_err(|error| report_parse_error(file_text, error, report_error))?;
 
-        Err(ParseError::InvalidToken { location }) => {
+    match normalize::normalize(session, grammar) {
+        Ok(grammar) => Ok(grammar),
+        Err(error) => Err(report_error(
+            file_text,
+            error.span,
+            &error.message,
+            io::Error::from(io::ErrorKind::InvalidData),
+        ))?,
+    }
+}
+
+pub fn report_parse_error<'input, E>(
+    file_text: &FileText,
+    error: parser::ParseError<'input>,
+    mut reporter: impl FnMut(&FileText, pt::Span, &str, io::Error) -> E,
+) -> E {
+    match error {
+        parser::ParseError::InvalidToken { location } => {
             let ch = file_text.text()[location..].chars().next().unwrap();
-            report_error(
+            reporter(
                 file_text,
                 pt::Span(location, location),
                 &format!("invalid character `{}`", ch),
-            );
-            return Err(io::Error::from(io::ErrorKind::InvalidData));
+                io::Error::from(io::ErrorKind::InvalidData),
+            )
         }
 
-        Err(ParseError::UnrecognizedEof { location, .. }) => {
-            report_error(
-                file_text,
-                pt::Span(location, location),
-                "unexpected end of file",
-            );
-            return Err(io::Error::from(io::ErrorKind::UnexpectedEof));
-        }
+        parser::ParseError::UnrecognizedEof { location, .. } => reporter(
+            file_text,
+            pt::Span(location, location),
+            "unexpected end of file",
+            io::Error::from(io::ErrorKind::UnexpectedEof),
+        ),
 
-        Err(ParseError::UnrecognizedToken {
+        parser::ParseError::UnrecognizedToken {
             token: (lo, _, hi),
             expected,
-        }) => {
+        } => {
             let _ = expected; // didn't implement this yet :)
             let text = &file_text.text()[lo..hi];
-            report_error(
+            reporter(
                 file_text,
                 pt::Span(lo, hi),
                 &format!("unexpected token: `{}`", text),
-            );
-            return Err(io::Error::from(io::ErrorKind::InvalidData));
+                io::Error::from(io::ErrorKind::InvalidData),
+            )
         }
 
-        Err(ParseError::ExtraToken { token: (lo, _, hi) }) => {
+        parser::ParseError::ExtraToken { token: (lo, _, hi) } => {
             let text = &file_text.text()[lo..hi];
-            report_error(
+            reporter(
                 file_text,
                 pt::Span(lo, hi),
                 &format!("extra token at end of input: `{}`", text),
-            );
-            return Err(io::Error::from(io::ErrorKind::InvalidData));
+                io::Error::from(io::ErrorKind::InvalidData),
+            )
         }
 
-        Err(ParseError::User { error }) => {
+        parser::ParseError::User { error } => {
             let string = match error.code {
                 tok::ErrorCode::UnrecognizedToken => "unrecognized token",
                 tok::ErrorCode::UnterminatedEscape => "unterminated escape; missing '`'?",
@@ -335,30 +349,29 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
                 }
             };
 
-            report_error(
+            reporter(
                 file_text,
                 pt::Span(error.location, error.location + 1),
                 string,
-            );
-            return Err(io::Error::from(io::ErrorKind::InvalidData));
-        }
-    };
-
-    match normalize::normalize(session, grammar) {
-        Ok(grammar) => Ok(grammar),
-        Err(error) => {
-            report_error(file_text, error.span, &error.message);
-            Err(io::Error::from(io::ErrorKind::InvalidData))
+                io::Error::from(io::ErrorKind::InvalidData),
+            )
         }
     }
 }
 
-fn report_error(file_text: &FileText, span: pt::Span, message: &str) {
+fn report_error(
+    file_text: &FileText,
+    span: pt::Span,
+    message: &str,
+    error: io::Error,
+) -> io::Error {
     println!("{} error: {}", file_text.span_str(span), message);
 
     let out = io::stderr();
     let mut out = out.lock();
     file_text.highlight(span, &mut out).unwrap();
+
+    error
 }
 
 fn report_message(message: Message) -> term::Result<()> {
