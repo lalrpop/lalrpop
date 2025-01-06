@@ -279,9 +279,9 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
     }
 }
 
-pub fn report_parse_error<'input, E>(
+pub fn report_parse_error<E>(
     file_text: &FileText,
-    error: parser::ParseError<'input>,
+    error: parser::ParseError<'_>,
     mut reporter: impl FnMut(&FileText, pt::Span, &str, io::Error) -> E,
 ) -> E {
     match error {
