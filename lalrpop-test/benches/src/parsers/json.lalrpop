@@ -6,7 +6,7 @@ grammar;
 
 // https://datatracker.ietf.org/doc/html/rfc7159
 
-pub Value: Value<'input> = {
+pub Value: Value = {
 	Object => Value::Object(<>),
 	Array => Value::Array(<>),
 	Number => Value::Num(<>),
@@ -16,15 +16,15 @@ pub Value: Value<'input> = {
 	"true" => Value::Boolean(true),
 };
 
-Object: HashMap<&'input str, Value<'input>> = {
+Object: HashMap<String, Value> = {
 	"{" <Comma<Member>> "}" => HashMap::from_iter(<>)
 };
 
-Member: (&'input str, Value<'input>) = {
+Member: (String, Value) = {
 	<s: String> ":" <v: Value> => (s,v),
 };
 
-Array: Vec<Value<'input>> = {
+Array: Vec<Value> = {
 	"[" <Comma<Value>> "]",
 };
 
@@ -32,7 +32,7 @@ Number: f64 = {
 	r"-?(0|([1-9][0-9]*))(\.[0-9]*)?([eE][-+]?[0-9]+)?" => f64::from_str(<>).unwrap()
 };
 
-String: &'input str = {
+String: String = {
 	r#""[^"]*""# => <>.into(),
 };
 
