@@ -1,4 +1,4 @@
-#![doc = include_str!("../../README.md")]
+#![doc = include_str!("../README.md")]
 #![warn(missing_docs)]
 // Need this for rusty_peg
 #![recursion_limit = "256"]

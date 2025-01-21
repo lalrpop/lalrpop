@@ -1,7 +1,7 @@
 [package]
 name = "lalrpop"
 description = "convenient LR(1) parser generator"
-readme = "../README.md"
+readme = "README.md"
 workspace = ".."
 default-run = "lalrpop"
 
