@@ -1,3 +1,13 @@
+<a name="0.22.1"></a>
+## 0.22.1  (2025-01-21)
+
+#### Bugfixes
+* Many documentation updates.
+* Internal cleanups and testsuite enhancements.
+* Isolate a few clippy lint allows more tightly to generated code so that these
+  lints can trigger on action code.
+* Bump some dependency versions
+
 <a name="0.22.0"></a>
 ## 0.22.0  (2024-09-26)
 
