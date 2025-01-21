@@ -31,7 +31,7 @@ perl -p -i -e 's/lalrpop(.*)= *"'$VERSION'"/lalrpop\1= "'$1'"/' \
      $(ls Cargo.toml lalrpop*/Cargo.toml) \
      doc/src/quick_start_guide.md doc/src/tutorial/001_adding_lalrpop.md
 
-perl -p -i -e 's/version *= *"'$VERSION'" *# LALRPOP/version = "'$1'" # LALRPOP"/' \
+perl -p -i -e 's/version *= *"'$VERSION'" *# LALRPOP/version = "'$1'" # LALRPOP/' \
      $(ls Cargo.toml lalrpop*/Cargo.toml) \
      doc/src/quick_start_guide.md doc/src/tutorial/001_adding_lalrpop.md
 
