@@ -60,6 +60,15 @@ jobs:
           toolchain: nightly
       - name: Check the minimum possible crate versions
         run: rm Cargo.lock && cargo +nightly build -Zdirect-minimal-versions
+  publish_dry_run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dry run lalrpop-util (cargo publish)
+        run: cargo publish --dry-run -p lalrpop-util
+      - name: Dry run lalrpop (cargo publish)
+        run: cargo publish --dry-run -p lalrpop
+
   feature_powerset:
     runs-on: ubuntu-latest
     # Don't do expensive test if we're just going to fail on linting
