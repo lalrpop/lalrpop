@@ -6,7 +6,7 @@ authors = ["Neal H. Walfield <neal@sequoia-pgp.org>"]
 publish = false
 
 [build-dependencies]
-lalrpop = { version = "0.22.0", path = "../../lalrpop" }
+lalrpop = { version = "0.22.1", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.22.0", path = "../../lalrpop-util" }
+lalrpop-util = { version = "0.22.1", path = "../../lalrpop-util" }
