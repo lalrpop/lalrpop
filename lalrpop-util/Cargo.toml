@@ -17,7 +17,7 @@ categories.workspace = true
 regex-automata = { workspace = true, optional = true }
 
 [features]
-lexer = ["regex-automata"]
+lexer = ["dep:regex-automata"]
 unicode = ["regex-automata?/unicode"]
 std = ["regex-automata/perf"]
 default = ["std", "unicode"]
