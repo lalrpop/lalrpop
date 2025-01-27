@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  MSRV : "1.70"
+  MSRV : "1.81"
 
 jobs:
   build:
