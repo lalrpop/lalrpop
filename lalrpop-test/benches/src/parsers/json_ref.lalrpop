@@ -33,7 +33,7 @@ Number: f64 = {
 };
 
 String: &'input str = {
-	r#""[^"]*""# => <>.into(),
+	r#""[^"]*""# => <>,
 };
 
 Comma<V>: Vec<V> = {
