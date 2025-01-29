@@ -274,15 +274,19 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             file_text,
             error.span,
             &error.message,
-            io::Error::from(io::ErrorKind::InvalidData),
         ))?,
     }
 }
 
+/// Reports a parse error via a custom reporter.
+///
+/// Maps [`parser::ParseError`] to a custom error type `E`. The user of this function
+/// can then handle the error as they see fit by passing a callback that constructs `E`
+/// from the error message, source file text, and span.
 pub fn report_parse_error<E>(
     file_text: &FileText,
     error: parser::ParseError<'_>,
-    mut reporter: impl FnMut(&FileText, pt::Span, &str, io::Error) -> E,
+    mut reporter: impl FnMut(&FileText, pt::Span, &str) -> E,
 ) -> E {
     match error {
         parser::ParseError::InvalidToken { location } => {
@@ -291,7 +295,6 @@ pub fn report_parse_error<E>(
                 file_text,
                 pt::Span(location, location),
                 &format!("invalid character `{}`", ch),
-                io::Error::from(io::ErrorKind::InvalidData),
             )
         }
 
@@ -299,7 +302,6 @@ pub fn report_parse_error<E>(
             file_text,
             pt::Span(location, location),
             "unexpected end of file",
-            io::Error::from(io::ErrorKind::UnexpectedEof),
         ),
 
         parser::ParseError::UnrecognizedToken {
@@ -312,7 +314,6 @@ pub fn report_parse_error<E>(
                 file_text,
                 pt::Span(lo, hi),
                 &format!("unexpected token: `{}`", text),
-                io::Error::from(io::ErrorKind::InvalidData),
             )
         }
 
@@ -322,7 +323,6 @@ pub fn report_parse_error<E>(
                 file_text,
                 pt::Span(lo, hi),
                 &format!("extra token at end of input: `{}`", text),
-                io::Error::from(io::ErrorKind::InvalidData),
             )
         }
 
@@ -353,7 +353,6 @@ pub fn report_parse_error<E>(
                 file_text,
                 pt::Span(error.location, error.location + 1),
                 string,
-                io::Error::from(io::ErrorKind::InvalidData),
             )
         }
     }
@@ -363,7 +362,6 @@ fn report_error(
     file_text: &FileText,
     span: pt::Span,
     message: &str,
-    error: io::Error,
 ) -> io::Error {
     println!("{} error: {}", file_text.span_str(span), message);
 
@@ -371,7 +369,7 @@ fn report_error(
     let mut out = out.lock();
     file_text.highlight(span, &mut out).unwrap();
 
-    error
+    io::Error::new(io::ErrorKind::InvalidData, message)
 }
 
 fn report_message(message: Message) -> term::Result<()> {
