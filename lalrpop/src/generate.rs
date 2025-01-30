@@ -46,7 +46,7 @@ impl Generator<'_, '_> {
 
         self.depth += 1;
         let productions = self.grammar.productions_for(&nt);
-        let index: usize = self.rng.gen_range(0..productions.len());
+        let index: usize = self.rng.random_range(0..productions.len());
         let production = &productions[index];
         let trees: Option<Vec<_>> = production
             .symbols
