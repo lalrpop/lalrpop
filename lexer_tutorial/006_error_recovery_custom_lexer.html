@@ -196,15 +196,21 @@ the lexer, for example</p>
 </code></pre>
 <p>and then put a new member into <code>Token</code> enum to represent the error token
 (or your custom error type).</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub enum Token {
+<pre><code class="language-diff">pub enum Token {
     //...
 
     // Dont forget the comma
 +   Error
 }
-<span class="boring">}</span></code></pre></pre>
+</code></pre>
+<p>Also update the extern block in <code>grammar.lalrpop</code>.</p>
+<pre><code class="language-diff">extern {
+      type Location = usize;
+      type Error = LexicalError;
+
+      enum Token {
++         "error" =&gt; Token::Error,
+</code></pre>
 <p>Like NaN is a number in JavaScript, we have now an <code>Token::Error</code> which is
 a token in our lexer.  This token can be passed to the parser, but if it is
 not used in the parser grammar, will not parse.  That transforms the lexer
