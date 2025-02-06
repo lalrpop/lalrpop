@@ -270,11 +270,7 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
 
     match normalize::normalize(session, grammar) {
         Ok(grammar) => Ok(grammar),
-        Err(error) => Err(report_error(
-            file_text,
-            error.span,
-            &error.message,
-        ))?,
+        Err(error) => Err(report_error(file_text, error.span, &error.message))?,
     }
 }
 
@@ -358,11 +354,7 @@ pub fn report_parse_error<E>(
     }
 }
 
-fn report_error(
-    file_text: &FileText,
-    span: pt::Span,
-    message: &str,
-) -> io::Error {
+fn report_error(file_text: &FileText, span: pt::Span, message: &str) -> io::Error {
     println!("{} error: {}", file_text.span_str(span), message);
 
     let out = io::stderr();
