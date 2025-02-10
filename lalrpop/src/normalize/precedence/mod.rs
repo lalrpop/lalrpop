@@ -29,7 +29,8 @@ pub const SIDE_ARG: &str = "side";
 ///
 /// An alternative may have zero or more recursive occurrence of the current rule. Take for example
 /// the common ternary conditional operator `x ? y : z`:
-/// ```
+///
+/// ```lalrpop
 /// #precedence(level="3")
 /// <left: Expression> "?" <middle: Expression> : <right: Expression> => ..
 /// ```
@@ -40,7 +41,7 @@ pub const SIDE_ARG: &str = "side";
 /// expander replaces the first recursive occurrence of `Expression` by the current level, and all
 /// others by the previous level:
 ///
-/// ```
+/// ```lalrpop
 /// <left: Expression3> "?" <middle: Expression2> : <right: Expression2> => ..
 /// ```
 ///
@@ -51,7 +52,7 @@ pub const SIDE_ARG: &str = "side";
 /// expander replaces the last recursive occurrence  of `Expression` by the current level, and all
 /// others by the previous level:
 ///
-/// ```
+/// ```lalrpop
 /// <left: Expression2> "?" <middle: Expression2> : <right: Expression3> => ..
 /// ```
 ///
@@ -61,7 +62,7 @@ pub const SIDE_ARG: &str = "side";
 /// a parsing error. In this case, all recursive occurrences of the current rule are replaced with
 /// the rule corresponding to the previous level:
 ///
-/// ```
+/// ```lalrpop
 /// <left: Expression2> "?" <middle: Expression2> : <right: Expression3> => ..
 /// ```
 ///
