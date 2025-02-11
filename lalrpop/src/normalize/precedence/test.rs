@@ -4,6 +4,44 @@ use crate::test_util::compare;
 use super::expand_precedence;
 use super::resolve::resolve;
 
+
+#[test]
+fn with_macro() {
+    let grammar = parser::parse_grammar(
+        r#"
+grammar;
+    Nothing: u32 = {}
+    Expr<B>: u32 = {
+       #[precedence(level="0")]
+        B,
+       #[precedence(level="1")]
+       #[assoc(side="left")]
+       <left:Expr<B>> "*" <right:Expr<B>> => 0,
+    }
+
+    FullExpr = Expr<Nothing>;
+"#,
+    )
+    .unwrap();
+
+    let expected = parser::parse_grammar(
+        r#"
+grammar;
+    Nothing: u32 = {}
+    Expr0<B>: u32 = B;
+    Expr<B>: u32 = {
+        <left: Expr<B>> "*" <right: Expr0<B>> => 0,
+        Expr0<B>
+    }
+
+    FullExpr = Expr<Nothing>;
+"#,
+    )
+    .unwrap();
+
+    compare(expand_precedence(grammar), resolve(expected));
+}
+
 #[test]
 fn multilevel() {
     let grammar = parser::parse_grammar(
