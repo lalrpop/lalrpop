@@ -1,0 +1,52 @@
+[package]
+name = "lalrpop-internals"
+description = "Internal lalrpop structures.  If you want a parser generator, you should use the lalrpop crate"
+readme = "README.md"
+workspace = ".."
+# This crate is versioned independently - which is the whole point.  We want to
+# be able to bump semver here without bumping lalrpop/lalrpop-util
+version = "1.0.0"
+
+repository.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+exclude = ["build.rs"]
+
+[lib]
+doctest = false
+
+[dependencies]
+ascii-canvas = { version = "4.0", default-features = false }
+bit-set = { version = "0.8", default-features = false }
+ena = { version = "0.14", default-features = false }
+itertools = { version = "0.14", default-features = false, features = [
+    "use_std",
+] }
+petgraph = { version = "0.7", default-features = false }
+regex = { workspace = true }
+regex-syntax = { workspace = true }
+sha3 = { version = "0.10", default-features = false }
+string_cache = { version = "0.8", default-features = false }
+term = { version = "1.0", default-features = false }
+unicode-xid = { version = "0.2", default-features = false }
+walkdir = "2.4.0"
+
+lalrpop-util = { path = "../lalrpop-util", version = "0.22.1", default-features = false }
+
+[dev-dependencies]
+diff = { workspace = true }
+rand = "0.9"
+rand_chacha = "0.9"
+
+[features]
+default = ["lexer", "unicode"]
+unicode = ["regex/unicode", "regex-syntax/unicode", "lalrpop-util/unicode"]
+lexer = ["lalrpop-util/lexer", "lalrpop-util/std"]
+
+[package.metadata.docs.rs]
+features = ["lexer"]
