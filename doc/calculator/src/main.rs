@@ -68,6 +68,23 @@ fn calculator3() {
     test3!(22 * (44 + 66) / 3);
 }
 
+lalrpop_mod_doc!(pub calculator3b);
+
+#[cfg_attr(not(test), allow(dead_code))]
+fn test3b(src: &str, result: i32) {
+    println!("parsing {}", src);
+    assert_eq!(calculator3b::ExprParser::new().parse(src).unwrap(), result);
+}
+
+#[test]
+fn calculator3b() {
+    test3b("{ 1 }", 1);
+    test3b("{ 1; 2 }", 2);
+    test3b("{ print(1 + 1); 2 }", 2);
+    test3b("{ { 1 } }", 1);
+    test3b("{ { 1 } 2 }", 2);
+}
+
 lalrpop_mod_doc!(pub calculator4);
 mod ast;
 
