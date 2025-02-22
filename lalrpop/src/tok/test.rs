@@ -835,6 +835,18 @@ fn string_escapes() {
         apply_string_escapes(r"left\tright", 40),
         Ok(Cow::Owned::<str>("left\tright".into()))
     );
+    assert_eq!(
+        apply_string_escapes(r"c-string\0", 40),
+        Ok(Cow::Owned::<str>("c-string\0".into()))
+    );
+    assert_eq!(
+        apply_string_escapes(r"back\x08space", 45),
+        Ok(Cow::Owned::<str>("back\x08space".into()))
+    );
+    assert_eq!(
+        apply_string_escapes(r"xy\x7a", 45),
+        Ok(Cow::Owned::<str>("xyz".into()))
+    );
 
     // Errors.
     assert_eq!(
@@ -850,6 +862,30 @@ fn string_escapes() {
         Err(Error {
             location: 112,
             code: ErrorCode::UnrecognizedEscape
+        })
+    );
+    // Raw ASCII escapes must be in 7-bit range
+    assert_eq!(
+        apply_string_escapes(r"latin-\xb9", 10), // "latin-¹"
+        Err(Error {
+            location: 17,
+            code: ErrorCode::UnrecognizedEscape
+        })
+    );
+    // Raw ASCII escapes must contain two characters,
+    // one octal and one hexadecimal.
+    assert_eq!(
+        apply_string_escapes(r"back\x8space", 15),
+        Err(Error {
+            location: 20,
+            code: ErrorCode::UnrecognizedEscape
+        })
+    );
+    assert_eq!(
+        apply_string_escapes(r"\x0", 5),
+        Err(Error {
+            location: 7,
+            code: ErrorCode::UnterminatedAsciiEscape
         })
     );
 }

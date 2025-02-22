@@ -20,6 +20,7 @@ pub struct Error {
 pub enum ErrorCode {
     UnrecognizedToken,
     UnterminatedEscape,
+    UnterminatedAsciiEscape,
     UnrecognizedEscape,
     UnterminatedStringLiteral,
     UnterminatedCharacterLiteral,
@@ -809,6 +810,32 @@ fn is_identifier_continue(c: char) -> bool {
     UnicodeXID::is_xid_continue(c) || c == '_'
 }
 
+fn apply_ascii_char_escape(
+    code: &mut CharIndices<'_>,
+    idx0: usize,
+    offset: usize,
+) -> Result<char, Error> {
+    let (octal_offset, octal) = code.next().ok_or(Error {
+        location: idx0 + offset,
+        code: UnterminatedAsciiEscape,
+    })?;
+
+    let (_, hex) = code.next().ok_or(Error {
+        location: idx0 + octal_offset,
+        code: UnterminatedAsciiEscape,
+    })?;
+
+    let err = Error {
+        location: idx0 + offset,
+        code: UnrecognizedEscape,
+    };
+
+    let high = octal.to_digit(8).ok_or(err.clone())? as u8;
+    let low = hex.to_digit(16).ok_or(err)? as u8;
+
+    Ok(((high << 4) | low) as char)
+}
+
 /// Expand escape characters in a string literal, converting the source code
 /// representation to the text it represents. The `idx0` argument should be the
 /// position in the input stream of the first character of `text`, the position
@@ -829,6 +856,8 @@ pub fn apply_string_escapes(code: &str, idx0: usize) -> Result<Cow<'_, str>, Err
                     'n' => '\n',
                     'r' => '\r',
                     't' => '\t',
+                    '0' => '\0',
+                    'x' => apply_ascii_char_escape(&mut iter, idx0, offset)?,
                     _ => {
                         return error(UnrecognizedEscape, idx0 + offset);
                     }
