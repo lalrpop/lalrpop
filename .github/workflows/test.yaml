@@ -64,6 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
       - name: Dry run lalrpop-util (cargo publish)
         run: cargo publish --dry-run -p lalrpop-util
       - name: Dry run lalrpop (cargo publish)
