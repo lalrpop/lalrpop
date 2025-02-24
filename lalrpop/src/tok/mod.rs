@@ -10,13 +10,13 @@ use self::Tok::*;
 #[cfg(test)]
 mod test;
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Error {
     pub location: usize,
     pub code: ErrorCode,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ErrorCode {
     UnrecognizedToken,
     UnterminatedEscape,
@@ -830,7 +830,7 @@ fn apply_ascii_char_escape(
         code: UnrecognizedEscape,
     };
 
-    let high = octal.to_digit(8).ok_or(err.clone())? as u8;
+    let high = octal.to_digit(8).ok_or(err)? as u8;
     let low = hex.to_digit(16).ok_or(err)? as u8;
 
     Ok(((high << 4) | low) as char)
