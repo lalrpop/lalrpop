@@ -28,7 +28,7 @@ look something like:
 name = "calculator"
 version = "0.1.0"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
-edition = "2021"
+edition = "2024"
 
 [build-dependencies] # <-- We added this and everything after!
 lalrpop = "0.22.2"
