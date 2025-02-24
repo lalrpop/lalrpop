@@ -316,8 +316,9 @@ fn parse_and_normalize_grammar(session: &Session, file_text: &FileText) -> io::R
             let string = match error.code {
                 tok::ErrorCode::UnrecognizedToken => "unrecognized token",
                 tok::ErrorCode::UnterminatedEscape => "unterminated escape; missing '`'?",
+                tok::ErrorCode::UnterminatedAsciiEscape => "unterminated ascii escape; missing second digit?",
                 tok::ErrorCode::UnrecognizedEscape => {
-                    "unrecognized escape; only \\n, \\r, \\t, \\\" and \\\\ are recognized"
+                    "unrecognized escape; only \\n, \\r, \\t, \\0, \\\", \\\\, and \\x## are recognized"
                 }
                 tok::ErrorCode::UnterminatedStringLiteral => {
                     "unterminated string literal; missing `\"`?"
