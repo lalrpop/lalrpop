@@ -85,11 +85,14 @@ impl<'grammar, L: Lookahead> Item<'grammar, L> {
 
     pub fn shifted_item(&self) -> Option<(&Symbol, Item<'grammar, L>)> {
         if self.can_shift() {
-            Some((&self.production.symbols[self.index], Item {
-                production: self.production,
-                index: self.index + 1,
-                lookahead: self.lookahead.clone(),
-            }))
+            Some((
+                &self.production.symbols[self.index],
+                Item {
+                    production: self.production,
+                    index: self.index + 1,
+                    lookahead: self.lookahead.clone(),
+                },
+            ))
         } else {
             None
         }

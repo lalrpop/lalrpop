@@ -429,11 +429,14 @@ fn expr_arena_test1() {
 fn expr_arena_test2() {
     use crate::expr_arena_ast::*;
     let arena = Arena::new();
-    let expected = arena.alloc(Node::Reduce(Op::Mul, vec![
-        arena.alloc(Node::Value(22)),
-        arena.alloc(Node::Value(3)),
-        arena.alloc(Node::Value(6)),
-    ]));
+    let expected = arena.alloc(Node::Reduce(
+        Op::Mul,
+        vec![
+            arena.alloc(Node::Value(22)),
+            arena.alloc(Node::Value(3)),
+            arena.alloc(Node::Value(6)),
+        ],
+    ));
     util::test_loc(
         |v| expr_arena::ExprParser::new().parse(&arena, v),
         "*(22, 3, 6)",
@@ -503,10 +506,11 @@ fn loc_test1() {
 
 #[test]
 fn loc_test2() {
-    util::test_loc(|v| loc::ItemsParser::new().parse(v), "+", vec![
-        (0, 0),
-        (0, 1),
-    ]);
+    util::test_loc(
+        |v| loc::ItemsParser::new().parse(v),
+        "+",
+        vec![(0, 0), (0, 1)],
+    );
 }
 
 #[test]
@@ -548,13 +552,16 @@ fn error_recovery_eof() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedEof {
-            location: (),
-            expected: vec!["\"-\"".to_string()],
-        },
-        dropped_tokens: vec![],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedEof {
+                location: (),
+                expected: vec!["\"-\"".to_string()],
+            },
+            dropped_tokens: vec![],
+        }
+    );
 }
 
 #[test]
@@ -581,13 +588,16 @@ fn error_recovery_extra_token() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: ((), Tok::Plus, ()),
-            expected: vec!["\")\"".to_string()],
-        },
-        dropped_tokens: vec![((), Tok::Plus, ())],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: ((), Tok::Plus, ()),
+                expected: vec!["\")\"".to_string()],
+            },
+            dropped_tokens: vec![((), Tok::Plus, ())],
+        }
+    );
 }
 
 #[test]
@@ -600,13 +610,16 @@ fn error_recovery_dont_drop_unrecognized_token() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: ((), Tok::RParen, ()),
-            expected: vec!["\"-\"".to_string()],
-        },
-        dropped_tokens: vec![],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: ((), Tok::RParen, ()),
+                expected: vec!["\"-\"".to_string()],
+            },
+            dropped_tokens: vec![],
+        }
+    );
 }
 
 #[test]
@@ -619,13 +632,16 @@ fn error_recovery_multiple_extra_tokens() {
     );
 
     assert_eq!(errors.borrow().len(), 1);
-    assert_eq!(errors.borrow()[0], ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: ((), Tok::Plus, ()),
-            expected: vec!["\")\"".to_string()],
-        },
-        dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
-    });
+    assert_eq!(
+        errors.borrow()[0],
+        ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: ((), Tok::Plus, ()),
+                expected: vec!["\")\"".to_string()],
+            },
+            dropped_tokens: vec![((), Tok::Plus, ()), ((), Tok::Plus, ())],
+        }
+    );
 }
 
 #[test]
@@ -667,13 +683,16 @@ fn error_recovery_issue_240() {
         }
     }
 
-    assert_eq!(errors, vec![ErrorRecovery {
-        error: ParseError::UnrecognizedToken {
-            token: (6, Tok::Div, 7),
-            expected: vec!["\")\"".to_string()],
-        },
-        dropped_tokens: vec![(6, Tok::Div, 7)],
-    },]);
+    assert_eq!(
+        errors,
+        vec![ErrorRecovery {
+            error: ParseError::UnrecognizedToken {
+                token: (6, Tok::Div, 7),
+                expected: vec!["\")\"".to_string()],
+            },
+            dropped_tokens: vec![(6, Tok::Div, 7)],
+        },]
+    );
 }
 
 #[test]
@@ -843,14 +862,17 @@ fn test_expected_tokens_not_overbroad_on_reduce() {
         .parse("X")
         .expect_err("should have malformed expression (missing `;`)");
 
-    assert_eq!(err, ParseError::UnrecognizedEof {
-        location: 1,
-        // previously this would return ")", ";", "in" because the
-        // parser state when the error was hit could reduce on
-        // each of those tokens, with the result depending on
-        // how the state was reached
-        expected: vec![r#"";""#.to_owned()],
-    });
+    assert_eq!(
+        err,
+        ParseError::UnrecognizedEof {
+            location: 1,
+            // previously this would return ")", ";", "in" because the
+            // parser state when the error was hit could reduce on
+            // each of those tokens, with the result depending on
+            // how the state was reached
+            expected: vec![r#"";""#.to_owned()],
+        }
+    );
 }
 
 #[test]
@@ -859,10 +881,13 @@ fn test_expected_tokens_not_overbroad_on_reduce_lalr() {
         .parse("X")
         .expect_err("should have malformed expression (missing `;`)");
 
-    assert_eq!(err, ParseError::UnrecognizedEof {
-        location: 1,
-        expected: vec![r#"";""#.to_owned()],
-    });
+    assert_eq!(
+        err,
+        ParseError::UnrecognizedEof {
+            location: 1,
+            expected: vec![r#"";""#.to_owned()],
+        }
+    );
 }
 
 #[test]
@@ -1162,11 +1187,10 @@ fn test_string_tokenize() {
         .into_iter()
         .map(|t| t.1)
         .collect::<Vec<_>>();
-    assert_eq!(tokens, vec![
-        Tok::Num(1),
-        Tok::String("just testing"),
-        Tok::Num(2)
-    ]);
+    assert_eq!(
+        tokens,
+        vec![Tok::Num(1), Tok::String("just testing"), Tok::Num(2)]
+    );
 }
 
 #[test]

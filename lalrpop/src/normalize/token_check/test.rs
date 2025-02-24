@@ -82,24 +82,30 @@ fn invalid_regular_expression_unterminated_group() {
 
 #[test]
 fn quoted_literals() {
-    check_intern_token(r#"grammar; X = X "+" "-" "foo" "(" ")";"#, vec![
-        ("+", r#"Some(("+", "+"))"#),
-        ("-", r#"Some(("-", "-"))"#),
-        ("(", r#"Some(("(", "("))"#),
-        (")", r#"Some((")", ")"))"#),
-        ("foo", r#"Some(("foo", "foo"))"#),
-        ("<", r#"None"#),
-    ]);
+    check_intern_token(
+        r#"grammar; X = X "+" "-" "foo" "(" ")";"#,
+        vec![
+            ("+", r#"Some(("+", "+"))"#),
+            ("-", r#"Some(("-", "-"))"#),
+            ("(", r#"Some(("(", "("))"#),
+            (")", r#"Some((")", ")"))"#),
+            ("foo", r#"Some(("foo", "foo"))"#),
+            ("<", r#"None"#),
+        ],
+    );
 }
 
 #[test]
 fn regex_literals() {
-    check_intern_token(r#"grammar; X = X r"[a-z]+" r"[0-9]+";"#, vec![
-        ("a", r##"Some((r#"[a-z]+"#, "a"))"##),
-        ("def", r##"Some((r#"[a-z]+"#, "def"))"##),
-        ("1", r##"Some((r#"[0-9]+"#, "1"))"##),
-        ("9123456", r##"Some((r#"[0-9]+"#, "9123456"))"##),
-    ]);
+    check_intern_token(
+        r#"grammar; X = X r"[a-z]+" r"[0-9]+";"#,
+        vec![
+            ("a", r##"Some((r#"[a-z]+"#, "a"))"##),
+            ("def", r##"Some((r#"[a-z]+"#, "def"))"##),
+            ("1", r##"Some((r#"[0-9]+"#, "1"))"##),
+            ("9123456", r##"Some((r#"[0-9]+"#, "9123456"))"##),
+        ],
+    );
 }
 
 /// Basic test for match mappings.
@@ -183,10 +189,13 @@ fn match_catch_all_in_first_arm() {
         Num: String = r"[0-9]+" => <>.to_string();
 "#;
     assert!(validate_grammar(grammar).is_ok());
-    check_intern_token(grammar, vec![
-        ("x", r##"Some((r#"[a-z]"#, "x"))"##),
-        ("xy", r##"Some((r#"[[:word:]]+"#, "xy"))"##),
-    ]);
+    check_intern_token(
+        grammar,
+        vec![
+            ("x", r##"Some((r#"[a-z]"#, "x"))"##),
+            ("xy", r##"Some((r#"[[:word:]]+"#, "xy"))"##),
+        ],
+    );
 }
 
 #[test]

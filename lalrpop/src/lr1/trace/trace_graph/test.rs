@@ -123,11 +123,15 @@ fn enumerator1() {
     let item0 = Item::lr0(&productions[0], 2); // W = W0 W1 (*)
     graph.add_edge(nt!(W), item0, item0.symbol_sets());
 
-    graph.add_edge(nt!(X), nt!(W), SymbolSets {
-        prefix: &productions[1].symbols[..1],
-        cursor: Some(&productions[1].symbols[1]),
-        suffix: &productions[1].symbols[2..],
-    });
+    graph.add_edge(
+        nt!(X),
+        nt!(W),
+        SymbolSets {
+            prefix: &productions[1].symbols[..1],
+            cursor: Some(&productions[1].symbols[1]),
+            suffix: &productions[1].symbols[2..],
+        },
+    );
 
     let item1 = Item::lr0(&productions[2], 1);
     graph.add_edge(item1, nt!(X), item1.symbol_sets());
