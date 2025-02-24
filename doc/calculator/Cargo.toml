@@ -3,7 +3,7 @@ name = "calculator"
 version = "0.22.2"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 workspace = "../.." # <-- We added this and everything after!
-edition = "2021"
+edition = "2024"
 publish = false
 
 [build-dependencies]
