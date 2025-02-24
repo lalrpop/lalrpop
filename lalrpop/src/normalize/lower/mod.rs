@@ -140,13 +140,15 @@ impl<'s> LowerState<'s> {
                             }
                         })
                         .collect();
-                    self.nonterminals
-                        .insert(nt_name.clone(), r::NonterminalData {
+                    self.nonterminals.insert(
+                        nt_name.clone(),
+                        r::NonterminalData {
                             visibility: nt.visibility.clone(),
                             attributes: nt.attributes,
                             span: nt.span,
                             productions,
-                        });
+                        },
+                    );
                 }
             }
         }
@@ -243,13 +245,15 @@ impl<'s> LowerState<'s> {
                     action: action_fn,
                     span: nt.span,
                 };
-                self.nonterminals
-                    .insert(fake_name.clone(), r::NonterminalData {
+                self.nonterminals.insert(
+                    fake_name.clone(),
+                    r::NonterminalData {
                         visibility: nt.visibility.clone(),
                         attributes: vec![],
                         span: nt.span,
                         productions: vec![production],
-                    });
+                    },
+                );
                 (nt.name.clone(), fake_name)
             })
             .collect()
