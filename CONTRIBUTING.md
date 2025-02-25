@@ -56,6 +56,45 @@ So this approach has been abandoned a while ago.
 
 ### Releasing LALRPOP
 
+#### Semver policy
+
+All releases should follow rust's semantic versioning guidelines, as described
+at https://doc.rust-lang.org/cargo/reference/semver.html. Breaking changes in
+our context include both api changes in the published library and binary builds
+as well as changes that break previously working lalrpop grammars.
+
+If a PR introduces a breaking change, the breaking-ness should not delay the
+merge of the PR.  Instead, master will become breaking and the next release
+from master will be a breaking change release.  However, to support continued
+non-breaking releases and reduce the frequency of breaking releases, we will
+create a branch off of the last commit before the breaking change and backport
+future non-breaking changes to it.  For example, if the latest release was 0.22
+and a breaking change is merged, we will create a branch named "0.22.x" from
+the commit prior to the breaking change.  We will backport to that branch as
+non-breaking changes are merged, and possible release 0.22.1, 0.22.2 etc from
+it.
+
+Not all changes will be backported.  For example, many code cleanups may not
+justify a backport.  Changes that do not backport cleanly will only be
+backported at maintainers descretion.  All backporting is best-effort and
+subject to maintainer availability to perform a backport.
+
+Except in rare and severe circumstances, the 0.22.x branch will only be
+maintained until the release of version 0.23.  A critical bug may warrant a
+later backport to the 0.22.x series, but in general, we will stop backporting
+and focus efforts on the 0.23 series as soon as 0.23 is released.
+
+Regarding Minumum Supported Rust Version (msrv) bumps, the guidance in the rust
+community is that msrv bumps are not necessarily breaking, but should be bundled
+with breaking changes if possible. Our msrv strategy follows this guidance,
+attempting to bundle msrv bumps with breaking releases.  We prefer to keep the
+msrv at least two versions behind stable (eg if the latest rust release is 1.83,
+we prefer our msrv to be no more than 1.81).  In the event that there is a
+prolonged time between breaking releases, it may be desirable to bump the msrv
+in a non-breaking release.  In this case, we prefer to keep at least eight
+releases behind stable (eg if the latest rust release is 1.83, we prefer to
+bump the msrv in a non-breaking release to at most 1.75).
+
 #### Prerequisites
 1. `version.sh` makes use of clog-cli.  Run `cargo install clog-cli` to get it
 
