@@ -4,7 +4,7 @@ on:
   push:
     branches: ["master"]
   pull_request:
-    branches: ["master", "0.22.x"]
+    branches: ["master", "0.[0-9]+.x"]
   merge_group:
 
 permissions:
