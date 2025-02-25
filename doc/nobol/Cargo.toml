@@ -7,10 +7,10 @@ workspace = "../.."
 publish = false
 
 [build-dependencies]
-lalrpop = { version = "0.22.1", path = "../../lalrpop" }
+lalrpop = { version = "0.22.2", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.22.1", path = "../../lalrpop-util", features = [
+lalrpop-util = { version = "0.22.2", path = "../../lalrpop-util", features = [
     "lexer",
     "unicode",
 ] }

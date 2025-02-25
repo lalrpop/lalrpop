@@ -1,3 +1,10 @@
+<a name="0.22.2"></a>
+## 0.22.2  (2025-02-25)
+
+#### Features
+* Support \0 and \x## ASCII escape sequences in grammars
+* Documentation updates
+
 <a name="0.22.1"></a>
 ## 0.22.1  (2025-01-21)
 
