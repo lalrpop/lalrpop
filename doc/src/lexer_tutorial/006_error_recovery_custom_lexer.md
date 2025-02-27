@@ -52,13 +52,24 @@ impl<'input> Iterator for Lexer<'input> {
 and then put a new member into `Token` enum to represent the error token
 (or your custom error type).
 
-```rust
+```diff
 pub enum Token {
     //...
 
     // Dont forget the comma
 +   Error
 }
+```
+
+Also update the extern block in `grammar.lalrpop`.
+
+```diff
+extern {
+      type Location = usize;
+      type Error = LexicalError;
+
+      enum Token {
++         "error" => Token::Error,
 ```
 
 Like NaN is a number in JavaScript, we have now an `Token::Error` which is
