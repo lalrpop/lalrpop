@@ -8,7 +8,7 @@ use std::fmt::{Debug, Error, Formatter};
 
 /// The top-level message display like this:
 ///
-/// ```
+/// ```text
 /// <span>: <heading>
 ///
 /// <body>
@@ -16,7 +16,7 @@ use std::fmt::{Debug, Error, Formatter};
 ///
 /// This is equivalent to a
 ///
-/// ```
+/// ```text
 /// Vert[separate=2] {
 ///     Horiz[separate=1] {
 ///         Horiz[separate=0] {
