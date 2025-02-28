@@ -227,6 +227,14 @@ dependencies = [
 name = "lalrpop"
 version = "0.22.1"
 dependencies = [
+ "lalrpop-internals",
+ "pico-args",
+]
+
+[[package]]
+name = "lalrpop-internals"
+version = "1.0.0"
+dependencies = [
  "ascii-canvas",
  "bit-set",
  "diff",
@@ -234,7 +242,6 @@ dependencies = [
  "itertools",
  "lalrpop-util",
  "petgraph",
- "pico-args",
  "rand",
  "rand_chacha",
  "regex",

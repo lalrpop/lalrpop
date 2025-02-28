@@ -9,6 +9,7 @@ members = [
         "doc/cfg",
         "lalrpop-test",
         "lalrpop-util",
+	"lalrpop-internals",
         "lalrpop",
 ]
 resolver = "2"

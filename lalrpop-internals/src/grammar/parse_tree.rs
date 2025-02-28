@@ -67,7 +67,7 @@ impl MatchToken {
     }
 
     // Not really sure if this is the best way to do it
-    pub fn add(self, contents: MatchContents) -> MatchToken {
+    pub(crate) fn add(self, contents: MatchContents) -> MatchToken {
         let mut new_contents = self.contents.clone();
         new_contents.push(contents);
         MatchToken {
@@ -551,6 +551,10 @@ impl NonterminalString {
     pub fn len(&self) -> usize {
         self.0.len()
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
 }
 
 impl From<NonterminalString> for Box<dyn Content> {
@@ -586,6 +590,10 @@ impl Lifetime {
 
     pub fn len(&self) -> usize {
         self.0.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
     }
 }
 

@@ -1072,7 +1072,7 @@ fn generics_issue_417() {
 fn verify_lalrpop_generates_itself() {
     let out_dir = "../target";
     let lrgrammar = "lrgrammar.lalrpop";
-    let grammar_file = Path::new("../lalrpop/src/parser/").join(lrgrammar);
+    let grammar_file = Path::new("../lalrpop-internals/src/parser/").join(lrgrammar);
     let copied_grammar_file = Path::new(out_dir).join(lrgrammar);
 
     // Don't remove the .rs file that already exist

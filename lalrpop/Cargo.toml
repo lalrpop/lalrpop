@@ -20,36 +20,16 @@ exclude = ["build.rs"]
 doctest = false
 
 [dependencies]
-ascii-canvas = { version = "4.0", default-features = false }
-bit-set = { version = "0.8", default-features = false }
-ena = { version = "0.14", default-features = false }
-itertools = { version = "0.14", default-features = false, features = [
-    "use_std",
-] }
-petgraph = { version = "0.7", default-features = false }
-regex = { workspace = true }
-regex-syntax = { workspace = true }
-sha3 = { version = "0.10", default-features = false }
-string_cache = { version = "0.8", default-features = false }
-term = { version = "1.0", default-features = false }
-unicode-xid = { version = "0.2", default-features = false }
-walkdir = "2.4.0"
-
 # This dependency is only needed for binary builds, if you use LALRPOP as
 # library, disable it in your project by setting default-features = false.
+lalrpop-internals = { path = "../lalrpop-internals", version = "1.0", default-features = false }
+
 pico-args = { version = "0.5", default-features = false, optional = true }
-
-lalrpop-util = { path = "../lalrpop-util", version = "0.22.1", default-features = false }
-
-[dev-dependencies]
-diff = { workspace = true }
-rand = "0.9"
-rand_chacha = "0.9"
 
 [features]
 default = ["lexer", "unicode", "pico-args"]
-unicode = ["regex/unicode", "regex-syntax/unicode", "lalrpop-util/unicode"]
-lexer = ["lalrpop-util/lexer", "lalrpop-util/std"]
+unicode = ["lalrpop-internals/unicode"]
+lexer = ["lalrpop-internals/lexer"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]
