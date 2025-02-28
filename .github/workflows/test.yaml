@@ -68,7 +68,7 @@ jobs:
         with:
           toolchain: nightly
       - name: Dry run publish
-        run: cargo +nightly -Z package-workspace publish --dry-run -p lalrpop -p lalrpop-util
+        run: cargo +nightly -Z package-workspace publish --dry-run -p lalrpop -p lalrpop-util -p lalrpop-internals
 
   feature_powerset:
     runs-on: ubuntu-latest
