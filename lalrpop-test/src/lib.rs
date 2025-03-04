@@ -106,6 +106,7 @@ pub struct MyCustomError(char);
 /// test that exercises locations, spans, and custom errors
 lalrpop_mod_test!(error);
 lalrpop_mod_test!(error_issue_113);
+lalrpop_mod_test!(non_hash_user_error);
 
 /// Test error recovery
 lalrpop_mod_test!(error_recovery);
@@ -1027,6 +1028,11 @@ fn test_mut_name() {
 #[test]
 fn issue_113() {
     assert!(error_issue_113::ItemsParser::new().parse("+").is_err());
+}
+
+#[test]
+fn testing_non_hashable_error() {
+    assert!(non_hash_user_error::ItemsParser::new().parse("+").is_err());
 }
 
 #[test]

@@ -1,0 +1,19 @@
+/// This file is based on error_issue_113.lalrpop except the
+/// custom user error has been replaced with a float.
+/// Floating points, because they contain multiple possible Nan values, are not hashable
+/// by default in Rust.
+/// This test is intended to catch any unexpected breaking changes related to
+//Lalrpop requring the error type to be hashable.
+use lalrpop_util::ParseError;
+
+grammar;
+
+extern {
+    type Error = f64;
+}
+
+pub Items: Vec<(usize, usize)> = {
+    => vec![],
+    Items "+" =>? Err(ParseError::User { error: 42.0 }),
+    <v:Items> "-" =>? Ok(v),
+};
