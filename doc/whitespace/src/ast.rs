@@ -50,11 +50,7 @@ pub fn number(negative: bool, digits: Vec<u8>) -> Int {
         value <<= 1;
         value |= digit as i64;
     }
-    if negative {
-        -value
-    } else {
-        value
-    }
+    if negative { -value } else { value }
 }
 
 pub type Int = i64;

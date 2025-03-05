@@ -1,8 +1,8 @@
 use std::rc::Rc;
 
-use super::lexer::Lexer;
 use super::ListParser;
 use super::Value;
+use super::lexer::Lexer;
 
 #[test]
 fn main() {

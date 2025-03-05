@@ -634,7 +634,7 @@ where
             None => {
                 return NextToken::Done(Err(
                     self.unrecognized_token_error(Some(token), &self.states)
-                ))
+                ));
             }
         };
 

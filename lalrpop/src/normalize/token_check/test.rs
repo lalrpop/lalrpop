@@ -1,7 +1,7 @@
 use crate::grammar::parse_tree::Grammar;
 use crate::lexer::dfa::interpret;
-use crate::normalize::resolve::resolve;
 use crate::normalize::NormResult;
+use crate::normalize::resolve::resolve;
 use crate::parser;
 use crate::test_util;
 

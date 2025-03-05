@@ -1,6 +1,6 @@
 //! Mega naive LALR(1) generation algorithm.
 
-use crate::collections::{map, Map, Multimap};
+use crate::collections::{Map, Multimap, map};
 use crate::grammar::repr::*;
 use crate::lr1::build;
 use crate::lr1::core::*;

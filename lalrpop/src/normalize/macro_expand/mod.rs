@@ -75,10 +75,10 @@ impl MacroExpander {
                 // We know unwrap() is safe, because we just checked is_empty()
                 let sym = self.expansion_stack.pop().unwrap();
                 return_err!(
-                            sym.span,
-                            "Exceeded recursion cap ({}) while expanding this macro.  This typically is a symptom of infinite recursion during macro resolution.  If you believe the recursion will complete eventually, you can increase this limit using Configuration::set_macro_recursion_limit().",
-                            recursion_limit
-                        );
+                    sym.span,
+                    "Exceeded recursion cap ({}) while expanding this macro.  This typically is a symptom of infinite recursion during macro resolution.  If you believe the recursion will complete eventually, you can increase this limit using Configuration::set_macro_recursion_limit().",
+                    recursion_limit
+                );
             }
 
             // Drain expansion stack:
@@ -405,28 +405,29 @@ impl MacroExpander {
     fn expand_expr_symbol(&mut self, span: Span, expr: ExprSymbol) -> NormResult<GrammarItem> {
         let name = NonterminalString(Atom::from(expr.canonical_form()));
 
-        let (action, ty_ref) =
-            match norm_util::analyze_expr(&expr) {
-                Symbols::Named(names) => {
-                    let (_, ref ex_id, ex_sym) = names[0];
-                    return_err!(
+        let (action, ty_ref) = match norm_util::analyze_expr(&expr) {
+            Symbols::Named(names) => {
+                let (_, ref ex_id, ex_sym) = names[0];
+                return_err!(
                     span,
                     "named symbols like `{}:{}` are only allowed at the top-level of a nonterminal",
-                    ex_id, ex_sym)
-                }
-                Symbols::Anon(syms) => (
-                    if syms.len() == 1 {
-                        action("<>")
-                    } else {
-                        action("(<>)")
-                    },
-                    maybe_tuple(
-                        syms.into_iter()
-                            .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
-                            .collect(),
-                    ),
+                    ex_id,
+                    ex_sym
+                )
+            }
+            Symbols::Anon(syms) => (
+                if syms.len() == 1 {
+                    action("<>")
+                } else {
+                    action("(<>)")
+                },
+                maybe_tuple(
+                    syms.into_iter()
+                        .map(|(_, s)| TypeRef::OfSymbol(s.kind.clone()))
+                        .collect(),
                 ),
-            };
+            ),
+        };
 
         Ok(GrammarItem::Nonterminal(NonterminalData {
             visibility: Visibility::Priv,
