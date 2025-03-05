@@ -1,6 +1,6 @@
-use crate::build;
-use crate::log::Level;
-use crate::session::{ColorConfig, Session};
+use lalrpop_internals::build;
+use lalrpop_internals::log::Level;
+use lalrpop_internals::session::{ColorConfig, Session};
 use std::default::Default;
 use std::env;
 use std::env::current_dir;
