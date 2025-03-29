@@ -183,6 +183,18 @@ lalrpop_mod_test!(zero_length_match);
 lalrpop_mod_test!(loc_clone);
 mod loc_clone_issue1064;
 
+// Using lalrpop mod here to supply the filename path
+lalrpop_mod!(
+    nest_with_path_sep,
+    "nested_directory_grammars/error_issue_1054.rs"
+);
+
+// Using lalrpop mod here to supply the filename path
+lalrpop_mod!(
+    nest_with_path_sep2,
+    "/nested_directory_grammars/error_issue_1054.rs"
+);
+
 /// This constant is here so that some of the generator parsers can
 /// refer to it in order to test `super::` handling in action code.
 const ZERO: i32 = 0;
