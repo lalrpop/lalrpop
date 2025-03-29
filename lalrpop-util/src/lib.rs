@@ -228,6 +228,20 @@ pub struct ErrorRecovery<L, T, E> {
     pub dropped_tokens: Vec<(L, T, L)>,
 }
 
+#[cfg(not(target_os = "windows"))]
+#[doc(hidden)]
+#[macro_export]
+macro_rules! path_separator {
+    {} => { "/" }
+}
+
+#[cfg(target_os = "windows")]
+#[doc(hidden)]
+#[macro_export]
+macro_rules! path_separator {
+    {} => { "\\" }
+}
+
 /// Define a module using the generated parse from a `.lalrpop` file.
 ///
 /// You have to specify the name of the module and the path of the file
@@ -260,7 +274,7 @@ macro_rules! lalrpop_mod {
         #[allow(clippy::needless_lifetimes)]
         #[allow(clippy::let_unit_value)]
         #[allow(clippy::just_underscores_and_digits)]
-        $(#[$attr])* $vis mod $modname { include!(concat!(env!("OUT_DIR"), $source)); }
+        $(#[$attr])* $vis mod $modname { include!(concat!(env!("OUT_DIR"), lalrpop_util::path_separator!(), $source)); }
     };
 }
 
