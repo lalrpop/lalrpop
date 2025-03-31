@@ -1098,8 +1098,11 @@ fn verify_lalrpop_generates_itself() {
         .expect("lalrpop run failed")
         .success());
 
-    let actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
-    let expected = fs::read_to_string(copied_grammar_file.with_extension("rs")).unwrap();
+    let mut actual = fs::read_to_string(grammar_file.with_extension("rs")).unwrap();
+    let mut expected = fs::read_to_string(copied_grammar_file.with_extension("rs")).unwrap();
+    // Make the equality check whitespace agnostic(specifically for different line endings)
+    actual.retain(|c| !c.is_whitespace());
+    expected.retain(|c| !c.is_whitespace());
     assert!(
         actual == expected,
         "The snapshot does not match what lalrpop generates now.\n\
