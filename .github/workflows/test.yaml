@@ -43,7 +43,7 @@ jobs:
         if: matrix.cargo-update
         run: cargo update
       - name: Run tests
-        run: ./tools/ci.sh
+        run: bash ./tools/ci.sh
   lint:
     runs-on: ubuntu-latest
     steps:
