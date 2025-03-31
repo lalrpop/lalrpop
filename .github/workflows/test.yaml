@@ -29,8 +29,10 @@ jobs:
           - true
         include:
           - rust: stable
+            os: ubuntu
             cargo-update: false
           - rust: $MSRV
+            os: ubuntu
             cargo-update: false
     steps:
       - uses: actions/checkout@v4
