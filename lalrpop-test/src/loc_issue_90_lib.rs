@@ -24,7 +24,7 @@ pub enum Expr<'input> {
 fn loc_issue_90_wonky() {
     //                              0123456789abc
     let result = Expression2Parser::new().parse("wonky * wonky");
-    println!("{:#?}", result);
+    println!("{result:#?}");
     expect_debug(
         result,
         r#"
@@ -58,7 +58,7 @@ Ok(
 #[test]
 fn loc_issue_90_wacky() {
     let result = Expression2Parser::new().parse("wacky");
-    println!("{:#?}", result);
+    println!("{result:#?}");
     expect_debug(
         result,
         r#"
@@ -81,7 +81,7 @@ Ok(
 fn loc_issue_90_wacky_3() {
     //                              0123456789abc
     let result = Expression2Parser::new().parse("wacky * wacky");
-    println!("{:#?}", result);
+    println!("{result:#?}");
     expect_debug(
         result,
         r#"
@@ -115,7 +115,7 @@ Ok(
 #[test]
 fn loc_issue_90_maybe() {
     let result = Expression2Parser::new().parse("& x");
-    println!("{:#?}", result);
+    println!("{result:#?}");
     expect_debug(
         result,
         r#"
@@ -146,7 +146,7 @@ Ok(
 #[test]
 fn loc_issue_90_test1() {
     let result = Expression2Parser::new().parse("x * y");
-    println!("{:#?}", result);
+    println!("{result:#?}");
     expect_debug(
         result,
         r#"
@@ -182,7 +182,7 @@ Ok(
 #[test]
 fn loc_issue_90_test2() {
     let result = Expression2Parser::new().parse("(x*z) * y");
-    println!("{:#?}", result);
+    println!("{result:#?}");
     expect_debug(
         result,
         r#"

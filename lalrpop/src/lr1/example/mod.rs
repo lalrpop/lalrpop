@@ -81,7 +81,7 @@ impl Example {
         self.symbols
             .iter()
             .map(|s| match *s {
-                ExampleSymbol::Symbol(ref s) => format!("{}", s).chars().count(),
+                ExampleSymbol::Symbol(ref s) => format!("{s}").chars().count(),
                 ExampleSymbol::Epsilon => 1, // display as " "
             })
             .chain(Some(0))
@@ -175,7 +175,7 @@ impl Example {
             ref nonterminal,
         } in &self.reductions
         {
-            let nt_len = format!("{}", nonterminal).chars().count();
+            let nt_len = format!("{nonterminal}").chars().count();
 
             // Number of symbols we are reducing. This should always
             // be non-zero because even in the case of a \epsilon

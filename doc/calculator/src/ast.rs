@@ -24,8 +24,8 @@ impl Debug for Expr {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         use self::Expr::*;
         match *self {
-            Number(n) => write!(fmt, "{:?}", n),
-            Op(ref l, op, ref r) => write!(fmt, "({:?} {:?} {:?})", l, op, r),
+            Number(n) => write!(fmt, "{n:?}"),
+            Op(ref l, op, ref r) => write!(fmt, "({l:?} {op:?} {r:?})"),
             Error => write!(fmt, "error"),
         }
     }
@@ -35,8 +35,8 @@ impl Debug for ExprSymbol<'_> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         use self::ExprSymbol::*;
         match *self {
-            NumSymbol(n) => write!(fmt, "{:?}", n),
-            Op(ref l, op, ref r) => write!(fmt, "({:?} {:?} {:?})", l, op, r),
+            NumSymbol(n) => write!(fmt, "{n:?}"),
+            Op(ref l, op, ref r) => write!(fmt, "({l:?} {op:?} {r:?})"),
             Error => write!(fmt, "error"),
         }
     }

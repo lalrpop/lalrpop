@@ -255,7 +255,7 @@ impl<'me, W: Write> FnHeader<'me, W> {
 
     /// Add where clauses to the list.
     pub fn with_return_type(mut self, rt: impl Display) -> Self {
-        self.return_type = format!("{}", rt);
+        self.return_type = format!("{rt}");
         self
     }
 

@@ -339,7 +339,7 @@ fn replace_symbol<'a>(
 ) -> Substitution<'a> {
     match symbol.kind {
         SymbolKind::AmbiguousId(ref id) => {
-            panic!("ambiguous id `{}` encountered after name resolution", id)
+            panic!("ambiguous id `{id}` encountered after name resolution")
         }
         SymbolKind::Nonterminal(ref name) if name == target => match subst {
             Substitution::Every(sym_kind) => {

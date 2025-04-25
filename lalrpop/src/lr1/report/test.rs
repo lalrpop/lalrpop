@@ -35,6 +35,6 @@ fn test_report_generation() {
 
     assert!(report.contains("Constructed 5 states"));
     for i in 0..5 {
-        assert!(report.contains(&format!("State {}", i)));
+        assert!(report.contains(&format!("State {i}")));
     }
 }

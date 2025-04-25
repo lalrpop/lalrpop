@@ -101,7 +101,7 @@ impl MacroExpander {
                         "@R",
                         ActionKind::Lookbehind,
                     )?),
-                    _ => panic!("don't know how to expand `{:?}`", sym),
+                    _ => panic!("don't know how to expand `{sym:?}`"),
                 }
             }
         }
@@ -134,7 +134,7 @@ impl MacroExpander {
     fn replace_symbol(&mut self, symbol: &mut Symbol) {
         match symbol.kind {
             SymbolKind::AmbiguousId(ref id) => {
-                panic!("ambiguous id `{}` encountered after name resolution", id)
+                panic!("ambiguous id `{id}` encountered after name resolution")
             }
             SymbolKind::Macro(ref mut m) => {
                 for sym in &mut m.args {
@@ -389,7 +389,7 @@ impl MacroExpander {
             SymbolKind::Lookbehind => SymbolKind::Lookbehind,
             SymbolKind::Error => SymbolKind::Error,
             SymbolKind::AmbiguousId(ref id) => {
-                panic!("ambiguous id `{}` encountered after name resolution", id)
+                panic!("ambiguous id `{id}` encountered after name resolution")
             }
         };
 

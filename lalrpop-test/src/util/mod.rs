@@ -23,10 +23,7 @@ where
     // expect output to be correct
     assert!(
         r == expected,
-        "parsing {:?}, got {:#?}, expected {:#?}",
-        input,
-        r,
-        expected
+        "parsing {input:?}, got {r:#?}, expected {expected:#?}"
     );
 }
 
@@ -43,10 +40,7 @@ where
     // expect output to be correct
     assert!(
         r == expected,
-        "parsing {:?}, got {:#?}, expected {:#?}",
-        input,
-        r,
-        expected
+        "parsing {input:?}, got {r:#?}, expected {expected:#?}"
     );
 }
 
@@ -68,23 +62,23 @@ impl Debug for ExpectedDebug<'_> {
         // Ignore trailing commas in multiline Debug representation.
         // Needed to work around rust-lang/rust#59076.
         let s = self.0.replace(",\n", "\n");
-        write!(fmt, "{}", s)
+        write!(fmt, "{s}")
     }
 }
 
 pub fn expect_debug<D: Debug>(actual: D, expected: &str) {
     compare(
-        ExpectedDebug(&format!("{:#?}", actual)),
+        ExpectedDebug(&format!("{actual:#?}")),
         ExpectedDebug(expected),
     )
 }
 
 pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
-    let actual_s = format!("{:?}", actual);
-    let expected_s = format!("{:?}", expected);
+    let actual_s = format!("{actual:?}");
+    let expected_s = format!("{expected:?}");
     if actual_s != expected_s {
-        let actual_s = format!("{:#?}", actual);
-        let expected_s = format!("{:#?}", expected);
+        let actual_s = format!("{actual:#?}");
+        let expected_s = format!("{expected:#?}");
 
         compare_str(&actual_s, &expected_s, "");
     }
@@ -95,9 +89,9 @@ pub fn compare_str(actual: &str, expected: &str, msg: &str) {
         let lines = diff::lines(actual, expected);
         for diff in lines.iter().take(100) {
             match diff {
-                diff::Result::Right(r) => println!("- {}", r),
-                diff::Result::Left(l) => println!("+ {}", l),
-                diff::Result::Both(l, _) if lines.len() < 100 => println!("  {}", l),
+                diff::Result::Right(r) => println!("- {r}"),
+                diff::Result::Left(l) => println!("+ {l}"),
+                diff::Result::Both(l, _) if lines.len() < 100 => println!("  {l}"),
                 _ => (),
             }
         }

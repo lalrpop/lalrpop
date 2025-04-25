@@ -160,7 +160,7 @@ fn process_file_into(
             let grammar = parse_and_normalize_grammar(&session, &file_text)?;
             let buffer = emit_recursive_ascent(&session, &grammar, report_file)?;
             let mut output_file = fs::File::create(rs_file)?;
-            writeln!(output_file, "{}", LALRPOP_VERSION_HEADER)?;
+            writeln!(output_file, "{LALRPOP_VERSION_HEADER}")?;
             writeln!(output_file, "{}", hash_file(lalrpop_file)?)?;
             output_file.write_all(&buffer)?;
         }
@@ -290,7 +290,7 @@ pub fn report_parse_error<E>(
             reporter(
                 file_text,
                 pt::Span(location, location),
-                &format!("invalid character `{}`", ch),
+                &format!("invalid character `{ch}`"),
             )
         }
 
@@ -309,7 +309,7 @@ pub fn report_parse_error<E>(
             reporter(
                 file_text,
                 pt::Span(lo, hi),
-                &format!("unexpected token: `{}`", text),
+                &format!("unexpected token: `{text}`"),
             )
         }
 
@@ -318,7 +318,7 @@ pub fn report_parse_error<E>(
             reporter(
                 file_text,
                 pt::Span(lo, hi),
-                &format!("extra token at end of input: `{}`", text),
+                &format!("extra token at end of input: `{text}`"),
             )
         }
 
@@ -569,7 +569,7 @@ fn emit_to_triple_trait<W: Write>(
 
     let mut user_type_parameters = String::new();
     for type_parameter in &grammar.type_parameters {
-        user_type_parameters.push_str(&format!("{}, ", type_parameter));
+        user_type_parameters.push_str(&format!("{type_parameter}, "));
     }
 
     let where_clauses = &grammar.where_clauses;

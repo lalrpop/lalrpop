@@ -112,7 +112,7 @@ pub enum MatchMapping {
 impl Debug for MatchMapping {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
-            MatchMapping::Terminal(term) => write!(fmt, "{:?}", term),
+            MatchMapping::Terminal(term) => write!(fmt, "{term:?}"),
             MatchMapping::Skip => write!(fmt, "{{ }}"),
         }
     }
@@ -120,7 +120,7 @@ impl Debug for MatchMapping {
 impl Display for MatchMapping {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
-            MatchMapping::Terminal(term) => write!(fmt, "{}", term),
+            MatchMapping::Terminal(term) => write!(fmt, "{term}"),
             MatchMapping::Skip => write!(fmt, "{{ }}"),
         }
     }
@@ -738,7 +738,7 @@ impl Symbol {
     }
 
     pub fn canonical_form(&self) -> String {
-        format!("{}", self)
+        format!("{self}")
     }
 }
 
@@ -755,9 +755,9 @@ impl Name {
 impl Display for Visibility {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            Visibility::Pub(Some(ref path)) => write!(fmt, "pub({}) ", path),
+            Visibility::Pub(Some(ref path)) => write!(fmt, "pub({path}) "),
             Visibility::Pub(None) => write!(fmt, "pub "),
-            Visibility::PubIn(ref path) => write!(fmt, "pub(in {}) ", path),
+            Visibility::PubIn(ref path) => write!(fmt, "pub(in {path}) "),
             Visibility::Priv => Ok(()),
         }
     }
@@ -770,12 +770,12 @@ impl<T: Display> Display for WhereClause<T> {
                 ref lifetime,
                 ref bounds,
             } => {
-                write!(fmt, "{}:", lifetime)?;
+                write!(fmt, "{lifetime}:")?;
                 for (i, b) in bounds.iter().enumerate() {
                     if i != 0 {
                         write!(fmt, " +")?;
                     }
-                    write!(fmt, " {}", b)?;
+                    write!(fmt, " {b}")?;
                 }
                 Ok(())
             }
@@ -790,17 +790,17 @@ impl<T: Display> Display for WhereClause<T> {
                         if i != 0 {
                             write!(fmt, ", ")?;
                         }
-                        write!(fmt, "{}", l)?;
+                        write!(fmt, "{l}")?;
                     }
                     write!(fmt, "> ")?;
                 }
 
-                write!(fmt, "{}: ", ty)?;
+                write!(fmt, "{ty}: ")?;
                 for (i, b) in bounds.iter().enumerate() {
                     if i != 0 {
                         write!(fmt, " +")?;
                     }
-                    write!(fmt, " {}", b)?;
+                    write!(fmt, " {b}")?;
                 }
                 Ok(())
             }
@@ -811,7 +811,7 @@ impl<T: Display> Display for WhereClause<T> {
 impl<T: Display> Display for TypeBound<T> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TypeBound::Lifetime(ref l) => write!(fmt, "{}", l),
+            TypeBound::Lifetime(ref l) => write!(fmt, "{l}"),
             TypeBound::Fn {
                 ref forall,
                 ref path,
@@ -824,22 +824,22 @@ impl<T: Display> Display for TypeBound<T> {
                         if i != 0 {
                             write!(fmt, ", ")?;
                         }
-                        write!(fmt, "{}", l)?;
+                        write!(fmt, "{l}")?;
                     }
                     write!(fmt, "> ")?;
                 }
 
-                write!(fmt, "{}(", path)?;
+                write!(fmt, "{path}(")?;
                 for (i, p) in parameters.iter().enumerate() {
                     if i != 0 {
                         write!(fmt, ", ")?;
                     }
-                    write!(fmt, "{}", p)?;
+                    write!(fmt, "{p}")?;
                 }
                 write!(fmt, ")")?;
 
                 if let Some(ref ret) = *ret {
-                    write!(fmt, " -> {}", ret)?;
+                    write!(fmt, " -> {ret}")?;
                 }
 
                 Ok(())
@@ -855,12 +855,12 @@ impl<T: Display> Display for TypeBound<T> {
                         if i != 0 {
                             write!(fmt, ", ")?;
                         }
-                        write!(fmt, "{}", l)?;
+                        write!(fmt, "{l}")?;
                     }
                     write!(fmt, "> ")?;
                 }
 
-                write!(fmt, "{}", path)?;
+                write!(fmt, "{path}")?;
                 if parameters.is_empty() {
                     return Ok(());
                 }
@@ -870,7 +870,7 @@ impl<T: Display> Display for TypeBound<T> {
                     if i != 0 {
                         write!(fmt, ", ")?;
                     }
-                    write!(fmt, "{}", p)?;
+                    write!(fmt, "{p}")?;
                 }
                 write!(fmt, ">")
             }
@@ -881,9 +881,9 @@ impl<T: Display> Display for TypeBound<T> {
 impl<T: Display> Display for TypeBoundParameter<T> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TypeBoundParameter::Lifetime(ref l) => write!(fmt, "{}", l),
-            TypeBoundParameter::TypeParameter(ref t) => write!(fmt, "{}", t),
-            TypeBoundParameter::Associated(ref id, ref t) => write!(fmt, "{} = {}", id, t),
+            TypeBoundParameter::Lifetime(ref l) => write!(fmt, "{l}"),
+            TypeBoundParameter::TypeParameter(ref t) => write!(fmt, "{t}"),
+            TypeBoundParameter::Associated(ref id, ref t) => write!(fmt, "{id} = {t}"),
         }
     }
 }
@@ -891,8 +891,8 @@ impl<T: Display> Display for TypeBoundParameter<T> {
 impl Display for TerminalString {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TerminalString::Literal(ref s) => write!(fmt, "{}", s),
-            TerminalString::Bare(ref s) => write!(fmt, "{}", s),
+            TerminalString::Literal(ref s) => write!(fmt, "{s}"),
+            TerminalString::Bare(ref s) => write!(fmt, "{s}"),
             TerminalString::Error => write!(fmt, "error"),
         }
     }
@@ -927,7 +927,7 @@ impl Display for TerminalLiteral {
 
 impl Debug for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
-        write!(fmt, "{}", self)
+        write!(fmt, "{self}")
     }
 }
 
@@ -963,14 +963,14 @@ impl Display for Symbol {
 impl Display for SymbolKind {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            SymbolKind::Expr(ref expr) => write!(fmt, "{}", expr),
-            SymbolKind::Terminal(ref s) => write!(fmt, "{}", s),
-            SymbolKind::Nonterminal(ref s) => write!(fmt, "{}", s),
-            SymbolKind::AmbiguousId(ref s) => write!(fmt, "{}", s),
-            SymbolKind::Macro(ref m) => write!(fmt, "{}", m),
-            SymbolKind::Repeat(ref r) => write!(fmt, "{}", r),
-            SymbolKind::Choose(ref s) => write!(fmt, "<{}>", s),
-            SymbolKind::Name(ref n, ref s) => write!(fmt, "{}:{}", n, s),
+            SymbolKind::Expr(ref expr) => write!(fmt, "{expr}"),
+            SymbolKind::Terminal(ref s) => write!(fmt, "{s}"),
+            SymbolKind::Nonterminal(ref s) => write!(fmt, "{s}"),
+            SymbolKind::AmbiguousId(ref s) => write!(fmt, "{s}"),
+            SymbolKind::Macro(ref m) => write!(fmt, "{m}"),
+            SymbolKind::Repeat(ref r) => write!(fmt, "{r}"),
+            SymbolKind::Choose(ref s) => write!(fmt, "<{s}>"),
+            SymbolKind::Name(ref n, ref s) => write!(fmt, "{n}:{s}"),
             SymbolKind::Lookahead => write!(fmt, "@L"),
             SymbolKind::Lookbehind => write!(fmt, "@R"),
             SymbolKind::Error => write!(fmt, "error"),
@@ -1018,19 +1018,19 @@ impl ExternToken {
 
 impl ExprSymbol {
     pub fn canonical_form(&self) -> String {
-        format!("{}", self)
+        format!("{self}")
     }
 }
 
 impl MacroSymbol {
     pub fn canonical_form(&self) -> String {
-        format!("{}", self)
+        format!("{self}")
     }
 }
 
 impl RepeatSymbol {
     pub fn canonical_form(&self) -> String {
-        format!("{}", self)
+        format!("{self}")
     }
 }
 
@@ -1043,8 +1043,8 @@ impl Display for MacroSymbol {
 impl Display for TypeParameter {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TypeParameter::Lifetime(ref s) => write!(fmt, "{}", s),
-            TypeParameter::Id(ref s) => write!(fmt, "{}", s),
+            TypeParameter::Lifetime(ref s) => write!(fmt, "{s}"),
+            TypeParameter::Id(ref s) => write!(fmt, "{s}"),
         }
     }
 }
@@ -1053,11 +1053,11 @@ impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeRef::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
-            TypeRef::Slice(ref ty) => write!(fmt, "[{}]", ty),
+            TypeRef::Slice(ref ty) => write!(fmt, "[{ty}]"),
             TypeRef::Nominal {
                 ref path,
                 ref types,
-            } if types.is_empty() => write!(fmt, "{}", path),
+            } if types.is_empty() => write!(fmt, "{path}"),
             TypeRef::Nominal {
                 ref path,
                 ref types,
@@ -1065,34 +1065,34 @@ impl Display for TypeRef {
             TypeRef::TraitObject {
                 ref path,
                 ref types,
-            } if types.is_empty() => write!(fmt, "dyn {}", path),
+            } if types.is_empty() => write!(fmt, "dyn {path}"),
             TypeRef::TraitObject {
                 ref path,
                 ref types,
             } => write!(fmt, "dyn {}<{}>", path, Sep(", ", types)),
-            TypeRef::Lifetime(ref s) => write!(fmt, "{}", s),
-            TypeRef::Id(ref s) => write!(fmt, "{}", s),
-            TypeRef::OfSymbol(ref s) => write!(fmt, "`{}`", s),
+            TypeRef::Lifetime(ref s) => write!(fmt, "{s}"),
+            TypeRef::Id(ref s) => write!(fmt, "{s}"),
+            TypeRef::OfSymbol(ref s) => write!(fmt, "`{s}`"),
             TypeRef::Ref {
                 lifetime: None,
                 mutable: false,
                 ref referent,
-            } => write!(fmt, "&{}", referent),
+            } => write!(fmt, "&{referent}"),
             TypeRef::Ref {
                 lifetime: Some(ref l),
                 mutable: false,
                 ref referent,
-            } => write!(fmt, "&{} {}", l, referent),
+            } => write!(fmt, "&{l} {referent}"),
             TypeRef::Ref {
                 lifetime: None,
                 mutable: true,
                 ref referent,
-            } => write!(fmt, "&mut {}", referent),
+            } => write!(fmt, "&mut {referent}"),
             TypeRef::Ref {
                 lifetime: Some(ref l),
                 mutable: true,
                 ref referent,
-            } => write!(fmt, "&{} mut {}", l, referent),
+            } => write!(fmt, "&{l} mut {referent}"),
             TypeRef::Fn {
                 ref forall,
                 ref path,
@@ -1105,7 +1105,7 @@ impl Display for TypeRef {
                 }
                 write!(fmt, "{}({})", path, Sep(", ", parameters))?;
                 if let Some(ret) = ret {
-                    write!(fmt, " -> {}", ret)?;
+                    write!(fmt, " -> {ret}")?;
                 }
                 Ok(())
             }

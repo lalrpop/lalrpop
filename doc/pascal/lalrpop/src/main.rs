@@ -35,7 +35,7 @@ fn main() {
     let args = parse_args(Arguments::from_env()).unwrap();
 
     if args.flag_help {
-        println!("{}", USAGE);
+        println!("{USAGE}");
         return;
     }
 

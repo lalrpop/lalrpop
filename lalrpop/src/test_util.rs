@@ -16,30 +16,30 @@ impl Debug for ExpectedDebug<'_> {
         // Ignore trailing commas in multiline Debug representation.
         // Needed to work around rust-lang/rust#59076.
         let s = self.0.replace(",\n", "\n");
-        write!(fmt, "{}", s)
+        write!(fmt, "{s}")
     }
 }
 
 pub fn expect_debug<D: Debug>(actual: D, expected: &str) {
     compare(
-        ExpectedDebug(&format!("{:#?}", actual)),
+        ExpectedDebug(&format!("{actual:#?}")),
         ExpectedDebug(expected),
     )
 }
 
 pub fn compare<D: Debug, E: Debug>(actual: D, expected: E) {
-    let actual_s = format!("{:?}", actual);
-    let expected_s = format!("{:?}", expected);
+    let actual_s = format!("{actual:?}");
+    let expected_s = format!("{expected:?}");
 
     if normalize(&actual_s) != normalize(&expected_s) {
-        let actual_s = format!("{:#?}", actual);
-        let expected_s = format!("{:#?}", expected);
+        let actual_s = format!("{actual:#?}");
+        let expected_s = format!("{expected:#?}");
 
         for diff in diff::lines(&normalize(&actual_s), &normalize(&expected_s)) {
             match diff {
-                diff::Result::Right(r) => println!("- {}", r),
-                diff::Result::Left(l) => println!("+ {}", l),
-                diff::Result::Both(l, _) => println!("  {}", l),
+                diff::Result::Right(r) => println!("- {r}"),
+                diff::Result::Left(l) => println!("+ {l}"),
+                diff::Result::Both(l, _) => println!("  {l}"),
             }
         }
 

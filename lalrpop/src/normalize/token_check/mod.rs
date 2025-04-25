@@ -259,10 +259,10 @@ impl Validator<'_> {
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind | SymbolKind::Error => {}
             SymbolKind::AmbiguousId(ref id) => {
-                panic!("ambiguous id `{}` encountered after name resolution", id)
+                panic!("ambiguous id `{id}` encountered after name resolution")
             }
             SymbolKind::Macro(..) => {
-                panic!("macro not removed: {:?}", symbol);
+                panic!("macro not removed: {symbol:?}");
             }
         }
 
@@ -291,8 +291,7 @@ impl Validator<'_> {
                 match *term {
                     TerminalString::Bare(_) => assert!(
                         match_block.match_user_names.contains(term),
-                        "bare terminal without match entry: {}",
-                        term
+                        "bare terminal without match entry: {term}"
                     ),
 
                     TerminalString::Literal(ref l) => {

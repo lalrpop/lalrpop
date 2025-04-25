@@ -438,14 +438,10 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             ))
             .push(reduce.to_symbol_list(reduce.symbols.len(), styles))
             .wrap_text(format!(
-                "They could be reduced using the production on line {}:",
-                span1_line
+                "They could be reduced using the production on line {span1_line}:"
             ))
             .wrap_text(span1_str)
-            .wrap_text(format!(
-                "...or using the production on line {}:",
-                span2_line
-            ))
+            .wrap_text(format!("...or using the production on line {span2_line}:"))
             .wrap_text(span2_str)
             .end()
             .end()
@@ -498,7 +494,7 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
             .wrap_text("when in this state:")
             .indented();
         for item in self.states[conflict.state.0].items.vec.iter() {
-            builder = builder.text(format!("{:?}", item));
+            builder = builder.text(format!("{item:?}"));
         }
         let mut builder = builder
             .end()

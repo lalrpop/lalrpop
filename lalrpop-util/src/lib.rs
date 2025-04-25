@@ -159,7 +159,7 @@ fn fmt_expected(f: &mut fmt::Formatter<'_>, expected: &[String]) -> fmt::Result 
                 // Last expected message to be written
                 _ => " or",
             };
-            write!(f, "{} {}", sep, e)?;
+            write!(f, "{sep} {e}")?;
         }
     }
     Ok(())
@@ -174,29 +174,25 @@ where
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         use self::ParseError::*;
         match *self {
-            User { ref error } => write!(f, "{}", error),
-            InvalidToken { ref location } => write!(f, "Invalid token at {}", location),
+            User { ref error } => write!(f, "{error}"),
+            InvalidToken { ref location } => write!(f, "Invalid token at {location}"),
             UnrecognizedEof {
                 ref location,
                 ref expected,
             } => {
-                write!(f, "Unrecognized EOF found at {}", location)?;
+                write!(f, "Unrecognized EOF found at {location}")?;
                 fmt_expected(f, expected)
             }
             UnrecognizedToken {
                 token: (ref start, ref token, ref end),
                 ref expected,
             } => {
-                write!(
-                    f,
-                    "Unrecognized token `{}` found at {}:{}",
-                    token, start, end
-                )?;
+                write!(f, "Unrecognized token `{token}` found at {start}:{end}")?;
                 fmt_expected(f, expected)
             }
             ExtraToken {
                 token: (ref start, ref token, ref end),
-            } => write!(f, "Extra token {} found at {}:{}", token, start, end),
+            } => write!(f, "Extra token {token} found at {start}:{end}"),
         }
     }
 }
@@ -283,7 +279,7 @@ mod tests {
                 .collect(),
         };
         assert_eq!(
-            format!("{}", err),
+            format!("{err}"),
             "Unrecognized token `t0` found at 1:2\n\
              Expected one of t1, t2 or t3"
         );

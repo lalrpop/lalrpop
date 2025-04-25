@@ -60,7 +60,7 @@ pub fn tokenize(s: &str) -> Vec<(usize, Tok<'_>, usize)> {
                     continue;
                 }
                 _ => {
-                    panic!("invalid character: {:?}", c);
+                    panic!("invalid character: {c:?}");
                 }
             }
         }

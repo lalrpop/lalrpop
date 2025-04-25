@@ -593,12 +593,12 @@ impl Debug for Test {
             (Some(start), Some(end)) => {
                 if self.is_char() {
                     if ".[]()?+*!".contains(start) {
-                        write!(fmt, "\\{}", start)
+                        write!(fmt, "\\{start}")
                     } else {
-                        write!(fmt, "{}", start)
+                        write!(fmt, "{start}")
                     }
                 } else {
-                    write!(fmt, "[{:?}..={:?}]", start, end)
+                    write!(fmt, "[{start:?}..={end:?}]")
                 }
             }
             _ => write!(fmt, "[{:?}..]{:?}]", self.start(), self.end()),

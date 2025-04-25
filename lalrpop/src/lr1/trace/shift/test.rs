@@ -33,7 +33,7 @@ pub Ty: () = {
     let first_sets = FirstSets::new(&grammar);
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let conflict = err.conflicts[0].clone();
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
 
     // Gin up the LR0 item involved in the shift/reduce conflict:
     //
@@ -45,7 +45,7 @@ pub Ty: () = {
 
     assert!(conflict.production.symbols.len() == 3);
     let item = Item::lr0(conflict.production, 1);
-    println!("item={:?}", item);
+    println!("item={item:?}");
     let tracer = Tracer::new(&first_sets, &err.states);
     let graph = tracer.backtrace_shift(conflict.state, item);
     expect_debug(

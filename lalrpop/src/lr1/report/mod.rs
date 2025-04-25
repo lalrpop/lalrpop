@@ -66,14 +66,14 @@ where
                 let (sr, rr, conflict_map) =
                     self.process_conflicts(&table_construction_error.conflicts);
                 if (sr > 0) {
-                    writeln!(self.out, "{}shift/reduce:  {}", INDENT_STRING, sr)?;
+                    writeln!(self.out, "{INDENT_STRING}shift/reduce:  {sr}")?;
                 }
                 if (rr > 0) {
-                    writeln!(self.out, "{}reduce/reduce: {}", INDENT_STRING, rr)?;
+                    writeln!(self.out, "{INDENT_STRING}reduce/reduce: {rr}")?;
                 }
                 write!(self.out, "States with conflicts: ")?;
                 for state in conflict_map.keys() {
-                    write!(self.out, " {}", state)?;
+                    write!(self.out, " {state}")?;
                 }
                 writeln!(self.out)?;
                 self.report_states(&table_construction_error.states, &conflict_map)?;
@@ -169,18 +169,13 @@ where
                     terminal.display_len(),
                     conflict.production.nonterminal.len(),
                 );
-                writeln!(self.out, "{}shift/reduce conflict", INDENT_STRING)?;
-                write!(self.out, "{}{}reduction ", INDENT_STRING, INDENT_STRING)?;
+                writeln!(self.out, "{INDENT_STRING}shift/reduce conflict")?;
+                write!(self.out, "{INDENT_STRING}{INDENT_STRING}reduction ")?;
                 self.write_production(conflict.production, max_width)?;
-                let sterminal = format!("{}", terminal);
+                let sterminal = format!("{terminal}");
                 writeln!(
                     self.out,
-                    "{}{}shift     {:width$}    shift and goto {}",
-                    INDENT_STRING,
-                    INDENT_STRING,
-                    sterminal,
-                    state,
-                    width = max_width
+                    "{INDENT_STRING}{INDENT_STRING}shift     {sterminal:max_width$}    shift and goto {state}"
                 )?;
             }
             Action::Reduce(other_production) => {
@@ -188,10 +183,10 @@ where
                     other_production.nonterminal.len(),
                     conflict.production.nonterminal.len(),
                 );
-                writeln!(self.out, "{}reduce/reduce conflict", INDENT_STRING)?;
-                write!(self.out, "{}{}reduction ", INDENT_STRING, INDENT_STRING)?;
+                writeln!(self.out, "{INDENT_STRING}reduce/reduce conflict")?;
+                write!(self.out, "{INDENT_STRING}{INDENT_STRING}reduction ")?;
                 self.write_production(conflict.production, max_width)?;
-                write!(self.out, "{}{}reduction ", INDENT_STRING, INDENT_STRING)?;
+                write!(self.out, "{INDENT_STRING}{INDENT_STRING}reduction ")?;
                 self.write_production(other_production, max_width)?;
             }
         }
@@ -216,10 +211,10 @@ where
     where
         L: Lookahead + LookaheadPrinter<W>,
     {
-        write!(self.out, "{}", INDENT_STRING)?;
+        write!(self.out, "{INDENT_STRING}")?;
         // stringize it first to allow handle :width by Display for string
         let s = format!("{}", item.production.nonterminal);
-        write!(self.out, "{:width$} ->", s, width = max_width)?;
+        write!(self.out, "{s:max_width$} ->")?;
         for i in 0..item.index {
             write!(self.out, " {}", item.production.symbols[i])?;
         }
@@ -238,7 +233,7 @@ where
         max_width: usize,
     ) -> io::Result<()> {
         for entry in shifts {
-            write!(self.out, "{}", INDENT_STRING)?;
+            write!(self.out, "{INDENT_STRING}")?;
             // stringize it first to allow handle :width by Display for string
             let s = format!("{}", entry.0);
             writeln!(
@@ -272,7 +267,7 @@ where
             width = max_width
         )?;
         for symbol in production.symbols.iter() {
-            write!(self.out, " {}", symbol)?;
+            write!(self.out, " {symbol}")?;
         }
         writeln!(self.out)?;
         Ok(())
@@ -287,7 +282,7 @@ where
         L: Lookahead + LookaheadPrinter<W>,
     {
         let production = reduction.1;
-        write!(self.out, "{}reduction ", INDENT_STRING)?;
+        write!(self.out, "{INDENT_STRING}reduction ")?;
         self.write_production(production, max_width)?;
         self.write_lookahead(&reduction.0)?;
         Ok(())
@@ -298,7 +293,7 @@ where
         L: Lookahead + LookaheadPrinter<W>,
     {
         if (lookahead.has_anything_to_print()) {
-            write!(self.out, "{}{}lookahead", INDENT_STRING, INDENT_STRING)?;
+            write!(self.out, "{INDENT_STRING}{INDENT_STRING}lookahead")?;
             lookahead.print(self.out)?;
             writeln!(self.out)?;
         }
@@ -311,7 +306,7 @@ where
         max_width: usize,
     ) -> io::Result<()> {
         for entry in gotos {
-            write!(self.out, "{}", INDENT_STRING)?;
+            write!(self.out, "{INDENT_STRING}")?;
             // stringize it first to allow handle :width by Display for string
             let s = format!("{}", entry.0);
             writeln!(self.out, "{:width$} goto {}", s, entry.1, width = max_width)?;
@@ -320,7 +315,7 @@ where
     }
 
     fn write_section_header(&mut self, title: &str) -> io::Result<()> {
-        writeln!(self.out, "\n{}", title)?;
+        writeln!(self.out, "\n{title}")?;
         writeln!(self.out, "----------------------------------------")?;
         Ok(())
     }
@@ -362,7 +357,7 @@ where
 {
     fn print(&self, out: &mut W) -> io::Result<()> {
         for i in self.iter() {
-            write!(out, " {}", i)?
+            write!(out, " {i}")?
         }
         Ok(())
     }

@@ -195,14 +195,14 @@ impl Display for Token {
         match *self {
             Token::Eof => write!(fmt, "Eof"),
             Token::Error => write!(fmt, "Error"),
-            Token::Terminal(ref s) => write!(fmt, "{}", s),
+            Token::Terminal(ref s) => write!(fmt, "{s}"),
         }
     }
 }
 
 impl Debug for Token {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
-        write!(fmt, "{}", self)
+        write!(fmt, "{self}")
     }
 }
 

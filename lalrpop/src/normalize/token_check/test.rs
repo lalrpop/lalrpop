@@ -19,18 +19,17 @@ fn check_err(expected_err: &str, grammar: &str, span: &str) {
 fn check_intern_token(grammar: &str, expected_tokens: Vec<(&'static str, &'static str)>) {
     let parsed_grammar = validate_grammar(grammar).expect("validate");
     let intern_token = parsed_grammar.intern_token().expect("intern_token");
-    println!("intern_token: {:?}", intern_token);
+    println!("intern_token: {intern_token:?}");
     for (input, expected_user_name) in expected_tokens {
         let actual_user_name =
             interpret::interpret(&intern_token.dfa, input).map(|(index, text)| {
                 let user_name = &intern_token.match_entries[index.index()].user_name;
                 (user_name.clone(), text)
             });
-        let actual_user_name = format!("{:?}", actual_user_name);
+        let actual_user_name = format!("{actual_user_name:?}");
         if expected_user_name != actual_user_name {
             panic!(
-                "input `{}` matched `{}` but we expected `{}`",
-                input, actual_user_name, expected_user_name
+                "input `{input}` matched `{actual_user_name}` but we expected `{expected_user_name}`"
             );
         }
     }

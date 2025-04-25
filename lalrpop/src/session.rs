@@ -166,7 +166,7 @@ impl Session {
     pub fn emit_rerun_directive(&self, path: &path::Path) {
         if self.emit_rerun_directives {
             if let Some(display) = path.to_str() {
-                println!("cargo:rerun-if-changed={}", display)
+                println!("cargo:rerun-if-changed={display}")
             } else {
                 println!("cargo:warning=LALRPOP is unable to inform Cargo that {} is a dependency because its filename cannot be represented in UTF-8. This is probably because it contains an unpaired surrogate character on Windows. As a result, your build script will not be rerun when it changes.", path.to_string_lossy());
             }

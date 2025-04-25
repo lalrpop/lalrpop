@@ -256,7 +256,7 @@ fn expr_intern_tok_test_err() {
             assert_eq!(location, 15);
         }
         r => {
-            panic!("invalid result {:?}", r);
+            panic!("invalid result {r:?}");
         }
     }
 }
@@ -269,7 +269,7 @@ fn parse_error_map_token_and_location() {
         result.unwrap_err();
 
     let message = err
-        .map_token(|expr_intern_tok::Token(_, t)| format!("TOKEN {}", t))
+        .map_token(|expr_intern_tok::Token(_, t)| format!("TOKEN {t}"))
         .map_location(|offset| format!("line {}", expr[0..offset].lines().count()))
         .to_string();
     assert!(message.contains("Unrecognized token `TOKEN +`"));
@@ -537,7 +537,7 @@ fn error_test1() {
     match util::test_err_gen(|t| error::ItemsParser::new().parse(t), "---+") {
         Err(ParseError::User { error: '+' }) => { /* OK! */ }
         r => {
-            panic!("unexpected response from parser: {:?}", r);
+            panic!("unexpected response from parser: {r:?}");
         }
     }
 }
@@ -679,7 +679,7 @@ fn error_recovery_issue_240() {
     ) {
         Ok(()) => {}
         r => {
-            panic!("unexpected response from parser: {:?}", r);
+            panic!("unexpected response from parser: {r:?}");
         }
     }
 
@@ -717,7 +717,7 @@ fn error_recovery_lalr_loop() {
             assert_eq!((l..r), (0..7)); // we popped everything, so this is the full string
         }
         r => {
-            panic!("unexpected response from parser: {:?}", r);
+            panic!("unexpected response from parser: {r:?}");
         }
     }
 
@@ -757,7 +757,7 @@ fn error_recovery_lock_in() {
             assert_eq!(dropped_tokens, vec![]);
         }
         r => {
-            panic!("unexpected response from parser: {:?}", r);
+            panic!("unexpected response from parser: {r:?}");
         }
     }
 
@@ -963,7 +963,7 @@ fn generics_issue_104_test1() {
 #[test]
 fn where_clause_with_forall_test1() {
     assert!(where_clause_with_forall::TermParser::new()
-        .parse(&mut |s: &str| println!("log: {}", s), "(((((42)))))")
+        .parse(&mut |s: &str| println!("log: {s}"), "(((((42)))))")
         .is_ok());
 }
 
@@ -1058,7 +1058,7 @@ fn error_issue_278() {
             error: "Pretend there was an error",
         }) => { /* OK! */ }
         r => {
-            panic!("unexpected response from parser: {:?}", r);
+            panic!("unexpected response from parser: {r:?}");
         }
     }
 }
@@ -1174,7 +1174,7 @@ fn test_nested_pattern_string_error() {
             assert_eq!(token.1, Tok::String("not matched"));
         }
         _ => {
-            panic!("Unexpected error: {:?}", err);
+            panic!("Unexpected error: {err:?}");
         }
     }
 }

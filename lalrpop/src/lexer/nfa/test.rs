@@ -38,9 +38,9 @@ fn edge_iter() {
 #[test]
 fn identifier_regex() {
     let ident = re::parse_regex(r#"[a-zA-Z_][a-zA-Z0-9_]*"#).unwrap();
-    println!("{:#?}", ident);
+    println!("{ident:#?}");
     let nfa = Nfa::from_re(&ident).unwrap();
-    println!("{:#?}", nfa);
+    println!("{nfa:#?}");
     assert_eq!(interpret(&nfa, "0123"), None);
     assert_eq!(interpret(&nfa, "hello0123"), Some("hello0123"));
     assert_eq!(interpret(&nfa, "hello0123 abc"), Some("hello0123"));

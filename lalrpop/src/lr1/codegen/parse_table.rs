@@ -45,11 +45,11 @@ impl<T: fmt::Display> fmt::Display for Comment<'_, T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Comment::Goto(ref token, new_state) => {
-                write!(f, " // on {}, goto {}", token, new_state)
+                write!(f, " // on {token}, goto {new_state}")
             }
-            Comment::Error(ref token) => write!(f, " // on {}, error", token),
+            Comment::Error(ref token) => write!(f, " // on {token}, error"),
             Comment::Reduce(ref token, production) => {
-                write!(f, " // on {}, reduce `{:?}`", token, production)
+                write!(f, " // on {token}, reduce `{production:?}`")
             }
         }
     }
@@ -437,7 +437,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let name = match self.custom.variants.entry(ty.clone()) {
                 Entry::Occupied(entry) => entry.into_mut(),
                 Entry::Vacant(entry) => {
-                    let name = format!("Variant{}", len);
+                    let name = format!("Variant{len}");
 
                     rust!(self.out, "{}({}),", name, ty);
                     entry.insert(name)
@@ -456,7 +456,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             let name = match self.custom.variants.entry(ty.clone()) {
                 Entry::Occupied(entry) => entry.into_mut(),
                 Entry::Vacant(entry) => {
-                    let name = format!("Variant{}", len);
+                    let name = format!("Variant{len}");
 
                     rust!(self.out, "{}({}),", name, ty);
                     entry.insert(name)
@@ -662,8 +662,8 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                         ranges
                             .iter()
                             .format_with(" | ", |(start, end), f| match end {
-                                None => f(&format_args!("{}", start)),
-                                Some(end) => f(&format_args!("{}..={}", start, end)),
+                                None => f(&format_args!("{start}")),
+                                Some(end) => f(&format_args!("{start}..={end}")),
                             }),
                         next_state,
                     );
@@ -851,7 +851,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
                     });
                     first = false;
 
-                    format!("{}", pattern)
+                    format!("{pattern}")
                 })
                 .collect::<Vec<_>>();
 
@@ -924,10 +924,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             .fn_header(&Visibility::Priv, format!("{}reduce", self.prefix))
             .with_grammar(self.grammar)
             .with_parameters(parameters)
-            .with_return_type(format!(
-                "Option<Result<{},{}>>",
-                success_type, parse_error_type
-            ))
+            .with_return_type(format!("Option<Result<{success_type},{parse_error_type}>>"))
             .emit()?;
         rust!(self.out, "{{");
 
