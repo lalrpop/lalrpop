@@ -649,19 +649,11 @@ macro_rules! integral_indices {
     ($t:ty) => {
         impl<D: ParserDefinition<StateIndex = $t, ReduceIndex = $t>> ParserAction<D> for $t {
             fn as_shift(self) -> Option<D::StateIndex> {
-                if self > 0 {
-                    Some(self - 1)
-                } else {
-                    None
-                }
+                if self > 0 { Some(self - 1) } else { None }
             }
 
             fn as_reduce(self) -> Option<D::ReduceIndex> {
-                if self < 0 {
-                    Some(-(self + 1))
-                } else {
-                    None
-                }
+                if self < 0 { Some(-(self + 1)) } else { None }
             }
 
             fn is_shift(self) -> bool {
