@@ -224,11 +224,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
                     "{}TOKENS: IntoIterator<Item={}TOKEN>{}",
                     self.prefix,
                     self.prefix,
-                    if self.repeatable {
-                        " + Clone"
-                    } else {
-                        ""
-                    }
+                    if self.repeatable { " + Clone" } else { "" }
                 ),
             ];
             parameters = vec![format!("{}tokens0: {}TOKENS", self.prefix, self.prefix)];
@@ -316,11 +312,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             // otherwise, convert one from the `IntoIterator`
             // supplied, using the `ToTriple` trait which inserts
             // errors/locations etc if none are given
-            let clone_call = if self.repeatable {
-                ".clone()"
-            } else {
-                ""
-            };
+            let clone_call = if self.repeatable { ".clone()" } else { "" };
             rust!(
                 self.out,
                 "let {}tokens = {}tokens0{}.into_iter();",
