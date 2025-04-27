@@ -1075,6 +1075,7 @@ fn generics_issue_417() {
 }
 
 #[test]
+#[cfg(not(target_os = "windows"))] // Windows uses different line endings
 fn verify_lalrpop_generates_itself() {
     let out_dir = "../target";
     let lrgrammar = "lrgrammar.lalrpop";
