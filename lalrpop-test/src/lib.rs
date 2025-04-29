@@ -3,9 +3,6 @@
 #![warn(rust_2018_idioms)]
 
 use std::cell::RefCell;
-use std::fs;
-use std::path::Path;
-use std::process::Command;
 
 use lalrpop_util::lalrpop_mod;
 
@@ -1075,7 +1072,12 @@ fn generics_issue_417() {
 }
 
 #[test]
+#[cfg(not(target_os = "windows"))] // Windows uses different line endings
 fn verify_lalrpop_generates_itself() {
+    use std::fs;
+    use std::path::Path;
+    use std::process::Command;
+
     let out_dir = "../target";
     let lrgrammar = "lrgrammar.lalrpop";
     let grammar_file = Path::new("../lalrpop/src/parser/").join(lrgrammar);
