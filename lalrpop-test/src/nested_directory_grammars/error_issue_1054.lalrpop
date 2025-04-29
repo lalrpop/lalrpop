@@ -1,0 +1,5 @@
+grammar;
+
+pub A: String = {
+	"A" => "A".to_string()
+};
