@@ -213,7 +213,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             // otherwise, we need an iterator of type `TOKENS`
             let mut user_type_parameters = String::new();
             for type_parameter in &self.grammar.type_parameters {
-                user_type_parameters.push_str(&format!("{}, ", type_parameter));
+                user_type_parameters.push_str(&format!("{type_parameter}, "));
             }
             type_parameters = vec![
                 format!(
@@ -349,7 +349,7 @@ impl<'codegen, 'grammar, W: Write, C> CodeGenerator<'codegen, 'grammar, W, C> {
             .type_parameters
             .iter()
             .map(|tp| match *tp {
-                TypeParameter::Lifetime(ref l) => format!("&{} ()", l),
+                TypeParameter::Lifetime(ref l) => format!("&{l} ()"),
 
                 TypeParameter::Id(ref id) => id.to_string(),
             })

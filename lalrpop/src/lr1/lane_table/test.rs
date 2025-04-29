@@ -146,7 +146,7 @@ fn build_table<'grammar>(
 
     // Extract conflicting items and trace the lanes, constructing a table
     let conflicting_items = super::conflicting_actions(inconsistent_state);
-    println!("conflicting_items={:#?}", conflicting_items);
+    println!("conflicting_items={conflicting_items:#?}");
     let first_sets = FirstSets::new(grammar);
     let state_graph = StateGraph::new(&lr0_err.states);
     let mut tracer = LaneTracer::new(
@@ -174,7 +174,7 @@ fn g0_conflict_1() {
     let grammar = paper_example_g0();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["e"]);
-    println!("{:#?}", table);
+    println!("{table:#?}");
     // conflicting_actions={
     //     Shift("e") // C0
     //     Reduce(X = "e" => ActionFn(4)) // C1
@@ -197,7 +197,7 @@ fn paper_example_g1_conflict_1() {
     let grammar = paper_example_g1();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["a", "e"]);
-    println!("{:#?}", table);
+    println!("{table:#?}");
     // conflicting_actions={
     //     Shift("e") // C0
     //     Reduce(X = "e" => ActionFn(6)) // C1
@@ -345,7 +345,7 @@ fn large_conflict_1() {
     let grammar = paper_example_large();
     let _lr1_tls = Lr1Tls::install(grammar.terminals.clone());
     let table = build_table(&grammar, "G", &["x", "s", "k", "t"]);
-    println!("{:#?}", table);
+    println!("{table:#?}");
 
     // conflicting_actions={
     //     Shift("s") // C0

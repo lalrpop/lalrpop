@@ -18,7 +18,7 @@ fn gen_test(input: &str, expected: Vec<(&str, Expectation<'_>)>) {
     for (token, (expected_span, expectation)) in tokenizer.zip(expected.into_iter()) {
         let expected_start = expected_span.find('~').unwrap();
         let expected_end = expected_span.rfind('~').unwrap() + 1;
-        println!("token: {:?}", token);
+        println!("token: {token:?}");
         match expectation {
             ExpectTok(expected_tok) => {
                 assert_eq!(Ok((expected_start, expected_tok, expected_end)), token);

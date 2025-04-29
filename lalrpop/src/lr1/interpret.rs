@@ -18,7 +18,7 @@ pub fn interpret<'grammar, L>(
 where
     L: LookaheadInterpret,
 {
-    println!("interpret(tokens={:?})", tokens);
+    println!("interpret(tokens={tokens:?})");
     let mut m = Machine::new(states);
     m.execute(tokens.into_iter())
 }
@@ -76,8 +76,8 @@ where
         while let Some(terminal) = token.clone() {
             let state = self.top_state();
 
-            println!("state={:?}", state);
-            println!("terminal={:?}", terminal);
+            println!("state={state:?}");
+            println!("terminal={terminal:?}");
 
             // check whether we can shift this token
             if let Some(&next_index) = state.shifts.get(&terminal) {
@@ -120,7 +120,7 @@ where
     }
 
     fn reduce(&mut self, production: &Production) -> bool {
-        println!("reduce={:?}", production);
+        println!("reduce={production:?}");
 
         let args = production.symbols.len();
 
@@ -166,7 +166,7 @@ impl Display for ParseTree {
             ParseTree::Nonterminal(ref id, ref trees) => {
                 write!(fmt, "[{}: {}]", id, Sep(", ", trees))
             }
-            ParseTree::Terminal(ref id) => write!(fmt, "{}", id),
+            ParseTree::Terminal(ref id) => write!(fmt, "{id}"),
         }
     }
 }

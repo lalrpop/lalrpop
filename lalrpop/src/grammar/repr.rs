@@ -298,7 +298,7 @@ impl TypeRepr {
         let fresh_lifetime_name = |type_parameters: &mut Vec<TypeParameter>| {
             // Make a name like `__1`:
             let len = type_parameters.len();
-            let name = Lifetime(Atom::from(format!("'{}{}", prefix, len)));
+            let name = Lifetime(Atom::from(format!("'{prefix}{len}")));
             type_parameters.push(TypeParameter::Lifetime(name.clone()));
             name
         };
@@ -395,7 +395,7 @@ impl Types {
             path: Path {
                 absolute: false,
                 ids: vec![
-                    Atom::from(format!("{}lalrpop_util", prefix)),
+                    Atom::from(format!("{prefix}lalrpop_util")),
                     Atom::from("ParseError"),
                 ],
             },
@@ -405,7 +405,7 @@ impl Types {
             path: Path {
                 absolute: false,
                 ids: vec![
-                    Atom::from(format!("{}lalrpop_util", prefix)),
+                    Atom::from(format!("{prefix}lalrpop_util")),
                     Atom::from("ErrorRecovery"),
                 ],
             },
@@ -498,7 +498,7 @@ impl Display for WhereClause {
                 write!(fmt, "for<{}> {}", Sep(", ", binder), clause)
             }
 
-            WhereClause::Bound { subject, bound } => write!(fmt, "{}: {}", subject, bound),
+            WhereClause::Bound { subject, bound } => write!(fmt, "{subject}: {bound}"),
         }
     }
 }
@@ -513,34 +513,34 @@ impl Display for TypeRepr {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
             TypeRepr::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
-            TypeRepr::Slice(ref ty) => write!(fmt, "[{}]", ty),
-            TypeRepr::Nominal(ref data) => write!(fmt, "{}", data),
+            TypeRepr::Slice(ref ty) => write!(fmt, "[{ty}]"),
+            TypeRepr::Nominal(ref data) => write!(fmt, "{data}"),
             TypeRepr::Associated {
                 ref type_parameter,
                 ref id,
-            } => write!(fmt, "{}::{}", type_parameter, id),
-            TypeRepr::Lifetime(ref id) => write!(fmt, "{}", id),
+            } => write!(fmt, "{type_parameter}::{id}"),
+            TypeRepr::Lifetime(ref id) => write!(fmt, "{id}"),
             TypeRepr::Ref {
                 lifetime: None,
                 mutable: false,
                 ref referent,
-            } => write!(fmt, "&{}", referent),
+            } => write!(fmt, "&{referent}"),
             TypeRepr::Ref {
                 lifetime: Some(ref l),
                 mutable: false,
                 ref referent,
-            } => write!(fmt, "&{} {}", l, referent),
+            } => write!(fmt, "&{l} {referent}"),
             TypeRepr::Ref {
                 lifetime: None,
                 mutable: true,
                 ref referent,
-            } => write!(fmt, "&mut {}", referent),
+            } => write!(fmt, "&mut {referent}"),
             TypeRepr::Ref {
                 lifetime: Some(ref l),
                 mutable: true,
                 ref referent,
-            } => write!(fmt, "&{} mut {}", l, referent),
-            TypeRepr::TraitObject(ref data) => write!(fmt, "dyn {}", data),
+            } => write!(fmt, "&{l} mut {referent}"),
+            TypeRepr::TraitObject(ref data) => write!(fmt, "dyn {data}"),
             TypeRepr::Fn {
                 ref forall,
                 ref path,
@@ -553,7 +553,7 @@ impl Display for TypeRepr {
                 }
                 write!(fmt, "{}({})", path, Sep(", ", parameters))?;
                 if let Some(ret) = ret {
-                    write!(fmt, " -> {}", ret)?;
+                    write!(fmt, " -> {ret}")?;
                 }
                 Ok(())
             }
@@ -615,8 +615,8 @@ impl Symbol {
 impl Display for Symbol {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match self {
-            Symbol::Nonterminal(id) => write!(fmt, "{}", id),
-            Symbol::Terminal(id) => write!(fmt, "{}", id),
+            Symbol::Nonterminal(id) => write!(fmt, "{id}"),
+            Symbol::Terminal(id) => write!(fmt, "{id}"),
         }
     }
 }
@@ -659,7 +659,7 @@ impl ActionFnDefn {
         match self.kind {
             ActionFnDefnKind::User(ref data) => data.to_fn_string(self, name),
             ActionFnDefnKind::Inline(ref data) => data.to_fn_string(name),
-            ActionFnDefnKind::Lookaround(ref data) => format!("{:?}", data),
+            ActionFnDefnKind::Lookaround(ref data) => format!("{data:?}"),
         }
     }
 }
@@ -670,7 +670,7 @@ impl UserActionFnDefn {
             .arg_patterns
             .iter()
             .zip(self.arg_types.iter())
-            .map(|(name, ty)| format!("{}: {}", name, ty))
+            .map(|(name, ty)| format!("{name}: {ty}"))
             .collect();
 
         format!(
@@ -689,7 +689,7 @@ impl InlineActionFnDefn {
             .symbols
             .iter()
             .map(|inline_sym| match *inline_sym {
-                InlinedSymbol::Original(ref s) => format!("{}", s),
+                InlinedSymbol::Original(ref s) => format!("{s}"),
                 InlinedSymbol::Inlined(a, ref s) => format!("{:?}({})", a, Sep(", ", s)),
             })
             .collect();

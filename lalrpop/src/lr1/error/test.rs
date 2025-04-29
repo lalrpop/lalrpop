@@ -30,7 +30,7 @@ pub Ty: () = {
     let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0][0];
 
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
 
     match cx.classify(conflict) {
         ConflictClassification::Precedence {
@@ -38,17 +38,14 @@ pub Ty: () = {
             reduce,
             nonterminal,
         } => {
-            println!(
-                "shift={:#?}, reduce={:#?}, nonterminal={:?}",
-                shift, reduce, nonterminal
-            );
+            println!("shift={shift:#?}, reduce={reduce:#?}, nonterminal={nonterminal:?}");
             assert_eq!(shift.symbols.len(), 5); // Ty -> Ty -> Ty
             assert_eq!(shift.cursor, 3); // Ty -> Ty -> Ty
             assert_eq!(shift.symbols, reduce.symbols);
             assert_eq!(shift.cursor, reduce.cursor);
             assert_eq!(nonterminal, nt("Ty"));
         }
-        r => panic!("wrong classification {:#?}", r),
+        r => panic!("wrong classification {r:#?}"),
     }
 }
 
@@ -72,11 +69,11 @@ pub Expr: () = {
     let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0][0];
 
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
 
     match cx.classify(conflict) {
         ConflictClassification::InsufficientLookahead { .. } => {}
-        r => panic!("wrong classification {:#?}", r),
+        r => panic!("wrong classification {r:#?}"),
     }
 }
 
@@ -104,7 +101,7 @@ fn suggest_question_conflict() {
     let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0][0];
 
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
 
     match cx.classify(conflict) {
         ConflictClassification::SuggestQuestion {
@@ -119,7 +116,7 @@ fn suggest_question_conflict() {
                 Symbol::Terminal(TerminalString::quoted(Atom::from("L")))
             );
         }
-        r => panic!("wrong classification {:#?}", r),
+        r => panic!("wrong classification {r:#?}"),
     }
 }
 
@@ -148,7 +145,7 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
     let conflicts = super::token_conflicts(&err.conflicts);
     let conflict = &conflicts[0][0];
 
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
 
     match cx.classify(conflict) {
         ConflictClassification::SuggestInline {
@@ -158,7 +155,7 @@ Ident = r#"[a-zA-Z][a-zA-Z0-9]*"#;
         } => {
             assert_eq!(nonterminal, nt("Path"));
         }
-        r => panic!("wrong classification {:#?}", r),
+        r => panic!("wrong classification {r:#?}"),
     }
 }
 
@@ -181,7 +178,7 @@ VarDecl = "let";
     let mut cx = ErrorReportingCx::new(&grammar, &err.states, &err.conflicts);
     let conflicts = super::token_conflicts(&err.conflicts);
     for conflict in conflicts.iter().flatten() {
-        println!("conflict={:?}", conflict);
+        println!("conflict={conflict:?}");
         cx.classify(conflict);
     }
 }

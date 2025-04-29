@@ -79,7 +79,7 @@ fn backtrace1() {
 
     let backtrace = tracer.backtrace_reduce(top_state, semi_item.to_lr0());
 
-    println!("{:#?}", backtrace);
+    println!("{backtrace:#?}");
 
     let pictures: Vec<_> = backtrace
         .lr0_examples(semi_item.to_lr0())
@@ -144,15 +144,15 @@ pub Ty: () = {
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let tracer = Tracer::new(&first_sets, &err.states);
     let conflict = err.conflicts[0].clone();
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
     let item = Item {
         production: conflict.production,
         index: conflict.production.symbols.len(),
         lookahead: conflict.lookahead.clone(),
     };
-    println!("item={:?}", item);
+    println!("item={item:?}");
     let backtrace = tracer.backtrace_reduce(conflict.state, item.to_lr0());
-    println!("{:#?}", backtrace);
+    println!("{backtrace:#?}");
     expect_debug(
         &backtrace,
         r#"
@@ -206,13 +206,13 @@ pub Ty: () = {
     let first_sets = FirstSets::new(&grammar);
     let err = build_states(&grammar, nt("Ty")).unwrap_err();
     let conflict = err.conflicts[0].clone();
-    println!("conflict={:?}", conflict);
+    println!("conflict={conflict:?}");
     let item = Item {
         production: conflict.production,
         index: conflict.production.symbols.len(),
         lookahead: conflict.lookahead.clone(),
     };
-    println!("item={:?}", item);
+    println!("item={item:?}");
     let tracer = Tracer::new(&first_sets, &err.states);
     let graph = tracer.backtrace_reduce(conflict.state, item.to_lr0());
     expect_debug(
@@ -299,7 +299,7 @@ fn backtrace_filter() {
 
     let backtrace = tracer.backtrace_reduce(top_state, lr1_item.to_lr0());
 
-    println!("{:#?}", backtrace);
+    println!("{backtrace:#?}");
 
     // With no filtering, we get examples with both `;` and `,` as
     // lookahead (though `ExprSuffix` is in the way).

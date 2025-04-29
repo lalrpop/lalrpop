@@ -13,7 +13,7 @@ print (a - b);";
     let parser = ScriptParser::new();
     let ast = parser.parse(lexer).unwrap();
 
-    println!("{:?}", ast);
+    println!("{ast:?}");
 
     #[cfg(feature = "bit")]
     {

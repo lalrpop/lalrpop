@@ -16,11 +16,11 @@ fn match_block() {
 
     for block in blocks {
         let parsed = parser::parse_grammar(block)
-            .unwrap_or_else(|_| panic!("Invalid grammar; grammar={}", block));
+            .unwrap_or_else(|_| panic!("Invalid grammar; grammar={block}"));
         let first_item = parsed.items.first().expect("has item");
         match *first_item {
             GrammarItem::MatchToken(_) => (), // OK
-            _ => panic!("expected MatchToken, but was {:?}", first_item),
+            _ => panic!("expected MatchToken, but was {first_item:?}"),
         }
     }
 }
@@ -53,19 +53,19 @@ fn match_complex() {
             let item00 = contents0.items.first().unwrap();
             match *item00 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
-                    assert_eq!(format!("{:?}", sym), "r#\"(?i)begin\"#");
-                    assert_eq!(format!("{}", mapping), "\"BEGIN\"");
+                    assert_eq!(format!("{sym:?}"), "r#\"(?i)begin\"#");
+                    assert_eq!(format!("{mapping}"), "\"BEGIN\"");
                 }
-                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00),
+                _ => panic!("expected MatchItem::Mapped, but was: {item00:?}"),
             };
             // r"(?i)end" => "END",
             let item01 = contents0.items.get(1).unwrap();
             match *item01 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
-                    assert_eq!(format!("{:?}", sym), "r#\"(?i)end\"#");
-                    assert_eq!(format!("{}", mapping), "\"END\"");
+                    assert_eq!(format!("{sym:?}"), "r#\"(?i)end\"#");
+                    assert_eq!(format!("{mapping}"), "\"END\"");
                 }
-                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item00),
+                _ => panic!("expected MatchItem::Mapped, but was: {item00:?}"),
             };
             // else { ... }
             let contents1 = data.contents.get(1).unwrap();
@@ -73,10 +73,10 @@ fn match_complex() {
             let item10 = contents1.items.first().unwrap();
             match *item10 {
                 MatchItem::Mapped(ref sym, ref mapping, _) => {
-                    assert_eq!(format!("{:?}", sym), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#");
-                    assert_eq!(format!("{}", mapping), "IDENTIFIER");
+                    assert_eq!(format!("{sym:?}"), "r#\"[a-zA-Z_][a-zA-Z0-9_]*\"#");
+                    assert_eq!(format!("{mapping}"), "IDENTIFIER");
                 }
-                _ => panic!("expected MatchItem::Mapped, but was: {:?}", item10),
+                _ => panic!("expected MatchItem::Mapped, but was: {item10:?}"),
             };
             // else { ... }
             let contents2 = data.contents.get(2).unwrap();
@@ -84,18 +84,18 @@ fn match_complex() {
             let item20 = contents2.items.first().unwrap();
             match *item20 {
                 MatchItem::Unmapped(ref sym, _) => {
-                    assert_eq!(format!("{:?}", sym), "\"other\"");
+                    assert_eq!(format!("{sym:?}"), "\"other\"");
                 }
-                _ => panic!("expected MatchItem::Unmapped, but was: {:?}", item20),
+                _ => panic!("expected MatchItem::Unmapped, but was: {item20:?}"),
             };
             // _
             let item21 = contents2.items.get(1).unwrap();
             match *item21 {
                 MatchItem::CatchAll(_) => (),
-                _ => panic!("expected MatchItem::CatchAll, but was: {:?}", item20),
+                _ => panic!("expected MatchItem::CatchAll, but was: {item20:?}"),
             };
         }
-        _ => panic!("expected MatchToken, but was: {:?}", first_item),
+        _ => panic!("expected MatchToken, but was: {first_item:?}"),
     }
 }
 
@@ -120,8 +120,7 @@ fn where_clauses() {
     for santa in clauses {
         assert!(
             parser::parse_where_clauses(santa).is_ok(),
-            "should parse where clauses: {}",
-            santa
+            "should parse where clauses: {santa}"
         );
     }
 }

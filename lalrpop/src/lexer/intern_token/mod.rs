@@ -40,11 +40,11 @@ pub fn compile<W: Write>(
                 },
             )
         })
-        .map(|(regex, skip)| (format!("{}", regex), skip))
+        .map(|(regex, skip)| (format!("{regex}"), skip))
         .map(|(regex_str, skip)| {
             // create a rust string with text of the regex; the Debug impl
             // will add quotes and escape
-            (format!("{:?}", regex_str), skip)
+            (format!("{regex_str:?}"), skip)
         });
 
     let mut contains_skip = false;

@@ -946,8 +946,8 @@ impl<'ascent, 'grammar, W: Write>
     /// Emit a pattern that matches `id` but doesn't extract any data.
     fn match_terminal_pattern(&mut self, id: &TerminalString) -> String {
         let pattern = self.grammar.pattern(id).map(&mut |_| "_");
-        let pattern = format!("{}", pattern);
-        format!("(_, {}, _)", pattern)
+        let pattern = format!("{pattern}");
+        format!("(_, {pattern}, _)")
     }
 
     /// Emit a pattern that matches `id` and extracts its value, storing
@@ -960,7 +960,7 @@ impl<'ascent, 'grammar, W: Write>
             pattern_names.last().cloned().unwrap()
         });
 
-        let mut pattern = format!("{}", pattern);
+        let mut pattern = format!("{pattern}");
         if pattern_names.is_empty() {
             pattern_names.push(format!("{}tok", self.prefix));
             pattern = format!("{}tok @ {}", self.prefix, pattern);

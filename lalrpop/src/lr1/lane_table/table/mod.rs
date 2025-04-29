@@ -157,22 +157,22 @@ impl Debug for LaneTable<'_> {
             .collect();
 
         let header = iter::once("State".to_string())
-            .chain((0..self.conflicts).map(|i| format!("C{}", i)))
+            .chain((0..self.conflicts).map(|i| format!("C{i}")))
             .chain(Some("Successors".to_string()))
             .collect();
 
         let rows = indices.iter().map(|&index| {
-            iter::once(format!("{:?}", index))
+            iter::once(format!("{index:?}"))
                 .chain((0..self.conflicts).map(|i| {
                     self.lookaheads
                         .get(&(index, ConflictIndex::new(i)))
-                        .map(|token_set| format!("{:?}", token_set))
+                        .map(|token_set| format!("{token_set:?}"))
                         .unwrap_or_default()
                 }))
                 .chain(Some(
                     self.successors
                         .get(&index)
-                        .map(|c| format!("{:?}", c))
+                        .map(|c| format!("{c:?}"))
                         .unwrap_or_default(),
                 ))
                 .collect()

@@ -17,12 +17,12 @@ fn compare(g1: &str, expected: Vec<(&'static str, &'static str)>) {
     let grammar = token_check::validate(grammar).unwrap();
     let types = infer_types(&grammar).unwrap();
 
-    println!("types table: {:?}", types);
+    println!("types table: {types:?}");
 
     for (nt_id, nt_type) in expected {
         let id = NonterminalString(Atom::from(nt_id));
         let ty = type_repr(nt_type);
-        println!("expected type of {:?} is {:?}", id, ty);
+        println!("expected type of {id:?} is {ty:?}");
         assert_eq!(types.nonterminal_type(&id), &ty);
     }
 }

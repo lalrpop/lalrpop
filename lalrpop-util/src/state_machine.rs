@@ -515,7 +515,7 @@ where
         match (opt_lookahead, opt_token_index) {
             (Some(l), Some(i)) => NextToken::FoundToken(l, i),
             (None, None) => NextToken::Eof,
-            (l, i) => panic!("lookahead and token_index mismatched: {:?}, {:?}", l, i),
+            (l, i) => panic!("lookahead and token_index mismatched: {l:?}, {i:?}"),
         }
     }
 

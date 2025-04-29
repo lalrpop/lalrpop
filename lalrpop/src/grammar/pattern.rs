@@ -96,13 +96,13 @@ impl<T: Display> Display for Pattern<T> {
 impl<T: Display> Display for PatternKind<T> {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            PatternKind::Path(ref path) => write!(fmt, "{}", path),
+            PatternKind::Path(ref path) => write!(fmt, "{path}"),
             PatternKind::Enum(ref path, ref pats) => write!(fmt, "{}({})", path, Sep(", ", pats)),
             PatternKind::Struct(ref path, ref fields, false) => {
                 write!(fmt, "{} {{ {} }}", path, Sep(", ", fields))
             }
             PatternKind::Struct(ref path, ref fields, true) if fields.is_empty() => {
-                write!(fmt, "{} {{ .. }}", path)
+                write!(fmt, "{path} {{ .. }}")
             }
             PatternKind::Struct(ref path, ref fields, true) => {
                 write!(fmt, "{} {{ {}, .. }}", path, Sep(", ", fields))
@@ -113,10 +113,10 @@ impl<T: Display> Display for PatternKind<T> {
             }
             PatternKind::Underscore => write!(fmt, "_"),
             PatternKind::DotDot => write!(fmt, ".."),
-            PatternKind::Usize(n) => write!(fmt, "{}", n),
-            PatternKind::Choose(ref ty) => write!(fmt, "{}", ty),
-            PatternKind::CharLiteral(ref c) => write!(fmt, "'{}'", c),
-            PatternKind::String(ref s) => write!(fmt, "{:?}", s),
+            PatternKind::Usize(n) => write!(fmt, "{n}"),
+            PatternKind::Choose(ref ty) => write!(fmt, "{ty}"),
+            PatternKind::CharLiteral(ref c) => write!(fmt, "'{c}'"),
+            PatternKind::String(ref s) => write!(fmt, "{s:?}"),
         }
     }
 }

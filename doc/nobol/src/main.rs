@@ -139,7 +139,7 @@ pub fn apply_string_escapes(content: &str) -> std::borrow::Cow<'_, str> {
                     'n' => '\n',
                     'r' => '\r',
                     't' => '\t',
-                    _ => panic!("unrecognized escape: \\{}", next),
+                    _ => panic!("unrecognized escape: \\{next}"),
                 }
             };
             text.push(the_char);

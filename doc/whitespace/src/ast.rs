@@ -70,14 +70,14 @@ impl Program {
 
     pub fn dump(&self) {
         for stmt in self.statements.iter() {
-            println!("{:?}", stmt);
+            println!("{stmt:?}");
         }
     }
 
     pub fn interpret(&self) {
         Interpreter::new(self)
             .execute()
-            .unwrap_or_else(|err| println!("{}", err));
+            .unwrap_or_else(|err| println!("{err}"));
     }
 }
 
@@ -103,18 +103,18 @@ impl<'program> Interpreter<'program> {
                 &Stmt::PrintChar => {
                     let top = self.pop()?;
                     let c = num_to_char(top)?;
-                    print!("{}", c);
+                    print!("{c}");
                 }
 
                 &Stmt::Exit => return Ok(()),
 
-                other => return Err(format!("Unimplemented instruction: {:?}", other)),
+                other => return Err(format!("Unimplemented instruction: {other:?}")),
             }
 
             pc += 1;
         }
 
-        Err(format!("Out of instructions! Program counter: {}", pc))
+        Err(format!("Out of instructions! Program counter: {pc}"))
     }
 
     fn pop(&mut self) -> Result<Int, String> {
@@ -127,13 +127,13 @@ impl<'program> Interpreter<'program> {
 
 fn num_to_char(n: Int) -> Result<char, String> {
     if n < 0 {
-        Err(format!("Can't cast negative int to char: {}", n))
+        Err(format!("Can't cast negative int to char: {n}"))
     } else if n > u32::MAX as i64 {
-        Err(format!("Int is too huge to be a char: {}", n))
+        Err(format!("Int is too huge to be a char: {n}"))
     } else {
         match char::from_u32(n as u32) {
             Some(c) => Ok(c),
-            None => Err(format!("Invalid char: {}", n)),
+            None => Err(format!("Invalid char: {n}")),
         }
     }
 }

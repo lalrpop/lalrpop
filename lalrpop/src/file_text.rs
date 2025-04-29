@@ -100,7 +100,7 @@ impl FileText {
         // span is within one line:
         if start_line == end_line {
             let text = self.line_text(start_line);
-            writeln!(out, "  {}", text)?;
+            writeln!(out, "  {text}")?;
 
             if end_col - start_col <= 1 {
                 writeln!(out, "  {}^", Repeat(' ', start_col))?;
@@ -124,7 +124,7 @@ impl FileText {
                 Repeat('~', max_len - start_col)
             )?;
             for line in &line_strs[..line_strs.len() - 1] {
-                writeln!(out, "| {0:<1$} |", line, max_len)?;
+                writeln!(out, "| {line:<max_len$} |")?;
             }
             writeln!(out, "| {}", line_strs[line_strs.len() - 1])?;
             writeln!(out, "+~{}", Repeat('~', end_col))?;
