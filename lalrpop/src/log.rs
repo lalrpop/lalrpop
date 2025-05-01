@@ -51,7 +51,7 @@ macro_rules! debug {
 
 macro_rules! profile {
     ($session:expr, $phase_name:expr, $action:expr) => {{
-        log!($session, Verbose, "Phase `{}` begun", $phase_name);
+        log!($session, Verbose, "Phase `{}` begin", $phase_name);
         let time_stamp = ::std::time::Instant::now();
         let result = $action;
         let elapsed = time_stamp.elapsed();
