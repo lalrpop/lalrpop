@@ -427,7 +427,16 @@ impl<'s> LowerState<'s> {
                     let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();
                     name_strs.join(", ")
                 };
-                let action = action.replace("<>", &name_str);
+
+                let action = if action.matches("<>").count() > 1 {
+                    // TODO: replace assert with a proper error
+                    assert!(action.matches("<>").count() == names.len());
+                    names
+                        .iter()
+                        .fold(action, |acc, name| acc.replacen("<>", name.as_ref(), 1))
+                } else {
+                    action.replace("<>", &name_str)
+                };
                 r::ActionFnDefn {
                     fallible,
                     ret_type: nt_type,
