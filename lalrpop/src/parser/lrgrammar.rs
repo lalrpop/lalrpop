@@ -3117,13 +3117,13 @@ None
 }).collect()
 }
 struct ___StateMachine<'input>
-where 
+where
 {
 text: &'input str,
 ___phantom: core::marker::PhantomData<(&'input ())>,
 }
 impl<'input> ___state_machine::ParserDefinition for ___StateMachine<'input>
-where 
+where
 {
 type Location = usize;
 type Error = tok::Error;
@@ -6458,7 +6458,7 @@ nonterminal_produced: 171,
 }
 }
 524 => ___state_machine::SimulatedReduce::Accept,
-_ => panic!("invalid reduction index {___reduce_index}",)
+_ => panic!("invalid reduction index {___reduce_index}")
 }
 }
 pub struct TopParser {
