@@ -3,7 +3,7 @@ grammar;
 
 pub E: String = {
     "L" => "L".to_string(),
-    "&" <OPT_L> <E> => format!("& {} {}", <>),
+    "&" <OPT_L> <E> => format!("& {<>} {<>}"),
 };
 
 #[inline] // without this, it'd be a SR conflict
