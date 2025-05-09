@@ -970,7 +970,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(
             self.out,
-            "_ => panic!(\"invalid action code {{}}\", {}action)",
+            "_ => panic!(\"invalid action code {{{}action}}\")",
             self.prefix
         );
         rust!(self.out, "}};");
@@ -1324,7 +1324,7 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         }
         rust!(
             self.out,
-            "_ => panic!(\"invalid reduction index {{}}\", {}reduce_index)",
+            "_ => panic!(\"invalid reduction index {{{}reduce_index}}\",)",
             self.prefix,
         );
         rust!(self.out, "}}"); // end match
