@@ -4,7 +4,7 @@
 //! symbols as input, e.g. from a production like `X = Y Z => ...`
 //! (which takes Y and Z as input), they have this form:
 //!
-//! ```
+//! ```text
 //! fn __action17<
 //!     'input,                       // user-declared type parameters (*)
 //! >(
@@ -17,7 +17,7 @@
 //!
 //! Otherwise, they have this form:
 //!
-//! ```
+//! ```no_compile
 //! fn __action17<
 //!     'input,                       // user-declared type parameters (*)
 //! >(
