@@ -24,7 +24,7 @@ pub Expr: String = {
     // the `"+"` to recover.
     <n:Expr> "-" <l:@L> ! <r:@R> => {
         errors.push((l, r));
-        format!("{} -!", n)
+        format!("{n} -!")
     },
 
     <n:Expr> <l:@L> ! <r:@R> => {
@@ -43,6 +43,6 @@ Expr1: String = {
 };
 
 Expr2: String = {
-    Num => format!("{:?}", <>),
-    "(" <Expr> ")" => format!("({})", <>),
+    Num => format!("{<>:?}"),
+    "(" <Expr> ")" => format!("({<>})"),
 };

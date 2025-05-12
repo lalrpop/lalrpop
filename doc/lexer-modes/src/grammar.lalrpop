@@ -68,7 +68,7 @@ Decimal: usize = {
         let count = count.parse::<usize>()
             .map_err(|err| {
                 LexicalError::LengthOverflow(
-                    format!("Parsing {}: {}", count, err))
+                    format!("Parsing {count}: {err}"))
             })?;
 
         Ok(count)
