@@ -1,3 +1,5 @@
-pub mod json;
+use lalrpop_util::lalrpop_mod;
+
+lalrpop_mod!(pub json);
 pub mod json_val;
-pub mod json_ref;
+lalrpop_mod!(pub json_ref);
