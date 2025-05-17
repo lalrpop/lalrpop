@@ -7151,8 +7151,8 @@ ___reduce201(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant87(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = match super::___action484::<>(text, ___sym0, ___sym1) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
@@ -7166,8 +7166,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant1(___symbols);
 let ___sym1 = ___pop_Variant87(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = match super::___action485::<>(text, ___sym0, ___sym1, ___sym2) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
@@ -7717,8 +7717,8 @@ ___reduce382(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant78(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = match super::___action452::<>(text, ___sym0, ___sym1) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
@@ -7906,8 +7906,8 @@ ___reduce442(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(
 443 => {
 // StringConstant = "StringLiteral" => ActionFn(431);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = match super::___action431::<>(text, ___sym0) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
@@ -7918,8 +7918,8 @@ ___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
 444 => {
 // StringLiteral = "StringLiteral" => ActionFn(432);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = match super::___action432::<>(text, ___sym0) {
 Ok(v) => v,
 Err(e) => return Some(Err(e)),
@@ -8167,8 +8167,8 @@ ___reduce523(text, ___lookahead_start, ___symbols, core::marker::PhantomData::<(
 524 => {
 // ___Top = Top => ActionFn(0);
 let ___sym0 = ___pop_Variant93(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action0::<>(text, ___sym0);
 return Some(Ok(___nt));
 }
@@ -9274,8 +9274,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // "::"? = "::" => ActionFn(139);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action139::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (1, 0)
@@ -9307,8 +9307,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // ";"? = ";" => ActionFn(156);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action156::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (1, 1)
@@ -9340,8 +9340,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // "mut"? = "mut" => ActionFn(145);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action145::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (1, 2)
@@ -9375,8 +9375,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action173::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (2, 3)
@@ -9394,8 +9394,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action321::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (2, 4)
@@ -9429,8 +9429,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action165::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (2, 5)
@@ -9448,8 +9448,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action326::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (2, 6)
@@ -9484,8 +9484,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant5(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action169::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
 (3, 7)
@@ -9504,8 +9504,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant5(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action329::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant6(___nt), ___end));
 (3, 8)
@@ -9539,8 +9539,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action153::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant7(___nt), ___end));
 (2, 9)
@@ -9558,8 +9558,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action332::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant8(___nt), ___end));
 (2, 10)
@@ -9609,8 +9609,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action251::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (2, 12)
@@ -9642,8 +9642,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<Alternative> ",")* = (<Alternative> ",")+ => ActionFn(250);
 let ___sym0 = ___pop_Variant11(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action250::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
 (1, 13)
@@ -9661,8 +9661,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action339::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
 (2, 14)
@@ -9681,8 +9681,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant10(___symbols);
 let ___sym0 = ___pop_Variant11(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action340::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
 (3, 14)
@@ -9700,8 +9700,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant12(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action241::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
 (2, 15)
@@ -9733,8 +9733,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<AttributeInner> ",")* = (<AttributeInner> ",")+ => ActionFn(240);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action240::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (1, 16)
@@ -9752,8 +9752,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant12(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action343::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (2, 17)
@@ -9772,8 +9772,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action344::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (3, 17)
@@ -9791,8 +9791,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant14(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action275::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant14(___nt), ___end));
 (2, 18)
@@ -9824,8 +9824,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<Conversion> ",")* = (<Conversion> ",")+ => ActionFn(274);
 let ___sym0 = ___pop_Variant15(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action274::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
 (1, 19)
@@ -9843,8 +9843,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant14(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action347::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
 (2, 20)
@@ -9863,8 +9863,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant14(___symbols);
 let ___sym0 = ___pop_Variant15(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action348::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
 (3, 20)
@@ -9882,8 +9882,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant16(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action130::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant16(___nt), ___end));
 (2, 21)
@@ -9915,8 +9915,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<FieldPattern> ",")* = (<FieldPattern> ",")+ => ActionFn(129);
 let ___sym0 = ___pop_Variant17(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action129::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
 (1, 22)
@@ -9934,8 +9934,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant16(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action351::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
 (2, 23)
@@ -9954,8 +9954,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant16(___symbols);
 let ___sym0 = ___pop_Variant17(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action352::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
 (3, 23)
@@ -9973,8 +9973,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant18(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action236::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant18(___nt), ___end));
 (2, 24)
@@ -10006,8 +10006,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<GrammarParameter> ",")* = (<GrammarParameter> ",")+ => ActionFn(235);
 let ___sym0 = ___pop_Variant19(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action235::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
 (1, 25)
@@ -10025,8 +10025,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant18(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action357::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
 (2, 26)
@@ -10045,8 +10045,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant18(___symbols);
 let ___sym0 = ___pop_Variant19(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action358::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
 (3, 26)
@@ -10064,8 +10064,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action213::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
 (2, 27)
@@ -10097,8 +10097,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<GrammarWhereClause> ",")* = (<GrammarWhereClause> ",")+ => ActionFn(212);
 let ___sym0 = ___pop_Variant21(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action212::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
 (1, 28)
@@ -10116,8 +10116,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant20(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action361::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
 (2, 29)
@@ -10136,8 +10136,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant21(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action362::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
 (3, 29)
@@ -10155,8 +10155,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action138::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
 (2, 30)
@@ -10188,8 +10188,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<Id> "::")* = (<Id> "::")+ => ActionFn(137);
 let ___sym0 = ___pop_Variant23(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action137::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
 (1, 31)
@@ -10207,8 +10207,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action365::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
 (2, 32)
@@ -10227,8 +10227,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant23(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action366::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
 (3, 32)
@@ -10246,8 +10246,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action216::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
 (2, 33)
@@ -10279,8 +10279,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<Lifetime> "+")* = (<Lifetime> "+")+ => ActionFn(215);
 let ___sym0 = ___pop_Variant25(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action215::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
 (1, 34)
@@ -10298,8 +10298,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action371::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
 (2, 35)
@@ -10318,8 +10318,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant25(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action372::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
 (3, 35)
@@ -10337,8 +10337,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action270::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant26(___nt), ___end));
 (2, 36)
@@ -10370,8 +10370,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<MatchItem> ",")* = (<MatchItem> ",")+ => ActionFn(269);
 let ___sym0 = ___pop_Variant27(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action269::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
 (1, 37)
@@ -10389,8 +10389,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant26(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action375::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
 (2, 38)
@@ -10409,8 +10409,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant26(___symbols);
 let ___sym0 = ___pop_Variant27(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action376::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
 (3, 38)
@@ -10428,8 +10428,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action246::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant28(___nt), ___end));
 (2, 39)
@@ -10461,8 +10461,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<NotMacroId> ",")* = (<NotMacroId> ",")+ => ActionFn(245);
 let ___sym0 = ___pop_Variant29(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action245::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
 (1, 40)
@@ -10480,8 +10480,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action379::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
 (2, 41)
@@ -10500,8 +10500,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant29(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action380::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
 (3, 41)
@@ -10519,8 +10519,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action280::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
 (2, 42)
@@ -10552,8 +10552,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<Pattern> ",")* = (<Pattern> ",")+ => ActionFn(279);
 let ___sym0 = ___pop_Variant31(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action279::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
 (1, 43)
@@ -10571,8 +10571,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant30(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action383::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
 (2, 44)
@@ -10591,8 +10591,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action384::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
 (3, 44)
@@ -10610,8 +10610,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action256::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (2, 45)
@@ -10643,8 +10643,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<Symbol> ",")* = (<Symbol> ",")+ => ActionFn(255);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action255::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (1, 46)
@@ -10662,8 +10662,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action387::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (2, 47)
@@ -10682,8 +10682,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action388::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (3, 47)
@@ -10701,8 +10701,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant34(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action221::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (2, 48)
@@ -10734,8 +10734,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<TypeBound> "+")* = (<TypeBound> "+")+ => ActionFn(220);
 let ___sym0 = ___pop_Variant35(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action220::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
 (1, 49)
@@ -10753,8 +10753,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant34(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action391::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
 (2, 50)
@@ -10773,8 +10773,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant34(___symbols);
 let ___sym0 = ___pop_Variant35(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action392::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant35(___nt), ___end));
 (3, 50)
@@ -10792,8 +10792,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant36(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action231::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
 (2, 51)
@@ -10825,8 +10825,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<TypeBoundParameter> ",")* = (<TypeBoundParameter> ",")+ => ActionFn(230);
 let ___sym0 = ___pop_Variant37(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action230::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
 (1, 52)
@@ -10844,8 +10844,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant36(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action395::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
 (2, 53)
@@ -10864,8 +10864,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant36(___symbols);
 let ___sym0 = ___pop_Variant37(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action396::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
 (3, 53)
@@ -10883,8 +10883,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action208::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
 (2, 54)
@@ -10916,8 +10916,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<TypeParameter> ",")* = (<TypeParameter> ",")+ => ActionFn(207);
 let ___sym0 = ___pop_Variant39(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action207::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
 (1, 55)
@@ -10935,8 +10935,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant38(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action399::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
 (2, 56)
@@ -10955,8 +10955,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant38(___symbols);
 let ___sym0 = ___pop_Variant39(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action400::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
 (3, 56)
@@ -10974,8 +10974,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action226::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (2, 57)
@@ -11007,8 +11007,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<TypeRef> ",")* = (<TypeRef> ",")+ => ActionFn(225);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action225::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
 (1, 58)
@@ -11026,8 +11026,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action403::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
 (2, 59)
@@ -11046,8 +11046,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action404::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
 (3, 59)
@@ -11065,8 +11065,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action261::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (2, 60)
@@ -11098,8 +11098,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // (<TypeRefOrLifetime> ",")* = (<TypeRefOrLifetime> ",")+ => ActionFn(260);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action260::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
 (1, 61)
@@ -11117,8 +11117,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action407::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
 (2, 62)
@@ -11137,8 +11137,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action408::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant40(___nt), ___end));
 (3, 62)
@@ -11186,8 +11186,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Action = "=>@L" => ActionFn(45);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action45::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (1, 65)
@@ -11203,8 +11203,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Action = "=>@R" => ActionFn(46);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action46::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (1, 65)
@@ -11220,8 +11220,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Action = "=>" => ActionFn(47);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action47::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (1, 65)
@@ -11237,8 +11237,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Action = "=>?" => ActionFn(48);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action48::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (1, 65)
@@ -11254,8 +11254,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Action? = Action => ActionFn(149);
 let ___sym0 = ___pop_Variant42(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action149::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
 (1, 66)
@@ -11291,8 +11291,8 @@ let ___sym3 = ___pop_Variant42(___symbols);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action476::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (4, 67)
@@ -11313,8 +11313,8 @@ let ___sym3 = ___pop_Variant7(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant33(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action477::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (5, 67)
@@ -11333,8 +11333,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant7(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action478::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (3, 67)
@@ -11354,8 +11354,8 @@ let ___sym3 = ___pop_Variant7(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant33(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action479::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (4, 67)
@@ -11373,8 +11373,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant42(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action480::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (2, 67)
@@ -11393,8 +11393,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant42(___symbols);
 let ___sym1 = ___pop_Variant33(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action481::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (3, 67)
@@ -11410,8 +11410,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Alternative = Symbol+ => ActionFn(482);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action482::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (1, 67)
@@ -11429,8 +11429,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant33(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action483::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (2, 67)
@@ -11449,8 +11449,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant42(___symbols);
 let ___sym1 = ___pop_Variant7(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action439::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (3, 67)
@@ -11466,8 +11466,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Alternative = Action => ActionFn(440);
 let ___sym0 = ___pop_Variant42(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action440::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant10(___nt), ___end));
 (1, 67)
@@ -11483,8 +11483,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Alternative? = Alternative => ActionFn(247);
 let ___sym0 = ___pop_Variant10(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action247::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant44(___nt), ___end));
 (1, 68)
@@ -11518,8 +11518,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant10(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action41::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (2, 69)
@@ -11539,8 +11539,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant45(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action315::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (4, 69)
@@ -11559,8 +11559,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant45(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action316::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (3, 69)
@@ -11581,8 +11581,8 @@ let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action441::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant46(___nt), ___end));
 (5, 70)
@@ -11614,8 +11614,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // AssociatedType* = AssociatedType+ => ActionFn(135);
 let ___sym0 = ___pop_Variant47(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action135::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
 (1, 71)
@@ -11631,8 +11631,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // AssociatedType+ = AssociatedType => ActionFn(264);
 let ___sym0 = ___pop_Variant46(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action264::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
 (1, 72)
@@ -11650,8 +11650,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant46(___symbols);
 let ___sym0 = ___pop_Variant47(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action265::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
 (2, 72)
@@ -11671,8 +11671,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant12(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action34::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
 (4, 73)
@@ -11704,8 +11704,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Attribute* = Attribute+ => ActionFn(191);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action191::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (1, 74)
@@ -11721,8 +11721,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Attribute+ = Attribute => ActionFn(200);
 let ___sym0 = ___pop_Variant12(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action200::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (1, 75)
@@ -11740,8 +11740,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action201::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (2, 75)
@@ -11760,8 +11760,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant51(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action36::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant48(___nt), ___end));
 (3, 76)
@@ -11779,8 +11779,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant1(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action37::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant48(___nt), ___end));
 (2, 76)
@@ -11796,8 +11796,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // AttributeArg? = AttributeArg => ActionFn(161);
 let ___sym0 = ___pop_Variant48(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action161::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
 (1, 77)
@@ -11831,8 +11831,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant48(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action492::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
 (2, 78)
@@ -11848,8 +11848,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // AttributeInner = Id => ActionFn(493);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action493::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant12(___nt), ___end));
 (1, 78)
@@ -11865,8 +11865,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // AttributeInner? = AttributeInner => ActionFn(237);
 let ___sym0 = ___pop_Variant12(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action237::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant50(___nt), ___end));
 (1, 79)
@@ -11898,8 +11898,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Alternative> = Alternative => ActionFn(466);
 let ___sym0 = ___pop_Variant10(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action466::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (1, 80)
@@ -11933,8 +11933,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant10(___symbols);
 let ___sym0 = ___pop_Variant11(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action468::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (2, 80)
@@ -11950,8 +11950,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Alternative> = (<Alternative> ",")+ => ActionFn(469);
 let ___sym0 = ___pop_Variant11(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action469::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (1, 80)
@@ -11967,8 +11967,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<AttributeInner> = AttributeInner => ActionFn(494);
 let ___sym0 = ___pop_Variant12(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action494::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
 (1, 81)
@@ -12002,8 +12002,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant12(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action496::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
 (2, 81)
@@ -12019,8 +12019,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<AttributeInner> = (<AttributeInner> ",")+ => ActionFn(497);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action497::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
 (1, 81)
@@ -12036,8 +12036,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Conversion> = Conversion => ActionFn(498);
 let ___sym0 = ___pop_Variant14(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action498::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
 (1, 82)
@@ -12071,8 +12071,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant14(___symbols);
 let ___sym0 = ___pop_Variant15(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action500::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
 (2, 82)
@@ -12088,8 +12088,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Conversion> = (<Conversion> ",")+ => ActionFn(501);
 let ___sym0 = ___pop_Variant15(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action501::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
 (1, 82)
@@ -12105,8 +12105,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<GrammarParameter> = GrammarParameter => ActionFn(524);
 let ___sym0 = ___pop_Variant18(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action524::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
 (1, 83)
@@ -12140,8 +12140,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant18(___symbols);
 let ___sym0 = ___pop_Variant19(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action526::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
 (2, 83)
@@ -12157,8 +12157,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<GrammarParameter> = (<GrammarParameter> ",")+ => ActionFn(527);
 let ___sym0 = ___pop_Variant19(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action527::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
 (1, 83)
@@ -12174,8 +12174,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<GrammarWhereClause> = GrammarWhereClause => ActionFn(552);
 let ___sym0 = ___pop_Variant20(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action552::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
 (1, 84)
@@ -12209,8 +12209,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant20(___symbols);
 let ___sym0 = ___pop_Variant21(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action554::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
 (2, 84)
@@ -12226,8 +12226,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<GrammarWhereClause> = (<GrammarWhereClause> ",")+ => ActionFn(555);
 let ___sym0 = ___pop_Variant21(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action555::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
 (1, 84)
@@ -12243,8 +12243,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<MatchItem> = MatchItem => ActionFn(596);
 let ___sym0 = ___pop_Variant26(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action596::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
 (1, 85)
@@ -12278,8 +12278,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant26(___symbols);
 let ___sym0 = ___pop_Variant27(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action598::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
 (2, 85)
@@ -12295,8 +12295,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<MatchItem> = (<MatchItem> ",")+ => ActionFn(599);
 let ___sym0 = ___pop_Variant27(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action599::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
 (1, 85)
@@ -12312,8 +12312,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<NotMacroId> = NotMacroId => ActionFn(600);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action600::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
 (1, 86)
@@ -12347,8 +12347,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant28(___symbols);
 let ___sym0 = ___pop_Variant29(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action602::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
 (2, 86)
@@ -12364,8 +12364,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<NotMacroId> = (<NotMacroId> ",")+ => ActionFn(603);
 let ___sym0 = ___pop_Variant29(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action603::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
 (1, 86)
@@ -12381,8 +12381,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Pattern> = Pattern => ActionFn(604);
 let ___sym0 = ___pop_Variant30(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action604::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
 (1, 87)
@@ -12416,8 +12416,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant31(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action606::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
 (2, 87)
@@ -12433,8 +12433,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Pattern> = (<Pattern> ",")+ => ActionFn(607);
 let ___sym0 = ___pop_Variant31(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action607::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
 (1, 87)
@@ -12450,8 +12450,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Symbol> = Symbol => ActionFn(674);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action674::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
 (1, 88)
@@ -12485,8 +12485,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action676::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
 (2, 88)
@@ -12502,8 +12502,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<Symbol> = (<Symbol> ",")+ => ActionFn(677);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action677::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
 (1, 88)
@@ -12519,8 +12519,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeBoundParameter> = TypeBoundParameter => ActionFn(682);
 let ___sym0 = ___pop_Variant36(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action682::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
 (1, 89)
@@ -12554,8 +12554,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant36(___symbols);
 let ___sym0 = ___pop_Variant37(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action684::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
 (2, 89)
@@ -12571,8 +12571,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeBoundParameter> = (<TypeBoundParameter> ",")+ => ActionFn(685);
 let ___sym0 = ___pop_Variant37(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action685::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
 (1, 89)
@@ -12588,8 +12588,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeParameter> = TypeParameter => ActionFn(686);
 let ___sym0 = ___pop_Variant38(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action686::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
 (1, 90)
@@ -12623,8 +12623,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant38(___symbols);
 let ___sym0 = ___pop_Variant39(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action688::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
 (2, 90)
@@ -12640,8 +12640,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeParameter> = (<TypeParameter> ",")+ => ActionFn(689);
 let ___sym0 = ___pop_Variant39(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action689::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
 (1, 90)
@@ -12657,8 +12657,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeRef> = TypeRef => ActionFn(690);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action690::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (1, 91)
@@ -12692,8 +12692,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action692::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (2, 91)
@@ -12709,8 +12709,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeRef> = (<TypeRef> ",")+ => ActionFn(693);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action693::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (1, 91)
@@ -12726,8 +12726,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeRefOrLifetime> = TypeRefOrLifetime => ActionFn(694);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action694::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (1, 92)
@@ -12761,8 +12761,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action696::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (2, 92)
@@ -12778,8 +12778,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Comma<TypeRefOrLifetime> = (<TypeRefOrLifetime> ",")+ => ActionFn(697);
 let ___sym0 = ___pop_Variant40(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action697::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (1, 92)
@@ -12798,8 +12798,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant22(___symbols);
 let ___sym1 = ___pop_Variant61(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action443::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant7(___nt), ___end));
 (3, 93)
@@ -12815,8 +12815,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // CondOp = "==" => ActionFn(50);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action50::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
 (1, 94)
@@ -12832,8 +12832,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // CondOp = "!=" => ActionFn(51);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action51::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
 (1, 94)
@@ -12849,8 +12849,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // CondOp = "~~" => ActionFn(52);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action52::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
 (1, 94)
@@ -12866,8 +12866,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // CondOp = "!~" => ActionFn(53);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action53::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
 (1, 94)
@@ -12883,8 +12883,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Conversion? = Conversion => ActionFn(271);
 let ___sym0 = ___pop_Variant14(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action271::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant62(___nt), ___end));
 (1, 96)
@@ -12921,8 +12921,8 @@ let ___sym3 = ___pop_Variant52(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action445::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant63(___nt), ___end));
 (5, 97)
@@ -12938,8 +12938,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Escape = "Escape" => ActionFn(115);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action115::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
 (1, 98)
@@ -12971,8 +12971,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // ExprSymbol = Symbol+ => ActionFn(673);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action673::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant64(___nt), ___end));
 (1, 99)
@@ -12992,8 +12992,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant63(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action470::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (4, 100)
@@ -13014,8 +13014,8 @@ let ___sym3 = ___pop_Variant47(___symbols);
 let ___sym2 = ___pop_Variant63(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action471::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (5, 100)
@@ -13036,8 +13036,8 @@ let ___sym3 = ___pop_Variant63(___symbols);
 let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action472::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (5, 100)
@@ -13059,8 +13059,8 @@ let ___sym3 = ___pop_Variant63(___symbols);
 let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action473::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (6, 100)
@@ -13079,8 +13079,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action474::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (3, 100)
@@ -13100,8 +13100,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant47(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action475::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (4, 100)
@@ -13120,8 +13120,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant30(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action448::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant16(___nt), ___end));
 (3, 101)
@@ -13137,8 +13137,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // FieldPattern? = FieldPattern => ActionFn(126);
 let ___sym0 = ___pop_Variant16(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action126::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
 (1, 102)
@@ -13174,8 +13174,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action13::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
 (4, 103)
@@ -13212,8 +13212,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action698::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13235,8 +13235,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action699::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -13258,8 +13258,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action700::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -13282,8 +13282,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action701::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -13303,8 +13303,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action702::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13325,8 +13325,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action703::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13347,8 +13347,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action704::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13370,8 +13370,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action705::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -13391,8 +13391,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant53(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action706::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13413,8 +13413,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action707::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13435,8 +13435,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action708::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13458,8 +13458,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action709::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -13478,8 +13478,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant53(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action710::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -13499,8 +13499,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action711::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13520,8 +13520,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action712::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13542,8 +13542,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action713::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13563,8 +13563,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action714::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13585,8 +13585,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action715::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13607,8 +13607,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action716::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13630,8 +13630,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action717::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -13650,8 +13650,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action718::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -13671,8 +13671,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action719::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13692,8 +13692,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action720::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13714,8 +13714,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action721::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13734,8 +13734,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant54(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action722::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -13755,8 +13755,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action723::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13776,8 +13776,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action724::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13798,8 +13798,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action725::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -13817,8 +13817,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action726::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (2, 104)
@@ -13837,8 +13837,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action727::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -13857,8 +13857,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action728::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -13878,8 +13878,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action729::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -13901,8 +13901,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action730::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -13925,8 +13925,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action731::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -13949,8 +13949,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action732::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -13974,8 +13974,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action733::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -13996,8 +13996,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action734::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14019,8 +14019,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action735::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14042,8 +14042,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action736::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14066,8 +14066,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action737::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14088,8 +14088,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant53(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action738::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14111,8 +14111,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action739::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14134,8 +14134,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action740::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14158,8 +14158,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action741::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14179,8 +14179,8 @@ let ___sym3 = ___pop_Variant68(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant53(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action742::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -14201,8 +14201,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action743::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14223,8 +14223,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action744::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14246,8 +14246,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action745::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14268,8 +14268,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action746::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14291,8 +14291,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action747::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14314,8 +14314,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action748::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14338,8 +14338,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action749::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14359,8 +14359,8 @@ let ___sym3 = ___pop_Variant68(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action750::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -14381,8 +14381,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action751::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14403,8 +14403,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action752::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14426,8 +14426,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action753::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14447,8 +14447,8 @@ let ___sym3 = ___pop_Variant68(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant54(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action754::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -14469,8 +14469,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action755::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14491,8 +14491,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action756::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14514,8 +14514,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action757::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14534,8 +14534,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant68(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action758::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -14555,8 +14555,8 @@ let ___sym3 = ___pop_Variant68(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action759::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -14576,8 +14576,8 @@ let ___sym3 = ___pop_Variant68(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action760::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -14598,8 +14598,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action761::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14621,8 +14621,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action762::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14645,8 +14645,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action763::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14669,8 +14669,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action764::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14694,8 +14694,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action765::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -14716,8 +14716,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action766::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14739,8 +14739,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action767::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14762,8 +14762,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action768::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14786,8 +14786,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action769::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14808,8 +14808,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action770::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14831,8 +14831,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action771::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14854,8 +14854,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action772::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14878,8 +14878,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action773::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -14899,8 +14899,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action774::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -14921,8 +14921,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action775::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14943,8 +14943,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action776::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -14966,8 +14966,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action777::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -14988,8 +14988,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action778::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15011,8 +15011,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action779::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15034,8 +15034,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action780::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15058,8 +15058,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action781::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15079,8 +15079,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action782::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -15101,8 +15101,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action783::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15123,8 +15123,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action784::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15146,8 +15146,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action785::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15167,8 +15167,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action786::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -15189,8 +15189,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action787::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15211,8 +15211,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action788::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15234,8 +15234,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action789::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15254,8 +15254,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action790::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (3, 104)
@@ -15275,8 +15275,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action791::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -15296,8 +15296,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action792::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -15318,8 +15318,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action793::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15342,8 +15342,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action794::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15367,8 +15367,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action795::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -15392,8 +15392,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action796::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -15418,8 +15418,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym8.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym8.2.clone();
 let ___nt = super::___action797::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7, ___sym8);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (9, 104)
@@ -15441,8 +15441,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action798::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15465,8 +15465,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action799::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15489,8 +15489,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action800::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15514,8 +15514,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action801::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -15537,8 +15537,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action802::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15561,8 +15561,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action803::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15585,8 +15585,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action804::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15610,8 +15610,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action805::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -15632,8 +15632,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant53(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action806::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15655,8 +15655,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action807::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15678,8 +15678,8 @@ let ___sym3 = ___pop_Variant53(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action808::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15702,8 +15702,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action809::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15725,8 +15725,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action810::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15749,8 +15749,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action811::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15773,8 +15773,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action812::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15798,8 +15798,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action813::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (8, 104)
@@ -15820,8 +15820,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action814::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15843,8 +15843,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action815::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15866,8 +15866,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action816::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15890,8 +15890,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action817::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -15912,8 +15912,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant54(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action818::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -15935,8 +15935,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action819::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15958,8 +15958,8 @@ let ___sym3 = ___pop_Variant54(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action820::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -15982,8 +15982,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action821::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (7, 104)
@@ -16003,8 +16003,8 @@ let ___sym3 = ___pop_Variant68(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action822::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (4, 104)
@@ -16025,8 +16025,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action823::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -16047,8 +16047,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant13(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action824::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (5, 104)
@@ -16070,8 +16070,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant13(___symbols);
 let ___sym1 = ___pop_Variant68(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action825::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant67(___nt), ___end));
 (6, 104)
@@ -16087,8 +16087,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarItem = Use => ActionFn(24);
 let ___sym0 = ___pop_Variant65(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action24::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (1, 105)
@@ -16104,8 +16104,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarItem = MatchToken => ActionFn(25);
 let ___sym0 = ___pop_Variant65(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action25::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (1, 105)
@@ -16121,8 +16121,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarItem = ExternToken => ActionFn(26);
 let ___sym0 = ___pop_Variant65(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action26::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (1, 105)
@@ -16138,8 +16138,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarItem = Nonterminal => ActionFn(27);
 let ___sym0 = ___pop_Variant65(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action27::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (1, 105)
@@ -16171,8 +16171,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarItem* = GrammarItem+ => ActionFn(181);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action181::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (1, 106)
@@ -16188,8 +16188,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarItem+ = GrammarItem => ActionFn(202);
 let ___sym0 = ___pop_Variant65(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action202::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (1, 107)
@@ -16207,8 +16207,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant65(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action203::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (2, 107)
@@ -16227,8 +16227,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action23::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant18(___nt), ___end));
 (3, 108)
@@ -16244,8 +16244,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarParameter? = GrammarParameter => ActionFn(232);
 let ___sym0 = ___pop_Variant18(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action232::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant69(___nt), ___end));
 (1, 109)
@@ -16280,8 +16280,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant53(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action22::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
 (3, 110)
@@ -16297,8 +16297,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarParameters? = GrammarParameters => ActionFn(184);
 let ___sym0 = ___pop_Variant53(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action184::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant70(___nt), ___end));
 (1, 111)
@@ -16333,8 +16333,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant59(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action7::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
 (3, 112)
@@ -16350,8 +16350,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarTypeParameters? = GrammarTypeParameters => ActionFn(186);
 let ___sym0 = ___pop_Variant59(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action186::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant71(___nt), ___end));
 (1, 113)
@@ -16386,8 +16386,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant85(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action11::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
 (3, 114)
@@ -16410,8 +16410,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action506::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
 (7, 114)
@@ -16430,8 +16430,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant86(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action507::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant20(___nt), ___end));
 (3, 114)
@@ -16447,8 +16447,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarWhereClause? = GrammarWhereClause => ActionFn(209);
 let ___sym0 = ___pop_Variant20(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action209::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant72(___nt), ___end));
 (1, 115)
@@ -16482,8 +16482,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant54(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action10::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
 (2, 116)
@@ -16499,8 +16499,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // GrammarWhereClauses? = GrammarWhereClauses => ActionFn(182);
 let ___sym0 = ___pop_Variant54(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action182::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant73(___nt), ___end));
 (1, 117)
@@ -16532,8 +16532,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Id = "Id" => ActionFn(113);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action113::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
 (1, 118)
@@ -16549,8 +16549,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Id = "MacroId" => ActionFn(114);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action114::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
 (1, 118)
@@ -16566,8 +16566,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Lifetime = "Lifetime" => ActionFn(116);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action116::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant24(___nt), ___end));
 (1, 119)
@@ -16583,8 +16583,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Lifetime? = Lifetime => ActionFn(142);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action142::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant74(___nt), ___end));
 (1, 120)
@@ -16616,8 +16616,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MacroId = "MacroId" => ActionFn(111);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action111::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant28(___nt), ___end));
 (1, 121)
@@ -16633,8 +16633,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchContents = Comma<MatchItem> => ActionFn(89);
 let ___sym0 = ___pop_Variant55(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action89::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant75(___nt), ___end));
 (1, 122)
@@ -16650,8 +16650,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchItem = "_" => ActionFn(450);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action450::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant26(___nt), ___end));
 (1, 123)
@@ -16667,8 +16667,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchItem = MatchSymbol => ActionFn(451);
 let ___sym0 = ___pop_Variant78(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action451::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant26(___nt), ___end));
 (1, 123)
@@ -16684,8 +16684,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchItem? = MatchItem => ActionFn(266);
 let ___sym0 = ___pop_Variant26(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action266::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant76(___nt), ___end));
 (1, 124)
@@ -16717,8 +16717,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchMapping = Terminal => ActionFn(94);
 let ___sym0 = ___pop_Variant87(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action94::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant77(___nt), ___end));
 (1, 125)
@@ -16736,8 +16736,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action95::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant77(___nt), ___end));
 (2, 125)
@@ -16753,8 +16753,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchSymbol = QuotedLiteral => ActionFn(93);
 let ___sym0 = ___pop_Variant78(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action93::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
 (1, 126)
@@ -16770,8 +16770,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // MatchToken = MatchTokenInt => ActionFn(86);
 let ___sym0 = ___pop_Variant79(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action86::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (1, 127)
@@ -16792,8 +16792,8 @@ let ___sym3 = ___pop_Variant75(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant79(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action87::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant79(___nt), ___end));
 (5, 128)
@@ -16813,8 +16813,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant75(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action453::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant79(___nt), ___end));
 (4, 128)
@@ -16836,8 +16836,8 @@ let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant80(___symbols);
 let ___sym0 = ___pop_Variant97(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action488::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (6, 129)
@@ -16860,8 +16860,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant80(___symbols);
 let ___sym1 = ___pop_Variant97(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action489::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (7, 129)
@@ -16881,8 +16881,8 @@ let ___sym3 = ___pop_Variant45(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant80(___symbols);
 let ___sym0 = ___pop_Variant97(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action490::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (4, 129)
@@ -16903,8 +16903,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant80(___symbols);
 let ___sym1 = ___pop_Variant97(___symbols);
 let ___sym0 = ___pop_Variant13(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action491::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (5, 129)
@@ -16924,8 +16924,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant56(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action38::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
 (4, 130)
@@ -16941,8 +16941,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // NonterminalName = NotMacroId => ActionFn(39);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action39::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
 (1, 130)
@@ -16958,8 +16958,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // NonterminalName = "Escape" => ActionFn(40);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action40::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant80(___nt), ___end));
 (1, 130)
@@ -16975,8 +16975,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // NotMacroId = "Id" => ActionFn(112);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action112::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant28(___nt), ___end));
 (1, 131)
@@ -16992,8 +16992,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // NotMacroId? = NotMacroId => ActionFn(242);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action242::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant81(___nt), ___end));
 (1, 132)
@@ -17027,8 +17027,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action367::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
 (2, 133)
@@ -17047,8 +17047,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant22(___symbols);
 let ___sym1 = ___pop_Variant23(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action368::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
 (3, 133)
@@ -17064,8 +17064,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Path = Id => ActionFn(369);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action369::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
 (1, 133)
@@ -17083,8 +17083,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant23(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action370::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant82(___nt), ___end));
 (2, 133)
@@ -17100,8 +17100,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Pattern = PatternKind => ActionFn(456);
 let ___sym0 = ___pop_Variant84(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action456::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant30(___nt), ___end));
 (1, 134)
@@ -17117,8 +17117,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Pattern? = Pattern => ActionFn(276);
 let ___sym0 = ___pop_Variant30(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action276::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
 (1, 135)
@@ -17154,8 +17154,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant57(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action100::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (4, 136)
@@ -17175,8 +17175,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant16(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action502::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (4, 136)
@@ -17195,8 +17195,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action503::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (3, 136)
@@ -17217,8 +17217,8 @@ let ___sym3 = ___pop_Variant16(___symbols);
 let ___sym2 = ___pop_Variant17(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action504::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (5, 136)
@@ -17238,8 +17238,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant17(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action505::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (4, 136)
@@ -17259,8 +17259,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action355::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (4, 136)
@@ -17281,8 +17281,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant17(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action356::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (5, 136)
@@ -17298,8 +17298,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // PatternKind = "_" => ActionFn(103);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action103::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (1, 136)
@@ -17315,8 +17315,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // PatternKind = ".." => ActionFn(104);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action104::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (1, 136)
@@ -17335,8 +17335,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action105::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (3, 136)
@@ -17355,8 +17355,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant57(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action106::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (3, 136)
@@ -17372,8 +17372,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // PatternKind = "CharLiteral" => ActionFn(107);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action107::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (1, 136)
@@ -17389,8 +17389,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // PatternKind = Path => ActionFn(108);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action108::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (1, 136)
@@ -17406,8 +17406,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // PatternKind = StringConstant => ActionFn(109);
 let ___sym0 = ___pop_Variant89(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action109::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant84(___nt), ___end));
 (1, 136)
@@ -17423,8 +17423,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Plus<Lifetime> = Lifetime => ActionFn(588);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action588::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
 (1, 137)
@@ -17458,8 +17458,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant25(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action590::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
 (2, 137)
@@ -17475,8 +17475,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Plus<Lifetime> = (<Lifetime> "+")+ => ActionFn(591);
 let ___sym0 = ___pop_Variant25(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action591::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
 (1, 137)
@@ -17492,8 +17492,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Plus<TypeBound> = TypeBound => ActionFn(678);
 let ___sym0 = ___pop_Variant34(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action678::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant86(___nt), ___end));
 (1, 138)
@@ -17527,8 +17527,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant34(___symbols);
 let ___sym0 = ___pop_Variant35(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action680::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant86(___nt), ___end));
 (2, 138)
@@ -17544,8 +17544,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Plus<TypeBound> = (<TypeBound> "+")+ => ActionFn(681);
 let ___sym0 = ___pop_Variant35(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action681::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant86(___nt), ___end));
 (1, 138)
@@ -17561,8 +17561,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // QuotedLiteral = StringLiteral => ActionFn(120);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action120::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
 (1, 139)
@@ -17578,8 +17578,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // QuotedLiteral = RegexLiteral => ActionFn(121);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action121::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
 (1, 139)
@@ -17595,8 +17595,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // QuotedTerminal = QuotedLiteral => ActionFn(119);
 let ___sym0 = ___pop_Variant78(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action119::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
 (1, 140)
@@ -17612,8 +17612,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // RegexLiteral = "RegexLiteral" => ActionFn(124);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action124::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant22(___nt), ___end));
 (1, 141)
@@ -17629,8 +17629,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // RepeatOp = "+" => ActionFn(60);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action60::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
 (1, 142)
@@ -17646,8 +17646,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // RepeatOp = "*" => ActionFn(61);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action61::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
 (1, 142)
@@ -17663,8 +17663,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // RepeatOp = "?" => ActionFn(62);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action62::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
 (1, 142)
@@ -17680,8 +17680,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // ShebangAttribute = "#![...]" => ActionFn(125);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action125::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant89(___nt), ___end));
 (1, 143)
@@ -17713,8 +17713,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // ShebangAttribute* = ShebangAttribute+ => ActionFn(195);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action195::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
 (1, 144)
@@ -17730,8 +17730,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // ShebangAttribute+ = ShebangAttribute => ActionFn(196);
 let ___sym0 = ___pop_Variant89(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action196::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
 (1, 145)
@@ -17749,8 +17749,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant89(___symbols);
 let ___sym0 = ___pop_Variant90(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action197::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant90(___nt), ___end));
 (2, 145)
@@ -17772,8 +17772,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant22(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action457::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (6, 148)
@@ -17794,8 +17794,8 @@ let ___sym3 = ___pop_Variant32(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant22(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action458::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (5, 148)
@@ -17814,8 +17814,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action459::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (3, 148)
@@ -17831,8 +17831,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Symbol = Symbol0 => ActionFn(57);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action57::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (1, 148)
@@ -17864,8 +17864,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Symbol* = Symbol+ => ActionFn(148);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action148::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (1, 149)
@@ -17881,8 +17881,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Symbol+ = Symbol => ActionFn(154);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action154::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (1, 150)
@@ -17900,8 +17900,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant33(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action155::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (2, 150)
@@ -17917,8 +17917,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Symbol0 = Symbol1 => ActionFn(58);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action58::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (1, 151)
@@ -17936,8 +17936,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant88(___symbols);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action460::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (2, 151)
@@ -17953,8 +17953,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Symbol1 = SymbolKind1 => ActionFn(461);
 let ___sym0 = ___pop_Variant92(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action461::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant32(___nt), ___end));
 (1, 152)
@@ -17970,8 +17970,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Symbol? = Symbol => ActionFn(252);
 let ___sym0 = ___pop_Variant32(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action252::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant91(___nt), ___end));
 (1, 153)
@@ -18007,8 +18007,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant58(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant28(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action64::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (4, 154)
@@ -18024,8 +18024,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // SymbolKind1 = QuotedTerminal => ActionFn(65);
 let ___sym0 = ___pop_Variant87(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action65::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (1, 154)
@@ -18041,8 +18041,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // SymbolKind1 = "Id" => ActionFn(66);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action66::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (1, 154)
@@ -18058,8 +18058,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // SymbolKind1 = Escape => ActionFn(67);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action67::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (1, 154)
@@ -18078,8 +18078,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant64(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action68::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (3, 154)
@@ -18095,8 +18095,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // SymbolKind1 = "@L" => ActionFn(69);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action69::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (1, 154)
@@ -18112,8 +18112,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // SymbolKind1 = "@R" => ActionFn(70);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action70::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (1, 154)
@@ -18129,8 +18129,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // SymbolKind1 = "!" => ActionFn(71);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action71::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (1, 154)
@@ -18146,8 +18146,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Terminal = QuotedTerminal => ActionFn(117);
 let ___sym0 = ___pop_Variant87(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action117::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
 (1, 155)
@@ -18163,8 +18163,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Terminal = "Id" => ActionFn(118);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action118::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
 (1, 155)
@@ -18182,8 +18182,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant67(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action1::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (2, 156)
@@ -18201,8 +18201,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant30(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action2::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (2, 156)
@@ -18220,8 +18220,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant77(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action3::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (2, 156)
@@ -18239,8 +18239,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action4::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (2, 156)
@@ -18258,8 +18258,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant54(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action5::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (2, 156)
@@ -18275,8 +18275,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBound = Lifetime => ActionFn(16);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action16::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (1, 157)
@@ -18302,8 +18302,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym9.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym9.2.clone();
 let ___nt = super::___action508::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7, ___sym8, ___sym9);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (10, 157)
@@ -18325,8 +18325,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant60(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym5.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym5.2.clone();
 let ___nt = super::___action509::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (6, 157)
@@ -18350,8 +18350,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action510::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (8, 157)
@@ -18371,8 +18371,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant60(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action511::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (4, 157)
@@ -18396,8 +18396,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym7.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym7.2.clone();
 let ___nt = super::___action512::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (8, 157)
@@ -18417,8 +18417,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant5(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action513::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (4, 157)
@@ -18439,8 +18439,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant59(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action514::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (5, 157)
@@ -18456,8 +18456,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBound = Path => ActionFn(515);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action515::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant34(___nt), ___end));
 (1, 157)
@@ -18473,8 +18473,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBound? = TypeBound => ActionFn(217);
 let ___sym0 = ___pop_Variant34(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action217::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant94(___nt), ___end));
 (1, 158)
@@ -18506,8 +18506,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBoundParameter = Lifetime => ActionFn(19);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action19::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
 (1, 159)
@@ -18523,8 +18523,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBoundParameter = TypeRef => ActionFn(20);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action20::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
 (1, 159)
@@ -18543,8 +18543,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action21::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant36(___nt), ___end));
 (3, 159)
@@ -18560,8 +18560,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBoundParameter? = TypeBoundParameter => ActionFn(227);
 let ___sym0 = ___pop_Variant36(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action227::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant95(___nt), ___end));
 (1, 160)
@@ -18593,8 +18593,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeBounds = Plus<TypeBound> => ActionFn(15);
 let ___sym0 = ___pop_Variant86(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action15::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant86(___nt), ___end));
 (1, 161)
@@ -18610,8 +18610,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeParameter = Lifetime => ActionFn(8);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action8::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
 (1, 162)
@@ -18627,8 +18627,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeParameter = Id => ActionFn(9);
 let ___sym0 = ___pop_Variant22(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action9::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant38(___nt), ___end));
 (1, 162)
@@ -18644,8 +18644,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeParameter? = TypeParameter => ActionFn(204);
 let ___sym0 = ___pop_Variant38(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action204::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant96(___nt), ___end));
 (1, 163)
@@ -18680,8 +18680,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant60(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action72::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (3, 164)
@@ -18700,8 +18700,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action73::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (3, 164)
@@ -18720,8 +18720,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant32(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action74::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (3, 164)
@@ -18741,8 +18741,8 @@ let ___sym3 = ___pop_Variant3(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action592::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (4, 164)
@@ -18761,8 +18761,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action593::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (3, 164)
@@ -18781,8 +18781,8 @@ assert!(___symbols.len() >= 3);
 let ___sym2 = ___pop_Variant3(___symbols);
 let ___sym1 = ___pop_Variant24(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym2.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym2.2.clone();
 let ___nt = super::___action594::<>(text, ___sym0, ___sym1, ___sym2);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (3, 164)
@@ -18800,8 +18800,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant3(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action595::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (2, 164)
@@ -18821,8 +18821,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant60(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action76::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (4, 164)
@@ -18838,8 +18838,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeRef = Path => ActionFn(77);
 let ___sym0 = ___pop_Variant82(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action77::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (1, 164)
@@ -18860,8 +18860,8 @@ let ___sym3 = ___pop_Variant60(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant82(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action78::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (5, 164)
@@ -18879,8 +18879,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant82(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action79::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (2, 164)
@@ -18907,8 +18907,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym10.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym10.2.clone();
 let ___nt = super::___action516::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7, ___sym8, ___sym9, ___sym10);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (11, 164)
@@ -18931,8 +18931,8 @@ let ___sym3 = ___pop_Variant60(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant82(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym6.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym6.2.clone();
 let ___nt = super::___action517::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (7, 164)
@@ -18957,8 +18957,8 @@ let ___sym3 = ___pop_Variant59(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym8.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym8.2.clone();
 let ___nt = super::___action518::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4, ___sym5, ___sym6, ___sym7, ___sym8);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (9, 164)
@@ -18979,8 +18979,8 @@ let ___sym3 = ___pop_Variant60(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant82(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action519::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (5, 164)
@@ -18996,8 +18996,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeRef? = TypeRef => ActionFn(222);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action222::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (1, 165)
@@ -19029,8 +19029,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeRefOrLifetime = TypeRef => ActionFn(81);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action81::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (1, 166)
@@ -19046,8 +19046,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeRefOrLifetime = Lifetime => ActionFn(82);
 let ___sym0 = ___pop_Variant24(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action82::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant3(___nt), ___end));
 (1, 166)
@@ -19063,8 +19063,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // TypeRefOrLifetime? = TypeRefOrLifetime => ActionFn(257);
 let ___sym0 = ___pop_Variant3(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action257::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (1, 167)
@@ -19098,8 +19098,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant1(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action28::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant65(___nt), ___end));
 (2, 168)
@@ -19131,8 +19131,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Use* = Use+ => ActionFn(193);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action193::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (1, 169)
@@ -19148,8 +19148,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Use+ = Use => ActionFn(198);
 let ___sym0 = ___pop_Variant65(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action198::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (1, 170)
@@ -19167,8 +19167,8 @@ _: core::marker::PhantomData<(&'input ())>,
 assert!(___symbols.len() >= 2);
 let ___sym1 = ___pop_Variant65(___symbols);
 let ___sym0 = ___pop_Variant68(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym1.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym1.2.clone();
 let ___nt = super::___action199::<>(text, ___sym0, ___sym1);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (2, 170)
@@ -19188,8 +19188,8 @@ let ___sym3 = ___pop_Variant0(___symbols);
 let ___sym2 = ___pop_Variant82(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym3.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym3.2.clone();
 let ___nt = super::___action29::<>(text, ___sym0, ___sym1, ___sym2, ___sym3);
 ___symbols.push((___start, ___Symbol::Variant97(___nt), ___end));
 (4, 171)
@@ -19210,8 +19210,8 @@ let ___sym3 = ___pop_Variant82(___symbols);
 let ___sym2 = ___pop_Variant0(___symbols);
 let ___sym1 = ___pop_Variant0(___symbols);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym4.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym4.2.clone();
 let ___nt = super::___action30::<>(text, ___sym0, ___sym1, ___sym2, ___sym3, ___sym4);
 ___symbols.push((___start, ___Symbol::Variant97(___nt), ___end));
 (5, 171)
@@ -19227,8 +19227,8 @@ _: core::marker::PhantomData<(&'input ())>,
 {
 // Visibility = "pub" => ActionFn(31);
 let ___sym0 = ___pop_Variant0(___symbols);
-let ___start = ___sym0.0;
-let ___end = ___sym0.2;
+let ___start = ___sym0.0.clone();
+let ___end = ___sym0.2.clone();
 let ___nt = super::___action31::<>(text, ___sym0);
 ___symbols.push((___start, ___Symbol::Variant97(___nt), ___end));
 (1, 171)
