@@ -180,6 +180,9 @@ mod user_defined_error_visibility;
 
 lalrpop_mod_test!(zero_length_match);
 
+lalrpop_mod_test!(loc_clone);
+mod loc_clone_issue1064;
+
 /// This constant is here so that some of the generator parsers can
 /// refer to it in order to test `super::` handling in action code.
 const ZERO: i32 = 0;

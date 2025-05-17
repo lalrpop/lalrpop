@@ -1,0 +1,31 @@
+use crate::loc_clone_issue1064::{Tok, MyLoc, ExprSymbol, Opcode};
+
+grammar<'input>;
+
+pub Expr: Box<ExprSymbol<'input>> = {
+    Expr "ExprOp" Factor => Box::new(ExprSymbol::Op(<>)),
+    Factor,
+};
+
+Factor: Box<ExprSymbol<'input>> = {
+    Factor "FactorOp" Term => Box::new(ExprSymbol::Op(<>)),
+    Term,
+};
+
+Term: Box<ExprSymbol<'input>> = {
+    "num" => Box::new(ExprSymbol::NumSymbol(<>)),
+    "(" <Expr> ")"
+};
+
+extern {
+    type Location = MyLoc;
+    type Error = ();
+
+    enum Tok<'input> {
+        "num" => Tok::NumSymbol(<&'input str>),
+        "FactorOp" => Tok::FactorOp(<Opcode>),
+        "ExprOp" => Tok::ExprOp(<Opcode>),
+        "(" => Tok::ParenOpen,
+        ")" => Tok::ParenClose,
+    }
+}
