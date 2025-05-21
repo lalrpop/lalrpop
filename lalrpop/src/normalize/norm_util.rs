@@ -74,6 +74,16 @@ pub fn check_between_braces(action: &str) -> Presence {
             (before.trim(), after[2..].trim())
         };
 
+        // If we have an odd number of quotes on both sides, we're inside a string, and therefore,
+        // this is a format arg, not a struct.  That's considered "Normal" here, because this is
+        // detecting if our expansion is for a struct definition.
+        let before_quotes = before.chars().filter(|c| *c == '"').count();
+        let after_quotes = after.chars().filter(|c| *c == '"').count();
+
+        if before_quotes % 2 == 1 && after_quotes % 2 == 1 {
+            return Presence::Normal;
+        }
+
         let last_before = before.chars().last();
         let next_after = after.chars().next();
         if let (Some('{'), Some('}')) = (last_before, next_after) {
@@ -129,6 +139,16 @@ mod test {
         assert_eq!(
             Presence::InCurlyBrackets,
             check_between_braces("bl{<>         } b")
+        );
+    }
+
+    #[test]
+    fn in_curly_braces_with_quotes() {
+        assert_eq!(Presence::Normal, check_between_braces("\"a{<>}\""));
+        assert_eq!(Presence::Normal, check_between_braces("\"foo\",\"a{<>}\""));
+        assert_eq!(
+            Presence::InCurlyBrackets,
+            check_between_braces("\"foo\",a{<>}")
         );
     }
 }
