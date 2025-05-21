@@ -6458,7 +6458,7 @@ nonterminal_produced: 171,
 }
 }
 524 => ___state_machine::SimulatedReduce::Accept,
-_ => panic!("invalid reduction index {}", ___reduce_index)
+_ => panic!("invalid reduction index {___reduce_index}",)
 }
 }
 pub struct TopParser {
@@ -8172,7 +8172,7 @@ let ___end = ___sym0.2;
 let ___nt = super::___action0::<>(text, ___sym0);
 return Some(Ok(___nt));
 }
-_ => panic!("invalid action code {}", ___action)
+_ => panic!("invalid action code {___action}")
 };
 let ___states_len = ___states.len();
 ___states.truncate(___states_len - ___pop_states);
