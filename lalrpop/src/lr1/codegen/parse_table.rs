@@ -1089,7 +1089,12 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
         // reducing; but in the case of an empty production, it will come from the
         // lookahead
         if let (Some(first_sym), Some(last_sym)) = (transfer_syms.first(), transfer_syms.last()) {
-            rust!(self.out, "let {}start = {}.0.clone();", self.prefix, first_sym);
+            rust!(
+                self.out,
+                "let {}start = {}.0.clone();",
+                self.prefix,
+                first_sym
+            );
             rust!(self.out, "let {}end = {}.2.clone();", self.prefix, last_sym);
         } else {
             // we pop no symbols, so grab from the top of the stack
