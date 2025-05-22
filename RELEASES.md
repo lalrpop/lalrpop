@@ -1,3 +1,13 @@
+<a name="0.22.2"></a>
+## 0.22.2  (2025-05-22)
+
+#### Features
+* Support \0 and \x## ASCII escape sequences in grammars
+* Documentation updates
+
+#### Bugfixes
+* Avoid clippy warnings for uninlined format strings in generated code
+
 <a name="0.22.1"></a>
 ## 0.22.1  (2025-01-21)
 
