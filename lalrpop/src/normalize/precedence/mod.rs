@@ -369,9 +369,7 @@ fn replace_symbol<'a>(
         }
         SymbolKind::Choose(ref mut sym)
         | SymbolKind::Name(_, ref mut sym)
-        | SymbolKind::Tuple(_, ref mut sym) => {
-            replace_symbol(sym, target, subst, dir)
-        }
+        | SymbolKind::Tuple(_, ref mut sym) => replace_symbol(sym, target, subst, dir),
         SymbolKind::Terminal(_)
         | SymbolKind::Nonterminal(_)
         | SymbolKind::Error

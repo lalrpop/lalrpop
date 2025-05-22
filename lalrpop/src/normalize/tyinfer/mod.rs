@@ -357,8 +357,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             SymbolKind::Terminal(ref id) => Ok(self.types.terminal_type(id).clone()),
             SymbolKind::Nonterminal(ref id) => self.nonterminal_type(id),
             SymbolKind::Choose(ref s) => self.symbol_type(&s.kind),
-            SymbolKind::Name(_, ref s)
-            | SymbolKind::Tuple(_, ref s) => self.symbol_type(&s.kind),
+            SymbolKind::Name(_, ref s) | SymbolKind::Tuple(_, ref s) => self.symbol_type(&s.kind),
             SymbolKind::Error => Ok(self.types.error_recovery_type().clone()),
 
             SymbolKind::Repeat(..)

@@ -1,8 +1,9 @@
 use crate::grammar::consts::INLINE;
 use crate::grammar::parse_tree::{
     ActionKind, Alternative, Attribute, AttributeArg, Condition, ConditionOp, ExprSymbol, Grammar,
-    GrammarItem, MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp, Tuple,
-    RepeatSymbol, Span, Symbol, SymbolKind, TerminalLiteral, TerminalString, TypeRef, Visibility,
+    GrammarItem, MacroSymbol, Name, NonterminalData, NonterminalString, Path, RepeatOp,
+    RepeatSymbol, Span, Symbol, SymbolKind, TerminalLiteral, TerminalString, Tuple, TypeRef,
+    Visibility,
 };
 use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::resolve;
@@ -150,8 +151,8 @@ impl MacroExpander {
             SymbolKind::Terminal(_) | SymbolKind::Nonterminal(_) | SymbolKind::Error => {
                 return;
             }
-            SymbolKind::Choose(ref mut sym) 
-            | SymbolKind::Name(_, ref mut sym) 
+            SymbolKind::Choose(ref mut sym)
+            | SymbolKind::Name(_, ref mut sym)
             | SymbolKind::Tuple(_, ref mut sym) => {
                 self.replace_symbol(sym);
                 return;

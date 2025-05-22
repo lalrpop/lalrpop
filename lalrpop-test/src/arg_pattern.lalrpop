@@ -6,12 +6,10 @@ DeepOr<A, B, C> = {
 }
 
 pub Foo: String = {
-    <x:Or<"a", "b">> => {
-        let (a, b) = x;
+    <(a, b):Or<"a", "b">> => {
         a.to_string() + b
     },
-    <x:DeepOr<"A", "B", "C">> => {
-        let (a, (b, c)) = x;
+    <(a, (b, c)):DeepOr<"A", "B", "C">> => {
         a.to_string() + b + c
     },
 };
