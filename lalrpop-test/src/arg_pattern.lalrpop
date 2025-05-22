@@ -1,0 +1,17 @@
+grammar;
+
+Or<A, B> = { A B, B A }
+DeepOr<A, B, C> = {
+    A Or<B, C>,
+}
+
+pub Foo: String = {
+    <x:Or<"a", "b">> => {
+        let (a, b) = x;
+        a.to_string() + b
+    },
+    <x:DeepOr<"A", "B", "C">> => {
+        let (a, (b, c)) = x;
+        a.to_string() + b + c
+    },
+};

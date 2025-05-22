@@ -457,7 +457,9 @@ impl<'s> LowerState<'s> {
         match symbol.kind {
             pt::SymbolKind::Terminal(ref id) => r::Symbol::Terminal(id.clone()),
             pt::SymbolKind::Nonterminal(ref id) => r::Symbol::Nonterminal(id.clone()),
-            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
+            pt::SymbolKind::Choose(ref s) 
+            | pt::SymbolKind::Name(_, ref s) 
+            | pt::SymbolKind::Tuple(_, ref s) => self.symbol(s),
             pt::SymbolKind::Error => {
                 self.uses_error_recovery = true;
                 r::Symbol::Terminal(TerminalString::Error)
