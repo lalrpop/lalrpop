@@ -20,6 +20,10 @@ macro_rules! lalrpop_mod_test {
     }
 }
 
+/// Tests for pattern in arguments
+lalrpop_mod_test!(arg_pattern);
+mod arg_pattern_lib;
+
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
 lalrpop_mod_test!(associated_types);

@@ -197,6 +197,9 @@ Symbol: Symbol = {
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
         Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),
 
+    <lo:@L> "<" <t:Tuples> ":" <s:Symbol0> ">" <hi:@R> =>
+        Symbol::new(Span(lo, hi), SymbolKind::Tuple(t, Box::new(s))),
+
     Symbol0,
 };
 
@@ -206,6 +209,18 @@ Symbol0: Symbol = {
     <lhs:Symbol0> <op:RepeatOp> <hi:@R> =>
         Symbol::new(Span(lhs.span.0, hi),
                     SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op }))),
+};
+
+Tuples: Tuple =
+    <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem> ")" <hi:@R> => {
+        Tuple { tuples: tuples.into_iter().chain(once(e)).collect() }
+    };
+
+TupleItem: TupleItem = {
+    <m:"mut"?> <l:Id> =>
+        TupleItem::Name(Name::new(m.is_some(), l)),
+
+    <t:Tuples> => TupleItem::Tuple(t),
 };
 
 RepeatOp: RepeatOp = {
