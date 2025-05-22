@@ -1,5 +1,5 @@
 <a name="0.22.2"></a>
-## 0.22.2  (2025-02-25)
+## 0.22.2  (2025-05-22)
 
 #### Features
 * Support \0 and \x## ASCII escape sequences in grammars
