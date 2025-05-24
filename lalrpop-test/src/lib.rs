@@ -972,9 +972,11 @@ fn generics_issue_104_test1() {
 
 #[test]
 fn where_clause_with_forall_test1() {
-    assert!(where_clause_with_forall::TermParser::new()
-        .parse(&mut |s: &str| println!("log: {s}"), "(((((42)))))")
-        .is_ok());
+    assert!(
+        where_clause_with_forall::TermParser::new()
+            .parse(&mut |s: &str| println!("log: {s}"), "(((((42)))))")
+            .is_ok()
+    );
 }
 
 #[test]
