@@ -197,9 +197,6 @@ Symbol: Symbol = {
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
         Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),
 
-    <lo:@L> "<" <t:Tuples> ":" <s:Symbol0> ">" <hi:@R> =>
-        Symbol::new(Span(lo, hi), SymbolKind::Tuple(t, Box::new(s))),
-
     Symbol0,
 };
 
@@ -211,26 +208,18 @@ Symbol0: Symbol = {
                     SymbolKind::Repeat(Box::new(RepeatSymbol { symbol: lhs, op }))),
 };
 
-Tuples: Tuple =
-    <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem> ")" <hi:@R> => {
-        Tuple::new(tuples: tuples.into_iter().chain(once(e)).collect())
-    };
-
-TupleItem: TupleItem = {
-    <m:"mut"?> <l:Id> =>
-        TupleItem::Name(Name::new(m.is_some(), l)),
-
-    <t:Tuples> => TupleItem::Tuple(t),
-};
-
 RepeatOp: RepeatOp = {
     "+" => RepeatOp::Plus,
     "*" => RepeatOp::Star,
     "?" => RepeatOp::Question,
 };
 
-Symbol1: Symbol =
-    <lo:@L> <sk:SymbolKind1> <hi:@R> => Symbol::new(Span(lo, hi), sk);
+Symbol1: Symbol = {
+    <lo:@L> <sk:SymbolKind1> <hi:@R> => Symbol::new(Span(lo, hi), sk),
+
+    <lo:@L> "<" <t:Tuples> ":" <s:Symbol0> ">" <hi:@R> =>
+        Symbol::new(Span(lo, hi), SymbolKind::Tuple(t, Box::new(s))),
+};
 
 SymbolKind1: SymbolKind = {
     <name:MacroId> "<" <args:Comma<Symbol>> ">" =>
@@ -256,6 +245,18 @@ SymbolKind1: SymbolKind = {
 
     "!" =>
         SymbolKind::Error,
+};
+
+Tuples: Tuple =
+    <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem> ")" <hi:@R> => {
+        Tuple::new(tuples.into_iter().chain(once(e)).collect())
+    };
+
+TupleItem: TupleItem = {
+    <m:"mut"?> <l:Id> =>
+        TupleItem::Name(Name::new(m.is_some(), l)),
+
+    <t:Tuples> => TupleItem::Tuple(t),
 };
 
 TypeRef: TypeRef = {
