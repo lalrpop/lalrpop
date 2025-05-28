@@ -367,7 +367,9 @@ impl Validator<'_> {
             SymbolKind::Repeat(ref repeat) => {
                 self.validate_symbol(&repeat.symbol)?;
             }
-            SymbolKind::Choose(ref sym) | SymbolKind::Name(_, ref sym) => {
+            SymbolKind::Choose(ref sym)
+            | SymbolKind::Name(_, ref sym)
+            | SymbolKind::Tuple(_, ref sym) => {
                 self.validate_symbol(sym)?;
             }
             SymbolKind::Lookahead | SymbolKind::Lookbehind => {
