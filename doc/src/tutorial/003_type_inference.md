@@ -86,7 +86,7 @@ The `<>` expressions also works with struct constructors (like `Foo
 {...}` in examples above). This works out well if the names of your
 parsed values match the names of your struct fields.
 
-However, `<>` would be confusing if you're dealing with complicated
+However, `<>` may be confusing if you're dealing with complicated
 tuples. In that case, LALRPOP provides a pattern matching to unwrap
 the tuple. For example,
 

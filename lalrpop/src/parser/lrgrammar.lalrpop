@@ -213,7 +213,7 @@ Symbol0: Symbol = {
 
 Tuples: Tuple =
     <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem> ")" <hi:@R> => {
-        Tuple { tuples: tuples.into_iter().chain(once(e)).collect() }
+        Tuple::new(tuples: tuples.into_iter().chain(once(e)).collect())
     };
 
 TupleItem: TupleItem = {

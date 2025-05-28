@@ -510,14 +510,6 @@ pub enum TupleItem {
     Tuple(Tuple),
 }
 
-// Though this is the same as TupleItem, we need to distinguish between the two because
-// TupleItem is used in the grammar, while ArgPattern is used in the generated code.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub enum ArgPattern {
-    Name(Name),
-    Tuple(Tuple),
-}
-
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TerminalString {
     Literal(TerminalLiteral),
@@ -781,11 +773,11 @@ impl Tuple {
     }
 }
 
-impl ArgPattern {
+impl TupleItem {
     pub fn name(&self) -> String {
         match self {
-            ArgPattern::Name(name) => name.name.to_string(),
-            ArgPattern::Tuple(tuple) => tuple.to_string(),
+            TupleItem::Name(name) => name.name.to_string(),
+            TupleItem::Tuple(tuple) => tuple.to_string(),
         }
     }
 }
@@ -1038,15 +1030,6 @@ impl Display for TupleItem {
         match *self {
             TupleItem::Name(ref n) => Display::fmt(&n, fmt),
             TupleItem::Tuple(ref t) => Display::fmt(&t, fmt),
-        }
-    }
-}
-
-impl Display for ArgPattern {
-    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
-        match *self {
-            ArgPattern::Name(ref n) => Display::fmt(&n, fmt),
-            ArgPattern::Tuple(ref t) => Display::fmt(&t, fmt),
         }
     }
 }

@@ -12,7 +12,7 @@ use string_cache::DefaultAtom as Atom;
 
 // These concepts we re-use wholesale
 pub use crate::grammar::parse_tree::{
-    ArgPattern, Attribute, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
+    TupleItem, Attribute, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
     TerminalString, TypeBound, TypeParameter, Visibility,
 };
 
@@ -143,7 +143,7 @@ pub enum ActionFnDefnKind {
 /// An action fn written by a user.
 #[derive(Clone, PartialEq, Eq)]
 pub struct UserActionFnDefn {
-    pub arg_patterns: Vec<ArgPattern>,
+    pub arg_patterns: Vec<TupleItem>,
     pub arg_types: Vec<TypeRepr>,
     pub code: String,
 }

@@ -1,15 +1,19 @@
 grammar;
 
-Or<A, B> = { A B, B A }
-DeepOr<A, B, C> = {
-    A Or<B, C>,
+Barm<A, B> = { A B, B A }
+DeepBar<A, B, C> = {
+    A Barm<B, C>,
+}
+Bar: (String, String) = {
+    <a:r"[c-z]"> <b:r"[c-z]"> => (a.to_string(), b.to_string())
 }
 
 pub Foo: String = {
-    <(a, b):Or<"a", "b">> => {
+    <(a, b):Barm<"a", "b">> => {
         a.to_string() + b
     },
-    <(a, (b, c)):DeepOr<"A", "B", "C">> => {
+    <(a, (b, c)):DeepBar<"A", "B", "C">> => {
         a.to_string() + b + c
     },
+    <(a,b):Bar> => a + &b
 };
