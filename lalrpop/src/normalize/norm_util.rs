@@ -1,5 +1,5 @@
 use crate::grammar::parse_tree::{
-    ActionKind, Alternative, TupleItem, ExprSymbol, Symbol, SymbolKind,
+    ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind, TupleItem,
 };
 
 #[derive(Debug)]

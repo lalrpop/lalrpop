@@ -12,8 +12,8 @@ use string_cache::DefaultAtom as Atom;
 
 // These concepts we re-use wholesale
 pub use crate::grammar::parse_tree::{
-    TupleItem, Attribute, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
-    TerminalString, TypeBound, TypeParameter, Visibility,
+    Attribute, InternToken, Lifetime, NonterminalString, Path, Span, TerminalLiteral,
+    TerminalString, TupleItem, TypeBound, TypeParameter, Visibility,
 };
 
 #[derive(Clone, Debug)]
