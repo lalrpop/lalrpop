@@ -231,7 +231,7 @@ impl Nfa {
                 s0
             })),
 
-            HirKind::Class(ref class) => {
+            HirKind::Class(class) => {
                 match *class {
                     Class::Unicode(ref uc) =>
                     // [s0] --c0--> [accept]
@@ -313,7 +313,7 @@ impl Nfa {
                 }
             }
 
-            HirKind::Concat(ref exprs) => {
+            HirKind::Concat(exprs) => {
                 let mut s = accept;
                 for expr in exprs.iter().rev() {
                     s = self.expr(expr, s, reject)?;
@@ -321,7 +321,7 @@ impl Nfa {
                 Ok(s)
             }
 
-            HirKind::Alternation(ref exprs) => {
+            HirKind::Alternation(exprs) => {
                 // [s0] --exprs[0]--> [accept/reject]
                 //   |                   ^
                 //   |                   |

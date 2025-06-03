@@ -1,14 +1,14 @@
 //! Error reporting. For now very stupid and simplistic.
 
-use crate::collections::{set, Set};
+use crate::collections::{Set, set};
 use crate::grammar::repr::*;
 use crate::lr1::core::*;
 use crate::lr1::example::{Example, ExampleStyles, ExampleSymbol};
 use crate::lr1::first::FirstSets;
 use crate::lr1::lookahead::{Token, TokenSet};
 use crate::lr1::trace::Tracer;
-use crate::message::builder::{BodyCharacter, Builder, Character, MessageBuilder};
 use crate::message::Message;
+use crate::message::builder::{BodyCharacter, Builder, Character, MessageBuilder};
 use crate::tls::Tls;
 use itertools::Itertools;
 

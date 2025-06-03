@@ -1,16 +1,16 @@
 //! Lower
 //!
 
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use crate::grammar::parse_tree as pt;
 use crate::grammar::parse_tree::{
-    read_algorithm, GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString,
-    Path, TerminalString,
+    GrammarItem, InternToken, Lifetime, MatchMapping, Name, NonterminalString, Path,
+    TerminalString, read_algorithm,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
 use crate::grammar::repr as r;
-use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::NormResult;
+use crate::normalize::norm_util::{self, Symbols};
 use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 

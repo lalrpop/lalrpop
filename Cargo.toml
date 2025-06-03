@@ -11,19 +11,19 @@ members = [
         "lalrpop-util",
         "lalrpop",
 ]
-resolver = "2"
+resolver = "3"
 
 [workspace.package]
 repository = "https://github.com/lalrpop/lalrpop"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0 OR MIT"
 version = "0.22.2" # LALRPOP
-edition = "2021"
+edition = "2024"
 # This is (very) soft limit of the minimum supported version.
 # Please update it when lalrpop requires a new feature.
 # We prefer to avoid the latest 2 stable versions. (e.g. at most 1.64 when stable is 1.66)
 # NOTE: Don't forget to update test.yaml as well.
-rust-version = "1.81"
+rust-version = "1.85"
 keywords = ["parser", "generator", "LR", "yacc", "grammar"]
 categories = ["parsing"]
 
