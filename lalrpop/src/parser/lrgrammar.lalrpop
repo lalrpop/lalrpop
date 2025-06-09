@@ -197,6 +197,9 @@ Symbol: Symbol = {
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
         Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),
 
+    <lo:@L> "<" <t:Tuples> ":" <s:Symbol0> ">" <hi:@R> =>
+        Symbol::new(Span(lo, hi), SymbolKind::Tuple(t, Box::new(s))),
+
     Symbol0,
 };
 
@@ -214,12 +217,8 @@ RepeatOp: RepeatOp = {
     "?" => RepeatOp::Question,
 };
 
-Symbol1: Symbol = {
-    <lo:@L> <sk:SymbolKind1> <hi:@R> => Symbol::new(Span(lo, hi), sk),
-
-    <lo:@L> "<" <t:Tuples> ":" <s:Symbol0> ">" <hi:@R> =>
-        Symbol::new(Span(lo, hi), SymbolKind::Tuple(t, Box::new(s))),
-};
+Symbol1: Symbol =
+    <lo:@L> <sk:SymbolKind1> <hi:@R> => Symbol::new(Span(lo, hi), sk);
 
 SymbolKind1: SymbolKind = {
     <name:MacroId> "<" <args:Comma<Symbol>> ">" =>
