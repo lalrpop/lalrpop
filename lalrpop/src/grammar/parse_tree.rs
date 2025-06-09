@@ -755,6 +755,13 @@ impl Symbol {
     pub fn canonical_form(&self) -> String {
         format!("{self}")
     }
+
+    pub fn as_tuple(&self) -> Option<(&Tuple, &Box<Symbol>)> {
+        match &self.kind {
+            SymbolKind::Tuple(t, s) => Some((t, s)),
+            _ => None,
+        }
+    }
 }
 
 impl Name {

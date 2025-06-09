@@ -4,7 +4,7 @@ use super::{NormError, NormResult};
 use crate::grammar::consts::{ERROR, LOCATION};
 use crate::grammar::parse_tree::{
     ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
-    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
+    NonterminalString, Path, Span, Symbol, SymbolKind, Tuple, TupleItem, TypeParameter, TypeRef,
 };
 use crate::grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
@@ -147,9 +147,29 @@ impl<'grammar> TypeInferencer<'grammar> {
     fn infer_types(mut self) -> NormResult<Types> {
         let ids: Vec<NonterminalString> = self.nonterminals.keys().cloned().collect();
 
-        for id in ids {
+        for id in &ids {
             self.nonterminal_type(&id)?;
             debug_assert!(self.types.lookup_nonterminal_type(&id).is_some());
+        }
+
+        for id in &ids {
+            let nt = &self.nonterminals[id];
+            for alt in nt.alternatives {
+                let symbols = &alt.expr.symbols;
+                for (t, s) in symbols.iter().filter_map(Symbol::as_tuple) {
+                    let nt = if let SymbolKind::Nonterminal(ref id) = s.kind {
+                        self.nonterminal_type(id).unwrap()
+                    } else {
+                        return_err!(
+                            s.span,
+                            "expected a nonterminal in tuple, but found `{}`",
+                            s.kind
+                        );
+                    };
+
+                    self.validate_tuple(s.span, t, &nt)?;
+                }
+            }
         }
 
         Ok(self.types)
@@ -369,6 +389,33 @@ impl<'grammar> TypeInferencer<'grammar> {
                 unreachable!("symbol `{:?}` should have been expanded away", symbol)
             }
         }
+    }
+
+    fn validate_tuple(&self, span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()>
+    where
+        'grammar: 'grammar,
+    {
+        match nt {
+            TypeRepr::Tuple(items) => {
+                if items.len() != tuple.tuples.len() {
+                    return_err!(
+                        span,
+                        "expected a tuple of length {}, but found a tuple of length {}",
+                        items.len(),
+                        tuple.tuples.len()
+                    );
+                }
+
+                for (item, tuple_item) in items.iter().zip(&tuple.tuples) {
+                    if let TupleItem::Tuple(t) = tuple_item {
+                        self.validate_tuple(span, t, item).unwrap();
+                    }
+                }
+            }
+            _ => unreachable!("expected a tuple type, but found `{}`", nt),
+        }
+
+        Ok(())
     }
 }
 
