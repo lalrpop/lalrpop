@@ -756,7 +756,7 @@ impl Symbol {
         format!("{self}")
     }
 
-    pub fn as_tuple(&self) -> Option<(&Tuple, &Box<Symbol>)> {
+    pub fn as_tuple(&self) -> Option<(&Tuple, &Symbol)> {
         match &self.kind {
             SymbolKind::Tuple(t, s) => Some((t, s)),
             _ => None,

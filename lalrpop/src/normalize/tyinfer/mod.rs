@@ -148,8 +148,8 @@ impl<'grammar> TypeInferencer<'grammar> {
         let ids: Vec<NonterminalString> = self.nonterminals.keys().cloned().collect();
 
         for id in &ids {
-            self.nonterminal_type(&id)?;
-            debug_assert!(self.types.lookup_nonterminal_type(&id).is_some());
+            self.nonterminal_type(id)?;
+            debug_assert!(self.types.lookup_nonterminal_type(id).is_some());
         }
 
         for id in &ids {
@@ -391,6 +391,7 @@ impl<'grammar> TypeInferencer<'grammar> {
         }
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn validate_tuple(&self, span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()>
     where
         'grammar: 'grammar,
