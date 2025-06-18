@@ -16,7 +16,7 @@ The `lalrpop` crate already includes an auto-generated parser
 in `lalrpop/src/parser/lrgrammar.rs` that end-users use.
 Small (meh), (relatively) fast to compile, easy to use (really, for end-users).
 
-That said, if you changes don't affect LALRPOP's own grammar
+That said, if your changes don't affect LALRPOP's own grammar
 (`lalrpop/src/parser/lrgrammar.lalrpop`) your workflow is simple
 
 ```sh
