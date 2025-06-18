@@ -3,7 +3,7 @@
 /// Floating points, because they contain multiple possible Nan values, are not hashable
 /// by default in Rust.
 /// This test is intended to catch any unexpected breaking changes related to
-//Lalrpop requring the error type to be hashable.
+//Lalrpop requiring the error type to be hashable.
 use lalrpop_util::ParseError;
 
 grammar;
