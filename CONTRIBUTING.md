@@ -16,7 +16,7 @@ The `lalrpop` crate already includes an auto-generated parser
 in `lalrpop/src/parser/lrgrammar.rs` that end-users use.
 Small (meh), (relatively) fast to compile, easy to use (really, for end-users).
 
-That said, if you changes don't affect LALRPOP's own grammar
+That said, if your changes don't affect LALRPOP's own grammar
 (`lalrpop/src/parser/lrgrammar.lalrpop`) your workflow is simple
 
 ```sh
@@ -84,7 +84,7 @@ maintained until the release of version 0.23.  A critical bug may warrant a
 later backport to the 0.22.x series, but in general, we will stop backporting
 and focus efforts on the 0.23 series as soon as 0.23 is released.
 
-Regarding Minumum Supported Rust Version (msrv) bumps, the guidance in the rust
+Regarding Minimum Supported Rust Version (msrv) bumps, the guidance in the rust
 community is that msrv bumps are not necessarily breaking, but should be bundled
 with breaking changes if possible. Our msrv strategy follows this guidance,
 attempting to bundle msrv bumps with breaking releases.  We prefer to keep the
