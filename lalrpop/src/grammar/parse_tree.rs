@@ -145,7 +145,7 @@ pub struct InternToken {
 ///
 /// So e.g. if you had
 ///
-/// ```
+/// ```lalrpop
 /// match {
 ///    r"(?i)BEGIN" => "BEGIN",
 ///    "+" => "+",
