@@ -1,7 +1,7 @@
 [package]
 name = "nobol"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Felix S Klock II <pnkfelix@pnkfx.org>"]
 workspace = "../.."
 publish = false

@@ -128,8 +128,10 @@ impl LaneTable<'_> {
             {
                 Ok(_changed) => {}
                 Err(OverlappingLookahead) => {
-                    debug!("rows: intra-row conflict inserting state_index={:?} conflict_index={:?} token_set={:?}",
-                           state_index, conflict_index, token_set);
+                    debug!(
+                        "rows: intra-row conflict inserting state_index={:?} conflict_index={:?} token_set={:?}",
+                        state_index, conflict_index, token_set
+                    );
                     return Err(state_index);
                 }
             }

@@ -207,13 +207,15 @@ fn verify_errors(
     let test_report = |message: Message| -> Result<(), ()> {
         let mut canvas = AsciiCanvas::new(0, message.min_width());
         message.emit(&mut canvas);
-        assert!(canvas
-            .to_strings()
-            .iter()
-            .map(|r| r.to_string())
-            .collect::<Vec<String>>()
-            .join("\n")
-            .contains(text));
+        assert!(
+            canvas
+                .to_strings()
+                .iter()
+                .map(|r| r.to_string())
+                .collect::<Vec<String>>()
+                .join("\n")
+                .contains(text)
+        );
         calls += 1;
         assert!(calls <= unique_conflicts);
         Ok(())

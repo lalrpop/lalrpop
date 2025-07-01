@@ -47,11 +47,11 @@ where
         self.write_section_header("Summary")?;
         writeln!(self.out)?;
         match lr1result {
-            Ok(ref states) => {
+            Ok(states) => {
                 writeln!(self.out, "Constructed {} states", states.len())?;
                 self.report_states(states, &Map::new())?;
             }
-            Err(ref table_construction_error) => {
+            Err(table_construction_error) => {
                 writeln!(self.out, "Failure")?;
                 writeln!(
                     self.out,

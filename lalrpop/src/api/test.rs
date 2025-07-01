@@ -31,6 +31,19 @@ enum GenFileLoc {
 //   - src.lalrpop
 //
 // So we want to set CWD to directly above that, and OUT_DIR to a temp directory
+/// Safety
+///
+/// Warning: This function contains unsafe code to modify the testing
+/// environment(setting environment variables).
+///
+/// This is used to properly simulate different OUT_DIR configurations. In
+/// general the modification of environment variables is not thread-safe. The
+/// setup of these tests is guarded by a mutex to ensure that no two tests
+/// concurrently attempt to access the environement.
+///
+/// `cargo-nextest` is a test-per-process test runner which ensures that two
+/// tests cannot interfere with each other and is thus the recommended way to
+/// execute these api tests.
 fn setup() -> (path::PathBuf, LockResult<MutexGuard<'static, i32>>) {
     let lock = API_TEST_MUTEX.lock();
     let orig_dir = current_dir().unwrap();
@@ -44,7 +57,9 @@ fn setup() -> (path::PathBuf, LockResult<MutexGuard<'static, i32>>) {
     remove_local_generated_files();
 
     fs::create_dir(&out_dir).unwrap();
-    set_var("OUT_DIR", out_dir);
+
+    // SAFETY: See the function documentation above.
+    unsafe { set_var("OUT_DIR", out_dir) };
     (orig_dir, lock)
 }
 
