@@ -25,6 +25,7 @@
    - [Generate in source tree](generate_in_source.md)
    - [Conditional compilation](conditional-compilation.md)
    - [Location Tracking](location_tracking.md)
+   - [Guards in macros](guards_in_macros.md)
 
 -----------
 [Contributors](misc/contributors.md)

@@ -193,6 +193,23 @@ fn calculator9() {
     assert_eq!(&format!("{expr:?}"), "((\"22\" * \"pi\") + \"66\")");
 }
 
+lalrpop_mod_doc!(pub calculator10);
+
+#[cfg_attr(not(test), allow(dead_code))]
+fn test10(src: &str, result: i32) {
+    println!("parsing {}", src);
+    assert_eq!(calculator10::ExprParser::new().parse(src).unwrap(), result);
+}
+
+#[test]
+fn calculator10() {
+    test10("{ 1 }", 1);
+    test10("{ 1; 2 }", 2);
+    test10("{ print(1 + 1); 2 }", 2);
+    test10("{ { 1 } }", 1);
+    test10("{ { 1 } 2 }", 2);
+}
+
 #[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
