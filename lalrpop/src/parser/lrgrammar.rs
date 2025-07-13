@@ -3117,13 +3117,13 @@ None
 }).collect()
 }
 struct ___StateMachine<'input>
-where
+where 
 {
 text: &'input str,
 ___phantom: core::marker::PhantomData<(&'input ())>,
 }
 impl<'input> ___state_machine::ParserDefinition for ___StateMachine<'input>
-where
+where 
 {
 type Location = usize;
 type Error = tok::Error;
