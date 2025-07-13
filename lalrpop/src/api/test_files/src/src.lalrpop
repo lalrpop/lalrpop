@@ -1,0 +1,5 @@
+grammar;
+
+pub Src: () = {
+	"a"
+};
