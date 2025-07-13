@@ -74,10 +74,15 @@ fn resolve_report_file(session: &Session, lalrpop_file: &Path) -> io::Result<Pat
 }
 
 fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Result<PathBuf> {
+    let in_dir = if let Some(ref d) = session.in_dir {
+        d.as_path()
+    } else {
+        Path::new(".")
+    };
     let out_dir = if let Some(ref d) = session.out_dir {
         d.as_path()
     } else {
-        lalrpop_file.parent().unwrap_or_else(|| Path::new("."))
+        in_dir
     };
 
     // Ideally we do something like syn::parse_str::<syn::Ident>(lalrpop_file.file_name())?;
@@ -110,12 +115,11 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
         ));
     }
 
+    // If the lalrpop file is not in in_dir, the result is that the
+    // .rs file is created in the same directory as the lalrpop file
+    // for compatibility reasons
     Ok(out_dir
-        .join(
-            lalrpop_file
-                .file_name()
-                .ok_or_else(|| io::Error::from(io::ErrorKind::InvalidInput))?,
-        )
+        .join(lalrpop_file.strip_prefix(in_dir).unwrap_or(lalrpop_file))
         .with_extension(ext))
 }
 
