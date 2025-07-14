@@ -66,6 +66,10 @@ fn remove_local_generated_files() {
             }
         }
     }
+    let custom_dir = temp_dir().join(CUSTOM_TEST_DIR);
+    if fs::exists(&custom_dir).unwrap() {
+        fs::remove_dir_all(&custom_dir).unwrap();
+    }
 }
 
 // This is maybe a little nonintuitive at first.  We verify that the file exists where we expect
@@ -132,9 +136,6 @@ fn test_explicit_in_out() {
     let (orig_dir, _lock) = setup();
 
     let custom_dir = temp_dir().join(CUSTOM_TEST_DIR);
-    if fs::exists(&custom_dir).unwrap() {
-        fs::remove_dir_all(&custom_dir).unwrap();
-    }
     fs::create_dir(&custom_dir).unwrap();
 
     Configuration::new()
