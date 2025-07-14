@@ -76,7 +76,7 @@ fn remove_local_generated_files() {
 // it, and nowhere else.  So fs::exists().unwrap() for a given location must be equal to our
 // expectation that it's in that location.
 fn verify_file(filename: &str, expected_location: GenFileLoc) {
-    println!("Checking the location of {}", filename);
+    println!("Checking the location of {filename}");
     assert_eq!(
         fs::exists(path::Path::new("src").join(filename)).unwrap(),
         expected_location == GenFileLoc::Src
