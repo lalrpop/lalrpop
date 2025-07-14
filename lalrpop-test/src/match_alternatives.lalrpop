@@ -1,6 +1,6 @@
 grammar;
 
-pub File: String = bare_key bool => format!("{} {}", <>);
+pub File: String = bare_key bool => format!("{<>} {<>}");
 
 match {
     r"false|true" => bool,

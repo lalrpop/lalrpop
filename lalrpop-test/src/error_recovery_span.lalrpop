@@ -16,8 +16,8 @@ extern {
 
 pub Expr: String = {
     Expr1,
-    <Expr> "+" <Expr1> => format!("{} + {}", <>),
-    <Expr> "-" <Expr1> => format!("{} - {}", <>),
+    <Expr> "+" <Expr1> => format!("{<>} + {<>}"),
+    <Expr> "-" <Expr1> => format!("{<>} - {<>}"),
 
     // NB we intentionally cannot recover from a `"+"` here,
     // just a `"-"`. This allows us to test when we must drop
