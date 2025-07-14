@@ -587,6 +587,8 @@ give you the idea:</p>
 <tr><td><code>&lt;p:A&gt; &lt;q:B&gt; =&gt; bar(&lt;&gt;)</code></td><td><code>&lt;p:A&gt; &lt;q:B&gt; =&gt; bar(p, q)</code></td></tr>
 <tr><td><code>&lt;p:A&gt; B =&gt; Foo {&lt;&gt;}</code></td><td><code>&lt;p:A&gt; B =&gt; Foo {p:p}</code></td></tr>
 <tr><td><code>&lt;p:A&gt; &lt;q:B&gt; =&gt; Foo {&lt;&gt;}</code></td><td><code>&lt;p:A&gt; &lt;q:B&gt; =&gt; Foo {p:p, q:q}</code></td></tr>
+<tr><td><code>&lt;A&gt; &lt;B&gt; =&gt; format!("&lt;&gt; &lt;&gt;")</code></td><td><code>&lt;a:A&gt; &lt;b:B&gt; =&gt; format!("&lt;a&gt; &lt;b&gt;")</code></td></tr>
+<tr><td><code>&lt;p:A&gt; &lt;q:B&gt; =&gt; format!("&lt;&gt; &lt;&gt;")</code></td><td><code>&lt;p:A&gt; &lt;q:B&gt; =&gt; format!("&lt;p&gt; &lt;q&gt;")</code></td></tr>
 </tbody></table>
 </div>
 <p>The <code>&lt;&gt;</code> expressions also works with struct constructors (like <code>Foo {...}</code> in examples above). This works out well if the names of your
