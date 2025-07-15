@@ -23,9 +23,19 @@ That said, if your changes don't affect LALRPOP's own grammar
 # building
 $ cargo build # -p lalrpop --release
 
-# testing
+# testing using cargo test
 $ cargo test # -p lalrpop --release
+
+# testing using cargo nextest
+$ cargo nextest run
 ```
+
+(You can use either built in `cargo test` to run tests, or install `cargo-nextest`
+using `cargo install cargo-nextest` to run tests using the nextest framework.
+Currently both test runners are supported, however we are considering switching
+to exclusive use of `cargo-nextest` in the near future.  Please report any issues
+you have running `cargo-nextest` on the lalrpop test suite on the lalrpop issue
+tracker.)
 
 But if your changes *do* affect the grammar - well, that's where all the fun of
 bootstrapping compilers comes! You're going to have to get a working `lalrpop` binary to
