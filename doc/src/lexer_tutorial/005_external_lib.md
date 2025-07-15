@@ -244,7 +244,7 @@ rules to reference the desired token.
 
 Finally, we can build our rules:
 
-```rust
+```lalrpop
 pub Script: Vec<ast::Statement> = {
   <stmts:Statement*> => stmts
 }
