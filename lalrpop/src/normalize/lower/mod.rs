@@ -419,10 +419,12 @@ impl<'s> LowerState<'s> {
                     }),
                 }
             }
-            Symbols::Anon(indices) => {
-                let names: Vec<_> = (0..indices.len()).map(|i| self.fresh_name(i)).collect();
+            Symbols::Anon(anon_symbols) => {
+                let names: Vec<_> = (0..anon_symbols.len())
+                    .map(|i| self.fresh_name(i))
+                    .collect();
 
-                let p_indices = indices.iter().map(|&(index, _)| index);
+                let p_indices = anon_symbols.iter().map(|&(index, _)| index);
                 let p_names = names.iter().cloned().map(Name::immut);
                 let arg_patterns = patterns(p_indices.zip(p_names), symbols.len());
 
@@ -433,19 +435,19 @@ impl<'s> LowerState<'s> {
 
                 let action = if action.matches("<>").count() > 1 {
                     if action.matches("<>").count() != names.len() {
-                        // Here the error span will be based on the indices
+                        // Here the error span will be based on the anon_symbols
                         // since that is what I have the span information for.
 
                         // Alternatively, one could pass in the action span
                         // information instead of just the action string.
-                        let span_start = indices.first().unwrap().1.span;
+                        let span_start = anon_symbols.first().unwrap().1.span;
 
-                        let span_end = indices.last().unwrap().1.span;
+                        let span_end = anon_symbols.last().unwrap().1.span;
 
-                        let indicies_span = Span(span_start.0, span_end.1);
+                        let symbols_span = Span(span_start.0, span_end.1);
 
                         return_err!(
-                            indicies_span,
+                            symbols_span,
                             "When there are multiple `<>` in the action, \
                              there must be the same number of sources for the `<>`s. \
                              Found {} `<`>`s and {} anonymous sources.",
