@@ -1,6 +1,6 @@
 //! LR(1) state construction algorithm.
 
-use crate::collections::{map, Multimap};
+use crate::collections::{Multimap, map};
 use crate::grammar::repr::*;
 use crate::kernel_set;
 use crate::lr1::core::*;

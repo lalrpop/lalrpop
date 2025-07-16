@@ -1,8 +1,8 @@
 use crate::grammar::repr::*;
 use crate::lr1::core::*;
 
-use super::trace_graph::*;
 use super::Tracer;
+use super::trace_graph::*;
 
 #[cfg(test)]
 mod test;

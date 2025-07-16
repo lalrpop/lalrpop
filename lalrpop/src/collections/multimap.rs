@@ -2,7 +2,7 @@ use std::collections::btree_map;
 use std::default::Default;
 use std::iter::FromIterator;
 
-use super::map::{map, Map};
+use super::map::{Map, map};
 use super::set::Set;
 
 pub struct Multimap<K, C: Collection> {

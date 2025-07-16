@@ -46,14 +46,14 @@ impl<'input> Iterator for Lexer<'input> {
                     match self.chars.peek() {
                         Some((j, ')')) | Some((j, '(')) | Some((j, '+')) | Some((j, '-'))
                         | Some((j, '*')) | Some((j, '/')) | Some((j, ' ')) => {
-                            return Some(Ok((i, Tok::NumSymbol(&self.input[i..*j]), *j)))
+                            return Some(Ok((i, Tok::NumSymbol(&self.input[i..*j]), *j)));
                         }
                         None => {
                             return Some(Ok((
                                 i,
                                 Tok::NumSymbol(&self.input[i..]),
                                 self.input.len(),
-                            )))
+                            )));
                         }
                         _ => {}
                     }

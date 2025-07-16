@@ -7,8 +7,8 @@
 //! associativity and the position of this occurrence.
 //!
 //! For concrete examples, see the [`test`](../tests/index.html) module.
-use super::resolve;
 use super::NormResult;
+use super::resolve;
 use crate::grammar::parse_tree::{
     Alternative, ExprSymbol, Grammar, GrammarItem, NonterminalData, NonterminalString, Symbol,
     SymbolKind,

@@ -1,7 +1,7 @@
 [package]
 name = "lexer"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Patrick LaFontaine <32135464+Pat-Lafon@users.noreply.github.com>"]
 publish = false
 

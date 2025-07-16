@@ -1,8 +1,8 @@
 //! Code to compute example inputs given a backtrace.
 
 use crate::grammar::repr::*;
-use crate::message::builder::InlineBuilder;
 use crate::message::Content;
+use crate::message::builder::InlineBuilder;
 use crate::style::Style;
 use crate::tls::Tls;
 use ascii_canvas::AsciiView;
@@ -106,7 +106,7 @@ impl Example {
                 Ordering::Greater => styles.after_cursor,
             };
 
-            if let ExampleSymbol::Symbol(ref s) = symbol {
+            if let ExampleSymbol::Symbol(s) = symbol {
                 builder = builder.push(s.clone()).styled(style);
             }
         }

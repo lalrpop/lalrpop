@@ -10,7 +10,7 @@ use crate::tls::Tls;
 use rand::SeedableRng;
 use string_cache::DefaultAtom as Atom;
 
-use super::{build_lr0_states, build_lr1_states, use_lane_table, Lr};
+use super::{Lr, build_lr0_states, build_lr1_states, use_lane_table};
 
 fn nt(t: &str) -> NonterminalString {
     NonterminalString(Atom::from(t))
@@ -42,8 +42,7 @@ macro_rules! tokens {
 fn items<'g>(grammar: &'g Grammar, nonterminal: &str, index: usize, la: Token) -> Lr1Items<'g> {
     let set = TokenSet::from(la);
     let lr1: Lr<'_, TokenSet> = Lr::new(grammar, nt(nonterminal), set.clone());
-    let items = lr1.transitive_closure(lr1.items(&nt(nonterminal), index, &set));
-    items
+    lr1.transitive_closure(lr1.items(&nt(nonterminal), index, &set))
 }
 
 #[test]

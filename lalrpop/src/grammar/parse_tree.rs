@@ -5,8 +5,8 @@ use crate::grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVE
 use crate::grammar::pattern::Pattern;
 use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
 use crate::lexer::dfa::Dfa;
-use crate::message::builder::InlineBuilder;
 use crate::message::Content;
+use crate::message::builder::InlineBuilder;
 use crate::tls::Tls;
 use crate::util::Sep;
 use std::fmt::{Debug, Display, Error, Formatter};
