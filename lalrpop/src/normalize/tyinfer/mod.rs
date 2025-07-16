@@ -150,24 +150,6 @@ impl<'grammar> TypeInferencer<'grammar> {
         for id in &ids {
             self.nonterminal_type(id)?;
             debug_assert!(self.types.lookup_nonterminal_type(id).is_some());
-
-            let nt = &self.nonterminals[id];
-            for alt in nt.alternatives {
-                let symbols = &alt.expr.symbols;
-                for (t, s) in symbols.iter().filter_map(Symbol::as_tuple) {
-                    let ty = if let SymbolKind::Nonterminal(ref id) = s.kind {
-                        self.nonterminal_type(id).unwrap()
-                    } else {
-                        return_err!(
-                            s.span,
-                            "expected a nonterminal in tuple, but found `{}`",
-                            s.kind
-                        );
-                    };
-
-                    validate_tuple(s.span, t, &ty)?;
-                }
-            }
         }
 
         Ok(self.types)
@@ -243,6 +225,23 @@ impl<'grammar> TypeInferencer<'grammar> {
             // and use that type
             Ok(alternative_types.pop().unwrap())
         })?;
+
+        for alt in nt.alternatives {
+            let symbols = &alt.expr.symbols;
+            for (t, s) in symbols.iter().filter_map(Symbol::as_tuple) {
+                let ty = if let SymbolKind::Nonterminal(ref id) = s.kind {
+                    self.nonterminal_type(id).unwrap()
+                } else {
+                    return_err!(
+                        s.span,
+                        "expected a nonterminal in tuple, but found `{}`",
+                        s.kind
+                    );
+                };
+
+                validate_tuple(s.span, t, &ty)?;
+            }
+        }
 
         self.types.add_type(id.clone(), ty.clone());
         Ok(ty)
