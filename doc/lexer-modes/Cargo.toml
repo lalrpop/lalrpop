@@ -1,7 +1,7 @@
 [package]
 name = "lexer-modes"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Neal H. Walfield <neal@sequoia-pgp.org>"]
 publish = false
 

@@ -1,6 +1,6 @@
 //! First set construction and computation.
 
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use crate::grammar::repr::*;
 use crate::lr1::lookahead::{Token, TokenSet};
 

@@ -240,8 +240,8 @@ fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_one_character_dot_in_
 }
 
 #[test]
-fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket_in_stringliteral(
-) {
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket_in_stringliteral()
+ {
     test(
         r#" "\(" => "(" ,"#,
         vec![
@@ -277,8 +277,8 @@ fn rule_stringliteral_slash_dot_then_equalsgreaterthancode_one_character_dot() {
 }
 
 #[test]
-fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket(
-) {
+fn rule_stringliteral_slash_openningbracket_then_equalsgreaterthancode_one_character_openningbracket()
+ {
     test(
         r#" "\(" => '(' ,"#,
         vec![

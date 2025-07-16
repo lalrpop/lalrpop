@@ -121,7 +121,7 @@ impl<'input, E> Iterator for Matcher<'input, '_, E> {
                 None => {
                     return Some(Err(ParseError::InvalidToken {
                         location: start_offset,
-                    }))
+                    }));
                 }
             };
             let index = (0..self.dfa.match_len(&self.cache, match_state))

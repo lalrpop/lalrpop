@@ -2,7 +2,7 @@
 //! version of `parse_tree`. The normalization passes produce this
 //! representation incrementally.
 
-use crate::collections::{map, Map};
+use crate::collections::{Map, map};
 use crate::grammar::free_variables::FreeVariables;
 use crate::grammar::pattern::Pattern;
 use crate::message::Content;

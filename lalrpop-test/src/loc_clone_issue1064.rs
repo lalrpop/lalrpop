@@ -58,38 +58,38 @@ impl<'input> Iterator for Lexer<'input> {
                         MyLoc { loc: i },
                         Tok::ParenClose,
                         MyLoc { loc: i + 1 },
-                    )))
+                    )));
                 }
                 Some((i, '(')) => {
-                    return Some(Ok((MyLoc { loc: i }, Tok::ParenOpen, MyLoc { loc: i + 1 })))
+                    return Some(Ok((MyLoc { loc: i }, Tok::ParenOpen, MyLoc { loc: i + 1 })));
                 }
                 Some((i, '+')) => {
                     return Some(Ok((
                         MyLoc { loc: i },
                         Tok::ExprOp(Opcode::Add),
                         MyLoc { loc: i + 1 },
-                    )))
+                    )));
                 }
                 Some((i, '-')) => {
                     return Some(Ok((
                         MyLoc { loc: i },
                         Tok::ExprOp(Opcode::Sub),
                         MyLoc { loc: i + 1 },
-                    )))
+                    )));
                 }
                 Some((i, '*')) => {
                     return Some(Ok((
                         MyLoc { loc: i },
                         Tok::FactorOp(Opcode::Mul),
                         MyLoc { loc: i + 1 },
-                    )))
+                    )));
                 }
                 Some((i, '/')) => {
                     return Some(Ok((
                         MyLoc { loc: i },
                         Tok::FactorOp(Opcode::Div),
                         MyLoc { loc: i + 1 },
-                    )))
+                    )));
                 }
 
                 None => return None, // End of file
@@ -101,7 +101,7 @@ impl<'input> Iterator for Lexer<'input> {
                                 MyLoc { loc: i },
                                 Tok::NumSymbol(&self.input[i..*j]),
                                 MyLoc { loc: *j },
-                            )))
+                            )));
                         }
                         None => {
                             return Some(Ok((
@@ -110,7 +110,7 @@ impl<'input> Iterator for Lexer<'input> {
                                 MyLoc {
                                     loc: self.input.len(),
                                 },
-                            )))
+                            )));
                         }
                         _ => {}
                     }
