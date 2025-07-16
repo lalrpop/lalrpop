@@ -1,6 +1,6 @@
 //! The "Lane Table". In the paper, this is depicted like so:
 //!
-//! ```
+//! ```text
 //! +-------+----+-----+----+------------+
 //! + State | C1 | ... | Cn | Successors |
 //! +-------+----+-----+----+------------+
