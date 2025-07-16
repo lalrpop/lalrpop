@@ -8,9 +8,9 @@ use crate::grammar::parse_tree::{
     Path, TerminalString,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
-use crate::grammar::repr::{self as r, TupleItem};
+use crate::grammar::repr::{self as r, Span, TupleItem};
 use crate::normalize::norm_util::{self, Symbols};
-use crate::normalize::NormResult;
+use crate::normalize::{NormError, NormResult};
 use crate::session::Session;
 use string_cache::DefaultAtom as Atom;
 
@@ -47,7 +47,7 @@ impl<'s> LowerState<'s> {
     }
 
     fn lower(mut self, session: &Session, grammar: pt::Grammar) -> NormResult<r::Grammar> {
-        let start_symbols = self.synthesize_start_symbols(&grammar);
+        let start_symbols = self.synthesize_start_symbols(&grammar)?;
 
         let mut uses = vec![];
         let internal_token_path = Path {
@@ -131,15 +131,16 @@ impl<'s> LowerState<'s> {
                         .map(|alt| {
                             let nt_type = self.types.nonterminal_type(nt_name).clone();
                             let symbols = self.symbols(&alt.expr.symbols);
-                            let action = self.action_kind(nt_type, &alt.expr, &symbols, alt.action);
-                            r::Production {
-                                nonterminal: nt_name.clone(),
-                                span: alt.span,
-                                symbols,
-                                action,
-                            }
+
+                            self.action_kind(nt_type, &alt.expr, &symbols, alt.action)
+                                .map(|action| r::Production {
+                                    nonterminal: nt_name.clone(),
+                                    span: alt.span,
+                                    symbols,
+                                    action,
+                                })
                         })
-                        .collect();
+                        .collect::<Result<Vec<_>, _>>()?;
                     self.nonterminals.insert(
                         nt_name.clone(),
                         r::NonterminalData {
@@ -216,7 +217,7 @@ impl<'s> LowerState<'s> {
     fn synthesize_start_symbols(
         &mut self,
         grammar: &pt::Grammar,
-    ) -> Map<NonterminalString, NonterminalString> {
+    ) -> NormResult<Map<NonterminalString, NonterminalString>> {
         grammar
             .items
             .iter()
@@ -238,23 +239,25 @@ impl<'s> LowerState<'s> {
                     )],
                 };
                 let symbols = vec![r::Symbol::Nonterminal(nt.name.clone())];
-                let action_fn = self.action_fn(nt_type, false, &expr, &symbols, None);
-                let production = r::Production {
-                    nonterminal: fake_name.clone(),
-                    symbols,
-                    action: action_fn,
-                    span: nt.span,
-                };
-                self.nonterminals.insert(
-                    fake_name.clone(),
-                    r::NonterminalData {
-                        visibility: nt.visibility.clone(),
-                        attributes: vec![],
-                        span: nt.span,
-                        productions: vec![production],
-                    },
-                );
-                (nt.name.clone(), fake_name)
+                self.action_fn(nt_type, false, &expr, &symbols, None)
+                    .map(|action_fn| {
+                        let production = r::Production {
+                            nonterminal: fake_name.clone(),
+                            symbols,
+                            action: action_fn,
+                            span: nt.span,
+                        };
+                        self.nonterminals.insert(
+                            fake_name.clone(),
+                            r::NonterminalData {
+                                visibility: nt.visibility.clone(),
+                                attributes: vec![],
+                                span: nt.span,
+                                productions: vec![production],
+                            },
+                        );
+                        (nt.name.clone(), fake_name)
+                    })
             })
             .collect()
     }
@@ -298,10 +301,10 @@ impl<'s> LowerState<'s> {
         expr: &pt::ExprSymbol,
         symbols: &[r::Symbol],
         action: Option<pt::ActionKind>,
-    ) -> r::ActionFn {
+    ) -> NormResult<r::ActionFn> {
         match action {
-            Some(pt::ActionKind::Lookahead) => self.lookahead_action_fn(),
-            Some(pt::ActionKind::Lookbehind) => self.lookbehind_action_fn(),
+            Some(pt::ActionKind::Lookahead) => Ok(self.lookahead_action_fn()),
+            Some(pt::ActionKind::Lookbehind) => Ok(self.lookbehind_action_fn()),
             Some(pt::ActionKind::User(string)) => {
                 self.action_fn(nt_type, false, expr, symbols, Some(string))
             }
@@ -339,7 +342,7 @@ impl<'s> LowerState<'s> {
         expr: &pt::ExprSymbol,
         symbols: &[r::Symbol],
         action: Option<String>,
-    ) -> r::ActionFn {
+    ) -> NormResult<r::ActionFn> {
         let normalized_symbols = norm_util::analyze_expr(expr);
 
         let action = match action {
@@ -412,10 +415,12 @@ impl<'s> LowerState<'s> {
                     }),
                 }
             }
-            Symbols::Anon(indices) => {
-                let names: Vec<_> = (0..indices.len()).map(|i| self.fresh_name(i)).collect();
+            Symbols::Anon(anon_symbols) => {
+                let names: Vec<_> = (0..anon_symbols.len())
+                    .map(|i| self.fresh_name(i))
+                    .collect();
 
-                let p_indices = indices.iter().map(|&(index, _)| index);
+                let p_indices = anon_symbols.iter().map(|&(index, _)| index);
                 let p_names = names.iter().cloned().map(Name::immut).map(TupleItem::Name);
                 let arg_patterns = patterns(p_indices.zip(p_names), symbols.len());
 
@@ -423,7 +428,35 @@ impl<'s> LowerState<'s> {
                     let name_strs: Vec<_> = names.iter().map(AsRef::as_ref).collect();
                     name_strs.join(", ")
                 };
-                let action = action.replace("<>", &name_str);
+
+                let action = if action.matches("<>").count() > 1 {
+                    if action.matches("<>").count() != names.len() {
+                        // Here the error span will be based on the anon_symbols
+                        // since that is what I have the span information for.
+
+                        // Alternatively, one could pass in the action span
+                        // information instead of just the action string.
+                        let span_start = anon_symbols.first().unwrap().1.span;
+
+                        let span_end = anon_symbols.last().unwrap().1.span;
+
+                        let symbols_span = Span(span_start.0, span_end.1);
+
+                        return_err!(
+                            symbols_span,
+                            "When there are multiple `<>` in the action, \
+                             there must be the same number of sources for the `<>`s. \
+                             Found {} `<`>`s and {} anonymous sources.",
+                            action.matches("<>").count(),
+                            names.len()
+                        );
+                    }
+                    names
+                        .iter()
+                        .fold(action, |acc, name| acc.replacen("<>", name.as_ref(), 1))
+                } else {
+                    action.replace("<>", &name_str)
+                };
                 r::ActionFnDefn {
                     fallible,
                     ret_type: nt_type,
@@ -436,7 +469,7 @@ impl<'s> LowerState<'s> {
             }
         };
 
-        self.add_action_fn(action_fn_defn)
+        Ok(self.add_action_fn(action_fn_defn))
     }
 
     fn add_action_fn(&mut self, action_fn_defn: r::ActionFnDefn) -> r::ActionFn {

@@ -128,7 +128,7 @@ fn expandable_expression_requires_named_variables() {
 fn mixing_names_and_anonymous_values() {
     check_err(
         r#"anonymous symbols like this one cannot be combined with named symbols like `b:B`"#,
-        r#"grammar; Term = { <A> <b:B> => Alien: Eighth passanger of Nostromo};"#,
+        r#"grammar; Term = { <A> <b:B> => Alien: Eighth passenger of Nostromo};"#,
         r#"                  ~~~                                               "#,
     );
 }

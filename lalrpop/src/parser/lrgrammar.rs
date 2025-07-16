@@ -6585,7 +6585,7 @@ nonterminal_produced: 175,
 }
 }
 532 => ___state_machine::SimulatedReduce::Accept,
-_ => panic!("invalid reduction index {___reduce_index}",)
+_ => panic!("invalid reduction index {___reduce_index}")
 }
 }
 pub struct TopParser {

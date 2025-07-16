@@ -16,16 +16,26 @@ The `lalrpop` crate already includes an auto-generated parser
 in `lalrpop/src/parser/lrgrammar.rs` that end-users use.
 Small (meh), (relatively) fast to compile, easy to use (really, for end-users).
 
-That said, if you changes don't affect LALRPOP's own grammar
+That said, if your changes don't affect LALRPOP's own grammar
 (`lalrpop/src/parser/lrgrammar.lalrpop`) your workflow is simple
 
 ```sh
 # building
 $ cargo build # -p lalrpop --release
 
-# testing
+# testing using cargo test
 $ cargo test # -p lalrpop --release
+
+# testing using cargo nextest
+$ cargo nextest run
 ```
+
+(You can use either built in `cargo test` to run tests, or install `cargo-nextest`
+using `cargo install cargo-nextest` to run tests using the nextest framework.
+Currently both test runners are supported, however we are considering switching
+to exclusive use of `cargo-nextest` in the near future.  Please report any issues
+you have running `cargo-nextest` on the lalrpop test suite on the lalrpop issue
+tracker.)
 
 But if your changes *do* affect the grammar - well, that's where all the fun of
 bootstrapping compilers comes! You're going to have to get a working `lalrpop` binary to
@@ -84,7 +94,7 @@ maintained until the release of version 0.23.  A critical bug may warrant a
 later backport to the 0.22.x series, but in general, we will stop backporting
 and focus efforts on the 0.23 series as soon as 0.23 is released.
 
-Regarding Minumum Supported Rust Version (msrv) bumps, the guidance in the rust
+Regarding Minimum Supported Rust Version (msrv) bumps, the guidance in the rust
 community is that msrv bumps are not necessarily breaking, but should be bundled
 with breaking changes if possible. Our msrv strategy follows this guidance,
 attempting to bundle msrv bumps with breaking releases.  We prefer to keep the

@@ -81,6 +81,8 @@ give you the idea:
 | `<p:A> <q:B> => bar(<>)` | `<p:A> <q:B> => bar(p, q)` |
 | `<p:A> B => Foo {<>}` | `<p:A> B => Foo {p:p}` |
 | `<p:A> <q:B> => Foo {<>}` | `<p:A> <q:B> => Foo {p:p, q:q}` |
+| `<A> <B> => format!("<> <>")` | `<a:A> <b:B> => format!("<a> <b>")` |
+| `<p:A> <q:B> => format!("<> <>")` | `<p:A> <q:B> => format!("<p> <q>")` |
 
 The `<>` expressions also works with struct constructors (like `Foo
 {...}` in examples above). This works out well if the names of your
