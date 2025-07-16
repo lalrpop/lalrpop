@@ -97,7 +97,7 @@ the symbol it just parsed.
 
 We can then take a look at the corresponding parser with a new grammar:
 
-``` rust
+```lalrpop
 Term: Box<ExprSymbol<'input>> = {
     "num" => Box::new(ExprSymbol::NumSymbol(<>)),
     "(" <Expr> ")"
@@ -107,13 +107,13 @@ Term: Box<ExprSymbol<'input>> = {
 We need to pass the input to the parser so that the input's lifetime is known
 to the borrow checker when compiling the generated parser.
 
-``` rust
+```lalrpop
 grammar<'input>(input: &'input str);
 ```
 
 Then we just need to define the tokens the same as before :
 
-``` rust
+```lalrpop
 extern {
     type Location = usize;
     type Error = ();
