@@ -150,14 +150,12 @@ impl<'grammar> TypeInferencer<'grammar> {
         for id in &ids {
             self.nonterminal_type(id)?;
             debug_assert!(self.types.lookup_nonterminal_type(id).is_some());
-        }
 
-        for id in &ids {
             let nt = &self.nonterminals[id];
             for alt in nt.alternatives {
                 let symbols = &alt.expr.symbols;
                 for (t, s) in symbols.iter().filter_map(Symbol::as_tuple) {
-                    let nt = if let SymbolKind::Nonterminal(ref id) = s.kind {
+                    let ty = if let SymbolKind::Nonterminal(ref id) = s.kind {
                         self.nonterminal_type(id).unwrap()
                     } else {
                         return_err!(
@@ -167,7 +165,7 @@ impl<'grammar> TypeInferencer<'grammar> {
                         );
                     };
 
-                    self.validate_tuple(s.span, t, &nt)?;
+                    validate_tuple(s.span, t, &ty)?;
                 }
             }
         }
@@ -390,34 +388,6 @@ impl<'grammar> TypeInferencer<'grammar> {
             }
         }
     }
-
-    #[allow(clippy::only_used_in_recursion)]
-    fn validate_tuple(&self, span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()>
-    where
-        'grammar: 'grammar,
-    {
-        match nt {
-            TypeRepr::Tuple(items) => {
-                if items.len() != tuple.tuples.len() {
-                    return_err!(
-                        span,
-                        "expected a tuple of length {}, but found a tuple of length {}",
-                        items.len(),
-                        tuple.tuples.len()
-                    );
-                }
-
-                for (item, tuple_item) in items.iter().zip(&tuple.tuples) {
-                    if let TupleItem::Tuple(t) = tuple_item {
-                        self.validate_tuple(span, t, item).unwrap();
-                    }
-                }
-            }
-            _ => unreachable!("expected a tuple type, but found `{}`", nt),
-        }
-
-        Ok(())
-    }
 }
 
 impl<'grammar> Nt<'grammar> {
@@ -436,4 +406,28 @@ fn maybe_tuple(v: Vec<TypeRepr>) -> TypeRepr {
     } else {
         TypeRepr::Tuple(v)
     }
+}
+
+fn validate_tuple(span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()> {
+    match nt {
+        TypeRepr::Tuple(items) => {
+            if items.len() != tuple.tuples.len() {
+                return_err!(
+                    span,
+                    "expected a tuple of length {}, but found a tuple of length {}",
+                    items.len(),
+                    tuple.tuples.len()
+                );
+            }
+
+            for (item, tuple_item) in items.iter().zip(&tuple.tuples) {
+                if let TupleItem::Tuple(t) = tuple_item {
+                    validate_tuple(span, t, item).unwrap();
+                }
+            }
+        }
+        _ => unreachable!("expected a tuple type, but found `{}`", nt),
+    }
+
+    Ok(())
 }
