@@ -16,7 +16,7 @@ pub Foo: String = {
     },
     <(mut a, b):Bar> => {
         a += b;
-        format!("{}{}", a, b)
+        format!("{a}{b}")
     },
     <(a, ):Unary> => a.to_string()
 }
