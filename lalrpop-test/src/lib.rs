@@ -1245,6 +1245,10 @@ fn test_zero_length_match() {
 fn arg_multiple_pattern() {
     let result = arg_pattern::FooParser::new().parse("A B C");
     assert_eq!(result.unwrap(), "ABC");
+    // mutable item
     let result = arg_pattern::FooParser::new().parse("4 5");
     assert_eq!(result.unwrap(), "95");
+    // unary tuple
+    let result = arg_pattern::FooParser::new().parse("u");
+    assert_eq!(result.unwrap(), "u");
 }

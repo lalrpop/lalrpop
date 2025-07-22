@@ -8,7 +8,7 @@ use crate::grammar::parse_tree::{
     TerminalString, read_algorithm,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
-use crate::grammar::repr::{self as r, Span, ArgPattern};
+use crate::grammar::repr::{self as r, ArgPattern, Span};
 use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::{NormError, NormResult};
 use crate::session::Session;

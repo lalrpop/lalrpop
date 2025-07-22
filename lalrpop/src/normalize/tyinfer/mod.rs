@@ -3,8 +3,9 @@ use super::{NormError, NormResult};
 
 use crate::grammar::consts::{ERROR, LOCATION};
 use crate::grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
-    NonterminalString, Path, Span, Symbol, SymbolKind, Tuple, ArgPattern, TypeParameter, TypeRef,
+    ActionKind, Alternative, ArgPattern, Grammar, GrammarItem, Lifetime, MatchMapping,
+    NonterminalData, NonterminalString, Path, Span, Symbol, SymbolKind, Tuple, TypeParameter,
+    TypeRef,
 };
 use crate::grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};

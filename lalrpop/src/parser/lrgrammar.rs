@@ -1,5 +1,5 @@
 // auto-generated: "lalrpop 0.22.2"
-// sha3: b27fdf9ef981b8237924b0280e8b7825bb8dfe87fd3a6264d66d41fdacc786c2
+// sha3: 5e8ffc3aef6c16a84fdea60b91ebe93a2cba830360325338d8aebb2427f18259
 use string_cache::DefaultAtom as Atom;
 use crate::grammar::parse_tree::*;
 use crate::grammar::pattern::*;
@@ -87,8 +87,8 @@ Variant46(Option<Alternative>),
 Variant47(Vec<Alternative>),
 Variant48(AssociatedType),
 Variant49(alloc::vec::Vec<AssociatedType>),
-Variant50((AttributeArg)),
-Variant51(Option<(AttributeArg)>),
+Variant50(AttributeArg),
+Variant51(Option<AttributeArg>),
 Variant52(Option<Attribute>),
 Variant53(Vec<Attribute>),
 Variant54(Vec<Conversion>),
@@ -8379,17 +8379,6 @@ Some((___l, ___Symbol::Variant9(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
-fn ___pop_Variant50<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, (AttributeArg), usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant50(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
 fn ___pop_Variant82<
   'input,
 >(
@@ -8464,6 +8453,17 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant12(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant50<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, AttributeArg, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant50(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -8621,17 +8621,6 @@ Some((___l, ___Symbol::Variant28(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
-fn ___pop_Variant51<
-  'input,
->(
-___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
-) -> (usize, Option<(AttributeArg)>, usize)
- {
-match ___symbols.pop() {
-Some((___l, ___Symbol::Variant51(___v), ___r)) => (___l, ___v, ___r),
-_ => ___symbol_type_mismatch()
-}
-}
 fn ___pop_Variant45<
   'input,
 >(
@@ -8673,6 +8662,17 @@ ___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
  {
 match ___symbols.pop() {
 Some((___l, ___Symbol::Variant52(___v), ___r)) => (___l, ___v, ___r),
+_ => ___symbol_type_mismatch()
+}
+}
+fn ___pop_Variant51<
+  'input,
+>(
+___symbols: &mut alloc::vec::Vec<(usize,___Symbol<'input>,usize)>
+) -> (usize, Option<AttributeArg>, usize)
+ {
+match ___symbols.pop() {
+Some((___l, ___Symbol::Variant51(___v), ___r)) => (___l, ___v, ___r),
 _ => ___symbol_type_mismatch()
 }
 }
@@ -20189,7 +20189,7 @@ fn ___action35<
 text: &'input str,
 (_, lo, _): (usize, usize, usize),
 (_, id, _): (usize, Atom, usize),
-(_, arg, _): (usize, Option<(AttributeArg)>, usize),
+(_, arg, _): (usize, Option<AttributeArg>, usize),
 (_, hi, _): (usize, usize, usize),
 ) -> Attribute
 {
@@ -20207,7 +20207,7 @@ text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, ___0, _): (usize, Vec<Attribute>, usize),
 (_, _, _): (usize, Tok<'input>, usize),
-) -> (AttributeArg)
+) -> AttributeArg
 {
 AttributeArg::Paren(___0)
 }
@@ -20220,7 +20220,7 @@ fn ___action37<
 text: &'input str,
 (_, _, _): (usize, Tok<'input>, usize),
 (_, value, _): (usize, &'input str, usize),
-) -> (AttributeArg)
+) -> AttributeArg
 {
 AttributeArg::Equal(value.into())
 }
@@ -22062,8 +22062,8 @@ fn ___action170<
     'input,
 >(
 text: &'input str,
-(_, ___0, _): (usize, (AttributeArg), usize),
-) -> Option<(AttributeArg)>
+(_, ___0, _): (usize, AttributeArg, usize),
+) -> Option<AttributeArg>
 {
 Some(___0)
 }
@@ -22076,7 +22076,7 @@ fn ___action171<
 text: &'input str,
 ___lookbehind: &usize,
 ___lookahead: &usize,
-) -> Option<(AttributeArg)>
+) -> Option<AttributeArg>
 {
 None
 }
@@ -26909,7 +26909,7 @@ fn ___action429<
 >(
 text: &'input str,
 ___0: (usize, Atom, usize),
-___1: (usize, Option<(AttributeArg)>, usize),
+___1: (usize, Option<AttributeArg>, usize),
 ___2: (usize, usize, usize),
 ) -> Attribute
 {
@@ -27829,7 +27829,7 @@ fn ___action457<
 >(
 text: &'input str,
 ___0: (usize, Atom, usize),
-___1: (usize, Option<(AttributeArg)>, usize),
+___1: (usize, Option<AttributeArg>, usize),
 ) -> Attribute
 {
 let ___start0 = ___1.2;
@@ -29419,7 +29419,7 @@ fn ___action509<
 >(
 text: &'input str,
 ___0: (usize, Atom, usize),
-___1: (usize, (AttributeArg), usize),
+___1: (usize, AttributeArg, usize),
 ) -> Attribute
 {
 let ___start0 = ___1.0;

@@ -1,5 +1,5 @@
 use crate::grammar::parse_tree::{
-    ActionKind, Alternative, ExprSymbol, Symbol, SymbolKind, ArgPattern,
+    ActionKind, Alternative, ArgPattern, ExprSymbol, Symbol, SymbolKind,
 };
 
 #[derive(Debug)]

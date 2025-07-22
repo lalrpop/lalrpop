@@ -130,7 +130,7 @@ AttributeInner: Attribute =
         Attribute { id_span: Span(lo, hi), id, arg: arg.unwrap_or_default() }
 };
 
-AttributeArg: (AttributeArg) = {
+AttributeArg: AttributeArg = {
     "(" <Comma<AttributeInner>> ")" => AttributeArg::Paren(<>),
     "=" <value:"StringLiteral"> => AttributeArg::Equal(value.into()),
 };
