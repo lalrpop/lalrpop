@@ -96,8 +96,8 @@ the tuple. For example,
 Foo = { A B }
 Bar = { C Foo }
 pub FooBar: String = {
-    <(a, b):Foo> => format!("{}{}", a, b),
-    <(c, (a, b)):Bar> => format!("{}{}{}", c, a, b)
+    <(a, b):Foo> => format!("{a}{b}"),
+    <(c, (a, b)):Bar> => format!("{c}{a}{b}")
 }
 ```
 

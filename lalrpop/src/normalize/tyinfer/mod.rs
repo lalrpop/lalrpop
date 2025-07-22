@@ -4,7 +4,7 @@ use super::{NormError, NormResult};
 use crate::grammar::consts::{ERROR, LOCATION};
 use crate::grammar::parse_tree::{
     ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
-    NonterminalString, Path, Span, Symbol, SymbolKind, Tuple, TupleItem, TypeParameter, TypeRef,
+    NonterminalString, Path, Span, Symbol, SymbolKind, Tuple, ArgPattern, TypeParameter, TypeRef,
 };
 use crate::grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
@@ -230,7 +230,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             let symbols = &alt.expr.symbols;
             for (t, s) in symbols.iter().filter_map(Symbol::as_tuple) {
                 let ty = if let SymbolKind::Nonterminal(ref id) = s.kind {
-                    self.nonterminal_type(id).unwrap()
+                    self.nonterminal_type(id)?
                 } else {
                     return_err!(
                         s.span,
@@ -420,7 +420,7 @@ fn validate_tuple(span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()> {
             }
 
             for (item, tuple_item) in items.iter().zip(&tuple.tuples) {
-                if let TupleItem::Tuple(t) = tuple_item {
+                if let ArgPattern::Tuple(t) = tuple_item {
                     validate_tuple(span, t, item).unwrap();
                 }
             }

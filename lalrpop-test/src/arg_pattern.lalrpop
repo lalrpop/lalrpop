@@ -4,8 +4,8 @@ Barm<A, B> = { A B, B A }
 DeepBar<A, B, C> = {
     A Barm<B, C>,
 }
-Bar: (String, String) = {
-    <a:r"[c-z]"> <b:r"[c-z]"> => (a.to_string(), b.to_string())
+Bar: (i32, i32) = {
+    <a:r"[0-9]"> <b:r"[0-9]"> => (a.parse::<i32>().unwrap(), b.parse::<i32>().unwrap())
 }
 
 pub Foo: String = {
@@ -15,5 +15,8 @@ pub Foo: String = {
     <(a, (b, c)):DeepBar<"A", "B", "C">> => {
         a.to_string() + b + c
     },
-    <(a,b):Bar> => a + &b
+    <(mut a, b):Bar> => {
+        a += b;
+        format!("{}{}", a, b)
+    }
 };

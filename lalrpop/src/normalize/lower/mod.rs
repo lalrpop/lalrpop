@@ -8,7 +8,7 @@ use crate::grammar::parse_tree::{
     TerminalString, read_algorithm,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
-use crate::grammar::repr::{self as r, Span, TupleItem};
+use crate::grammar::repr::{self as r, Span, ArgPattern};
 use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::{NormError, NormResult};
 use crate::session::Session;
@@ -421,7 +421,7 @@ impl<'s> LowerState<'s> {
                     .collect();
 
                 let p_indices = anon_symbols.iter().map(|&(index, _)| index);
-                let p_names = names.iter().cloned().map(Name::immut).map(TupleItem::Name);
+                let p_names = names.iter().cloned().map(Name::immut).map(ArgPattern::Name);
                 let arg_patterns = patterns(p_indices.zip(p_names), symbols.len());
 
                 let name_str = {
@@ -511,9 +511,9 @@ impl<'s> LowerState<'s> {
     }
 }
 
-fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<TupleItem>
+fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<ArgPattern>
 where
-    I: Iterator<Item = (usize, TupleItem)>,
+    I: Iterator<Item = (usize, ArgPattern)>,
 {
     let blank = Atom::from("_");
 
@@ -525,7 +525,7 @@ where
                 next_chosen = chosen.next();
                 chosen_name.clone()
             }
-            _ => TupleItem::Name(Name::immut(blank.clone())),
+            _ => ArgPattern::Name(Name::immut(blank.clone())),
         })
         .collect();
 

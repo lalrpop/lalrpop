@@ -247,15 +247,15 @@ SymbolKind1: SymbolKind = {
 };
 
 Tuples: Tuple =
-    <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem> ")" <hi:@R> => {
-        Tuple::new(tuples.into_iter().chain(once(e)).collect())
+    <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem?> ")" <hi:@R> => {
+        Tuple::new(tuples.into_iter().chain(e.into_iter()).collect())
     };
 
-TupleItem: TupleItem = {
+TupleItem: ArgPattern = {
     <m:"mut"?> <l:Id> =>
-        TupleItem::Name(Name::new(m.is_some(), l)),
+        ArgPattern::Name(Name::new(m.is_some(), l)),
 
-    <t:Tuples> => TupleItem::Tuple(t),
+    <t:Tuples> => ArgPattern::Tuple(t),
 };
 
 TypeRef: TypeRef = {

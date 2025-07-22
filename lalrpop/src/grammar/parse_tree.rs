@@ -501,11 +501,11 @@ pub struct Name {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Tuple {
     // Vec<(mutable, name)>
-    pub tuples: Vec<TupleItem>,
+    pub tuples: Vec<ArgPattern>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum TupleItem {
+pub enum ArgPattern {
     Name(Name),
     Tuple(Tuple),
 }
@@ -775,16 +775,16 @@ impl Name {
 }
 
 impl Tuple {
-    pub fn new(tuples: Vec<TupleItem>) -> Self {
+    pub fn new(tuples: Vec<ArgPattern>) -> Self {
         Tuple { tuples }
     }
 }
 
-impl TupleItem {
+impl ArgPattern {
     pub fn name(&self) -> String {
         match self {
-            TupleItem::Name(name) => name.name.to_string(),
-            TupleItem::Tuple(tuple) => tuple.to_string(),
+            ArgPattern::Name(name) => name.name.to_string(),
+            ArgPattern::Tuple(tuple) => tuple.to_string(),
         }
     }
 }
@@ -1032,11 +1032,11 @@ impl Display for Tuple {
     }
 }
 
-impl Display for TupleItem {
+impl Display for ArgPattern {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TupleItem::Name(ref n) => Display::fmt(&n, fmt),
-            TupleItem::Tuple(ref t) => Display::fmt(&t, fmt),
+            ArgPattern::Name(ref n) => Display::fmt(&n, fmt),
+            ArgPattern::Tuple(ref t) => Display::fmt(&t, fmt),
         }
     }
 }
