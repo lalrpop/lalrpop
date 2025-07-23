@@ -422,7 +422,7 @@ fn validate_tuple(span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()> {
 
             for (item, tuple_item) in items.iter().zip(&tuple.tuples) {
                 if let ArgPattern::Tuple(t) = tuple_item {
-                    validate_tuple(span, t, item).unwrap();
+                    validate_tuple(span, t, item)?;
                 }
             }
         }

@@ -250,10 +250,11 @@ fn test_tuple_mismatch() {
 grammar;
     extern { enum Tok { "a" => .., "b" => .., "c" => .. } }
     Foo: String = {
-        <(a, b):Bar> <c:Ba> => a + b + c,
+        <(a, b):Bar> => a + b,
+        <(a, (b, c)):Bam> => a + b + c
     };
     Bar = "a" "b" "c";
-    Ba = "b" "a";
+    Bam = "b" Bar;
 "#,
     )
     .unwrap();
