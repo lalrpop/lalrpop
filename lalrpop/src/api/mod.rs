@@ -211,15 +211,16 @@ impl Configuration {
 
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
-    pub fn process_current_dir(&self) -> Result<(), Box<dyn Error>> {
+    pub fn process_current_dir(&mut self) -> Result<(), Box<dyn Error>> {
         // If we can get a current dir, check to make sure session.in_dir either *wasn't* set, or
         // wasn't set to that dir.  If we can't get a current dir, we'll error out in a moment
         // anyways, and that's the bigger problem.
         if let Ok(current_dir) = current_dir() {
-            if self.session.in_dir.is_some() && self.session.in_dir != Some(current_dir) {
+            if self.session.in_dir.is_some() && self.session.in_dir != Some(current_dir.clone()) {
                 eprintln!("Error: \"process_current_dir()\" contradicts previously set in_dir");
                 return Err(Box::new(io::Error::new(io::ErrorKind::InvalidInput, "\"process_current_dir()\" contradicts previously set in_dir.  Either use `process()` instead, or omit `set_in_dir()`.  (Note: in previous versions of lalrpop, this combination could affect the parser output dir.  If you were relying on this behavior to output the parser in your source directory, you may want to use `set_out_dir()` to retain that behavior.")));
             }
+            self.session.in_dir = Some(current_dir);
         }
         self.process_dir(current_dir()?)
     }

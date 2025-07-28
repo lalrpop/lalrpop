@@ -17,6 +17,7 @@ enum GenFileLoc {
     Other,
     Root,
     OutDir,
+    OutDirSlashOther,
     CustomOut,
     DoesntExist,
 }
@@ -101,6 +102,10 @@ fn verify_file(filename: &str, expected_location: GenFileLoc) {
         fs::exists(temp_dir().join(TEST_DIR).join(filename)).unwrap(),
         expected_location == GenFileLoc::OutDir
     );
+    assert_eq!(
+        fs::exists(temp_dir().join(TEST_DIR).join(path::Path::new("other")).join(filename)).unwrap(),
+        expected_location == GenFileLoc::OutDirSlashOther
+    );
     // For GenFileLoc::DoesntExist, we should have returned false for all others.  There is nothing
     // to positive test
 }
@@ -112,7 +117,7 @@ fn test_process_root() {
     process_root().unwrap();
 
     verify_file("src.rs", GenFileLoc::OutDir);
-    verify_file("other.rs", GenFileLoc::OutDir);
+    verify_file("other.rs", GenFileLoc::OutDirSlashOther);
     verify_file("outer.rs", GenFileLoc::OutDir);
 
     teardown(orig_dir);
