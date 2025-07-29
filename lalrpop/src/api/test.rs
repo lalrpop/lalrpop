@@ -22,6 +22,28 @@ enum GenFileLoc {
     DoesntExist,
 }
 
+// This holds state during the test to be cleaned up on drop
+struct TestState {
+    orig_dir: path::PathBuf,
+    lock: LockResult<MutexGuard<'static, i32>>,
+}
+
+impl TestState {
+    fn new(orig_dir: path::PathBuf, lock: LockResult<MutexGuard<'static, i32>>) -> Self {
+        TestState { orig_dir, lock }
+    }
+}
+
+impl Drop for TestState {
+    fn drop(&mut self) {
+        remove_local_generated_files();
+        set_current_dir(&self.orig_dir).unwrap();
+        let out_dir = temp_dir().join(TEST_DIR);
+        fs::remove_dir_all(out_dir).unwrap();
+        // the lock is automatically released when it goes out of scope
+    }
+}
+
 // Set up for API tests.  The directory structure in test_files
 // is:
 //
@@ -32,7 +54,7 @@ enum GenFileLoc {
 //   - src.lalrpop
 //
 // So we want to set CWD to directly above that, and OUT_DIR to a temp directory
-fn setup() -> (path::PathBuf, LockResult<MutexGuard<'static, i32>>) {
+fn setup() -> TestState {
     let lock = API_TEST_MUTEX.lock();
     let orig_dir = current_dir().unwrap();
     set_current_dir(path::Path::new("./src/api/test_files")).unwrap();
@@ -74,15 +96,7 @@ fn setup() -> (path::PathBuf, LockResult<MutexGuard<'static, i32>>) {
     unsafe {
         set_var("OUT_DIR", out_dir);
     }
-    (orig_dir, lock)
-}
-
-fn teardown(orig_dir: PathBuf) {
-    remove_local_generated_files();
-    set_current_dir(orig_dir).unwrap();
-    let out_dir = temp_dir().join(TEST_DIR);
-    fs::remove_dir_all(out_dir).unwrap();
-    // The lock is automatically released when it goes out of scope
+    TestState::new(orig_dir, lock)
 }
 
 // Assumes CWD is test_files
@@ -146,33 +160,29 @@ fn verify_file(filename: &str, expected_location: GenFileLoc) {
 
 #[test]
 fn test_process_root() {
-    let (orig_dir, _lock) = setup();
+    let _state = setup();
 
     process_root().unwrap();
 
     verify_file("src.rs", GenFileLoc::OutDir);
     verify_file("other.rs", GenFileLoc::OutDirSlashOther);
     verify_file("outer.rs", GenFileLoc::OutDir);
-
-    teardown(orig_dir);
 }
 
 #[test]
 fn test_process_src() {
-    let (orig_dir, _lock) = setup();
+    let _state = setup();
 
     process_src().unwrap();
 
     verify_file("src.rs", GenFileLoc::OutDir);
     verify_file("other.rs", GenFileLoc::DoesntExist);
     verify_file("outer.rs", GenFileLoc::DoesntExist);
-
-    teardown(orig_dir);
 }
 
 #[test]
 fn test_explicit_in_out() {
-    let (orig_dir, _lock) = setup();
+    let _state = setup();
 
     let custom_dir = temp_dir().join(CUSTOM_TEST_DIR);
     fs::create_dir(&custom_dir).unwrap();
@@ -188,12 +198,11 @@ fn test_explicit_in_out() {
     verify_file("outer.rs", GenFileLoc::DoesntExist);
 
     fs::remove_dir_all(&custom_dir).unwrap();
-    teardown(orig_dir);
 }
 
 #[test]
 fn test_cargo_dir_conventions() {
-    let (orig_dir, _lock) = setup();
+    let _state = setup();
 
     Configuration::new()
         .use_cargo_dir_conventions()
@@ -203,6 +212,4 @@ fn test_cargo_dir_conventions() {
     verify_file("src.rs", GenFileLoc::OutDir);
     verify_file("other.rs", GenFileLoc::DoesntExist);
     verify_file("outer.rs", GenFileLoc::DoesntExist);
-
-    teardown(orig_dir);
 }
