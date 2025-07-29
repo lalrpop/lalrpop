@@ -218,7 +218,10 @@ impl Configuration {
         if let Ok(current_dir) = current_dir() {
             if self.session.in_dir.is_some() && self.session.in_dir != Some(current_dir.clone()) {
                 eprintln!("Error: \"process_current_dir()\" contradicts previously set in_dir");
-                return Err(Box::new(io::Error::new(io::ErrorKind::InvalidInput, "\"process_current_dir()\" contradicts previously set in_dir.  Either use `process()` instead, or omit `set_in_dir()`.  (Note: in previous versions of lalrpop, this combination could affect the parser output dir.  If you were relying on this behavior to output the parser in your source directory, you may want to use `set_out_dir()` to retain that behavior.")));
+                return Err(Box::new(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "\"process_current_dir()\" contradicts previously set in_dir.  Either use `process()` instead, or omit `set_in_dir()`.  (Note: in previous versions of lalrpop, this combination could affect the parser output dir.  If you were relying on this behavior to output the parser in your source directory, you may want to use `set_out_dir()` to retain that behavior.",
+                )));
             }
             self.session.in_dir = Some(current_dir);
         }
