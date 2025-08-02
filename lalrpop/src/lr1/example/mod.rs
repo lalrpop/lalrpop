@@ -18,7 +18,7 @@ mod test;
 /// serialized into useful text. For example, it might represent
 /// something like this:
 ///
-/// ```
+/// ```text
 ///          Looking at
 ///              |
 ///              v
@@ -37,7 +37,7 @@ mod test;
 /// The `symbols` vector is actually `Option<Symbol>` to account
 /// for empty reductions:
 ///
-/// ```
+/// ```text
 /// A       B
 /// | |   | |
 /// | +-Y-+ |
