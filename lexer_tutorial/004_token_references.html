@@ -265,23 +265,17 @@ character, stores the beginning then continues to the next operator and sends
 the symbol it just parsed.</p>
 <h2 id="the-parser"><a class="header" href="#the-parser">The parser</a></h2>
 <p>We can then take a look at the corresponding parser with a new grammar:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>Term: Box&lt;ExprSymbol&lt;'input&gt;&gt; = {
+<pre><code class="language-lalrpop">Term: Box&lt;ExprSymbol&lt;'input&gt;&gt; = {
     "num" =&gt; Box::new(ExprSymbol::NumSymbol(&lt;&gt;)),
     "(" &lt;Expr&gt; ")"
 };
-<span class="boring">}</span></code></pre></pre>
+</code></pre>
 <p>We need to pass the input to the parser so that the input's lifetime is known
 to the borrow checker when compiling the generated parser.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>grammar&lt;'input&gt;(input: &amp;'input str);
-<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-lalrpop">grammar&lt;'input&gt;(input: &amp;'input str);
+</code></pre>
 <p>Then we just need to define the tokens the same as before :</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>extern {
+<pre><code class="language-lalrpop">extern {
     type Location = usize;
     type Error = ();
 
@@ -293,7 +287,7 @@ to the borrow checker when compiling the generated parser.</p>
         ")" =&gt; Tok::ParenClose,
     }
 }
-<span class="boring">}</span></code></pre></pre>
+</code></pre>
 <h2 id="calling-the-parser"><a class="header" href="#calling-the-parser">Calling the parser</a></h2>
 <p>We can finally run the parser we built:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]

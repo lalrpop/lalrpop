@@ -390,9 +390,7 @@ extern {
 Lexer. We can then use those names (<code>"identifier"</code>, <code>"var"</code>, ...) in our grammar
 rules to reference the desired token.</p>
 <p>Finally, we can build our rules:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub Script: Vec&lt;ast::Statement&gt; = {
+<pre><code class="language-lalrpop">pub Script: Vec&lt;ast::Statement&gt; = {
   &lt;stmts:Statement*&gt; =&gt; stmts
 }
 
@@ -451,7 +449,7 @@ pub Term: Box&lt;ast::Expression&gt; = {
   },
   "(" &lt;Expression&gt; ")",
 }
-<span class="boring">}</span></code></pre></pre>
+</code></pre>
 <p>Our grammar is now complete.</p>
 <h2 id="running-your-parser"><a class="header" href="#running-your-parser">Running your parser</a></h2>
 <p>The last step is to run our parser:</p>
