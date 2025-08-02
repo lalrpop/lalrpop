@@ -283,7 +283,7 @@ pub fn process_src() -> Result<(), Box<dyn Error>> {
 /// ```rust
 /// # use lalrpop::Configuration;
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-/// # std::env::set_var("OUT_DIR", std::env::temp_dir());
+/// # unsafe {std::env::set_var("OUT_DIR", std::env::temp_dir())};
 /// Configuration::new().force_build(true).process_current_dir()?;
 /// # Ok(())
 /// # }
