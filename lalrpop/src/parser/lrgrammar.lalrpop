@@ -130,7 +130,7 @@ AttributeInner: Attribute =
         Attribute { id_span: Span(lo, hi), id, arg: arg.unwrap_or_default() }
 };
 
-AttributeArg: (AttributeArg) = {
+AttributeArg: AttributeArg = {
     "(" <Comma<AttributeInner>> ")" => AttributeArg::Paren(<>),
     "=" <value:"StringLiteral"> => AttributeArg::Equal(value.into()),
 };
@@ -197,6 +197,9 @@ Symbol: Symbol = {
     <lo:@L> "<" <s:Symbol0> ">" <hi:@R> =>
         Symbol::new(Span(lo, hi), SymbolKind::Choose(Box::new(s))),
 
+    <lo:@L> "<" <t:Tuples> ":" <s:Symbol0> ">" <hi:@R> =>
+        Symbol::new(Span(lo, hi), SymbolKind::Tuple(t, Box::new(s))),
+
     Symbol0,
 };
 
@@ -241,6 +244,18 @@ SymbolKind1: SymbolKind = {
 
     "!" =>
         SymbolKind::Error,
+};
+
+Tuples: Tuple =
+    <lo:@L> "(" <tuples:(<TupleItem> ",")+> <e:TupleItem?> ")" <hi:@R> => {
+        Tuple::new(tuples.into_iter().chain(e.into_iter()).collect())
+    };
+
+TupleItem: ArgPattern = {
+    <m:"mut"?> <l:Id> =>
+        ArgPattern::Name(Name::new(m.is_some(), l)),
+
+    <t:Tuples> => ArgPattern::Tuple(t),
 };
 
 TypeRef: TypeRef = {
