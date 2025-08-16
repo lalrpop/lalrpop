@@ -1237,3 +1237,18 @@ fn test_zero_length_match() {
     let res = zero_length_match::AParser::new().parse("B");
     assert!(matches!(res, Err(ParseError::InvalidToken { location: _ })));
 }
+
+#[derive(Clone, Debug)]
+enum Token<'s> {
+    Foo(&'s str),
+}
+
+lalrpop_mod!(
+    #[allow(unused_variables)]
+    parser
+);
+
+#[test]
+fn test_issue1085() {
+    let _ = parser::PParser::new().parse(std::iter::once((0, Token::Foo(""), 0)));
+}

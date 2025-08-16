@@ -1,0 +1,15 @@
+use super::Token;
+grammar<'s>;
+
+extern {
+    type Location = usize;
+    enum Token<'s>  {
+        // Foo => Token::Foo(<&'s str>) <-- fix for 0.22
+         Foo => Token::Foo(s)
+    }
+}
+
+// pub P: &'s str <-- fix for 0.22
+pub P: Token<'s> = {
+    <t:Foo> => t,
+}
