@@ -1238,7 +1238,7 @@ fn test_zero_length_match() {
     assert!(matches!(res, Err(ParseError::InvalidToken { location: _ })));
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 enum Token<'s> {
     Foo(&'s str),
 }
