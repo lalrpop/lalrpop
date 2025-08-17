@@ -12,7 +12,7 @@ lalrpop = { version = "0.22.2", path = "../../lalrpop" }
 lalrpop-util = { version = "0.22.2", path = "../../lalrpop-util", features = [
     "unicode",
 ] }
-logos = "0.15.0"
+logos = "0.15.1"
 
 [features]
 default = []
