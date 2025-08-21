@@ -1,7 +1,7 @@
 use std::env::{current_dir, set_current_dir, set_var, temp_dir};
 use std::fs;
 use std::path;
-use std::sync::{LockResult, Mutex, MutexGuard};
+use std::sync::{Mutex, MutexGuard};
 
 use super::*;
 
@@ -25,11 +25,11 @@ enum GenFileLoc {
 // This holds state during the test to be cleaned up on drop
 struct TestState {
     orig_dir: path::PathBuf,
-    lock: LockResult<MutexGuard<'static, i32>>,
+    lock: MutexGuard<'static, i32>,
 }
 
 impl TestState {
-    fn new(orig_dir: path::PathBuf, lock: LockResult<MutexGuard<'static, i32>>) -> Self {
+    fn new(orig_dir: path::PathBuf, lock: MutexGuard<'static, i32>) -> Self {
         TestState { orig_dir, lock }
     }
 }
@@ -55,10 +55,21 @@ impl Drop for TestState {
 //
 // So we want to set CWD to directly above that, and OUT_DIR to a temp directory
 fn setup() -> TestState {
-    let lock = API_TEST_MUTEX.lock();
+    let out_dir = temp_dir().join(TEST_DIR);
+
+    // lock() can return an error if another thread panicked while holding the mutex.  In our case,
+    // that represents a test failure.  If another test failed, state was already cleaned up on
+    // drop.  So we check that and clear the mutex poison to resume processing
+    let lock = API_TEST_MUTEX.lock().unwrap_or_else(|e| {
+        if fs::exists(&out_dir).unwrap() {
+            // Uh oh, we didn't clean up after all
+            panic!("This test was started in an unclean state because another test failed but didn't manage to clean up test state");
+        }
+        API_TEST_MUTEX.clear_poison();
+        e.into_inner()
+    });
     let orig_dir = current_dir().unwrap();
     set_current_dir(path::Path::new("./src/api/test_files")).unwrap();
-    let out_dir = temp_dir().join(TEST_DIR);
     if fs::exists(&out_dir).unwrap() {
         // unclean data from previous failed test run.  Clean up
         fs::remove_dir_all(&out_dir).unwrap();
