@@ -162,6 +162,8 @@ extern {
 }
 ```
 
+(Note that LALRPOP requires the `Location` type to implement the `Default` trait.)
+
 We expose the `Tok` type by kinda sorta redeclaring it:
 
 ```lalrpop
