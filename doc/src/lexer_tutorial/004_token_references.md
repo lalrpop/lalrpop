@@ -119,11 +119,11 @@ extern {
     type Error = ();
 
     enum Tok<'input> {
-        "num" => Tok::NumSymbol(<&'input str>),
-        "FactorOp" => Tok::FactorOp(<Opcode>),
-        "ExprOp" => Tok::ExprOp(<Opcode>),
-        "(" => Tok::ParenOpen,
-        ")" => Tok::ParenClose,
+        NumSymbol(&'input str),
+        FactorOp(Opcode),
+        ExprOp(Opcode),
+        ParenOpen,
+        ParenClose,
     }
 }
 ```
