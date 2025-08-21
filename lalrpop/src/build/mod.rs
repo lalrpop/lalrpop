@@ -74,15 +74,36 @@ fn resolve_report_file(session: &Session, lalrpop_file: &Path) -> io::Result<Pat
 }
 
 fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Result<PathBuf> {
-    let in_dir = if let Some(ref d) = session.in_dir {
-        d.as_path()
-    } else {
-        Path::new(".")
-    };
     let out_dir = if let Some(ref d) = session.out_dir {
-        d.as_path()
+        // If there is an out_directory, we still expect it to mirror the
+        // directory structure of where we found the lalrpop file relative to
+        // the starting point.
+        if let Some(p) = lalrpop_file
+            .parent()
+            .and_then(|p| {
+                // We need to strip the in_dir from the path, if it exists.
+                session.in_dir.as_ref().map(|in_dir| {
+                    // If this file was from the in_directory, then it was necessarily a prefix of the path?
+                    let path_from_in = p.strip_prefix(in_dir).ok().unwrap();
+
+                    // Strip the src directory if we can?
+                    // Is this only for maintaining the old behavior of starting
+                    // from the root instead of starting in source?
+                    path_from_in.strip_prefix("src").unwrap_or(path_from_in)
+                })
+            })
+            .filter(|p| p != &Path::new(""))
+        {
+            // There is some additional path structure, so add it
+            d.join(p)
+        } else {
+            d.to_path_buf()
+        }
     } else {
-        in_dir
+        lalrpop_file
+            .parent()
+            .unwrap_or_else(|| Path::new("."))
+            .to_path_buf()
     };
 
     // Ideally we do something like syn::parse_str::<syn::Ident>(lalrpop_file.file_name())?;
@@ -115,11 +136,12 @@ fn gen_resolve_file(session: &Session, lalrpop_file: &Path, ext: &str) -> io::Re
         ));
     }
 
-    // If the lalrpop file is not in in_dir, the result is that the
-    // .rs file is created in the same directory as the lalrpop file
-    // for compatibility reasons
     Ok(out_dir
-        .join(lalrpop_file.strip_prefix(in_dir).unwrap_or(lalrpop_file))
+        .join(
+            lalrpop_file
+                .file_name()
+                .ok_or_else(|| io::Error::from(io::ErrorKind::InvalidInput))?,
+        )
         .with_extension(ext))
 }
 
