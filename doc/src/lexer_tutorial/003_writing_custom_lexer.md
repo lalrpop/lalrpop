@@ -50,7 +50,9 @@ pub type Spanned<Tok, Loc, Error> = Result<(Loc, Tok, Loc), Error>;
 ```
 
 `Loc` is typically just a `usize`, representing a byte offset into the input
-string. Each token is accompanied by two of them, marking the start and end
+string; it must implement `Debug`, `Clone`, and `Default`, where its `Default`
+value represents the initial parsing location.
+Each token is accompanied by two of them, marking the start and end
 positions where it was found. `Error` can be pretty much anything you choose.
 And of course `Tok` is the meat of the stream, defining what possible values
 the tokens themselves can have. Following the conventions of Rust iterators,
@@ -161,8 +163,6 @@ extern {
     // ...
 }
 ```
-
-(Note that LALRPOP requires the `Location` type to implement the `Default` and `Clone` traits.)
 
 We expose the `Tok` type by kinda sorta redeclaring it:
 
