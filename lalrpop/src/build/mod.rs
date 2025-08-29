@@ -137,13 +137,14 @@ fn process_file_into(
             "processing file `{}`",
             lalrpop_file.to_string_lossy()
         );
+
+        // Load the LALRPOP source text for this file:
+        let file_text = Rc::new(FileText::from_path(lalrpop_file.to_path_buf())?);
+
         if let Some(parent) = rs_file.parent() {
             fs::create_dir_all(parent)?;
         }
         remove_old_file(rs_file)?;
-
-        // Load the LALRPOP source text for this file:
-        let file_text = Rc::new(FileText::from_path(lalrpop_file.to_path_buf())?);
 
         // Store the session and file-text in TLS -- this is not
         // intended to be used in this high-level code, but it gives
