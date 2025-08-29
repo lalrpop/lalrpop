@@ -152,7 +152,7 @@ pub struct UserActionFnDefn {
 /// inlining `A = B C D` (with action 44) into `X = Y A Z` (with
 /// action 22), this would look something like:
 ///
-/// ```
+/// ```no_compile
 /// fn __action66(__0: Y, __1: B, __2: C, __3: D, __4: Z) {
 ///     __action22(__0, __action44(__1, __2, __3), __4)
 /// }

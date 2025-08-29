@@ -246,7 +246,7 @@ impl<'grammar, L: Lookahead> State<'grammar, L> {
     /// Returns the set of symbols from the stack that must be popped
     /// for this state to return. If we have a state like:
     ///
-    /// ```
+    /// ```text
     /// X = A B C (*) C
     /// Y = B C (*) C
     /// C = (*) ...
