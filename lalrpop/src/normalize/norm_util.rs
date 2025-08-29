@@ -1,4 +1,6 @@
-use crate::grammar::parse_tree::{ActionKind, Alternative, ExprSymbol, Name, Symbol, SymbolKind};
+use crate::grammar::parse_tree::{
+    ActionKind, Alternative, ArgPattern, ExprSymbol, Symbol, SymbolKind,
+};
 
 #[derive(Debug)]
 pub enum AlternativeAction<'a> {
@@ -8,7 +10,7 @@ pub enum AlternativeAction<'a> {
 
 #[derive(Debug)]
 pub enum Symbols<'a> {
-    Named(Vec<(usize, Name, &'a Symbol)>),
+    Named(Vec<(usize, ArgPattern, &'a Symbol)>),
     Anon(Vec<(usize, &'a Symbol)>),
 }
 
@@ -28,7 +30,10 @@ pub fn analyze_expr(expr: &ExprSymbol) -> Symbols<'_> {
         .iter()
         .enumerate()
         .filter_map(|(idx, sym)| match sym.kind {
-            SymbolKind::Name(ref id, ref sub) => Some((idx, id.clone(), &**sub)),
+            SymbolKind::Name(ref id, ref sub) => Some((idx, ArgPattern::Name(id.clone()), &**sub)),
+            SymbolKind::Tuple(ref ids, ref sub) => {
+                Some((idx, ArgPattern::Tuple(ids.clone()), &**sub))
+            }
             _ => None,
         })
         .collect();

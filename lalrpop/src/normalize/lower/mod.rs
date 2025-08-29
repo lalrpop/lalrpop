@@ -8,7 +8,7 @@ use crate::grammar::parse_tree::{
     TerminalString, read_algorithm,
 };
 use crate::grammar::pattern::{Pattern, PatternKind};
-use crate::grammar::repr::{self as r, Span};
+use crate::grammar::repr::{self as r, ArgPattern, Span};
 use crate::normalize::norm_util::{self, Symbols};
 use crate::normalize::{NormError, NormResult};
 use crate::session::Session;
@@ -388,20 +388,16 @@ impl<'s> LowerState<'s> {
                         norm_util::Presence::None => action,
                         norm_util::Presence::Normal => {
                             let name_str: String = {
-                                let name_strs: Vec<_> = names
-                                    .iter()
-                                    .map(|(_, name, _)| name.name.as_ref())
-                                    .collect();
+                                let name_strs: Vec<_> =
+                                    names.iter().map(|(_, name, _)| name.name()).collect();
                                 name_strs.join(", ")
                             };
                             action.replace("<>", &name_str)
                         }
                         norm_util::Presence::InCurlyBrackets => {
                             let name_str = {
-                                let name_strs: Vec<_> = names
-                                    .iter()
-                                    .map(|(_, name, _)| format!("{}", name.name))
-                                    .collect();
+                                let name_strs: Vec<_> =
+                                    names.iter().map(|(_, name, _)| name.name()).collect();
                                 name_strs.join(", ")
                             };
                             action.replace("<>", &name_str)
@@ -425,7 +421,7 @@ impl<'s> LowerState<'s> {
                     .collect();
 
                 let p_indices = anon_symbols.iter().map(|&(index, _)| index);
-                let p_names = names.iter().cloned().map(Name::immut);
+                let p_names = names.iter().cloned().map(Name::immut).map(ArgPattern::Name);
                 let arg_patterns = patterns(p_indices.zip(p_names), symbols.len());
 
                 let name_str = {
@@ -490,7 +486,9 @@ impl<'s> LowerState<'s> {
         match symbol.kind {
             pt::SymbolKind::Terminal(ref id) => r::Symbol::Terminal(id.clone()),
             pt::SymbolKind::Nonterminal(ref id) => r::Symbol::Nonterminal(id.clone()),
-            pt::SymbolKind::Choose(ref s) | pt::SymbolKind::Name(_, ref s) => self.symbol(s),
+            pt::SymbolKind::Choose(ref s)
+            | pt::SymbolKind::Name(_, ref s)
+            | pt::SymbolKind::Tuple(_, ref s) => self.symbol(s),
             pt::SymbolKind::Error => {
                 self.uses_error_recovery = true;
                 r::Symbol::Terminal(TerminalString::Error)
@@ -513,9 +511,9 @@ impl<'s> LowerState<'s> {
     }
 }
 
-fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<Name>
+fn patterns<I>(mut chosen: I, num_args: usize) -> Vec<ArgPattern>
 where
-    I: Iterator<Item = (usize, Name)>,
+    I: Iterator<Item = (usize, ArgPattern)>,
 {
     let blank = Atom::from("_");
 
@@ -527,7 +525,7 @@ where
                 next_chosen = chosen.next();
                 chosen_name.clone()
             }
-            _ => Name::immut(blank.clone()),
+            _ => ArgPattern::Name(Name::immut(blank.clone())),
         })
         .collect();
 

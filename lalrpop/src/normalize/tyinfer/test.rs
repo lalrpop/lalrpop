@@ -242,3 +242,24 @@ grammar;
         )],
     )
 }
+
+#[test]
+fn test_tuple_mismatch() {
+    let grammar = parser::parse_grammar(
+        r#"
+grammar;
+    extern { enum Tok { "a" => .., "b" => .., "c" => .. } }
+    Foo: String = {
+        <(a, b):Bar> => a + b,
+        <(a, (b, c)):Bam> => a + b + c
+    };
+    Bar = "a" "b" "c";
+    Bam = "b" Bar;
+"#,
+    )
+    .unwrap();
+
+    let actual = expand_macros(grammar, 20).unwrap();
+    let types = infer_types(&actual);
+    assert!(types.is_err());
+}
