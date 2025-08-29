@@ -220,7 +220,9 @@ where each item in the stream has the following structure:</p>
 <pre><code class="language-lalrpop">pub type Spanned&lt;Tok, Loc, Error&gt; = Result&lt;(Loc, Tok, Loc), Error&gt;;
 </code></pre>
 <p><code>Loc</code> is typically just a <code>usize</code>, representing a byte offset into the input
-string. Each token is accompanied by two of them, marking the start and end
+string; it must implement <code>Debug</code>, <code>Clone</code>, and <code>Default</code>, where its <code>Default</code>
+value represents the initial parsing location.
+Each token is accompanied by two of them, marking the start and end
 positions where it was found. <code>Error</code> can be pretty much anything you choose.
 And of course <code>Tok</code> is the meat of the stream, defining what possible values
 the tokens themselves can have. Following the conventions of Rust iterators,
