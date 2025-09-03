@@ -1,0 +1,64 @@
+use std::str::FromStr;
+
+grammar;
+
+match {
+    "+",
+    "-",
+    "*",
+    "/",
+    "(",
+    ")",
+    "{",
+    "}",
+    ";",
+    r"[0-9]+",
+    "print",
+
+    // Skip whitespace and comments
+    r"\s*" => { },
+    r"//[^\n\r]*[\n\r]*" => { }, // `// comment`
+    r"/\*([^\*]*\*+[^\*/])*([^\*]*\*+|[^\*])*\*/" => { }, // `/* comment */`
+}
+
+pub Expr = ExprRestricted<"B">;
+ExprNoBlock = ExprRestricted<"">;
+
+// - B: if non-empty, include block expressions
+ExprRestricted<B>: i32 = {
+    <l:ExprRestricted<B>> "+" <r:Factor<"B">> => l + r,
+    <l:ExprRestricted<B>> "-" <r:Factor<"B">> => l - r,
+    Factor<B>,
+};
+
+Factor<B>: i32 = {
+    <l:Factor<B>> "*" <r:Unary<"B">> => l * r,
+    <l:Factor<B>> "/" <r:Unary<"B">> => l / r,
+    Unary<B>,
+};
+
+Unary<B>: i32 = {
+    Term<B>,
+    "-" <e:Term<"B">> => -e,
+}
+
+Term<B>: i32 = {
+    Num,
+    "(" <e:Expr> ")" => e,
+    "print" "(" <e:Expr> ")" => { println!("{}", e); 0 },
+    Block if B != "",
+};
+
+Block: i32 = {
+    "{" <s:Stmt*> <e:ExprNoBlock?> "}" => e.unwrap_or_else(|| s.last().copied().unwrap_or(0)),
+}
+
+Stmt: i32 = {
+    <e:ExprNoBlock> ";" => e,
+    <b:Block> ";"? => b,
+};
+
+Num: i32 = {
+    r"[0-9]+" => i32::from_str(<>).unwrap(),
+};
+

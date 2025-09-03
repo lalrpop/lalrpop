@@ -18,5 +18,5 @@ functionality, use this table to jump to the right section.
 | extern_location | `type Location = MyLoc;` | sets the type to for locations instead of `usize` | [Writing a custom lexer](lexer_tutorial/003_writing_custom_lexer.md) |
 | extern_tok | `enum MyToken { }` | declares the type of lexer tokens to be consumed by the generated parser  | [Using tokens with references](lexer_tutorial/004_token_references.md) |
 | auto_parameters | `<>` | refers to all the parameters of the non-terminal as a tuple | [Type inference](tutorial/003_type_inference.md) |
-|conditional actions | `Expr<I> = { ... , <T> if I == "a" => (), ...}` | Conditional definition of a macro's alternative | [index pointer](tutorial/index.md) |
+|conditional actions | `Expr<I> = { ... , <T> if I == "a" => (), ...}` | Conditional definition of a macro's alternative | [index pointer](guards_in_macro.md) |
 |precedence| `#[precedence(level="0")]` | creates a hierarchy to parser actions for which ones should be applied first | [Handling full expressions](tutorial/004_full_expressions.md) |
