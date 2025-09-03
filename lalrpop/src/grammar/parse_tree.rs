@@ -1028,11 +1028,7 @@ impl Display for Name {
 
 impl Display for Tuple {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
-        if self.tuples.len() == 1 {
-            write!(fmt, "({}, )", self.tuples[0])
-        } else {
-            write!(fmt, "({})", Sep(", ", &self.tuples))
-        }
+        write!(fmt, "({})", Sep(", ", &self.tuples))
     }
 }
 
@@ -1109,13 +1105,7 @@ impl Display for TypeParameter {
 impl Display for TypeRef {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TypeRef::Tuple(ref types) => {
-                if types.len() == 1 {
-                    write!(fmt, "({}, )", types[0])
-                } else {
-                    write!(fmt, "({})", Sep(", ", types))
-                }
-            }
+            TypeRef::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
             TypeRef::Slice(ref ty) => write!(fmt, "[{ty}]"),
             TypeRef::Nominal {
                 ref path,

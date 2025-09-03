@@ -512,13 +512,7 @@ impl Display for Parameter {
 impl Display for TypeRepr {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TypeRepr::Tuple(ref types) => {
-                if types.len() == 1 {
-                    write!(fmt, "({}, )", types[0])
-                } else {
-                    write!(fmt, "({})", Sep(", ", types))
-                }
-            }
+            TypeRepr::Tuple(ref types) => write!(fmt, "({})", Sep(", ", types)),
             TypeRepr::Slice(ref ty) => write!(fmt, "[{ty}]"),
             TypeRepr::Nominal(ref data) => write!(fmt, "{data}"),
             TypeRepr::Associated {

@@ -1248,7 +1248,4 @@ fn arg_multiple_pattern() {
     // mutable item
     let result = arg_pattern::FooParser::new().parse("4 5");
     assert_eq!(result.unwrap(), "95");
-    // unary tuple
-    let result = arg_pattern::FooParser::new().parse("u");
-    assert_eq!(result.unwrap(), "u");
 }

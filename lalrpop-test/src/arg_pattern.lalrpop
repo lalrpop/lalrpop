@@ -5,7 +5,6 @@ DeepBar<A, B, C> = { A Barm<B, C> }
 Bar: (i32, i32) = {
     <a:r"[0-9]"> <b:r"[0-9]"> => (a.parse::<i32>().unwrap(), b.parse::<i32>().unwrap())
 }
-Unary:(String, ) = { "u" => (<>.to_string(), ) }
 
 pub Foo: String = {
     <(a, b):Barm<"a", "b">> => {
@@ -18,5 +17,4 @@ pub Foo: String = {
         a += b;
         format!("{a}{b}")
     },
-    <(a, ):Unary> => a.to_string()
 }

@@ -101,5 +101,7 @@ pub FooBar: String = {
 }
 ```
 
+Note that LALRPOP's tuple parameters must have at least two elements.
+
 [calculator1]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator1.lalrpop
 [calculator2]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2.lalrpop
