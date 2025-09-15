@@ -20,7 +20,7 @@ regex-automata = { workspace = true, optional = true }
 lexer = ["dep:regex-automata"]
 unicode = ["regex-automata?/unicode"]
 std = ["regex-automata/perf"]
-default = ["std", "unicode"]
+default = ["std", "unicode", "lexer"]
 
 [package.metadata.docs.rs]
 features = ["lexer"]

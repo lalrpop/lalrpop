@@ -18,8 +18,18 @@ lalrpop-util = "0.22.2"
 lalrpop = "0.22.2"
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
+# [dependencies]
+# lalrpop-util = { version = "0.22.2", default-features = false }
+#
+# [build-dependencies]
 # lalrpop = { version = "0.22.2", default-features = false }
 ```
+
+It's important to note that your version and features for `lalrpop` and
+`lalrpop-util` should always remain in sync.  Using different major or minor
+version levels for `lalrpop` and `lalrpop-util` is not supported.  Using
+different patch version levels should work in theory, but is challenging to
+test and therefore prone to breakage.
 
 Next create a [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scripts.html)
 file that looks like:
