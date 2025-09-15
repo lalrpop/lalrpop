@@ -88,5 +88,20 @@ The `<>` expressions also works with struct constructors (like `Foo
 {...}` in examples above). This works out well if the names of your
 parsed values match the names of your struct fields.
 
+However, `<>` may be confusing if you're dealing with complicated
+tuples. In that case, LALRPOP provides a pattern matching to unwrap
+the tuple. For example,
+
+```lalrpop
+Foo = { A B }
+Bar = { C Foo }
+pub FooBar: String = {
+    <(a, b):Foo> => format!("{a}{b}"),
+    <(c, (a, b)):Bar> => format!("{c}{a}{b}")
+}
+```
+
+Note that LALRPOP's tuple parameters must have at least two elements.
+
 [calculator1]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator1.lalrpop
 [calculator2]: https://github.com/lalrpop/lalrpop/blob/master/doc/calculator/src/calculator2.lalrpop

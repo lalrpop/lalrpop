@@ -480,6 +480,9 @@ pub enum SymbolKind {
     // <x:X> or <mut x:X>
     Name(Name, Box<Symbol>),
 
+    // <(x, y):X)> or <(x, (mut y, z)):X>
+    Tuple(Tuple, Box<Symbol>),
+
     // @L
     Lookahead,
 
@@ -493,6 +496,18 @@ pub enum SymbolKind {
 pub struct Name {
     pub mutable: bool,
     pub name: Atom,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Tuple {
+    // Vec<(mutable, name)>
+    pub tuples: Vec<ArgPattern>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum ArgPattern {
+    Name(Name),
+    Tuple(Tuple),
 }
 
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -740,6 +755,13 @@ impl Symbol {
     pub fn canonical_form(&self) -> String {
         format!("{self}")
     }
+
+    pub fn as_tuple(&self) -> Option<(&Tuple, &Symbol)> {
+        match &self.kind {
+            SymbolKind::Tuple(t, s) => Some((t, s)),
+            _ => None,
+        }
+    }
 }
 
 impl Name {
@@ -749,6 +771,21 @@ impl Name {
 
     pub fn immut(name: Atom) -> Self {
         Name::new(false, name)
+    }
+}
+
+impl Tuple {
+    pub fn new(tuples: Vec<ArgPattern>) -> Self {
+        Tuple { tuples }
+    }
+}
+
+impl ArgPattern {
+    pub fn name(&self) -> String {
+        match self {
+            ArgPattern::Name(name) => name.name.to_string(),
+            ArgPattern::Tuple(tuple) => tuple.to_string(),
+        }
     }
 }
 
@@ -971,6 +1008,7 @@ impl Display for SymbolKind {
             SymbolKind::Repeat(ref r) => write!(fmt, "{r}"),
             SymbolKind::Choose(ref s) => write!(fmt, "<{s}>"),
             SymbolKind::Name(ref n, ref s) => write!(fmt, "{n}:{s}"),
+            SymbolKind::Tuple(ref t, ref s) => write!(fmt, "{t}:{s}"),
             SymbolKind::Lookahead => write!(fmt, "@L"),
             SymbolKind::Lookbehind => write!(fmt, "@R"),
             SymbolKind::Error => write!(fmt, "error"),
@@ -984,6 +1022,21 @@ impl Display for Name {
             write!(fmt, "mut {}", self.name)
         } else {
             Display::fmt(&self.name, fmt)
+        }
+    }
+}
+
+impl Display for Tuple {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
+        write!(fmt, "({})", Sep(", ", &self.tuples))
+    }
+}
+
+impl Display for ArgPattern {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
+        match *self {
+            ArgPattern::Name(ref n) => Display::fmt(&n, fmt),
+            ArgPattern::Tuple(ref t) => Display::fmt(&t, fmt),
         }
     }
 }

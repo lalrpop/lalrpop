@@ -3,8 +3,9 @@ use super::{NormError, NormResult};
 
 use crate::grammar::consts::{ERROR, LOCATION};
 use crate::grammar::parse_tree::{
-    ActionKind, Alternative, Grammar, GrammarItem, Lifetime, MatchMapping, NonterminalData,
-    NonterminalString, Path, Span, SymbolKind, TypeParameter, TypeRef,
+    ActionKind, Alternative, ArgPattern, Grammar, GrammarItem, Lifetime, MatchMapping,
+    NonterminalData, NonterminalString, Path, Span, Symbol, SymbolKind, Tuple, TypeParameter,
+    TypeRef,
 };
 use crate::grammar::repr::{NominalTypeRepr, TypeRepr, Types};
 use std::collections::{HashMap, HashSet};
@@ -147,9 +148,9 @@ impl<'grammar> TypeInferencer<'grammar> {
     fn infer_types(mut self) -> NormResult<Types> {
         let ids: Vec<NonterminalString> = self.nonterminals.keys().cloned().collect();
 
-        for id in ids {
-            self.nonterminal_type(&id)?;
-            debug_assert!(self.types.lookup_nonterminal_type(&id).is_some());
+        for id in &ids {
+            self.nonterminal_type(id)?;
+            debug_assert!(self.types.lookup_nonterminal_type(id).is_some());
         }
 
         Ok(self.types)
@@ -225,6 +226,23 @@ impl<'grammar> TypeInferencer<'grammar> {
             // and use that type
             Ok(alternative_types.pop().unwrap())
         })?;
+
+        for alt in nt.alternatives {
+            let symbols = &alt.expr.symbols;
+            for (t, s) in symbols.iter().filter_map(Symbol::as_tuple) {
+                let ty = if let SymbolKind::Nonterminal(ref id) = s.kind {
+                    self.nonterminal_type(id)?
+                } else {
+                    return_err!(
+                        s.span,
+                        "expected a nonterminal in tuple, but found `{}`",
+                        s.kind
+                    );
+                };
+
+                validate_tuple(s.span, t, &ty)?;
+            }
+        }
 
         self.types.add_type(id.clone(), ty.clone());
         Ok(ty)
@@ -357,7 +375,7 @@ impl<'grammar> TypeInferencer<'grammar> {
             SymbolKind::Terminal(ref id) => Ok(self.types.terminal_type(id).clone()),
             SymbolKind::Nonterminal(ref id) => self.nonterminal_type(id),
             SymbolKind::Choose(ref s) => self.symbol_type(&s.kind),
-            SymbolKind::Name(_, ref s) => self.symbol_type(&s.kind),
+            SymbolKind::Name(_, ref s) | SymbolKind::Tuple(_, ref s) => self.symbol_type(&s.kind),
             SymbolKind::Error => Ok(self.types.error_recovery_type().clone()),
 
             SymbolKind::Repeat(..)
@@ -388,4 +406,28 @@ fn maybe_tuple(v: Vec<TypeRepr>) -> TypeRepr {
     } else {
         TypeRepr::Tuple(v)
     }
+}
+
+fn validate_tuple(span: Span, tuple: &Tuple, nt: &TypeRepr) -> NormResult<()> {
+    match nt {
+        TypeRepr::Tuple(items) => {
+            if items.len() != tuple.tuples.len() {
+                return_err!(
+                    span,
+                    "expected a tuple of length {}, but found a tuple of length {}",
+                    items.len(),
+                    tuple.tuples.len()
+                );
+            }
+
+            for (item, tuple_item) in items.iter().zip(&tuple.tuples) {
+                if let ArgPattern::Tuple(t) = tuple_item {
+                    validate_tuple(span, t, item)?;
+                }
+            }
+        }
+        _ => unreachable!("expected a tuple type, but found `{}`", nt),
+    }
+
+    Ok(())
 }

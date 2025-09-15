@@ -20,6 +20,9 @@ macro_rules! lalrpop_mod_test {
     }
 }
 
+/// Tests for pattern in arguments
+lalrpop_mod_test!(arg_pattern);
+
 /// Tests that actions can return the grammar's type parameters' associated
 /// types.
 lalrpop_mod_test!(associated_types);
@@ -1236,4 +1239,13 @@ fn test_nested_pattern_string_error() {
 fn test_zero_length_match() {
     let res = zero_length_match::AParser::new().parse("B");
     assert!(matches!(res, Err(ParseError::InvalidToken { location: _ })));
+}
+
+#[test]
+fn arg_multiple_pattern() {
+    let result = arg_pattern::FooParser::new().parse("A B C");
+    assert_eq!(result.unwrap(), "ABC");
+    // mutable item
+    let result = arg_pattern::FooParser::new().parse("4 5");
+    assert_eq!(result.unwrap(), "95");
 }
