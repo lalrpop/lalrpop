@@ -246,6 +246,17 @@ give you the idea:</p>
 </div>
 <p>The <code>&lt;&gt;</code> expressions also works with struct constructors (like <code>Foo {...}</code> in examples above). This works out well if the names of your
 parsed values match the names of your struct fields.</p>
+<p>However, <code>&lt;&gt;</code> may be confusing if you're dealing with complicated
+tuples. In that case, LALRPOP provides a pattern matching to unwrap
+the tuple. For example,</p>
+<pre><code class="language-lalrpop">Foo = { A B }
+Bar = { C Foo }
+pub FooBar: String = {
+    &lt;(a, b):Foo&gt; =&gt; format!("{a}{b}"),
+    &lt;(c, (a, b)):Bar&gt; =&gt; format!("{c}{a}{b}")
+}
+</code></pre>
+<p>Note that LALRPOP's tuple parameters must have at least two elements.</p>
 
                     </main>
 

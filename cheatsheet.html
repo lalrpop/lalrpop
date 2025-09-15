@@ -194,6 +194,7 @@ functionality, use this table to jump to the right section.</p>
 <tr><td>extern_location</td><td><code>type Location = MyLoc;</code></td><td>sets the type to for locations instead of <code>usize</code></td><td><a href="lexer_tutorial/003_writing_custom_lexer.html">Writing a custom lexer</a></td></tr>
 <tr><td>extern_tok</td><td><code>enum MyToken { }</code></td><td>declares the type of lexer tokens to be consumed by the generated parser</td><td><a href="lexer_tutorial/004_token_references.html">Using tokens with references</a></td></tr>
 <tr><td>auto_parameters</td><td><code>&lt;&gt;</code></td><td>refers to all the parameters of the non-terminal as a tuple</td><td><a href="tutorial/003_type_inference.html">Type inference</a></td></tr>
+<tr><td>tuple_parameters</td><td><code>&lt;(a, b, c):Foo&gt;</code></td><td>unwraps tuple returns of non-terminal to parameters</td><td><a href="tutorial/003_type_inference.html">Type inference</a></td></tr>
 <tr><td>conditional actions</td><td><code>Expr&lt;I&gt; = { ... , &lt;T&gt; if I == "a" =&gt; (), ...}</code></td><td>Conditional definition of a macro's alternative</td><td><a href="tutorial/index.html">index pointer</a></td></tr>
 <tr><td>precedence</td><td><code>#[precedence(level="0")]</code></td><td>creates a hierarchy to parser actions for which ones should be applied first</td><td><a href="tutorial/004_full_expressions.html">Handling full expressions</a></td></tr>
 </tbody></table>
