@@ -55,7 +55,7 @@ struct RecursiveAscent<'ascent, 'grammar> {
 /// particular state is aware of. We break the suffix into two parts:
 /// optional and fixed, which always look like this:
 ///
-/// ```
+/// ```text
 /// ... A B C X Y Z
 /// ~~~ ~~~~~ ~~~~~
 ///  |    |     |
@@ -71,7 +71,7 @@ struct RecursiveAscent<'ascent, 'grammar> {
 /// *optional* member is one that *we* may or may not *consume*. So
 /// the above stack suffix could occur given a state with items like:
 ///
-/// ```
+/// ```text
 /// NT1 = A B C X Y Z (*) "."
 /// NT2 = X Y Z (*) ","
 /// ```

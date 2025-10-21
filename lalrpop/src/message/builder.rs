@@ -120,7 +120,7 @@ impl Character for InlineBuilder {
 ///
 /// Example:
 ///
-/// ```
+/// ```no_compile
 /// let node = InlineBuilder::new()
 ///     .begin_lines() // starts a child builder for adjacent lines
 ///     .text("foo")   // add a text node "foo" to the child builder
