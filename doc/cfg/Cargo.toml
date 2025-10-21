@@ -1,16 +1,16 @@
 [package]
 name = "cfg"
-version = "0.22.2"
+version = "0.23.0"
 authors = ["Mathis Brossier <mathis.brossier@gmail.com>"]
 workspace = "../.." # <-- We added this and everything after!
 edition = "2024"
 publish = false
 
 [build-dependencies]
-lalrpop = { version = "0.22.2", path = "../../lalrpop" }
+lalrpop = { version = "0.23.0", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.22.2", path = "../../lalrpop-util", features = [
+lalrpop-util = { version = "0.23.0", path = "../../lalrpop-util", features = [
     "lexer",
 ] }
 

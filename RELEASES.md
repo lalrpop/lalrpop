@@ -1,3 +1,54 @@
+<a name="0.23.0"></a>
+## 0.23.0  (2025-09-16)
+
+#### Breaking Changes
+* Lalrpop no longer exposes a regex-automata feature.  This feature was
+  previously exposed accidentally and did not change lalrpop functionality.
+* Make the `lexer` feature a default feature for lalrpop-util.  In older
+  versions of rust, lalrpop-util would automatically use the `lexer` feature
+  when lalrpop did, but that is no longer the case, so this change keeps the
+  common case as the default.  If you're using a custom lexer, you'll need
+  to make sure to disable default-features for both lalrpop *and* lalrpop-util.
+* `Configuration.set_in_dir()` can now no longer affect the output dir.  In
+  certain configurations, setting in_dir using `set_in_dir()` could actually
+  cause the generated parser to be put in the input directory rather than in
+  `OUT_DIR`.  In most cases `OUT_DIR` may be what you want anyways and should
+  work seamlessly.  If you want to preserve the existing behavior of writing
+  to the source directory, you should do that explicitly with `set_out_dir()`
+  (or `use_cargo_dir_conventions()`)
+* `Configuration.set_in_dir()` is now incompatible with `process_current_dir()`,
+  and `process_dir()` , because all of these functions set an input directory
+  themselves (either the current directory, or the argument).  Previously,
+  these functions would all silently ignore the `set_in_dir()` setting, except
+  possibly to change the *output* directory as mentioned above.  Now these
+  functions are incompatible.  If you get an error about this, remove
+  `set_in_dir()` from your `Configuration`, or use it with `process()`.  You may
+  also need to change your output directory as mentioned in the previous bullet.
+
+#### Features
+* `lalrpop_util::ParseError` now implements the `Hash` trait
+* Support expanding multiple anonymous format arguments in the same pattern
+  (e.g. `<A> <B> => format!("<> <>")`).  It is an error if the number of format
+  strings in the pattern do not match the number in the action code.
+* Support binding tuple patterns in grammar. This syntactic sugar can make
+  dealing with nonterminal definitions that return multiple values easier.
+
+#### Changes
+* Bump MSRV to 1.85
+* Update to the 2024 rust edition
+
+#### Internal Development features
+* Support running tests with cargo-nextest.
+
+#### Bugfixes
+* Documentation updates
+* When using a custom lexer, the `Location` type previously required the `Copy`
+  trait, which was undocumented and unintentional.  This requirement has been
+  dropped.
+* If looking for a .lalrpop file in a directory that no longer exists, lalrpop
+  no longer creates the missing directory.
+
+
 <a name="0.22.2"></a>
 ## 0.22.2  (2025-05-22)
 

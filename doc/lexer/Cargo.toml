@@ -6,10 +6,10 @@ authors = ["Patrick LaFontaine <32135464+Pat-Lafon@users.noreply.github.com>"]
 publish = false
 
 [build-dependencies]
-lalrpop = { version = "0.22.2", path = "../../lalrpop" }
+lalrpop = { version = "0.23.0", path = "../../lalrpop" }
 
 [dependencies]
-lalrpop-util = { version = "0.22.2", path = "../../lalrpop-util", features = [
+lalrpop-util = { version = "0.23.0", path = "../../lalrpop-util", features = [
     "unicode",
 ] }
 logos = "0.15.1"
