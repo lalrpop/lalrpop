@@ -5,8 +5,12 @@ use std::default::Default;
 use std::env;
 use std::env::current_dir;
 use std::error::Error;
+use std::io;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
+
+#[cfg(test)]
+mod test;
 
 /// Configure various aspects of how LALRPOP works.
 /// Intended for use within a `build.rs` script.
@@ -207,7 +211,20 @@ impl Configuration {
 
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
-    pub fn process_current_dir(&self) -> Result<(), Box<dyn Error>> {
+    pub fn process_current_dir(&mut self) -> Result<(), Box<dyn Error>> {
+        // If we can get a current dir, check to make sure session.in_dir either *wasn't* set, or
+        // wasn't set to that dir.  If we can't get a current dir, we'll error out in a moment
+        // anyways, and that's the bigger problem.
+        if let Ok(current_dir) = current_dir() {
+            if self.session.in_dir.is_some() && self.session.in_dir != Some(current_dir.clone()) {
+                eprintln!("Error: \"process_current_dir()\" contradicts previously set in_dir");
+                return Err(Box::new(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "\"process_current_dir()\" contradicts previously set in_dir.  Either use `process()` instead, or omit `set_in_dir()`.  (Note: in previous versions of lalrpop, this combination could affect the parser output dir.  If you were relying on this behavior to output the parser in your source directory, you may want to use `set_out_dir()` to retain that behavior.",
+                )));
+            }
+            self.session.in_dir = Some(current_dir);
+        }
         self.process_dir(current_dir()?)
     }
 
@@ -215,14 +232,8 @@ impl Configuration {
     pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
         let mut session = self.session.clone();
 
-        // If in/out dir are empty, use cargo conventions by default.
+        // If out dir is empty, use cargo conventions by default.
         // See https://github.com/lalrpop/lalrpop/issues/280
-        if session.in_dir.is_none() {
-            let mut in_dir = env::current_dir()?;
-            in_dir.push("src");
-            session.in_dir = Some(in_dir);
-        }
-
         if session.out_dir.is_none() {
             let out_dir = env::var_os("OUT_DIR").ok_or("missing OUT_DIR variable")?;
             session.out_dir = Some(PathBuf::from(out_dir));
