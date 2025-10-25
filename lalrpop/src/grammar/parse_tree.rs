@@ -10,7 +10,7 @@ use crate::message::Content;
 use crate::tls::Tls;
 use crate::util::Sep;
 use std::fmt::{Debug, Display, Error, Formatter};
-pub use string_cache::DefaultAtom as Atom;
+use string_cache::DefaultAtom as Atom;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Grammar {

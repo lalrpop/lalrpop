@@ -48,7 +48,7 @@ mod normalize;
 pub mod parser;
 mod session;
 mod tls;
-pub mod tok;
+mod tok;
 mod util;
 
 #[cfg(test)]

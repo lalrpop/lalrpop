@@ -1,6 +1,5 @@
 use lalrpop::log::Level;
 use std::error::Error;
-use std::ffi::OsString;
 use std::{env, path::Path, path::PathBuf, rc::Rc};
 
 use crate::build;
@@ -78,6 +77,8 @@ impl Configuration {
         self
     }
 
+    /// Specify grammar cuts for filtering the documentation.
+    /// When set, only the specified grammar rules will be included in the generated documentation.
     pub fn set_grammar_cuts(&mut self, grammar_cuts: &[String]) -> &mut Self {
         self.session.grammar_cuts = if grammar_cuts.is_empty() {
             None
@@ -117,6 +118,8 @@ impl Configuration {
         self
     }
 
+    /// Enable or disable markdown linting.
+    /// When enabled, validates that all grammar rules have corresponding markdown documentation.
     pub fn set_markdown_lint(&mut self, val: bool) -> &mut Configuration {
         self.session.lint = val;
         self
@@ -166,9 +169,9 @@ impl Configuration {
             session.log.log(Level::Debug, || {
                 "Using environment variable `OUT_DIR` to set target directory".to_string()
             });
-            let out_dir = match env::var_os("OUT_DIR") {
-                Some(var) => var,
-                None => OsString::from("docs"),
+            let out_dir = match env::var("OUT_DIR") {
+                Ok(var) => var,
+                Err(_) => String::from("docs"),
             };
             session.out_dir = Some(PathBuf::from(out_dir));
         }
@@ -180,7 +183,21 @@ impl Configuration {
 
     /// Process the given `.lalrpop` file.
     pub fn process_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
-        let session = Rc::new(self.session.clone());
+        let mut session = self.session.clone();
+
+        // If out dir is empty, use `docs` by default.
+        if session.out_dir.is_none() {
+            session.log.log(Level::Debug, || {
+                "Using environment variable `OUT_DIR` to set target directory".to_string()
+            });
+            let out_dir = match env::var("OUT_DIR") {
+                Ok(var) => var,
+                Err(_) => String::from("docs"),
+            };
+            session.out_dir = Some(PathBuf::from(out_dir));
+        }
+
+        let session = Rc::new(session);
         build::process_file(&session, path.as_ref())?;
         Ok(())
     }

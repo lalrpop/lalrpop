@@ -1,4 +1,12 @@
 {
+  "_comment": [
+    "This package.json is for the Docusaurus documentation site example.",
+    "Docusaurus is a React-based static site generator for documentation.",
+    "Documentation: https://docusaurus.io/docs",
+    "To use: Run 'npm install' followed by 'npm start' to preview locally.",
+    "Note: These JavaScript dependencies are maintained separately from the",
+    "Rust codebase and may require periodic updates for security."
+  ],
   "name": "demo",
   "version": "0.0.0",
   "private": true,

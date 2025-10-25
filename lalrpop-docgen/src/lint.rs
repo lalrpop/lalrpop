@@ -18,19 +18,16 @@ fn check(prefix: &str, predicate: bool, suffix: &str) {
 fn check_stems(rules: &[String], path: PathBuf, ext: &str, subject: &str) {
     if let Ok(file_entry) = path.read_dir() {
         file_entry.for_each(|file_entry| {
-            if let Ok(file_entry) = file_entry {
-                let file_path = file_entry.path();
-                if let Some(file_ext) = file_path.extension() {
-                    if ext == file_ext {
-                        if let Some(stem) = file_path.file_stem() {
-                            let stem = stem.to_string_lossy().to_string();
-                            let stem_upper = stem.to_ascii_uppercase();
-                            if !rules.contains(&stem_upper) {
-                                println!(
-                                    "  ERROR {} has no associated rule `{}` in the grammar",
-                                    subject, &stem
-                                );
-                            }
+            if let Ok(file_path) = file_entry.map(|f| f.path()) {
+                if Some(ext) == file_path.extension().and_then(|e| e.to_str()) {
+                    if let Some(stem) = file_path.file_stem() {
+                        let stem = stem.to_string_lossy().to_string();
+                        let stem_upper = stem.to_ascii_uppercase();
+                        if !rules.contains(&stem_upper) {
+                            println!(
+                                "  ERROR {} has no associated rule `{}` in the grammar",
+                                subject, &stem
+                            );
                         }
                     }
                 }

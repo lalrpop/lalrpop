@@ -235,14 +235,14 @@ impl LalrpopToRailroad {
         }
     }
 
-    fn to_diagram(&mut self, rule: &NonterminalData) -> (String, (String, String)) {
+    fn to_diagram(&mut self, rule: &NonterminalData) -> Result<(String, (String, String)), Box<dyn Error>> {
         let name = rule.name.to_string();
         let mut alts: Vec<Box<dyn RailroadNode>> = vec![];
         let is_singular = rule.alternatives.len() == 1;
         for alternative in &rule.alternatives {
             self.stack.clear();
             for symbol in &alternative.expr.symbols {
-                self.on_symbol(symbol);
+                self.on_symbol(symbol)?;
             }
             let mut pivot = vec![];
             std::mem::swap(&mut pivot, &mut self.stack.scopes[0]);
@@ -267,12 +267,12 @@ impl LalrpopToRailroad {
 
         let diagram_ref = self.svg_to_ref(&name, dia.width(), dia.height());
         let diagram_svg = dia.to_string();
-        (name, (diagram_ref, diagram_svg))
+        Ok((name, (diagram_ref, diagram_svg)))
     }
 }
 
 impl LalrpopVisitor for LalrpopToRailroad {
-    fn on_rule(&mut self, rule: &NonterminalData)
+    fn on_rule(&mut self, rule: &NonterminalData) -> Result<(), Box<dyn Error>>
     where
         Self: Sized,
     {
@@ -296,64 +296,68 @@ impl LalrpopVisitor for LalrpopToRailroad {
         let svg_file_name = format!("{}.svg", &self.current_rule.to_ascii_lowercase());
         let _txt_file_name = format!("{}.txt", &self.current_rule);
 
-        let (name, (diagram_ref, diagram_svg)) = self.to_diagram(rule);
+        let (name, (diagram_ref, diagram_svg)) = self.to_diagram(rule)?;
         self.diagrams
             .insert(name, (diagram_ref, diagram_svg.clone()));
-        let mut f = File::create(format!("{}/{}", self.svg_dir, svg_file_name))
-            .expect("Unable to create file");
-        f.write_all(diagram_svg.as_bytes())
-            .expect("Unable to write data");
+        let mut f = File::create(format!("{}/{}", self.svg_dir, svg_file_name))?;
+        f.write_all(diagram_svg.as_bytes())?;
+        Ok(())
     }
 
     /// Called for any symbol encountered in a LALRPOP Grammar traversal
-    fn on_symbol(&mut self, symbol: &Symbol)
+    fn on_symbol(&mut self, symbol: &Symbol) -> Result<(), Box<dyn Error>>
     where
         Self: Sized,
     {
         match &symbol.kind {
-            SK::Terminal(t) => self.on_terminal(t),
-            SK::Repeat(r) => self.on_repetition(r),
-            SK::Lookahead => self.on_lookahead(),
-            SK::Lookbehind => self.on_lookbehind(),
-            SK::Name(_name, ref symbol) => self.on_symbol(symbol),
+            SK::Terminal(t) => self.on_terminal(t)?,
+            SK::Repeat(r) => self.on_repetition(r)?,
+            SK::Lookahead => self.on_lookahead()?,
+            SK::Lookbehind => self.on_lookbehind()?,
+            SK::Name(_name, ref symbol) => self.on_symbol(symbol)?,
             SK::Expr(ExprSymbol { symbols }) => {
-                self.on_expr(symbols);
+                self.on_expr(symbols)?;
             }
-            SK::Choose(symbol) => self.on_choice(symbol),
-            SK::AmbiguousId(symbol) => self.on_ambiguous_id(symbol),
-            SK::Macro(symbol) => self.on_macro(symbol),
-            SK::Nonterminal(nts) => self.on_non_terminal(nts),
+            SK::Choose(symbol) => self.on_choice(symbol)?,
+            SK::AmbiguousId(symbol) => self.on_ambiguous_id(symbol)?,
+            SK::Macro(symbol) => self.on_macro(symbol)?,
+            SK::Nonterminal(nts) => self.on_non_terminal(nts)?,
             SK::Error => (), // self.on_error("Error".to_string()),
         }
+        Ok(())
     }
 
-    fn on_terminal(&mut self, symbol: &TerminalString) {
+    fn on_terminal(&mut self, symbol: &TerminalString) -> Result<(), Box<dyn Error>> {
         let t = Terminal::new(symbol.to_string());
         self.stack.add(Box::new(t));
+        Ok(())
     }
 
-    fn on_expr(&mut self, symbols: &[Symbol]) {
+    fn on_expr(&mut self, symbols: &[Symbol]) -> Result<(), Box<dyn Error>> {
         for symbol in symbols {
-            self.on_symbol(symbol);
+            self.on_symbol(symbol)?;
         }
         self.stack.expr();
+        Ok(())
     }
 
-    fn on_repetition(&mut self, symbol: &RepeatSymbol) {
+    fn on_repetition(&mut self, symbol: &RepeatSymbol) -> Result<(), Box<dyn Error>> {
         self.stack.push();
-        self.on_symbol(&symbol.symbol);
+        self.on_symbol(&symbol.symbol)?;
         let nodes = self.stack.pop();
         self.stack.repeat(nodes, symbol.op);
+        Ok(())
     }
 
-    fn on_choice(&mut self, symbol: &Symbol) {
+    fn on_choice(&mut self, symbol: &Symbol) -> Result<(), Box<dyn Error>> {
         self.stack.push();
-        self.on_symbol(symbol);
+        self.on_symbol(symbol)?;
         let nodes = self.stack.pop();
         self.stack.add(Box::new(Choice::new(nodes)));
+        Ok(())
     }
 
-    fn on_ambiguous_id(&mut self, symbol: &Atom) {
+    fn on_ambiguous_id(&mut self, symbol: &Atom) -> Result<(), Box<dyn Error>> {
         let nt = NonTerminal::new(symbol.to_string());
         self.stack.add(Box::new(nt));
         if let Some(top) = &self.current_top {
@@ -364,9 +368,10 @@ impl LalrpopVisitor for LalrpopToRailroad {
                 }
             }
         }
+        Ok(())
     }
 
-    fn on_non_terminal(&mut self, symbol: &NonterminalString) {
+    fn on_non_terminal(&mut self, symbol: &NonterminalString) -> Result<(), Box<dyn Error>> {
         self.stack
             .add(Box::new(NonTerminal::new(symbol.to_string())));
         if let Some(top) = &self.current_top {
@@ -377,11 +382,12 @@ impl LalrpopVisitor for LalrpopToRailroad {
                 }
             }
         }
+        Ok(())
     }
 
-    fn on_macro(&mut self, symbol: &MacroSymbol) {
+    fn on_macro(&mut self, symbol: &MacroSymbol) -> Result<(), Box<dyn Error>> {
         for arg in &symbol.args {
-            self.on_symbol(arg);
+            self.on_symbol(arg)?;
         }
         self.stack.macro_rule(&symbol.name.to_string());
         if let Some(top) = &self.current_top {
@@ -392,5 +398,6 @@ impl LalrpopVisitor for LalrpopToRailroad {
                 }
             }
         }
+        Ok(())
     }
 }

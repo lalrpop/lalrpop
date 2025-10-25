@@ -11,25 +11,18 @@ use crate::util::{maybe_mkdirp, out_dir};
 use crate::visitor::LalrpopVisitor;
 
 fn target_dir(session: &Rc<Session>) -> Result<String, Box<dyn Error>> {
-    if let Some(out_dir) = &session.out_dir {
-        let out_dir = out_dir.to_string_lossy().to_string();
-        let out_path = Path::new(&out_dir);
-        if out_path.exists() && out_path.is_dir() {
-            Ok(out_dir)
-        } else {
-            fs::create_dir_all(out_path)?;
-            Ok(out_dir)
-        }
-    } else {
-        let out_dir = "docs".to_string();
-        let out_path = Path::new(&out_dir);
-        if out_path.exists() && out_path.is_dir() {
-            Ok(out_dir)
-        } else {
-            fs::create_dir_all(out_path)?;
-            Ok(out_dir)
-        }
+    let out_dir = session
+        .out_dir
+        .as_ref()
+        .map(|p| p.to_string_lossy().to_string())
+        .unwrap_or_else(|| "docs".to_string());
+    
+    let out_path = Path::new(&out_dir);
+    if !out_path.exists() || !out_path.is_dir() {
+        fs::create_dir_all(out_path)?;
     }
+    
+    Ok(out_dir)
 }
 
 fn find_grammars<P: AsRef<Path>>(
@@ -37,39 +30,41 @@ fn find_grammars<P: AsRef<Path>>(
     path: P,
 ) -> Result<Vec<String>, Box<dyn Error>> {
     let path = path.as_ref();
-    let mut found = vec![];
-    if path.is_dir() {
-        for file in path.read_dir()? {
-            match file {
-                Ok(entry) => {
-                    if entry.path().is_symlink() {
-                        continue;
-                    }
-                    if entry.path().is_file() {
-                        match entry.path().extension() {
-                            Some(ext) => {
-                                if Some("lalrpop") == ext.to_str() {
-                                    session.log.log(lalrpop::log::Level::Debug, || {
-                                        format!("Found Grammar {:?}", entry.path())
-                                    });
-                                    let path = entry.path().to_string_lossy().to_string();
-                                    found.push(path)
-                                }
-                            }
-                            _otherwise => continue,
-                        }
-                    }
-                    if entry.path().is_dir() {
-                        let mut rest = find_grammars(session, entry.path())?;
-                        found.append(&mut rest);
-                    }
-                }
-                _ => continue,
-            }
+    let mut result = vec![];
+    
+    if !path.is_dir() {
+        return Ok(result);
+    }
+    
+    for entry in path.read_dir()? {
+        let entry = entry?;
+        let file_type = entry.file_type()?;
+        let entry_path = entry.path();
+
+        // Recurse into directories
+        if file_type.is_dir() {
+            result.extend(find_grammars(session, &entry_path)?);
+            continue;
+        }
+
+        // Skip symlinks
+        if file_type.is_symlink() {
+            continue;
+        }
+
+        // Check for .lalrpop files
+        if file_type.is_file()
+            && entry_path.extension().is_some()
+            && entry_path.extension().unwrap() == "lalrpop"
+        {
+            session.log.log(lalrpop::log::Level::Debug, || {
+                format!("Found Grammar {:?}", entry_path)
+            });
+            result.push(entry_path.to_string_lossy().to_string());
         }
     }
 
-    Ok(found)
+    Ok(result)
 }
 
 pub fn process_dir(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Error>> {
@@ -93,11 +88,11 @@ pub fn process_file(session: &Rc<Session>, path: &Path) -> Result<(), Box<dyn Er
     };
 
     if session.emit_markdown || session.emit_ebnf {
-        ebnf.visit(path);
+        ebnf.visit(path)?;
     }
 
     if session.emit_railroad || session.emit_markdown {
-        diagram.visit(path);
+        diagram.visit(path)?;
     }
 
     if session.emit_markdown {

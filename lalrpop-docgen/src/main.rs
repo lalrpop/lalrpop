@@ -20,9 +20,9 @@ use pico_args::Arguments;
 static VERSION: &str = env!("CARGO_PKG_VERSION");
 
 const USAGE: &str = "
-Usage:   lalrpop-railroad [options] <inputs>...
-         lalrpop-railroad --help
-         lalrpop-railroad (-V | --version)
+Usage:   lalrpop-docgen [options] <inputs>...
+         lalrpop-docgen --help
+         lalrpop-docgen (-V | --version)
 
 Options:
     -h,   --help            Print help.

@@ -13,21 +13,21 @@ This will produce the following resources
 ```shell
 $ tree docs
 docs
-├── Full.md		# Grammar as markdown with railroad diagrams + EBNF for rules
+├── full.md		# Grammar as markdown with railroad diagrams + EBNF for rules
 ├── grammar.ebnf	# Full grammar as EBNF
 ├── grammar.md		# Full grammar as EBNF in a markdown code-block
-└── svg			# Generated railroad daigrams
-    ├── Comma.svg
-    ├── Expr.svg
-    ├── ExprOp.svg
-    ├── Exprs.svg
-    ├── Factor.svg
-    ├── FactorOp.svg
-    ├── Num.svg
-    ├── Term.svg
-    └── Tier.svg
+└── svg			# Generated railroad diagrams
+    ├── comma.svg
+    ├── expr.svg
+    ├── exprop.svg
+    ├── exprs.svg
+    ├── factor.svg
+    ├── factorop.svg
+    ├── num.svg
+    ├── term.svg
+    └── tier.svg
 
-1 directory, 12 files
+2 directories, 12 files
 ```
 
 ## Annotated example
@@ -73,7 +73,7 @@ lalrpop-docgen -mp docs/prolog -me docs/epilog  -gc Deploy,Query,Script ~/code/o
 Convert to html:
 
 ```shell
-$ pandoc --from gfm --to html --standalone Full.md --output Full.html
+$ pandoc --from gfm --to html --standalone full.md --output full.html
 ```
 
 ## Docusaurus
@@ -85,7 +85,7 @@ $ npm i
 $ npm start
 ```
 
-Then browse over to a [docusaurus](http://localhost:3000) Site
+Then the documentation will be available on a locally hosted docusaurus site at [http://localhost:3000](http://localhost:3000)
 
 ## Notes
 

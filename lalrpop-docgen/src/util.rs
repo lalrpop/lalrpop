@@ -27,7 +27,11 @@ pub fn default_dir(
 }
 
 pub fn out_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
-    default_dir(&session.out_dir, "docs")
+    if let Some(dir) = &session.out_dir {
+        Ok(dir.clone())
+    } else {
+        Ok(PathBuf::from("docs"))
+    }
 }
 
 pub fn svg_dir(session: &Rc<Session>) -> Result<PathBuf, Box<dyn Error>> {
