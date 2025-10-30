@@ -30,7 +30,7 @@ petgraph = { version = "0.8", default-features = false }
 regex = { workspace = true }
 regex-syntax = { workspace = true }
 sha3 = { version = "0.10", default-features = false }
-string_cache = { version = "0.8", default-features = false }
+string_cache = { version = "0.9", default-features = false }
 term = { version = "1.0", default-features = false }
 unicode-xid = { version = "0.2", default-features = false }
 walkdir = "2.4.0"
