@@ -111,7 +111,7 @@ fn enumerator1() {
     //    [Y0 X0 (*) X1 Y1]
     //    [Z0 X0 (*) X1 Z1]
 
-    let productions = vec![
+    let productions = [
         production![W = W0 W1],
         production![X = X0 W X1], // where X1 may be empty
         production![Y = Y0 X Y1],
