@@ -175,8 +175,8 @@ running benchmarks automatically in CI.
 #### Types of benchmarks
 There are two different types of benchmarks that are important when considering
 code generation.  We are interested in:
- 1. The time required for lalrpop to perform code generation
-2. The performance of the generated parsers themselves.
+1. The time required for lalrpop to perform code generation
+2. The performance of the generated parsers themselves
 
 In order to support both use cases, benchmarks of lalrpop code generation
 time are stored in `lalrpop-test/benches/src/compile_benches.rs`, while
