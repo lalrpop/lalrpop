@@ -771,8 +771,8 @@ impl<'input> Tokenizer<'input> {
     fn expect_char(&mut self, c: char) -> Option<Result<usize, Error>> {
         let (idx0, cc) = self.lookahead?;
 
+        self.bump();
         if c == cc {
-            self.bump();
             Some(Ok(idx0))
         } else {
             Some(error(UnrecognizedToken, idx0))
