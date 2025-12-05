@@ -198,9 +198,12 @@ fn test_process_file() {
     // This test is noting that with cargo_dir_conventions, "src/src.lalrpop"
     // will work, but prepending "../test_files" does not as it is an unexpected
     // file prefix.
-    Configuration::new().use_cargo_dir_conventions().process_file("../test_files/src/src.lalrpop").unwrap();
+    Configuration::new()
+        .use_cargo_dir_conventions()
+        .process_file("../test_files/src/src.lalrpop")
+        .unwrap_err();
 
-    verify_file("src.rs", GenFileLoc::OutDir);
+    verify_file("src.rs", GenFileLoc::DoesntExist);
     verify_file("other.rs", GenFileLoc::DoesntExist);
     verify_file("outer.rs", GenFileLoc::DoesntExist);
 }
