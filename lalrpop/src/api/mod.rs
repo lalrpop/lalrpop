@@ -211,26 +211,30 @@ impl Configuration {
 
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
-    pub fn process_current_dir(&mut self) -> Result<(), Box<dyn Error>> {
-        // If we can get a current dir, check to make sure session.in_dir either *wasn't* set, or
-        // wasn't set to that dir.  If we can't get a current dir, we'll error out in a moment
-        // anyways, and that's the bigger problem.
-        if let Ok(current_dir) = current_dir() {
-            if self.session.in_dir.is_some() && self.session.in_dir != Some(current_dir.clone()) {
-                eprintln!("Error: \"process_current_dir()\" contradicts previously set in_dir");
-                return Err(Box::new(io::Error::new(
-                    io::ErrorKind::InvalidInput,
-                    "\"process_current_dir()\" contradicts previously set in_dir.  Either use `process()` instead, or omit `set_in_dir()`.  (Note: in previous versions of lalrpop, this combination could affect the parser output dir.  If you were relying on this behavior to output the parser in your source directory, you may want to use `set_out_dir()` to retain that behavior.",
-                )));
-            }
-            self.session.in_dir = Some(current_dir);
-        }
+    pub fn process_current_dir(&self) -> Result<(), Box<dyn Error>> {
         self.process_dir(current_dir()?)
+    }
+
+    // The user should only use set_in_dir() with process(), not process_*() functions which
+    // specify an input.  Check for misuse of that and return an error if in_dir was set.
+    // dir_path here is specifically a dir, so process_file() should call this with None
+    fn verify_no_in_dir_conflict(&self, dir_path: Option<PathBuf>) -> Result<(), Box<dyn Error>> {
+        if self.session.in_dir.is_some() && self.session.in_dir != dir_path {
+            eprintln!("Error: \"process_*()\" contradicts previously set in_dir");
+            return Err(Box::new(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "\"process_*()\" functions contradict previously set in_dir.  The in_dir is set by either `set_in_dir()` or `use_cargo_dir_conventions()`.  Either use `process()` instead, or omit `set_in_dir()`.  (Note: in previous versions of lalrpop, this combination could affect the parser output dir.  If you were relying on this behavior to output the parser in your source directory, you may want to use `set_out_dir()` to retain that behavior.",
+            )));
+        }
+        Ok(())
     }
 
     /// Process all `.lalrpop` files in `path`.
     pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
         let mut session = self.session.clone();
+
+        self.verify_no_in_dir_conflict(Some(path.as_ref().to_path_buf()))?;
+        session.in_dir = Some(path.as_ref().to_path_buf());
 
         // If out dir is empty, use cargo conventions by default.
         // See https://github.com/lalrpop/lalrpop/issues/280
@@ -261,6 +265,9 @@ impl Configuration {
     /// Process the given `.lalrpop` file.
     pub fn process_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
         let session = Rc::new(self.session.clone());
+        // path is a file, so we send in None instead of path.  That will always fail
+        // the check if in_dir was set.
+        self.verify_no_in_dir_conflict(None)?;
         build::process_file(session, path)?;
         Ok(())
     }
