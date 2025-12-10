@@ -1,4 +1,5 @@
 use criterion::{Criterion, criterion_group};
+use std::env;
 
 use lalrpop::*;
 
@@ -8,7 +9,7 @@ pub fn lalrpop_compile(c: &mut Criterion) {
             Configuration::new()
                 .force_build(true)
                 .log_quiet()
-                .use_cargo_dir_conventions()
+                .set_out_dir(env::var("OUT_DIR").unwrap())
                 .process_file("../lalrpop/src/parser/lrgrammar.lalrpop")
                 .unwrap()
         });
