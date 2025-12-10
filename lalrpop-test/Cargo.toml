@@ -21,7 +21,7 @@ path = "../lalrpop-util"
 features = ["lexer", "unicode"]
 
 [dev-dependencies]
-criterion = "0.5"
+criterion = "0.8"
 
 [dev-dependencies.lalrpop]
 path = "../lalrpop"
