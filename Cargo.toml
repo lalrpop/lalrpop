@@ -23,13 +23,13 @@ edition = "2024"
 # Please update it when lalrpop requires a new feature.
 # We prefer to avoid the latest 2 stable versions. (e.g. at most 1.64 when stable is 1.66)
 # NOTE: Don't forget to update test.yaml as well.
-rust-version = "1.85"
+rust-version = "1.86"
 keywords = ["parser", "generator", "LR", "yacc", "grammar"]
 categories = ["parsing"]
 
 [workspace.dependencies]
 diff = { version = "0.1.12", default-features = false }
-regex = { version = "1.3", default-features = false, features = ["std"] }
+regex = { version = "1.5.1", default-features = false, features = ["std"] }
 regex-syntax = { version = "0.8.2", default-features = false }
 regex-automata = { version = "0.4", default-features = false, features = [
         "perf-inline",
