@@ -308,7 +308,7 @@ pub fn process_src() -> Result<(), Box<dyn Error>> {
 /// ```
 ///
 #[deprecated(
-    since = "1.0.0",
+    since = "0.20.2",
     note = "use `Configuration::new().force_build(true).process_current_dir()` instead"
 )]
 pub fn process_root_unconditionally() -> Result<(), Box<dyn Error>> {

@@ -23,7 +23,7 @@ pub struct Nfa {
 }
 
 #[allow(clippy::upper_case_acronyms)]
-#[deprecated(since = "1.0.0", note = "Use `Nfa` instead")]
+#[deprecated(since = "0.20.0", note = "Use `Nfa` instead")]
 pub type NFA = Nfa;
 
 /// An edge label representing a range of characters, inclusive. Note
@@ -79,7 +79,7 @@ pub enum StateKind {
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NfaStateIndex(usize);
 
-#[deprecated(since = "1.0.0", note = "Use `NfaStateIndex` instead")]
+#[deprecated(since = "0.20.0", note = "Use `NfaStateIndex` instead")]
 pub type NFAStateIndex = NfaStateIndex;
 
 /// A set of edges for the state machine. Edges are kept sorted by the
@@ -119,7 +119,7 @@ pub enum NfaConstructionError {
     ByteRegex,
 }
 
-#[deprecated(since = "1.0.0", note = "Use `NfaConstructionError` instead")]
+#[deprecated(since = "0.20.0", note = "Use `NfaConstructionError` instead")]
 pub type NFAConstructionError = NfaConstructionError;
 
 impl Nfa {
