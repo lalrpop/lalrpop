@@ -129,7 +129,7 @@ impl Lookahead for TokenSet {
 }
 
 impl Token {
-    #[deprecated(since = "1.0.0", note = "use `Eof` instead")]
+    #[deprecated(since = "0.20.0", note = "use `Eof` instead")]
     pub const EOF: Self = Self::Eof;
 
     pub fn unwrap_terminal(&self) -> &TerminalString {

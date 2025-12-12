@@ -22,7 +22,7 @@ pub struct Dfa {
 }
 
 #[allow(clippy::upper_case_acronyms)]
-#[deprecated(since = "1.0.0", note = "use `Dfa` instead")]
+#[deprecated(since = "0.20.0", note = "use `Dfa` instead")]
 pub type DFA = Dfa;
 
 #[derive(Copy, Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
@@ -40,7 +40,7 @@ pub enum DfaConstructionError {
     Ambiguity { match0: NfaIndex, match1: NfaIndex },
 }
 
-#[deprecated(since = "1.0.0", note = "use `DfaConstructionError` instead")]
+#[deprecated(since = "0.20.0", note = "use `DfaConstructionError` instead")]
 pub type DFAConstructionError = DfaConstructionError;
 
 pub fn build_dfa(
@@ -91,13 +91,13 @@ pub enum Kind {
 #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct NfaIndex(usize);
 
-#[deprecated(since = "1.0.0", note = "use `NfaIndex` instead")]
+#[deprecated(since = "0.20.0", note = "use `NfaIndex` instead")]
 pub type NFAIndex = NfaIndex;
 
 #[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct DfaStateIndex(usize);
 
-#[deprecated(since = "1.0.0", note = "use `DfaStateIndex` instead")]
+#[deprecated(since = "0.20.0", note = "use `DfaStateIndex` instead")]
 pub type DFAStateIndex = DfaStateIndex;
 
 type DfaKernelSet = KernelSet<DfaItemSet>;
