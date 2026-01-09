@@ -277,7 +277,7 @@ impl Nfa {
             HirKind::Repetition(Repetition {
                 min,
                 max,
-                greedy,
+                _greedy,
                 sub,
             }) => {
                 match (min, max) {
@@ -300,9 +300,8 @@ impl Nfa {
                         //          |      |
                         //          |      v
                         //          +-> [reject]
-                        self.star_expr(sub, accept, reject).and_then(|s| {
-                            (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject))
-                        })
+                        self.star_expr(sub, accept, reject)
+                            .and_then(|s| (0..*min).try_fold(s, |s, _| self.expr(sub, s, reject)))
                     }
                 }
             }
