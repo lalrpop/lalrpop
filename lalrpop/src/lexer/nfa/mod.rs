@@ -277,7 +277,7 @@ impl Nfa {
             HirKind::Repetition(Repetition {
                 min,
                 max,
-                _greedy,
+                greedy: _,
                 sub,
             }) => {
                 match (min, max) {
