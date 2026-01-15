@@ -1,0 +1,43 @@
+use std::collections::HashMap;
+use std::str::FromStr;
+use crate::src::parsers::json_val::ValueRef;
+
+grammar;
+
+// https://datatracker.ietf.org/doc/html/rfc7159
+
+pub ValueRef: ValueRef<'input> = {
+	Object => ValueRef::Object(<>),
+	Array => ValueRef::Array(<>),
+	Number => ValueRef::Num(<>),
+	String => ValueRef::Str(<>),
+	"false" => ValueRef::Boolean(false),
+	"null" => ValueRef::Null,
+	"true" => ValueRef::Boolean(true),
+};
+
+Object: HashMap<&'input str, ValueRef<'input>> = {
+	"{" <Comma<Member>> "}" => HashMap::from_iter(<>)
+};
+
+Member: (&'input str, ValueRef<'input>) = {
+	<s: String> ":" <v: ValueRef> => (s,v),
+};
+
+Array: Vec<ValueRef<'input>> = {
+	"[" <Comma<ValueRef>> "]",
+};
+
+Number: f64 = {
+	r"-?(0|([1-9][0-9]*))(\.[0-9]*)?([eE][-+]?[0-9]+)?" => f64::from_str(<>).unwrap()
+};
+
+String: &'input str = {
+	r#""[^"]*""# => <>,
+};
+
+Comma<V>: Vec<V> = {
+	<v: (<V> ",")*> <e: V?> => {
+		v.into_iter().chain(e).collect()
+	}
+};

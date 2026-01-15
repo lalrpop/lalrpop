@@ -148,3 +148,37 @@ cargo llvm-cov --include-build-script report --html
 That will make sure that build script commands (particularly
 lalrpop-test/build.rs) are part of the calculated coverage, which gives a
 much more accurate picture.
+
+### Running benchmarks
+To test the performance of the code, lalrpop supports benchmarks using
+[criterion](https://bheisler.github.io/criterion.rs/book/criterion_rs.html).
+To run a benchmark, use:
+
+```
+cargo bench --package lalrpop-test
+```
+
+Specifying the package is not strictly required, but the benchmarking output
+will be buried in output from other packages without it.
+
+When run the first time, `cargo bench` will generate a baseline.  Subsequent
+runs will report a deviation from that baseline.  So to test the performance of
+a particular change, first run `cargo bench` without the change, then again
+with it, and criterion will report whether a statistically significant change
+was detected.
+
+Note that benchmarking can be sensitive to general load on the system.  For
+consistent results try to run benchmarking on a quiet system with minimal other
+programs running.  Another implication of this is that criterion recommends NOT
+running benchmarks automatically in CI.
+
+#### Types of benchmarks
+There are two different types of benchmarks that are important when considering
+code generation.  We are interested in:
+1. The time required for lalrpop to perform code generation
+2. The performance of the generated parsers themselves
+
+In order to support both use cases, benchmarks of lalrpop code generation
+time are stored in `lalrpop-test/benches/src/compile_benches.rs`, while
+benchmarks of the generated parsers are stored in
+`lalrpop-test/benches/src/parser_benches.rs`.
