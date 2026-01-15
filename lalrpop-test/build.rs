@@ -4,6 +4,12 @@ fn main() {
         .force_build(true)
         .unit_test()
         .log_debug()
-        .process_current_dir()
+        .process_dir("src")
         .unwrap();
+
+    lalrpop::Configuration::new()
+        .emit_comments(false)
+        .force_build(true)
+        .process_dir("benches")
+        .unwrap()
 }
