@@ -39,6 +39,8 @@
 
 #### Internal Development features
 * Support running tests with cargo-nextest.
+* Support running benchmarks on both lalrpop build time and generated parsers
+  using `cargo bench`
 
 #### Bugfixes
 * Documentation updates
