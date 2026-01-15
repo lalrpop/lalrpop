@@ -3,8 +3,6 @@ use criterion::criterion_main;
 mod src {
     pub mod compile_benches;
     pub mod parser_benches;
-    // This can just use lalrpop_mod!() once #979 merges
-    #[rustfmt::skip]
     pub mod parsers;
 }
 
