@@ -31,7 +31,7 @@ authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 edition = "2024"
 
 [build-dependencies] # <-- We added this and everything after!
-lalrpop = "0.22.2"
+lalrpop = "0.23.0"
 
 [dependencies]
 lalrpop-util = { version = "0.21.0", features = ["lexer", "unicode"] }

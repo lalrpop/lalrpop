@@ -17,7 +17,7 @@ resolver = "3"
 repository = "https://github.com/lalrpop/lalrpop"
 authors = ["Niko Matsakis <niko@alum.mit.edu>"]
 license = "Apache-2.0 OR MIT"
-version = "0.22.2" # LALRPOP
+version = "0.23.0" # LALRPOP
 edition = "2024"
 # This is (very) soft limit of the minimum supported version.
 # Please update it when lalrpop requires a new feature.
