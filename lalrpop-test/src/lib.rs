@@ -1130,18 +1130,19 @@ fn verify_lalrpop_generates_itself() {
     use std::path::Path;
     use std::process::Command;
 
-    // TODO: Replace this with an artifact dependency once RFC 3028 (artifact dependencies) is stabilized.
-    // Tracking issue: https://github.com/rust-lang/cargo/issues/9096
     let cargo = std::env::var("CARGO").expect("CARGO env var should be defined");
-
+    
     let out_dir = "../target";
     let lrgrammar = "lrgrammar.lalrpop";
     let grammar_file = Path::new("../lalrpop/src/parser/").join(lrgrammar);
     let copied_grammar_file = Path::new(out_dir).join(lrgrammar);
-
+    
     // Don't remove the .rs file that already exist
     fs::copy(&grammar_file, &copied_grammar_file).expect("no grammar file found");
-
+    
+    // TODO: Replace the manual call to `cargo run` with an artifact dependency
+    // once RFC 3028 (artifact dependencies) is stabilized.
+    // Tracking issue: https://github.com/rust-lang/cargo/issues/9096
     assert!(
         Command::new(&cargo)
             .args([
