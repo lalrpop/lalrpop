@@ -1,8 +1,6 @@
 ### TLDR;
 
-Before doing anything else, run `cargo build -p lalrpop`!
-
-When making changes the alter the generated code, use `sh update_lrgrammar.sh`
+When making changes that alter the generated code, use `sh update_lrgrammar.sh`
 to pass the `verify_lalrpop_generates_itself` test.
 
 
