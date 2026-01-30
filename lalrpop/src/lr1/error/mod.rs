@@ -531,8 +531,10 @@ impl<'cx, 'grammar> ErrorReportingCx<'cx, 'grammar> {
         );
 
         // Prefer shorter examples to longer ones.
-        action_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
-        reduce_examples.sort_by(|e, f| e.symbols.len().cmp(&f.symbols.len()));
+        action_examples.sort_by_key(|e| e.reductions.len());
+        action_examples.sort_by_key(|e| e.symbols.len());
+        reduce_examples.sort_by_key(|e| e.reductions.len());
+        reduce_examples.sort_by_key(|e| e.symbols.len());
 
         // This really shouldn't happen, but if we've failed to come
         // up with examples, then report a "naive" error.
