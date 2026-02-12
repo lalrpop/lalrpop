@@ -253,18 +253,18 @@ here is a quick 'cheat sheet' for setting up your project. First, add
 the following lines to your <code>Cargo.toml</code>:</p>
 <pre><code class="language-toml"># The generated code depends on lalrpop-util.
 [dependencies]
-lalrpop-util = "0.22.2"
+lalrpop-util = "0.23.0"
 
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies]
-lalrpop = "0.22.2"
+lalrpop = "0.23.0"
 # If you are supplying your own external lexer you can disable default features so that the
 # built-in lexer feature is not included
 # [dependencies]
-# lalrpop-util = { version = "0.22.2", default-features = false }
+# lalrpop-util = { version = "0.23.0", default-features = false }
 #
 # [build-dependencies]
-# lalrpop = { version = "0.22.2", default-features = false }
+# lalrpop = { version = "0.23.0", default-features = false }
 </code></pre>
 <p>It's important to note that your version and features for <code>lalrpop</code> and
 <code>lalrpop-util</code> should always remain in sync.  Using different major or minor
@@ -383,7 +383,7 @@ authors = ["Niko Matsakis &lt;niko@alum.mit.edu&gt;"]
 edition = "2024"
 
 [build-dependencies] # &lt;-- We added this and everything after!
-lalrpop = "0.22.2"
+lalrpop = "0.23.0"
 
 [dependencies]
 lalrpop-util = { version = "0.21.0", features = ["lexer", "unicode"] }
