@@ -1,5 +1,5 @@
 <a name="0.23.0"></a>
-## 0.23.0  (2025-09-16)
+## 0.23.0  (2026-02-12)
 
 #### Breaking Changes
 * Lalrpop no longer exposes a regex-automata feature.  This feature was
