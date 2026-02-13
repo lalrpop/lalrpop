@@ -83,15 +83,13 @@ impl<'grammar> Tracer<'_, 'grammar> {
             let first_suffix = self.first_sets.first0(symbol_sets.suffix);
             let continue_tracing = first_suffix.contains_eof();
 
-            if !continue_tracing {
-                // Add an edge
-                //
-                //    [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
-                //
-                // and stop.
-                self.trace_graph
-                    .add_edge(pred_item.to_lr0(), nonterminal.clone(), symbol_sets);
-            } else {
+            // Add an edge
+            //
+            //    [Z = ...p (*) Y ...s] -(...p,Y,...s)-> [Y]
+            //
+            self.trace_graph
+                .add_edge(pred_item.to_lr0(), nonterminal.clone(), symbol_sets);
+            if continue_tracing {
                 // Add an edge
                 //
                 //    [Z] -{..p}-> [Y]

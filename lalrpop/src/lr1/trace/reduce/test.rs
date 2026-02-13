@@ -96,10 +96,28 @@ fn backtrace1() {
         "  └─Stmt───────────────┘"
     ],
     [
+        "  Exprs "," "Int"  ╷",
+        "  │         └─Expr─┤",
+        "  ├─Exprs──────────┤",
+        "  ├─Stmt───────────┤",
+        "  └─Start──────────┘"
+    ],
+    [
+        "  Exprs "," "Int"  ╷",
+        "  │         └─Expr─┤",
+        "  ├─Exprs──────────┤",
+        "  └─Stmt───────────┘"
+    ],
+    [
         "  Exprs "," "Int"  ╷ "," Expr",
         "  │         └─Expr─┤        │",
         "  ├─Exprs──────────┘        │",
         "  └─Exprs───────────────────┘"
+    ],
+    [
+        "  Exprs "," "Int"  ╷",
+        "  │         └─Expr─┤",
+        "  └─Exprs──────────┘"
     ],
     [
         "  "Int"   ╷ ";"",
@@ -108,10 +126,28 @@ fn backtrace1() {
         "  └─Stmt──────┘"
     ],
     [
+        "  "Int"   ╷",
+        "  ├─Expr──┤",
+        "  ├─Exprs─┤",
+        "  ├─Stmt──┤",
+        "  └─Start─┘"
+    ],
+    [
+        "  "Int"   ╷",
+        "  ├─Expr──┤",
+        "  ├─Exprs─┤",
+        "  └─Stmt──┘"
+    ],
+    [
         "  "Int"   ╷ "," Expr",
         "  ├─Expr──┤        │",
         "  ├─Exprs─┘        │",
         "  └─Exprs──────────┘"
+    ],
+    [
+        "  "Int"   ╷",
+        "  ├─Expr──┤",
+        "  └─Exprs─┘"
     ],
     [
         "  "Int"  ╷ "+" "Int"",
@@ -160,7 +196,8 @@ pub Ty: () = {
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty)),
     (Nonterminal(Ty) -([Ty, "->", Ty], None, [])-> Item(Ty = Ty "->" Ty (*))),
-    (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty))
+    (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty)),
+    (Item(Ty = Ty "->" (*) Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty))
 ]
 "#
         .trim(),
@@ -222,7 +259,8 @@ pub Ty: () = {
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Item(Ty = Ty "->" (*) Ty)),
     (Nonterminal(Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty)),
     (Nonterminal(Ty) -([Ty, "->", Ty], None, [])-> Item(Ty = Ty "->" Ty (*))),
-    (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty))
+    (Item(Ty = (*) Ty "->" Ty) -([], Some(Ty), ["->", Ty])-> Nonterminal(Ty)),
+    (Item(Ty = Ty "->" (*) Ty) -([Ty, "->"], Some(Ty), [])-> Nonterminal(Ty))
 ]
 "#
         .trim(),
@@ -326,6 +364,12 @@ fn backtrace_filter() {
         "  └─Exprs──────────────────────────────────┘"
     ],
     [
+        "  Exprs "," "Int"      ╷ ExprSuffix",
+        "  │         ├─ExprAtom─┘          │",
+        "  │         └─Expr────────────────┤",
+        "  └─Exprs─────────────────────────┘"
+    ],
+    [
         "  "Int"      ╷ ExprSuffix ";"",
         "  ├─ExprAtom─┘          │   │",
         "  ├─Expr────────────────┤   │",
@@ -338,6 +382,17 @@ fn backtrace_filter() {
         "  ├─Expr────────────────┤        │",
         "  ├─Exprs───────────────┘        │",
         "  └─Exprs────────────────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix",
+        "  ├─ExprAtom─┘          │",
+        "  ├─Expr────────────────┤",
+        "  └─Exprs───────────────┘"
+    ],
+    [
+        "  "Int"      ╷ ExprSuffix",
+        "  ├─ExprAtom─┘          │",
+        "  └─Expr────────────────┘"
     ]
 ]
 "#
