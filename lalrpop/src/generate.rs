@@ -2,6 +2,7 @@
 
 use crate::grammar::repr::*;
 use rand::prelude::*;
+use rand::rngs::ChaCha20Rng;
 use std::iter::Iterator;
 
 #[derive(PartialEq, Eq)]
@@ -13,7 +14,7 @@ pub enum ParseTree {
 pub fn random_parse_tree(
     grammar: &Grammar,
     symbol: NonterminalString,
-    rng: &mut rand_chacha::ChaCha8Rng,
+    rng: &mut ChaCha20Rng,
 ) -> ParseTree {
     let mut generator = Generator {
         grammar,
@@ -32,7 +33,7 @@ pub fn random_parse_tree(
 
 struct Generator<'grammar, 'rng> {
     grammar: &'grammar Grammar,
-    rng: &'rng mut rand_chacha::ChaCha8Rng,
+    rng: &'rng mut ChaCha20Rng,
     depth: u32,
 }
 

@@ -43,8 +43,7 @@ lalrpop-util = { path = "../lalrpop-util", version = "0.23.0", default-features 
 
 [dev-dependencies]
 diff = { workspace = true }
-rand = "0.9"
-rand_chacha = "0.9"
+rand = { version = "0.10", default-features = false, features = [ "chacha" ] }
 
 [features]
 default = ["lexer", "unicode", "pico-args"]
