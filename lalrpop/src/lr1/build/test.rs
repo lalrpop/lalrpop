@@ -8,6 +8,7 @@ use crate::lr1::tls::Lr1Tls;
 use crate::test_util::{compare, expect_debug, normalized_grammar};
 use crate::tls::Tls;
 use rand::SeedableRng;
+use rand::rngs::ChaCha20Rng;
 use string_cache::DefaultAtom as Atom;
 
 use super::{Lr, build_lr0_states, build_lr1_states, use_lane_table};
@@ -19,7 +20,7 @@ fn nt(t: &str) -> NonterminalString {
 const ITERATIONS: usize = 96;
 
 fn random_test<'g>(grammar: &Grammar, states: &'g [Lr1State<'g>], start_symbol: NonterminalString) {
-    let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(0);
+    let mut rng = ChaCha20Rng::seed_from_u64(0);
 
     for i in 0..ITERATIONS {
         let input_tree = generate::random_parse_tree(grammar, start_symbol.clone(), &mut rng);
