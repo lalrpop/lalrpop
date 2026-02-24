@@ -20,6 +20,8 @@ macro_rules! lalrpop_mod_test {
     }
 }
 
+lalrpop_mod!(pub grammar, "issue1114/test_grammar.rs");
+
 /// Tests for pattern in arguments
 lalrpop_mod_test!(arg_pattern);
 
