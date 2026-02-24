@@ -234,13 +234,20 @@ impl Configuration {
         let mut session = self.session.clone();
 
         self.verify_no_in_dir_conflict(Some(path.as_ref().to_path_buf()))?;
+        let flag = session.in_dir.is_none() && current_dir().unwrap() != path.as_ref();
         session.in_dir = Some(path.as_ref().to_path_buf());
 
         // If out dir is empty, use cargo conventions by default.
         // See https://github.com/lalrpop/lalrpop/issues/280
         if session.out_dir.is_none() {
             let out_dir = env::var_os("OUT_DIR").ok_or("missing OUT_DIR variable")?;
-            session.out_dir = Some(PathBuf::from(out_dir));
+            let mut p = PathBuf::from(out_dir);
+
+            if path.as_ref().file_stem().unwrap() != "src" && flag {
+                p.extend(path.as_ref());
+            }
+
+            session.out_dir = Some(p);
         }
 
         if self.session.features.is_none() {
