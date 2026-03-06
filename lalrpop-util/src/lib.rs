@@ -228,14 +228,14 @@ pub struct ErrorRecovery<L, T, E> {
     pub dropped_tokens: Vec<(L, T, L)>,
 }
 
-#[cfg(not(target_os = "windows"))]
+#[cfg(not(build_os_windows))]
 #[doc(hidden)]
 #[macro_export]
 macro_rules! path_separator {
     {} => { "/" }
 }
 
-#[cfg(target_os = "windows")]
+#[cfg(build_os_windows)]
 #[doc(hidden)]
 #[macro_export]
 macro_rules! path_separator {
