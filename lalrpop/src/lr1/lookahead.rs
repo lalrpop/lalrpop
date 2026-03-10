@@ -200,7 +200,7 @@ impl TokenSet {
     }
 
     pub fn len(&self) -> usize {
-        self.bit_set.len()
+        self.bit_set.count()
     }
 
     pub fn insert(&mut self, lookahead: Token) -> bool {
