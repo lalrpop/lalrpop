@@ -11,5 +11,9 @@ fn main() {
         .emit_comments(false)
         .force_build(true)
         .process_dir("benches")
-        .unwrap()
+        .unwrap();
+
+    lalrpop::Configuration::new()
+        .process_dir("issue1114")
+        .expect("unwrap");
 }

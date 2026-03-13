@@ -1,0 +1,2 @@
+grammar;
+pub Num: i32 = <s:r"[0-9]+"> => s.parse().unwrap();
