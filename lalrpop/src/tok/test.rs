@@ -15,7 +15,7 @@ fn gen_test(input: &str, expected: Vec<(&str, Expectation<'_>)>) {
 
     let tokenizer = Tokenizer::new(&input, 0);
     let len = expected.len();
-    for (token, (expected_span, expectation)) in tokenizer.zip(expected.into_iter()) {
+    for (token, (expected_span, expectation)) in tokenizer.zip(expected) {
         let expected_start = expected_span.find('~').unwrap();
         let expected_end = expected_span.rfind('~').unwrap() + 1;
         println!("token: {token:?}");
