@@ -52,6 +52,9 @@ fn hash_file(file: &Path) -> io::Result<String> {
 
 pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
     let lalrpop_files = lalrpop_files(root_dir)?;
+    if lalrpop_files.is_empty() {
+        return Err(io::Error::other("No lalrpop files were found in directory"));
+    }
     for lalrpop_file in lalrpop_files {
         process_file(session.clone(), lalrpop_file)?;
     }
