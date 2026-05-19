@@ -1,5 +1,6 @@
 //! Utilities for running in a build script.
 
+use crate::collections::Map;
 use crate::file_text::FileText;
 use crate::grammar::parse_tree as pt;
 use crate::grammar::repr as r;
@@ -50,23 +51,26 @@ fn hash_file(file: &Path) -> io::Result<String> {
     Ok(format!("// sha3: {:02x}", output.iter().format("")))
 }
 
-pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<()> {
+pub fn process_dir<P: AsRef<Path>>(session: Rc<Session>, root_dir: P) -> io::Result<Map<PathBuf, pt::Grammar>> {
     let lalrpop_files = lalrpop_files(root_dir)?;
+    let mut result = Map::new();
     for lalrpop_file in lalrpop_files {
-        process_file(session.clone(), lalrpop_file)?;
+        if let Some(grammar) = process_file(session.clone(), &lalrpop_file)? {
+            result.insert(lalrpop_file, grammar);
+        }
     }
-    Ok(())
+    Ok(result)
 }
 
-pub fn process_file<P: AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io::Result<()> {
+pub fn process_file<P: AsRef<Path>>(session: Rc<Session>, lalrpop_file: P) -> io::Result<Option<pt::Grammar>> {
     let lalrpop_file = lalrpop_file.as_ref();
     let rs_file = resolve_rs_file(&session, lalrpop_file)?;
     let report_file = resolve_report_file(&session, lalrpop_file)?;
     session.emit_rerun_directive(lalrpop_file);
     if !(session.force_build || needs_rebuild(lalrpop_file, &rs_file)?) {
-        return Ok(());
+        return Ok(None);
     }
-    process_file_into(session, lalrpop_file, &rs_file, &report_file)
+    Ok(Some(process_file_into(session, lalrpop_file, &rs_file, &report_file)?))
 }
 
 fn resolve_rs_file(session: &Session, lalrpop_file: &Path) -> io::Result<PathBuf> {
@@ -154,7 +158,7 @@ fn process_file_into(
     lalrpop_file: &Path,
     rs_file: &Path,
     report_file: &Path,
-) -> io::Result<()> {
+) -> io::Result<pt::Grammar> {
     log!(
         session,
         Informative,
@@ -182,14 +186,14 @@ fn process_file_into(
     // generation fails at some point, we don't leave a partial
     // file behind.
     let grammar = parse_grammar(&file_text)?;
-    let normalized_grammar = normalize_grammar(&session, &file_text, grammar)?;
+    let normalized_grammar = normalize_grammar(&session, &file_text, grammar.clone())?;
     let buffer = emit_recursive_ascent(&session, &normalized_grammar, report_file)?;
     let mut output_file = fs::File::create(rs_file)?;
     writeln!(output_file, "{LALRPOP_VERSION_HEADER}")?;
     writeln!(output_file, "{}", hash_file(lalrpop_file)?)?;
     output_file.write_all(&buffer)?;
 
-    Ok(())
+    Ok(grammar)
 }
 
 fn remove_old_file(rs_file: &Path) -> io::Result<()> {
