@@ -198,15 +198,17 @@ impl Configuration {
         self
     }
 
+    fn get_in_dir(&self) -> &Path {
+        match self.session.in_dir {
+            Some(ref root) => root.as_path(),
+            None => Path::new("."),
+        }
+    }
+
     /// Process all files according to the `set_in_dir` and
     /// `set_out_dir` configuration.
     pub fn process(&self) -> Result<(), Box<dyn Error>> {
-        let root = if let Some(ref d) = self.session.in_dir {
-            d.as_path()
-        } else {
-            Path::new(".")
-        };
-        self.process_dir(root)
+        self.process_dir(self.get_in_dir())
     }
 
     /// Process all files in the current directory, which -- unless you
@@ -229,8 +231,7 @@ impl Configuration {
         Ok(())
     }
 
-    /// Process all `.lalrpop` files in `path`.
-    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+    fn prepare_session<P: AsRef<Path>>(&self, path: P) -> Result<Session, Box<dyn Error>> {
         let mut session = self.session.clone();
 
         self.verify_no_in_dir_conflict(Some(path.as_ref().to_path_buf()))?;
@@ -257,7 +258,12 @@ impl Configuration {
             );
         }
 
-        let session = Rc::new(session);
+        Ok(session)
+    }
+
+    /// Process all `.lalrpop` files in `path`.
+    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+        let session = Rc::new(self.prepare_session(&path)?);
         build::process_dir(session, path)?;
         Ok(())
     }
