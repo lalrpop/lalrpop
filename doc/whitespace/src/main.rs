@@ -7,9 +7,9 @@ fn main() {
             use std::fs::File;
 
             File::open(&filename)
-                .unwrap_or_else(|_| panic!("Can't open {}", &filename))
+                .unwrap_or_else(|_| panic!("Can't open {}", filename))
                 .read_to_string(&mut source)
-                .unwrap_or_else(|_| panic!("Can't read contents of {}", &filename));
+                .unwrap_or_else(|_| panic!("Can't read contents of {}", filename));
         }
 
         None => {
