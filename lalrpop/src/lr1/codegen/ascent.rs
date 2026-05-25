@@ -406,7 +406,7 @@ impl<'ascent, 'grammar, W: Write>
         if fixed > 0 {
             rust!(
                 self.out,
-                "let {}location = {}sym{}.2;",
+                "let {}location = {}sym{}.2.clone();",
                 self.prefix,
                 self.prefix,
                 stack_suffix.len() - 1
@@ -874,7 +874,7 @@ impl<'ascent, 'grammar, W: Write>
                     top = top
                 );
             }
-            rust!(self.out, "let {p}end = {p}start;", p = self.prefix);
+            rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix);
         } else {
             // this only occurs in the start state
             rust!(
@@ -883,7 +883,7 @@ impl<'ascent, 'grammar, W: Write>
                 self.prefix,
                 loc_type,
             );
-            rust!(self.out, "let {p}end = {p}start;", p = self.prefix);
+            rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix);
         }
 
         let transferred_syms = transfer_syms.len();

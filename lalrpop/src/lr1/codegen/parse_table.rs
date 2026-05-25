@@ -1102,10 +1102,10 @@ impl<'ascent, 'grammar, W: Write> CodeGenerator<'ascent, 'grammar, W, TableDrive
             // stack will be empty)
             rust!(
                 self.out,
-                "let {p}start = {p}lookahead_start.cloned().or_else(|| {p}symbols.last().map(|s| s.2)).unwrap_or_default();",
+                "let {p}start = {p}lookahead_start.cloned().or_else(|| {p}symbols.last().map(|s| s.2.clone())).unwrap_or_default();",
                 p = self.prefix,
             );
-            rust!(self.out, "let {p}end = {p}start;", p = self.prefix,);
+            rust!(self.out, "let {p}end = {p}start.clone();", p = self.prefix,);
         }
 
         let transferred_syms = transfer_syms.len();

@@ -9517,8 +9517,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "::"? =  => ActionFn(144);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action144::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (0, 0)
@@ -9550,8 +9550,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ";"? =  => ActionFn(166);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action166::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (0, 1)
@@ -9583,8 +9583,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // "mut"? =  => ActionFn(155);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action155::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant2(___nt), ___end));
 (0, 2)
@@ -9637,8 +9637,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("->" <TypeRef>)? =  => ActionFn(181);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action181::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 4)
@@ -9691,8 +9691,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (":" <TypeRef>)? =  => ActionFn(173);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action173::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 6)
@@ -9747,8 +9747,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("<" <Comma<TypeBoundParameter>> ">")? =  => ActionFn(177);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action177::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant6(___nt), ___end));
 (0, 8)
@@ -9801,8 +9801,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ("if" <Cond>)? =  => ActionFn(161);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action161::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant8(___nt), ___end));
 (0, 10)
@@ -9817,8 +9817,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // () =  => ActionFn(185);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action185::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant9(___nt), ___end));
 (0, 11)
@@ -9852,8 +9852,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Alternative> ",")* =  => ActionFn(258);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action258::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant11(___nt), ___end));
 (0, 13)
@@ -9943,8 +9943,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<AttributeInner> ",")* =  => ActionFn(248);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action248::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (0, 16)
@@ -10034,8 +10034,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Conversion> ",")* =  => ActionFn(282);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action282::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant15(___nt), ___end));
 (0, 19)
@@ -10125,8 +10125,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<FieldPattern> ",")* =  => ActionFn(132);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action132::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant17(___nt), ___end));
 (0, 22)
@@ -10216,8 +10216,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarParameter> ",")* =  => ActionFn(243);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action243::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant19(___nt), ___end));
 (0, 25)
@@ -10307,8 +10307,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<GrammarWhereClause> ",")* =  => ActionFn(220);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action220::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant21(___nt), ___end));
 (0, 28)
@@ -10398,8 +10398,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Id> "::")* =  => ActionFn(140);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action140::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant23(___nt), ___end));
 (0, 31)
@@ -10489,8 +10489,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Lifetime> "+")* =  => ActionFn(223);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action223::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant25(___nt), ___end));
 (0, 34)
@@ -10580,8 +10580,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<MatchItem> ",")* =  => ActionFn(277);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action277::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant27(___nt), ___end));
 (0, 37)
@@ -10671,8 +10671,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<NotMacroId> ",")* =  => ActionFn(253);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action253::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant29(___nt), ___end));
 (0, 40)
@@ -10762,8 +10762,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Pattern> ",")* =  => ActionFn(287);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action287::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant31(___nt), ___end));
 (0, 43)
@@ -10853,8 +10853,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<Symbol> ",")* =  => ActionFn(263);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action263::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (0, 46)
@@ -11002,8 +11002,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBound> "+")* =  => ActionFn(228);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action228::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant37(___nt), ___end));
 (0, 51)
@@ -11093,8 +11093,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeBoundParameter> ",")* =  => ActionFn(238);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action238::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant39(___nt), ___end));
 (0, 54)
@@ -11184,8 +11184,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeParameter> ",")* =  => ActionFn(215);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action215::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant41(___nt), ___end));
 (0, 57)
@@ -11275,8 +11275,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRef> ",")* =  => ActionFn(233);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action233::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (0, 60)
@@ -11366,8 +11366,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // (<TypeRefOrLifetime> ",")* =  => ActionFn(268);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action268::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant42(___nt), ___end));
 (0, 63)
@@ -11438,8 +11438,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // @L =  => ActionFn(198);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action198::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
 (0, 65)
@@ -11454,8 +11454,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // @R =  => ActionFn(197);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action197::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant43(___nt), ___end));
 (0, 66)
@@ -11555,8 +11555,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Action? =  => ActionFn(159);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action159::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant45(___nt), ___end));
 (0, 68)
@@ -11784,8 +11784,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Alternative? =  => ActionFn(257);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action257::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant46(___nt), ___end));
 (0, 70)
@@ -11882,8 +11882,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AssociatedType* =  => ActionFn(138);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action138::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant49(___nt), ___end));
 (0, 73)
@@ -11972,8 +11972,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Attribute* =  => ActionFn(199);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action199::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant13(___nt), ___end));
 (0, 76)
@@ -12097,8 +12097,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AttributeArg? =  => ActionFn(171);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action171::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant51(___nt), ___end));
 (0, 79)
@@ -12166,8 +12166,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // AttributeInner? =  => ActionFn(247);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action247::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant52(___nt), ___end));
 (0, 81)
@@ -12199,8 +12199,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Alternative> =  => ActionFn(484);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action484::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant47(___nt), ___end));
 (0, 82)
@@ -12268,8 +12268,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<AttributeInner> =  => ActionFn(512);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action512::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant53(___nt), ___end));
 (0, 83)
@@ -12337,8 +12337,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Conversion> =  => ActionFn(516);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action516::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant54(___nt), ___end));
 (0, 84)
@@ -12406,8 +12406,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarParameter> =  => ActionFn(542);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action542::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant55(___nt), ___end));
 (0, 85)
@@ -12475,8 +12475,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<GrammarWhereClause> =  => ActionFn(570);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action570::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant56(___nt), ___end));
 (0, 86)
@@ -12544,8 +12544,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<MatchItem> =  => ActionFn(614);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action614::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant57(___nt), ___end));
 (0, 87)
@@ -12613,8 +12613,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<NotMacroId> =  => ActionFn(618);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action618::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant58(___nt), ___end));
 (0, 88)
@@ -12682,8 +12682,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Pattern> =  => ActionFn(622);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action622::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant59(___nt), ___end));
 (0, 89)
@@ -12751,8 +12751,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<Symbol> =  => ActionFn(692);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action692::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant60(___nt), ___end));
 (0, 90)
@@ -12820,8 +12820,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeBoundParameter> =  => ActionFn(702);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action702::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant5(___nt), ___end));
 (0, 91)
@@ -12889,8 +12889,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeParameter> =  => ActionFn(706);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action706::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
 (0, 92)
@@ -12958,8 +12958,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRef> =  => ActionFn(710);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action710::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant62(___nt), ___end));
 (0, 93)
@@ -13027,8 +13027,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Comma<TypeRefOrLifetime> =  => ActionFn(714);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action714::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant62(___nt), ___end));
 (0, 94)
@@ -13184,8 +13184,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Conversion? =  => ActionFn(281);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action281::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant64(___nt), ___end));
 (0, 98)
@@ -13239,8 +13239,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ExprSymbol =  => ActionFn(689);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action689::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant66(___nt), ___end));
 (0, 101)
@@ -13438,8 +13438,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // FieldPattern? =  => ActionFn(131);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action131::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant68(___nt), ___end));
 (0, 104)
@@ -13475,8 +13475,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ForAll =  => ActionFn(348);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action348::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant61(___nt), ___end));
 (0, 105)
@@ -16439,8 +16439,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarItem* =  => ActionFn(189);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action189::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant70(___nt), ___end));
 (0, 108)
@@ -16545,8 +16545,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameter? =  => ActionFn(242);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action242::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant71(___nt), ___end));
 (0, 111)
@@ -16598,8 +16598,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarParameters? =  => ActionFn(194);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action194::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant72(___nt), ___end));
 (0, 113)
@@ -16651,8 +16651,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarTypeParameters? =  => ActionFn(196);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action196::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant73(___nt), ___end));
 (0, 115)
@@ -16748,8 +16748,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClause? =  => ActionFn(219);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action219::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant74(___nt), ___end));
 (0, 117)
@@ -16800,8 +16800,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // GrammarWhereClauses? =  => ActionFn(192);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action192::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant75(___nt), ___end));
 (0, 119)
@@ -16884,8 +16884,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Lifetime? =  => ActionFn(147);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action147::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant76(___nt), ___end));
 (0, 122)
@@ -16985,8 +16985,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // MatchItem? =  => ActionFn(276);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action276::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant78(___nt), ___end));
 (0, 126)
@@ -17293,8 +17293,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // NotMacroId? =  => ActionFn(252);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action252::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant83(___nt), ___end));
 (0, 134)
@@ -17418,8 +17418,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Pattern? =  => ActionFn(286);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action286::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant85(___nt), ___end));
 (0, 137)
@@ -17724,8 +17724,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<Lifetime> =  => ActionFn(606);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action606::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant87(___nt), ___end));
 (0, 139)
@@ -17793,8 +17793,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Plus<TypeBound> =  => ActionFn(698);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action698::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant88(___nt), ___end));
 (0, 140)
@@ -17981,8 +17981,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // ShebangAttribute* =  => ActionFn(203);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action203::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant92(___nt), ___end));
 (0, 146)
@@ -18154,8 +18154,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol* =  => ActionFn(156);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action156::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant33(___nt), ___end));
 (0, 151)
@@ -18293,8 +18293,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Symbol? =  => ActionFn(262);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action262::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant93(___nt), ___end));
 (0, 155)
@@ -18651,8 +18651,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TupleItem? =  => ActionFn(149);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action149::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant96(___nt), ___end));
 (0, 160)
@@ -18923,8 +18923,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBound? =  => ActionFn(227);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action227::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant98(___nt), ___end));
 (0, 163)
@@ -19010,8 +19010,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeBoundParameter? =  => ActionFn(237);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action237::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant99(___nt), ___end));
 (0, 165)
@@ -19094,8 +19094,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeParameter? =  => ActionFn(214);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action214::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant100(___nt), ___end));
 (0, 168)
@@ -19446,8 +19446,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRef? =  => ActionFn(232);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action232::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 170)
@@ -19513,8 +19513,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // TypeRefOrLifetime? =  => ActionFn(267);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action267::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant4(___nt), ___end));
 (0, 172)
@@ -19548,8 +19548,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Use* =  => ActionFn(201);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action201::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant70(___nt), ___end));
 (0, 174)
@@ -19677,8 +19677,8 @@ _: core::marker::PhantomData<(&'input ())>,
 ) -> (usize, usize)
 {
 // Visibility =  => ActionFn(349);
-let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2)).unwrap_or_default();
-let ___end = ___start;
+let ___start = ___lookahead_start.cloned().or_else(|| ___symbols.last().map(|s| s.2.clone())).unwrap_or_default();
+let ___end = ___start.clone();
 let ___nt = super::___action349::<>(text, &___start, &___end);
 ___symbols.push((___start, ___Symbol::Variant101(___nt), ___end));
 (0, 176)
@@ -23978,7 +23978,7 @@ text: &'input str,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action322<
     'input,
 >(
@@ -23988,8 +23988,8 @@ ___1: (usize, alloc::vec::Vec<Atom>, usize),
 ___2: (usize, Atom, usize),
 ) -> Path
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action143(
 text,
 ___0,
@@ -24005,7 +24005,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action323<
     'input,
 >(
@@ -24014,8 +24014,8 @@ ___0: (usize, alloc::vec::Vec<Atom>, usize),
 ___1: (usize, Atom, usize),
 ) -> Path
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action144(
 text,
 &___start0,
@@ -24032,7 +24032,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action324<
     'input,
 >(
@@ -24043,8 +24043,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action165(
 text,
 ___3,
@@ -24061,7 +24061,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action325<
     'input,
 >(
@@ -24071,8 +24071,8 @@ ___1: (usize, Vec<Alternative>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___2.2;
-let ___end0 = ___2.2;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action166(
 text,
 &___start0,
@@ -24090,7 +24090,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action326<
     'input,
 >(
@@ -24106,8 +24106,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action154(
 text,
 ___2,
@@ -24129,7 +24129,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action327<
     'input,
 >(
@@ -24144,8 +24144,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action155(
 text,
 &___start0,
@@ -24168,7 +24168,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action328<
     'input,
 >(
@@ -24177,8 +24177,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Atom, usize),
 ) -> ArgPattern
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action154(
 text,
 ___0,
@@ -24193,7 +24193,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action329<
     'input,
 >(
@@ -24201,8 +24201,8 @@ text: &'input str,
 ___0: (usize, Atom, usize),
 ) -> ArgPattern
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action155(
 text,
 &___start0,
@@ -24218,7 +24218,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action330<
     'input,
 >(
@@ -24229,8 +24229,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action154(
 text,
 ___2,
@@ -24247,7 +24247,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action331<
     'input,
 >(
@@ -24257,8 +24257,8 @@ ___1: (usize, Option<Lifetime>, usize),
 ___2: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action155(
 text,
 &___start0,
@@ -24276,7 +24276,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action332<
     'input,
 >(
@@ -24285,8 +24285,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> Option<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action182(
 text,
 ___0,
@@ -24301,7 +24301,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action333<
     'input,
 >(
@@ -24315,8 +24315,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, TypeRef, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___5.0;
-let ___end0 = ___6.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___6.2.clone();
 let ___temp0 = ___action332(
 text,
 ___5,
@@ -24336,7 +24336,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action334<
     'input,
 >(
@@ -24348,8 +24348,8 @@ ___3: (usize, Vec<TypeRef>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___4.2;
-let ___end0 = ___4.2;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action181(
 text,
 &___start0,
@@ -24369,7 +24369,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action335<
     'input,
 >(
@@ -24384,8 +24384,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___6.0;
-let ___end0 = ___7.2;
+let ___start0 = ___6.0.clone();
+let ___end0 = ___7.2.clone();
 let ___temp0 = ___action332(
 text,
 ___6,
@@ -24406,7 +24406,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action336<
     'input,
 >(
@@ -24419,8 +24419,8 @@ ___4: (usize, Vec<TypeRef>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> TypeRef
 {
-let ___start0 = ___5.2;
-let ___end0 = ___5.2;
+let ___start0 = ___5.2.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action181(
 text,
 &___start0,
@@ -24441,7 +24441,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action337<
     'input,
 >(
@@ -24450,8 +24450,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> Option<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action174(
 text,
 ___0,
@@ -24466,7 +24466,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action338<
     'input,
 >(
@@ -24482,8 +24482,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___5.0;
-let ___end0 = ___6.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___6.2.clone();
 let ___temp0 = ___action337(
 text,
 ___5,
@@ -24505,7 +24505,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action339<
     'input,
 >(
@@ -24519,8 +24519,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action173(
 text,
 &___start0,
@@ -24542,7 +24542,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action340<
     'input,
 >(
@@ -24552,8 +24552,8 @@ ___1: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Option<Vec<TypeBoundParameter<TypeRef>>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___2.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action178(
 text,
 ___0,
@@ -24569,7 +24569,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action341<
     'input,
 >(
@@ -24581,8 +24581,8 @@ ___3: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___2.0;
-let ___end0 = ___4.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action340(
 text,
 ___2,
@@ -24600,7 +24600,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action342<
     'input,
 >(
@@ -24609,8 +24609,8 @@ ___0: (usize, Vec<TypeParameter>, usize),
 ___1: (usize, Path, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___1.2;
-let ___end0 = ___1.2;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action177(
 text,
 &___start0,
@@ -24627,7 +24627,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action343<
     'input,
 >(
@@ -24636,8 +24636,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Condition, usize),
 ) -> Option<Condition>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action162(
 text,
 ___0,
@@ -24652,7 +24652,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action344<
     'input,
 >(
@@ -24666,8 +24666,8 @@ ___5: (usize, Option<ActionKind>, usize),
 ___6: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___3.0;
-let ___end0 = ___4.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action343(
 text,
 ___3,
@@ -24687,7 +24687,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action345<
     'input,
 >(
@@ -24699,8 +24699,8 @@ ___3: (usize, Option<ActionKind>, usize),
 ___4: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action161(
 text,
 &___start0,
@@ -24720,7 +24720,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action346<
     'input,
 >(
@@ -24732,8 +24732,8 @@ ___3: (usize, ActionKind, usize),
 ___4: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action343(
 text,
 ___1,
@@ -24751,7 +24751,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action347<
     'input,
 >(
@@ -24761,8 +24761,8 @@ ___1: (usize, ActionKind, usize),
 ___2: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action161(
 text,
 &___start0,
@@ -24780,7 +24780,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action348<
     'input,
 >(
@@ -24789,8 +24789,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<TypeParameter>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action185(
 text,
 &___start0,
@@ -24805,7 +24805,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action349<
     'input,
 >(
@@ -24814,8 +24814,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Visibility
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action185(
 text,
 &___start0,
@@ -24830,7 +24830,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action350<
     'input,
 >(
@@ -24839,8 +24839,8 @@ ___0: (usize, Alternative, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Alternative>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action260(
 text,
 ___0,
@@ -24855,7 +24855,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action351<
     'input,
 >(
@@ -24865,8 +24865,8 @@ ___1: (usize, Alternative, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Alternative>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action260(
 text,
 ___1,
@@ -24882,7 +24882,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action352<
     'input,
 >(
@@ -24890,8 +24890,8 @@ text: &'input str,
 ___0: (usize, Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action258(
 text,
 &___start0,
@@ -24907,7 +24907,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action353<
     'input,
 >(
@@ -24916,8 +24916,8 @@ ___0: (usize, alloc::vec::Vec<Alternative>, usize),
 ___1: (usize, Option<Alternative>, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action259(
 text,
 ___0,
@@ -24932,7 +24932,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action354<
     'input,
 >(
@@ -24941,8 +24941,8 @@ ___0: (usize, Attribute, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Attribute>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action250(
 text,
 ___0,
@@ -24957,7 +24957,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action355<
     'input,
 >(
@@ -24967,8 +24967,8 @@ ___1: (usize, Attribute, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Attribute>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action250(
 text,
 ___1,
@@ -24984,7 +24984,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action356<
     'input,
 >(
@@ -24992,8 +24992,8 @@ text: &'input str,
 ___0: (usize, Option<Attribute>, usize),
 ) -> Vec<Attribute>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action248(
 text,
 &___start0,
@@ -25009,7 +25009,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action357<
     'input,
 >(
@@ -25018,8 +25018,8 @@ ___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Option<Attribute>, usize),
 ) -> Vec<Attribute>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action249(
 text,
 ___0,
@@ -25034,7 +25034,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action358<
     'input,
 >(
@@ -25043,8 +25043,8 @@ ___0: (usize, Conversion, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Conversion>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action284(
 text,
 ___0,
@@ -25059,7 +25059,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action359<
     'input,
 >(
@@ -25069,8 +25069,8 @@ ___1: (usize, Conversion, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Conversion>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action284(
 text,
 ___1,
@@ -25086,7 +25086,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action360<
     'input,
 >(
@@ -25094,8 +25094,8 @@ text: &'input str,
 ___0: (usize, Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action282(
 text,
 &___start0,
@@ -25111,7 +25111,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action361<
     'input,
 >(
@@ -25120,8 +25120,8 @@ ___0: (usize, alloc::vec::Vec<Conversion>, usize),
 ___1: (usize, Option<Conversion>, usize),
 ) -> Vec<Conversion>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action283(
 text,
 ___0,
@@ -25136,7 +25136,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action362<
     'input,
 >(
@@ -25145,8 +25145,8 @@ ___0: (usize, FieldPattern<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action134(
 text,
 ___0,
@@ -25161,7 +25161,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action363<
     'input,
 >(
@@ -25171,8 +25171,8 @@ ___1: (usize, FieldPattern<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<FieldPattern<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action134(
 text,
 ___1,
@@ -25188,7 +25188,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action364<
     'input,
 >(
@@ -25199,8 +25199,8 @@ ___2: (usize, Option<FieldPattern<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action132(
 text,
 &___start0,
@@ -25219,7 +25219,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action365<
     'input,
 >(
@@ -25231,8 +25231,8 @@ ___3: (usize, Option<FieldPattern<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action133(
 text,
 ___2,
@@ -25250,7 +25250,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action366<
     'input,
 >(
@@ -25261,8 +25261,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action132(
 text,
 &___start0,
@@ -25281,7 +25281,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action367<
     'input,
 >(
@@ -25293,8 +25293,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action133(
 text,
 ___2,
@@ -25312,7 +25312,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action368<
     'input,
 >(
@@ -25321,8 +25321,8 @@ ___0: (usize, Parameter, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Parameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action245(
 text,
 ___0,
@@ -25337,7 +25337,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action369<
     'input,
 >(
@@ -25347,8 +25347,8 @@ ___1: (usize, Parameter, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Parameter>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action245(
 text,
 ___1,
@@ -25364,7 +25364,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action370<
     'input,
 >(
@@ -25372,8 +25372,8 @@ text: &'input str,
 ___0: (usize, Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action243(
 text,
 &___start0,
@@ -25389,7 +25389,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action371<
     'input,
 >(
@@ -25398,8 +25398,8 @@ ___0: (usize, alloc::vec::Vec<Parameter>, usize),
 ___1: (usize, Option<Parameter>, usize),
 ) -> Vec<Parameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action244(
 text,
 ___0,
@@ -25414,7 +25414,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action372<
     'input,
 >(
@@ -25423,8 +25423,8 @@ ___0: (usize, WhereClause<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action222(
 text,
 ___0,
@@ -25439,7 +25439,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action373<
     'input,
 >(
@@ -25449,8 +25449,8 @@ ___1: (usize, WhereClause<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action222(
 text,
 ___1,
@@ -25466,7 +25466,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action374<
     'input,
 >(
@@ -25474,8 +25474,8 @@ text: &'input str,
 ___0: (usize, Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action220(
 text,
 &___start0,
@@ -25491,7 +25491,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action375<
     'input,
 >(
@@ -25500,8 +25500,8 @@ ___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 ___1: (usize, Option<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action221(
 text,
 ___0,
@@ -25516,7 +25516,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action376<
     'input,
 >(
@@ -25525,8 +25525,8 @@ ___0: (usize, Atom, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Atom>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action142(
 text,
 ___0,
@@ -25541,7 +25541,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action377<
     'input,
 >(
@@ -25551,8 +25551,8 @@ ___1: (usize, Atom, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Atom>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action142(
 text,
 ___1,
@@ -25568,7 +25568,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action378<
     'input,
 >(
@@ -25577,8 +25577,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Atom, usize),
 ) -> Path
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action140(
 text,
 &___start0,
@@ -25595,7 +25595,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action379<
     'input,
 >(
@@ -25605,8 +25605,8 @@ ___1: (usize, alloc::vec::Vec<Atom>, usize),
 ___2: (usize, Atom, usize),
 ) -> Path
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action141(
 text,
 ___1,
@@ -25622,7 +25622,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action380<
     'input,
 >(
@@ -25630,8 +25630,8 @@ text: &'input str,
 ___0: (usize, Atom, usize),
 ) -> Path
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action140(
 text,
 &___start0,
@@ -25647,7 +25647,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action381<
     'input,
 >(
@@ -25656,8 +25656,8 @@ ___0: (usize, alloc::vec::Vec<Atom>, usize),
 ___1: (usize, Atom, usize),
 ) -> Path
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action141(
 text,
 ___0,
@@ -25672,7 +25672,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action382<
     'input,
 >(
@@ -25681,8 +25681,8 @@ ___0: (usize, Lifetime, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Lifetime>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action225(
 text,
 ___0,
@@ -25697,7 +25697,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action383<
     'input,
 >(
@@ -25707,8 +25707,8 @@ ___1: (usize, Lifetime, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Lifetime>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action225(
 text,
 ___1,
@@ -25724,7 +25724,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action384<
     'input,
 >(
@@ -25732,8 +25732,8 @@ text: &'input str,
 ___0: (usize, Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action223(
 text,
 &___start0,
@@ -25749,7 +25749,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action385<
     'input,
 >(
@@ -25758,8 +25758,8 @@ ___0: (usize, alloc::vec::Vec<Lifetime>, usize),
 ___1: (usize, Option<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action224(
 text,
 ___0,
@@ -25774,7 +25774,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action386<
     'input,
 >(
@@ -25783,8 +25783,8 @@ ___0: (usize, MatchItem, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<MatchItem>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action279(
 text,
 ___0,
@@ -25799,7 +25799,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action387<
     'input,
 >(
@@ -25809,8 +25809,8 @@ ___1: (usize, MatchItem, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<MatchItem>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action279(
 text,
 ___1,
@@ -25826,7 +25826,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action388<
     'input,
 >(
@@ -25834,8 +25834,8 @@ text: &'input str,
 ___0: (usize, Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action277(
 text,
 &___start0,
@@ -25851,7 +25851,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action389<
     'input,
 >(
@@ -25860,8 +25860,8 @@ ___0: (usize, alloc::vec::Vec<MatchItem>, usize),
 ___1: (usize, Option<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action278(
 text,
 ___0,
@@ -25876,7 +25876,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action390<
     'input,
 >(
@@ -25885,8 +25885,8 @@ ___0: (usize, NonterminalString, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<NonterminalString>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action255(
 text,
 ___0,
@@ -25901,7 +25901,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action391<
     'input,
 >(
@@ -25911,8 +25911,8 @@ ___1: (usize, NonterminalString, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<NonterminalString>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action255(
 text,
 ___1,
@@ -25928,7 +25928,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action392<
     'input,
 >(
@@ -25936,8 +25936,8 @@ text: &'input str,
 ___0: (usize, Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action253(
 text,
 &___start0,
@@ -25953,7 +25953,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action393<
     'input,
 >(
@@ -25962,8 +25962,8 @@ ___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
 ___1: (usize, Option<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action254(
 text,
 ___0,
@@ -25978,7 +25978,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action394<
     'input,
 >(
@@ -25987,8 +25987,8 @@ ___0: (usize, Pattern<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action289(
 text,
 ___0,
@@ -26003,7 +26003,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action395<
     'input,
 >(
@@ -26013,8 +26013,8 @@ ___1: (usize, Pattern<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action289(
 text,
 ___1,
@@ -26030,7 +26030,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action396<
     'input,
 >(
@@ -26038,8 +26038,8 @@ text: &'input str,
 ___0: (usize, Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action287(
 text,
 &___start0,
@@ -26055,7 +26055,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action397<
     'input,
 >(
@@ -26064,8 +26064,8 @@ ___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 ___1: (usize, Option<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action288(
 text,
 ___0,
@@ -26080,7 +26080,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action398<
     'input,
 >(
@@ -26089,8 +26089,8 @@ ___0: (usize, Symbol, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Symbol>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action265(
 text,
 ___0,
@@ -26105,7 +26105,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action399<
     'input,
 >(
@@ -26115,8 +26115,8 @@ ___1: (usize, Symbol, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<Symbol>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action265(
 text,
 ___1,
@@ -26132,7 +26132,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action400<
     'input,
 >(
@@ -26140,8 +26140,8 @@ text: &'input str,
 ___0: (usize, Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action263(
 text,
 &___start0,
@@ -26157,7 +26157,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action401<
     'input,
 >(
@@ -26166,8 +26166,8 @@ ___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, Option<Symbol>, usize),
 ) -> Vec<Symbol>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action264(
 text,
 ___0,
@@ -26182,7 +26182,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action402<
     'input,
 >(
@@ -26191,8 +26191,8 @@ ___0: (usize, ArgPattern, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<ArgPattern>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action152(
 text,
 ___0,
@@ -26207,7 +26207,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action403<
     'input,
 >(
@@ -26217,8 +26217,8 @@ ___1: (usize, ArgPattern, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<ArgPattern>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action152(
 text,
 ___1,
@@ -26234,7 +26234,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action404<
     'input,
 >(
@@ -26243,8 +26243,8 @@ ___0: (usize, TypeBound<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action230(
 text,
 ___0,
@@ -26259,7 +26259,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action405<
     'input,
 >(
@@ -26269,8 +26269,8 @@ ___1: (usize, TypeBound<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action230(
 text,
 ___1,
@@ -26286,7 +26286,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action406<
     'input,
 >(
@@ -26294,8 +26294,8 @@ text: &'input str,
 ___0: (usize, Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action228(
 text,
 &___start0,
@@ -26311,7 +26311,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action407<
     'input,
 >(
@@ -26320,8 +26320,8 @@ ___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 ___1: (usize, Option<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action229(
 text,
 ___0,
@@ -26336,7 +26336,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action408<
     'input,
 >(
@@ -26345,8 +26345,8 @@ ___0: (usize, TypeBoundParameter<TypeRef>, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action240(
 text,
 ___0,
@@ -26361,7 +26361,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action409<
     'input,
 >(
@@ -26371,8 +26371,8 @@ ___1: (usize, TypeBoundParameter<TypeRef>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action240(
 text,
 ___1,
@@ -26388,7 +26388,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action410<
     'input,
 >(
@@ -26396,8 +26396,8 @@ text: &'input str,
 ___0: (usize, Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action238(
 text,
 &___start0,
@@ -26413,7 +26413,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action411<
     'input,
 >(
@@ -26422,8 +26422,8 @@ ___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 ___1: (usize, Option<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action239(
 text,
 ___0,
@@ -26438,7 +26438,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action412<
     'input,
 >(
@@ -26447,8 +26447,8 @@ ___0: (usize, TypeParameter, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeParameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action217(
 text,
 ___0,
@@ -26463,7 +26463,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action413<
     'input,
 >(
@@ -26473,8 +26473,8 @@ ___1: (usize, TypeParameter, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeParameter>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action217(
 text,
 ___1,
@@ -26490,7 +26490,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action414<
     'input,
 >(
@@ -26498,8 +26498,8 @@ text: &'input str,
 ___0: (usize, Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action215(
 text,
 &___start0,
@@ -26515,7 +26515,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action415<
     'input,
 >(
@@ -26524,8 +26524,8 @@ ___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
 ___1: (usize, Option<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action216(
 text,
 ___0,
@@ -26540,7 +26540,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action416<
     'input,
 >(
@@ -26549,8 +26549,8 @@ ___0: (usize, TypeRef, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action235(
 text,
 ___0,
@@ -26565,7 +26565,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action417<
     'input,
 >(
@@ -26575,8 +26575,8 @@ ___1: (usize, TypeRef, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeRef>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action235(
 text,
 ___1,
@@ -26592,7 +26592,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action418<
     'input,
 >(
@@ -26600,8 +26600,8 @@ text: &'input str,
 ___0: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action233(
 text,
 &___start0,
@@ -26617,7 +26617,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action419<
     'input,
 >(
@@ -26626,8 +26626,8 @@ ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action234(
 text,
 ___0,
@@ -26642,7 +26642,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action420<
     'input,
 >(
@@ -26651,8 +26651,8 @@ ___0: (usize, TypeRef, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___1.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action270(
 text,
 ___0,
@@ -26667,7 +26667,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action421<
     'input,
 >(
@@ -26677,8 +26677,8 @@ ___1: (usize, TypeRef, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> alloc::vec::Vec<TypeRef>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___2.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action270(
 text,
 ___1,
@@ -26694,7 +26694,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action422<
     'input,
 >(
@@ -26702,8 +26702,8 @@ text: &'input str,
 ___0: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action268(
 text,
 &___start0,
@@ -26719,7 +26719,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action423<
     'input,
 >(
@@ -26728,8 +26728,8 @@ ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, Option<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action269(
 text,
 ___0,
@@ -26744,7 +26744,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action424<
     'input,
 >(
@@ -26757,8 +26757,8 @@ ___4: (usize, Option<ActionKind>, usize),
 ___5: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26779,7 +26779,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action425<
     'input,
 >(
@@ -26790,8 +26790,8 @@ ___2: (usize, Option<ActionKind>, usize),
 ___3: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26810,7 +26810,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action426<
     'input,
 >(
@@ -26821,8 +26821,8 @@ ___2: (usize, ActionKind, usize),
 ___3: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26841,7 +26841,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action427<
     'input,
 >(
@@ -26850,8 +26850,8 @@ ___0: (usize, ActionKind, usize),
 ___1: (usize, usize, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26868,7 +26868,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action428<
     'input,
 >(
@@ -26881,8 +26881,8 @@ ___4: (usize, TypeRef, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> AssociatedType
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26903,7 +26903,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action429<
     'input,
 >(
@@ -26913,8 +26913,8 @@ ___1: (usize, Option<AttributeArg>, usize),
 ___2: (usize, usize, usize),
 ) -> Attribute
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26932,7 +26932,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action430<
     'input,
 >(
@@ -26943,8 +26943,8 @@ ___2: (usize, Atom, usize),
 ___3: (usize, usize, usize),
 ) -> Condition
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -26963,7 +26963,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action431<
     'input,
 >(
@@ -26974,10 +26974,10 @@ ___2: (usize, &'input str, usize),
 ___3: (usize, usize, usize),
 ) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___start1 = ___1.2;
-let ___end1 = ___2.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___1.2.clone();
+let ___end1 = ___2.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27003,7 +27003,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action432<
     'input,
 >(
@@ -27016,8 +27016,8 @@ ___4: (usize, Vec<Conversion>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> EnumToken
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27038,7 +27038,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action433<
     'input,
 >(
@@ -27052,8 +27052,8 @@ ___5: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27075,7 +27075,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action434<
     'input,
 >(
@@ -27087,8 +27087,8 @@ ___3: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27108,7 +27108,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action435<
     'input,
 >(
@@ -27119,8 +27119,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Pattern<TypeRef>, usize),
 ) -> FieldPattern<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27139,7 +27139,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action436<
     'input,
 >(
@@ -27156,8 +27156,8 @@ ___8: (usize, Tok<'input>, usize),
 ___9: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27182,7 +27182,7 @@ ___9,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action437<
     'input,
 >(
@@ -27191,8 +27191,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, usize, usize),
 ) -> MatchItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27209,7 +27209,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action438<
     'input,
 >(
@@ -27218,8 +27218,8 @@ ___0: (usize, TerminalLiteral, usize),
 ___1: (usize, usize, usize),
 ) -> MatchItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27236,7 +27236,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action439<
     'input,
 >(
@@ -27246,10 +27246,10 @@ ___1: (usize, &'input str, usize),
 ___2: (usize, usize, usize),
 ) -> Result<MatchItem,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___start1 = ___0.2;
-let ___end1 = ___1.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___0.2.clone();
+let ___end1 = ___1.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27274,7 +27274,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action440<
     'input,
 >(
@@ -27286,8 +27286,8 @@ ___3: (usize, MatchContents, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> MatchToken
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27307,7 +27307,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action441<
     'input,
 >(
@@ -27322,8 +27322,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27346,7 +27346,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action442<
     'input,
 >(
@@ -27359,8 +27359,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27381,7 +27381,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action443<
     'input,
 >(
@@ -27390,8 +27390,8 @@ ___0: (usize, PatternKind<TypeRef>, usize),
 ___1: (usize, usize, usize),
 ) -> Pattern<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27408,7 +27408,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action444<
     'input,
 >(
@@ -27416,8 +27416,8 @@ text: &'input str,
 ___0: (usize, &'input str, usize),
 ) -> Result<String,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27433,7 +27433,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action445<
     'input,
 >(
@@ -27441,8 +27441,8 @@ text: &'input str,
 ___0: (usize, &'input str, usize),
 ) -> Result<Atom,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27458,7 +27458,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action446<
     'input,
 >(
@@ -27472,10 +27472,10 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___start1 = ___1.2;
-let ___end1 = ___2.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___1.2.clone();
+let ___end1 = ___2.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27504,7 +27504,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action447<
     'input,
 >(
@@ -27517,10 +27517,10 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
-let ___start1 = ___0.2;
-let ___end1 = ___1.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
+let ___start1 = ___0.2.clone();
+let ___end1 = ___1.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27548,7 +27548,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action448<
     'input,
 >(
@@ -27559,8 +27559,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27579,7 +27579,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action449<
     'input,
 >(
@@ -27592,8 +27592,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27614,7 +27614,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action450<
     'input,
 >(
@@ -27623,8 +27623,8 @@ ___0: (usize, SymbolKind, usize),
 ___1: (usize, usize, usize),
 ) -> Symbol
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27641,7 +27641,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action451<
     'input,
 >(
@@ -27653,8 +27653,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, usize, usize),
 ) -> Tuple
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action198(
 text,
 &___start0,
@@ -27674,7 +27674,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action452<
     'input,
 >(
@@ -27686,8 +27686,8 @@ ___3: (usize, Condition, usize),
 ___4: (usize, Option<ActionKind>, usize),
 ) -> Alternative
 {
-let ___start0 = ___4.2;
-let ___end0 = ___4.2;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27707,7 +27707,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action453<
     'input,
 >(
@@ -27717,8 +27717,8 @@ ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, Option<ActionKind>, usize),
 ) -> Alternative
 {
-let ___start0 = ___2.2;
-let ___end0 = ___2.2;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27736,7 +27736,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action454<
     'input,
 >(
@@ -27746,8 +27746,8 @@ ___1: (usize, Condition, usize),
 ___2: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___2.2;
-let ___end0 = ___2.2;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27765,7 +27765,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action455<
     'input,
 >(
@@ -27773,8 +27773,8 @@ text: &'input str,
 ___0: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27790,7 +27790,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action456<
     'input,
 >(
@@ -27802,8 +27802,8 @@ ___3: (usize, TypeRef, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> AssociatedType
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27823,7 +27823,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action457<
     'input,
 >(
@@ -27832,8 +27832,8 @@ ___0: (usize, Atom, usize),
 ___1: (usize, Option<AttributeArg>, usize),
 ) -> Attribute
 {
-let ___start0 = ___1.2;
-let ___end0 = ___1.2;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27850,7 +27850,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action458<
     'input,
 >(
@@ -27860,8 +27860,8 @@ ___1: (usize, ConditionOp, usize),
 ___2: (usize, Atom, usize),
 ) -> Condition
 {
-let ___start0 = ___2.2;
-let ___end0 = ___2.2;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27879,7 +27879,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action459<
     'input,
 >(
@@ -27889,8 +27889,8 @@ ___1: (usize, TerminalString, usize),
 ___2: (usize, &'input str, usize),
 ) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___2.2;
-let ___end0 = ___2.2;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27908,7 +27908,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action460<
     'input,
 >(
@@ -27920,8 +27920,8 @@ ___3: (usize, Vec<Conversion>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> EnumToken
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27941,7 +27941,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action461<
     'input,
 >(
@@ -27954,8 +27954,8 @@ ___4: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -27976,7 +27976,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action462<
     'input,
 >(
@@ -27987,8 +27987,8 @@ ___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28007,7 +28007,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action463<
     'input,
 >(
@@ -28017,8 +28017,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Pattern<TypeRef>, usize),
 ) -> FieldPattern<TypeRef>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28036,7 +28036,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action464<
     'input,
 >(
@@ -28052,8 +28052,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28077,7 +28077,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action465<
     'input,
 >(
@@ -28085,8 +28085,8 @@ text: &'input str,
 ___0: (usize, Tok<'input>, usize),
 ) -> MatchItem
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28102,7 +28102,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action466<
     'input,
 >(
@@ -28110,8 +28110,8 @@ text: &'input str,
 ___0: (usize, TerminalLiteral, usize),
 ) -> MatchItem
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28127,7 +28127,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action467<
     'input,
 >(
@@ -28136,8 +28136,8 @@ ___0: (usize, TerminalLiteral, usize),
 ___1: (usize, &'input str, usize),
 ) -> Result<MatchItem,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___1.2;
-let ___end0 = ___1.2;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28154,7 +28154,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action468<
     'input,
 >(
@@ -28165,8 +28165,8 @@ ___2: (usize, MatchContents, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> MatchToken
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28185,7 +28185,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action469<
     'input,
 >(
@@ -28199,8 +28199,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28222,7 +28222,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action470<
     'input,
 >(
@@ -28234,8 +28234,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28255,7 +28255,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action471<
     'input,
 >(
@@ -28263,8 +28263,8 @@ text: &'input str,
 ___0: (usize, PatternKind<TypeRef>, usize),
 ) -> Pattern<TypeRef>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28280,7 +28280,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action472<
     'input,
 >(
@@ -28293,8 +28293,8 @@ ___4: (usize, Symbol, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Symbol
 {
-let ___start0 = ___5.2;
-let ___end0 = ___5.2;
+let ___start0 = ___5.2.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28315,7 +28315,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action473<
     'input,
 >(
@@ -28327,8 +28327,8 @@ ___3: (usize, Symbol, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Symbol
 {
-let ___start0 = ___4.2;
-let ___end0 = ___4.2;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28348,7 +28348,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action474<
     'input,
 >(
@@ -28358,8 +28358,8 @@ ___1: (usize, Symbol, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Symbol
 {
-let ___start0 = ___2.2;
-let ___end0 = ___2.2;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28377,7 +28377,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action475<
     'input,
 >(
@@ -28389,8 +28389,8 @@ ___3: (usize, Symbol, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Symbol
 {
-let ___start0 = ___4.2;
-let ___end0 = ___4.2;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28410,7 +28410,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action476<
     'input,
 >(
@@ -28419,8 +28419,8 @@ ___0: (usize, Symbol, usize),
 ___1: (usize, RepeatOp, usize),
 ) -> Symbol
 {
-let ___start0 = ___1.2;
-let ___end0 = ___1.2;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28437,7 +28437,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action477<
     'input,
 >(
@@ -28445,8 +28445,8 @@ text: &'input str,
 ___0: (usize, SymbolKind, usize),
 ) -> Symbol
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28462,7 +28462,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action478<
     'input,
 >(
@@ -28473,8 +28473,8 @@ ___2: (usize, Option<ArgPattern>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Tuple
 {
-let ___start0 = ___3.2;
-let ___end0 = ___3.2;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action197(
 text,
 &___start0,
@@ -28493,7 +28493,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action479<
     'input,
 >(
@@ -28505,8 +28505,8 @@ ___3: (usize, Condition, usize),
 ___4: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action158(
 text,
 ___4,
@@ -28524,7 +28524,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action480<
     'input,
 >(
@@ -28535,8 +28535,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
 ) -> Alternative
 {
-let ___start0 = ___3.2;
-let ___end0 = ___3.2;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action159(
 text,
 &___start0,
@@ -28555,7 +28555,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action481<
     'input,
 >(
@@ -28565,8 +28565,8 @@ ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action158(
 text,
 ___2,
@@ -28582,7 +28582,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action482<
     'input,
 >(
@@ -28591,8 +28591,8 @@ ___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
-let ___start0 = ___1.2;
-let ___end0 = ___1.2;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action159(
 text,
 &___start0,
@@ -28609,7 +28609,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action483<
     'input,
 >(
@@ -28617,8 +28617,8 @@ text: &'input str,
 ___0: (usize, Alternative, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action256(
 text,
 ___0,
@@ -28632,7 +28632,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action484<
     'input,
 >(
@@ -28641,8 +28641,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Alternative>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action257(
 text,
 &___start0,
@@ -28657,7 +28657,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action485<
     'input,
 >(
@@ -28666,8 +28666,8 @@ ___0: (usize, alloc::vec::Vec<Alternative>, usize),
 ___1: (usize, Alternative, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action256(
 text,
 ___1,
@@ -28682,7 +28682,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action486<
     'input,
 >(
@@ -28690,8 +28690,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Alternative>, usize),
 ) -> Vec<Alternative>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action257(
 text,
 &___start0,
@@ -28707,7 +28707,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action487<
     'input,
 >(
@@ -28718,10 +28718,10 @@ ___2: (usize, EnumToken, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
-let ___start1 = ___2.2;
-let ___end1 = ___3.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___start1 = ___2.2.clone();
+let ___end1 = ___3.0.clone();
 let ___temp0 = ___action138(
 text,
 &___start0,
@@ -28747,7 +28747,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action488<
     'input,
 >(
@@ -28759,10 +28759,10 @@ ___3: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
-let ___start1 = ___3.0;
-let ___end1 = ___3.2;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
+let ___start1 = ___3.0.clone();
+let ___end1 = ___3.2.clone();
 let ___temp0 = ___action138(
 text,
 &___start0,
@@ -28787,7 +28787,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action489<
     'input,
 >(
@@ -28799,10 +28799,10 @@ ___3: (usize, EnumToken, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
-let ___start1 = ___3.2;
-let ___end1 = ___4.0;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___start1 = ___3.2.clone();
+let ___end1 = ___4.0.clone();
 let ___temp0 = ___action139(
 text,
 ___2,
@@ -28827,7 +28827,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action490<
     'input,
 >(
@@ -28840,10 +28840,10 @@ ___4: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
-let ___start1 = ___4.0;
-let ___end1 = ___4.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
+let ___start1 = ___4.0.clone();
+let ___end1 = ___4.2.clone();
 let ___temp0 = ___action139(
 text,
 ___2,
@@ -28867,7 +28867,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action491<
     'input,
 >(
@@ -28877,8 +28877,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action138(
 text,
 &___start0,
@@ -28896,7 +28896,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action492<
     'input,
 >(
@@ -28907,8 +28907,8 @@ ___2: (usize, alloc::vec::Vec<AssociatedType>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action139(
 text,
 ___2,
@@ -28925,7 +28925,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action493<
     'input,
 >(
@@ -28936,8 +28936,8 @@ ___2: (usize, Condition, usize),
 ___3: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -28956,7 +28956,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action494<
     'input,
 >(
@@ -28968,8 +28968,8 @@ ___3: (usize, Condition, usize),
 ___4: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -28987,7 +28987,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action495<
     'input,
 >(
@@ -28997,8 +28997,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Condition, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29016,7 +29016,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action496<
     'input,
 >(
@@ -29027,8 +29027,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Condition, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -29045,7 +29045,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action497<
     'input,
 >(
@@ -29054,8 +29054,8 @@ ___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29072,7 +29072,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action498<
     'input,
 >(
@@ -29082,8 +29082,8 @@ ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ___2: (usize, ActionKind, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -29099,7 +29099,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action499<
     'input,
 >(
@@ -29107,8 +29107,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29124,7 +29124,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action500<
     'input,
 >(
@@ -29133,8 +29133,8 @@ ___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Alternative
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -29149,7 +29149,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action501<
     'input,
 >(
@@ -29158,8 +29158,8 @@ ___0: (usize, TerminalString, usize),
 ___1: (usize, &'input str, usize),
 ) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29176,7 +29176,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action502<
     'input,
 >(
@@ -29186,8 +29186,8 @@ ___1: (usize, TerminalString, usize),
 ___2: (usize, &'input str, usize),
 ) -> Result<Conversion,___lalrpop_util::ParseError<usize,Tok<'input>,tok::Error>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -29203,7 +29203,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action503<
     'input,
 >(
@@ -29218,8 +29218,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29242,7 +29242,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action504<
     'input,
 >(
@@ -29258,8 +29258,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action200(
 text,
 ___2,
@@ -29281,7 +29281,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action505<
     'input,
 >(
@@ -29294,8 +29294,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29316,7 +29316,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action506<
     'input,
 >(
@@ -29330,8 +29330,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -29351,7 +29351,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action507<
     'input,
 >(
@@ -29362,8 +29362,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action199(
 text,
 &___start0,
@@ -29382,7 +29382,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action508<
     'input,
 >(
@@ -29394,8 +29394,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Vec<Alternative>, usize),
 ) -> GrammarItem
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action200(
 text,
 ___0,
@@ -29413,7 +29413,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action509<
     'input,
 >(
@@ -29422,8 +29422,8 @@ ___0: (usize, Atom, usize),
 ___1: (usize, AttributeArg, usize),
 ) -> Attribute
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action170(
 text,
 ___1,
@@ -29438,7 +29438,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action510<
     'input,
 >(
@@ -29446,8 +29446,8 @@ text: &'input str,
 ___0: (usize, Atom, usize),
 ) -> Attribute
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action171(
 text,
 &___start0,
@@ -29463,7 +29463,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action511<
     'input,
 >(
@@ -29471,8 +29471,8 @@ text: &'input str,
 ___0: (usize, Attribute, usize),
 ) -> Vec<Attribute>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action246(
 text,
 ___0,
@@ -29486,7 +29486,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action512<
     'input,
 >(
@@ -29495,8 +29495,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Attribute>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action247(
 text,
 &___start0,
@@ -29511,7 +29511,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action513<
     'input,
 >(
@@ -29520,8 +29520,8 @@ ___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ___1: (usize, Attribute, usize),
 ) -> Vec<Attribute>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action246(
 text,
 ___1,
@@ -29536,7 +29536,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action514<
     'input,
 >(
@@ -29544,8 +29544,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Attribute>, usize),
 ) -> Vec<Attribute>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action247(
 text,
 &___start0,
@@ -29561,7 +29561,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action515<
     'input,
 >(
@@ -29569,8 +29569,8 @@ text: &'input str,
 ___0: (usize, Conversion, usize),
 ) -> Vec<Conversion>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action280(
 text,
 ___0,
@@ -29584,7 +29584,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action516<
     'input,
 >(
@@ -29593,8 +29593,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Conversion>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action281(
 text,
 &___start0,
@@ -29609,7 +29609,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action517<
     'input,
 >(
@@ -29618,8 +29618,8 @@ ___0: (usize, alloc::vec::Vec<Conversion>, usize),
 ___1: (usize, Conversion, usize),
 ) -> Vec<Conversion>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action280(
 text,
 ___1,
@@ -29634,7 +29634,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action518<
     'input,
 >(
@@ -29642,8 +29642,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Conversion>, usize),
 ) -> Vec<Conversion>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action281(
 text,
 &___start0,
@@ -29659,7 +29659,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action519<
     'input,
 >(
@@ -29670,8 +29670,8 @@ ___2: (usize, FieldPattern<TypeRef>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action130(
 text,
 ___2,
@@ -29688,7 +29688,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action520<
     'input,
 >(
@@ -29698,8 +29698,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action131(
 text,
 &___start0,
@@ -29717,7 +29717,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action521<
     'input,
 >(
@@ -29729,8 +29729,8 @@ ___3: (usize, FieldPattern<TypeRef>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action130(
 text,
 ___3,
@@ -29748,7 +29748,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action522<
     'input,
 >(
@@ -29759,8 +29759,8 @@ ___2: (usize, alloc::vec::Vec<FieldPattern<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> PatternKind<TypeRef>
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action131(
 text,
 &___start0,
@@ -29779,7 +29779,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action523<
     'input,
 >(
@@ -29793,8 +29793,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, Vec<TypeBound<TypeRef>>, usize),
 ) -> WhereClause<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___3.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action13(
 text,
 ___0,
@@ -29814,7 +29814,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action524<
     'input,
 >(
@@ -29824,8 +29824,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Vec<TypeBound<TypeRef>>, usize),
 ) -> WhereClause<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -29843,7 +29843,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action525<
     'input,
 >(
@@ -29860,8 +29860,8 @@ ___8: (usize, Tok<'input>, usize),
 ___9: (usize, TypeRef, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___3.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action13(
 text,
 ___0,
@@ -29884,7 +29884,7 @@ ___9,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action526<
     'input,
 >(
@@ -29897,8 +29897,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, TypeRef, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -29919,7 +29919,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action527<
     'input,
 >(
@@ -29934,8 +29934,8 @@ ___6: (usize, Vec<TypeRef>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___3.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action13(
 text,
 ___0,
@@ -29956,7 +29956,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action528<
     'input,
 >(
@@ -29967,8 +29967,8 @@ ___2: (usize, Vec<TypeRef>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -29987,7 +29987,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action529<
     'input,
 >(
@@ -30002,8 +30002,8 @@ ___6: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___3.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action13(
 text,
 ___0,
@@ -30024,7 +30024,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action530<
     'input,
 >(
@@ -30035,8 +30035,8 @@ ___2: (usize, Vec<TypeBoundParameter<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -30055,7 +30055,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action531<
     'input,
 >(
@@ -30067,8 +30067,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Path, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___3.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action13(
 text,
 ___0,
@@ -30086,7 +30086,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action532<
     'input,
 >(
@@ -30094,8 +30094,8 @@ text: &'input str,
 ___0: (usize, Path, usize),
 ) -> TypeBound<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -30111,7 +30111,7 @@ ___0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action533<
     'input,
 >(
@@ -30129,8 +30129,8 @@ ___9: (usize, Tok<'input>, usize),
 ___10: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___1.0;
-let ___end0 = ___4.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action13(
 text,
 ___1,
@@ -30154,7 +30154,7 @@ ___10,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action534<
     'input,
 >(
@@ -30168,8 +30168,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -30191,7 +30191,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action535<
     'input,
 >(
@@ -30207,8 +30207,8 @@ ___7: (usize, Vec<TypeRef>, usize),
 ___8: (usize, Tok<'input>, usize),
 ) -> TypeRef
 {
-let ___start0 = ___1.0;
-let ___end0 = ___4.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action13(
 text,
 ___1,
@@ -30230,7 +30230,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action536<
     'input,
 >(
@@ -30242,8 +30242,8 @@ ___3: (usize, Vec<TypeRef>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> TypeRef
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action348(
 text,
 &___start0,
@@ -30263,7 +30263,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action537<
     'input,
 >(
@@ -30277,8 +30277,8 @@ ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___6.2;
-let ___end0 = ___6.2;
+let ___start0 = ___6.2.clone();
+let ___end0 = ___6.2.clone();
 let ___temp0 = ___action189(
 text,
 &___start0,
@@ -30300,7 +30300,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action538<
     'input,
 >(
@@ -30315,8 +30315,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___7.0;
-let ___end0 = ___7.2;
+let ___start0 = ___7.0.clone();
+let ___end0 = ___7.2.clone();
 let ___temp0 = ___action190(
 text,
 ___7,
@@ -30337,7 +30337,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action539<
     'input,
 >(
@@ -30352,8 +30352,8 @@ ___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___7.2;
-let ___end0 = ___7.2;
+let ___start0 = ___7.2.clone();
+let ___end0 = ___7.2.clone();
 let ___temp0 = ___action189(
 text,
 &___start0,
@@ -30376,7 +30376,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action540<
     'input,
 >(
@@ -30392,8 +30392,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___8.0;
-let ___end0 = ___8.2;
+let ___start0 = ___8.0.clone();
+let ___end0 = ___8.2.clone();
 let ___temp0 = ___action190(
 text,
 ___8,
@@ -30415,7 +30415,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action541<
     'input,
 >(
@@ -30423,8 +30423,8 @@ text: &'input str,
 ___0: (usize, Parameter, usize),
 ) -> Vec<Parameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action241(
 text,
 ___0,
@@ -30438,7 +30438,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action542<
     'input,
 >(
@@ -30447,8 +30447,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Parameter>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action242(
 text,
 &___start0,
@@ -30463,7 +30463,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action543<
     'input,
 >(
@@ -30472,8 +30472,8 @@ ___0: (usize, alloc::vec::Vec<Parameter>, usize),
 ___1: (usize, Parameter, usize),
 ) -> Vec<Parameter>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action241(
 text,
 ___1,
@@ -30488,7 +30488,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action544<
     'input,
 >(
@@ -30496,8 +30496,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Parameter>, usize),
 ) -> Vec<Parameter>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action242(
 text,
 &___start0,
@@ -30513,7 +30513,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action545<
     'input,
 >(
@@ -30527,8 +30527,8 @@ ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action193(
 text,
 ___4,
@@ -30548,7 +30548,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action546<
     'input,
 >(
@@ -30561,8 +30561,8 @@ ___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action194(
 text,
 &___start0,
@@ -30583,7 +30583,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action547<
     'input,
 >(
@@ -30598,8 +30598,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action193(
 text,
 ___4,
@@ -30620,7 +30620,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action548<
     'input,
 >(
@@ -30634,8 +30634,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action194(
 text,
 &___start0,
@@ -30657,7 +30657,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action549<
     'input,
 >(
@@ -30672,8 +30672,8 @@ ___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action193(
 text,
 ___5,
@@ -30694,7 +30694,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action550<
     'input,
 >(
@@ -30708,8 +30708,8 @@ ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action194(
 text,
 &___start0,
@@ -30731,7 +30731,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action551<
     'input,
 >(
@@ -30747,8 +30747,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action193(
 text,
 ___5,
@@ -30770,7 +30770,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action552<
     'input,
 >(
@@ -30785,8 +30785,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action194(
 text,
 &___start0,
@@ -30809,7 +30809,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action553<
     'input,
 >(
@@ -30823,8 +30823,8 @@ ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action195(
 text,
 ___3,
@@ -30844,7 +30844,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action554<
     'input,
 >(
@@ -30857,8 +30857,8 @@ ___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -30879,7 +30879,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action555<
     'input,
 >(
@@ -30892,8 +30892,8 @@ ___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action195(
 text,
 ___3,
@@ -30912,7 +30912,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action556<
     'input,
 >(
@@ -30924,8 +30924,8 @@ ___3: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -30945,7 +30945,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action557<
     'input,
 >(
@@ -30960,8 +30960,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action195(
 text,
 ___3,
@@ -30982,7 +30982,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action558<
     'input,
 >(
@@ -30996,8 +30996,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -31019,7 +31019,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action559<
     'input,
 >(
@@ -31033,8 +31033,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action195(
 text,
 ___3,
@@ -31054,7 +31054,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action560<
     'input,
 >(
@@ -31067,8 +31067,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -31089,7 +31089,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action561<
     'input,
 >(
@@ -31104,8 +31104,8 @@ ___6: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action195(
 text,
 ___4,
@@ -31126,7 +31126,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action562<
     'input,
 >(
@@ -31140,8 +31140,8 @@ ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -31163,7 +31163,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action563<
     'input,
 >(
@@ -31177,8 +31177,8 @@ ___5: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action195(
 text,
 ___4,
@@ -31198,7 +31198,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action564<
     'input,
 >(
@@ -31211,8 +31211,8 @@ ___4: (usize, Option<Vec<WhereClause<TypeRef>>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -31233,7 +31233,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action565<
     'input,
 >(
@@ -31249,8 +31249,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action195(
 text,
 ___4,
@@ -31272,7 +31272,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action566<
     'input,
 >(
@@ -31287,8 +31287,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -31311,7 +31311,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action567<
     'input,
 >(
@@ -31326,8 +31326,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action195(
 text,
 ___4,
@@ -31348,7 +31348,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action568<
     'input,
 >(
@@ -31362,8 +31362,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action196(
 text,
 &___start0,
@@ -31385,7 +31385,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action569<
     'input,
 >(
@@ -31393,8 +31393,8 @@ text: &'input str,
 ___0: (usize, WhereClause<TypeRef>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action218(
 text,
 ___0,
@@ -31408,7 +31408,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action570<
     'input,
 >(
@@ -31417,8 +31417,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<WhereClause<TypeRef>>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action219(
 text,
 &___start0,
@@ -31433,7 +31433,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action571<
     'input,
 >(
@@ -31442,8 +31442,8 @@ ___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 ___1: (usize, WhereClause<TypeRef>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action218(
 text,
 ___1,
@@ -31458,7 +31458,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action572<
     'input,
 >(
@@ -31466,8 +31466,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<WhereClause<TypeRef>>, usize),
 ) -> Vec<WhereClause<TypeRef>>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action219(
 text,
 &___start0,
@@ -31483,7 +31483,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action573<
     'input,
 >(
@@ -31497,8 +31497,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action191(
 text,
 ___5,
@@ -31518,7 +31518,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action574<
     'input,
 >(
@@ -31531,8 +31531,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31553,7 +31553,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action575<
     'input,
 >(
@@ -31566,8 +31566,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action191(
 text,
 ___4,
@@ -31586,7 +31586,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action576<
     'input,
 >(
@@ -31598,8 +31598,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31619,7 +31619,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action577<
     'input,
 >(
@@ -31632,8 +31632,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action191(
 text,
 ___4,
@@ -31652,7 +31652,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action578<
     'input,
 >(
@@ -31664,8 +31664,8 @@ ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31685,7 +31685,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action579<
     'input,
 >(
@@ -31697,8 +31697,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action191(
 text,
 ___3,
@@ -31716,7 +31716,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action580<
     'input,
 >(
@@ -31727,8 +31727,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31747,7 +31747,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action581<
     'input,
 >(
@@ -31762,8 +31762,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action191(
 text,
 ___5,
@@ -31784,7 +31784,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action582<
     'input,
 >(
@@ -31798,8 +31798,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31821,7 +31821,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action583<
     'input,
 >(
@@ -31835,8 +31835,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action191(
 text,
 ___4,
@@ -31856,7 +31856,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action584<
     'input,
 >(
@@ -31869,8 +31869,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31891,7 +31891,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action585<
     'input,
 >(
@@ -31905,8 +31905,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action191(
 text,
 ___4,
@@ -31926,7 +31926,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action586<
     'input,
 >(
@@ -31939,8 +31939,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -31961,7 +31961,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action587<
     'input,
 >(
@@ -31974,8 +31974,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.0;
-let ___end0 = ___3.2;
+let ___start0 = ___3.0.clone();
+let ___end0 = ___3.2.clone();
 let ___temp0 = ___action191(
 text,
 ___3,
@@ -31994,7 +31994,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action588<
     'input,
 >(
@@ -32006,8 +32006,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___2.2;
-let ___end0 = ___3.0;
+let ___start0 = ___2.2.clone();
+let ___end0 = ___3.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32027,7 +32027,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action589<
     'input,
 >(
@@ -32042,8 +32042,8 @@ ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___6.0;
-let ___end0 = ___6.2;
+let ___start0 = ___6.0.clone();
+let ___end0 = ___6.2.clone();
 let ___temp0 = ___action191(
 text,
 ___6,
@@ -32064,7 +32064,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action590<
     'input,
 >(
@@ -32078,8 +32078,8 @@ ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.2;
-let ___end0 = ___6.0;
+let ___start0 = ___5.2.clone();
+let ___end0 = ___6.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32101,7 +32101,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action591<
     'input,
 >(
@@ -32115,8 +32115,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action191(
 text,
 ___5,
@@ -32136,7 +32136,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action592<
     'input,
 >(
@@ -32149,8 +32149,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32171,7 +32171,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action593<
     'input,
 >(
@@ -32185,8 +32185,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action191(
 text,
 ___5,
@@ -32206,7 +32206,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action594<
     'input,
 >(
@@ -32219,8 +32219,8 @@ ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32241,7 +32241,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action595<
     'input,
 >(
@@ -32254,8 +32254,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action191(
 text,
 ___4,
@@ -32274,7 +32274,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action596<
     'input,
 >(
@@ -32286,8 +32286,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32307,7 +32307,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action597<
     'input,
 >(
@@ -32323,8 +32323,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___6.0;
-let ___end0 = ___6.2;
+let ___start0 = ___6.0.clone();
+let ___end0 = ___6.2.clone();
 let ___temp0 = ___action191(
 text,
 ___6,
@@ -32346,7 +32346,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action598<
     'input,
 >(
@@ -32361,8 +32361,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.2;
-let ___end0 = ___6.0;
+let ___start0 = ___5.2.clone();
+let ___end0 = ___6.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32385,7 +32385,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action599<
     'input,
 >(
@@ -32400,8 +32400,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action191(
 text,
 ___5,
@@ -32422,7 +32422,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action600<
     'input,
 >(
@@ -32436,8 +32436,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32459,7 +32459,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action601<
     'input,
 >(
@@ -32474,8 +32474,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___5.0;
-let ___end0 = ___5.2;
+let ___start0 = ___5.0.clone();
+let ___end0 = ___5.2.clone();
 let ___temp0 = ___action191(
 text,
 ___5,
@@ -32496,7 +32496,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action602<
     'input,
 >(
@@ -32510,8 +32510,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.2;
-let ___end0 = ___5.0;
+let ___start0 = ___4.2.clone();
+let ___end0 = ___5.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32533,7 +32533,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action603<
     'input,
 >(
@@ -32547,8 +32547,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___4.0;
-let ___end0 = ___4.2;
+let ___start0 = ___4.0.clone();
+let ___end0 = ___4.2.clone();
 let ___temp0 = ___action191(
 text,
 ___4,
@@ -32568,7 +32568,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action604<
     'input,
 >(
@@ -32581,8 +32581,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___3.2;
-let ___end0 = ___4.0;
+let ___start0 = ___3.2.clone();
+let ___end0 = ___4.0.clone();
 let ___temp0 = ___action192(
 text,
 &___start0,
@@ -32603,7 +32603,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action605<
     'input,
 >(
@@ -32611,8 +32611,8 @@ text: &'input str,
 ___0: (usize, Lifetime, usize),
 ) -> Vec<Lifetime>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action146(
 text,
 ___0,
@@ -32626,7 +32626,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action606<
     'input,
 >(
@@ -32635,8 +32635,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Lifetime>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action147(
 text,
 &___start0,
@@ -32651,7 +32651,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action607<
     'input,
 >(
@@ -32660,8 +32660,8 @@ ___0: (usize, alloc::vec::Vec<Lifetime>, usize),
 ___1: (usize, Lifetime, usize),
 ) -> Vec<Lifetime>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action146(
 text,
 ___1,
@@ -32676,7 +32676,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action608<
     'input,
 >(
@@ -32684,8 +32684,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Lifetime>, usize),
 ) -> Vec<Lifetime>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action147(
 text,
 &___start0,
@@ -32701,7 +32701,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action609<
     'input,
 >(
@@ -32712,8 +32712,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action146(
 text,
 ___1,
@@ -32730,7 +32730,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action610<
     'input,
 >(
@@ -32740,8 +32740,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action147(
 text,
 &___start0,
@@ -32759,7 +32759,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action611<
     'input,
 >(
@@ -32769,8 +32769,8 @@ ___1: (usize, Lifetime, usize),
 ___2: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action146(
 text,
 ___1,
@@ -32786,7 +32786,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action612<
     'input,
 >(
@@ -32795,8 +32795,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> TypeRef
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action147(
 text,
 &___start0,
@@ -32813,7 +32813,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action613<
     'input,
 >(
@@ -32821,8 +32821,8 @@ text: &'input str,
 ___0: (usize, MatchItem, usize),
 ) -> Vec<MatchItem>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action275(
 text,
 ___0,
@@ -32836,7 +32836,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action614<
     'input,
 >(
@@ -32845,8 +32845,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<MatchItem>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action276(
 text,
 &___start0,
@@ -32861,7 +32861,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action615<
     'input,
 >(
@@ -32870,8 +32870,8 @@ ___0: (usize, alloc::vec::Vec<MatchItem>, usize),
 ___1: (usize, MatchItem, usize),
 ) -> Vec<MatchItem>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action275(
 text,
 ___1,
@@ -32886,7 +32886,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action616<
     'input,
 >(
@@ -32894,8 +32894,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<MatchItem>, usize),
 ) -> Vec<MatchItem>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action276(
 text,
 &___start0,
@@ -32911,7 +32911,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action617<
     'input,
 >(
@@ -32919,8 +32919,8 @@ text: &'input str,
 ___0: (usize, NonterminalString, usize),
 ) -> Vec<NonterminalString>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action251(
 text,
 ___0,
@@ -32934,7 +32934,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action618<
     'input,
 >(
@@ -32943,8 +32943,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<NonterminalString>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action252(
 text,
 &___start0,
@@ -32959,7 +32959,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action619<
     'input,
 >(
@@ -32968,8 +32968,8 @@ ___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
 ___1: (usize, NonterminalString, usize),
 ) -> Vec<NonterminalString>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action251(
 text,
 ___1,
@@ -32984,7 +32984,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action620<
     'input,
 >(
@@ -32992,8 +32992,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<NonterminalString>, usize),
 ) -> Vec<NonterminalString>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action252(
 text,
 &___start0,
@@ -33009,7 +33009,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action621<
     'input,
 >(
@@ -33017,8 +33017,8 @@ text: &'input str,
 ___0: (usize, Pattern<TypeRef>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action285(
 text,
 ___0,
@@ -33032,7 +33032,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action622<
     'input,
 >(
@@ -33041,8 +33041,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Pattern<TypeRef>>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action286(
 text,
 &___start0,
@@ -33057,7 +33057,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action623<
     'input,
 >(
@@ -33066,8 +33066,8 @@ ___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 ___1: (usize, Pattern<TypeRef>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action285(
 text,
 ___1,
@@ -33082,7 +33082,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action624<
     'input,
 >(
@@ -33090,8 +33090,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Pattern<TypeRef>>, usize),
 ) -> Vec<Pattern<TypeRef>>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action286(
 text,
 &___start0,
@@ -33107,7 +33107,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action625<
     'input,
 >(
@@ -33120,8 +33120,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33142,7 +33142,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action626<
     'input,
 >(
@@ -33156,8 +33156,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33177,7 +33177,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action627<
     'input,
 >(
@@ -33189,8 +33189,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33210,7 +33210,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action628<
     'input,
 >(
@@ -33223,8 +33223,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33243,7 +33243,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action629<
     'input,
 >(
@@ -33255,8 +33255,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33276,7 +33276,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action630<
     'input,
 >(
@@ -33289,8 +33289,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33309,7 +33309,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action631<
     'input,
 >(
@@ -33320,8 +33320,8 @@ ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33340,7 +33340,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action632<
     'input,
 >(
@@ -33352,8 +33352,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33371,7 +33371,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action633<
     'input,
 >(
@@ -33383,8 +33383,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33404,7 +33404,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action634<
     'input,
 >(
@@ -33417,8 +33417,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33437,7 +33437,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action635<
     'input,
 >(
@@ -33448,8 +33448,8 @@ ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33468,7 +33468,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action636<
     'input,
 >(
@@ -33480,8 +33480,8 @@ ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33499,7 +33499,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action637<
     'input,
 >(
@@ -33510,8 +33510,8 @@ ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33530,7 +33530,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action638<
     'input,
 >(
@@ -33542,8 +33542,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33561,7 +33561,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action639<
     'input,
 >(
@@ -33571,8 +33571,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33590,7 +33590,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action640<
     'input,
 >(
@@ -33601,8 +33601,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33619,7 +33619,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action641<
     'input,
 >(
@@ -33633,8 +33633,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33656,7 +33656,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action642<
     'input,
 >(
@@ -33671,8 +33671,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33693,7 +33693,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action643<
     'input,
 >(
@@ -33706,8 +33706,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33728,7 +33728,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action644<
     'input,
 >(
@@ -33742,8 +33742,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33763,7 +33763,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action645<
     'input,
 >(
@@ -33776,8 +33776,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33798,7 +33798,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action646<
     'input,
 >(
@@ -33812,8 +33812,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33833,7 +33833,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action647<
     'input,
 >(
@@ -33845,8 +33845,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33866,7 +33866,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action648<
     'input,
 >(
@@ -33879,8 +33879,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33899,7 +33899,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action649<
     'input,
 >(
@@ -33912,8 +33912,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -33934,7 +33934,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action650<
     'input,
 >(
@@ -33948,8 +33948,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -33969,7 +33969,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action651<
     'input,
 >(
@@ -33981,8 +33981,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34002,7 +34002,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action652<
     'input,
 >(
@@ -34015,8 +34015,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34035,7 +34035,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action653<
     'input,
 >(
@@ -34047,8 +34047,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34068,7 +34068,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action654<
     'input,
 >(
@@ -34081,8 +34081,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34101,7 +34101,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action655<
     'input,
 >(
@@ -34112,8 +34112,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34132,7 +34132,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action656<
     'input,
 >(
@@ -34144,8 +34144,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34163,7 +34163,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action657<
     'input,
 >(
@@ -34177,8 +34177,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34200,7 +34200,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action658<
     'input,
 >(
@@ -34215,8 +34215,8 @@ ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34237,7 +34237,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action659<
     'input,
 >(
@@ -34250,8 +34250,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34272,7 +34272,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action660<
     'input,
 >(
@@ -34286,8 +34286,8 @@ ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34307,7 +34307,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action661<
     'input,
 >(
@@ -34320,8 +34320,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34342,7 +34342,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action662<
     'input,
 >(
@@ -34356,8 +34356,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34377,7 +34377,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action663<
     'input,
 >(
@@ -34389,8 +34389,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34410,7 +34410,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action664<
     'input,
 >(
@@ -34423,8 +34423,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34443,7 +34443,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action665<
     'input,
 >(
@@ -34456,8 +34456,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34478,7 +34478,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action666<
     'input,
 >(
@@ -34492,8 +34492,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34513,7 +34513,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action667<
     'input,
 >(
@@ -34525,8 +34525,8 @@ ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34546,7 +34546,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action668<
     'input,
 >(
@@ -34559,8 +34559,8 @@ ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34579,7 +34579,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action669<
     'input,
 >(
@@ -34591,8 +34591,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34612,7 +34612,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action670<
     'input,
 >(
@@ -34625,8 +34625,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34645,7 +34645,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action671<
     'input,
 >(
@@ -34656,8 +34656,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34676,7 +34676,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action672<
     'input,
 >(
@@ -34688,8 +34688,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34707,7 +34707,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action673<
     'input,
 >(
@@ -34722,8 +34722,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34746,7 +34746,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action674<
     'input,
 >(
@@ -34762,8 +34762,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34785,7 +34785,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action675<
     'input,
 >(
@@ -34799,8 +34799,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34822,7 +34822,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action676<
     'input,
 >(
@@ -34837,8 +34837,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34859,7 +34859,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action677<
     'input,
 >(
@@ -34873,8 +34873,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34896,7 +34896,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action678<
     'input,
 >(
@@ -34911,8 +34911,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -34933,7 +34933,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action679<
     'input,
 >(
@@ -34946,8 +34946,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -34968,7 +34968,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action680<
     'input,
 >(
@@ -34982,8 +34982,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -35003,7 +35003,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action681<
     'input,
 >(
@@ -35017,8 +35017,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -35040,7 +35040,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action682<
     'input,
 >(
@@ -35055,8 +35055,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -35077,7 +35077,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action683<
     'input,
 >(
@@ -35090,8 +35090,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -35112,7 +35112,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action684<
     'input,
 >(
@@ -35126,8 +35126,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -35147,7 +35147,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action685<
     'input,
 >(
@@ -35160,8 +35160,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -35182,7 +35182,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action686<
     'input,
 >(
@@ -35196,8 +35196,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -35217,7 +35217,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action687<
     'input,
 >(
@@ -35229,8 +35229,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action203(
 text,
 &___start0,
@@ -35250,7 +35250,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action688<
     'input,
 >(
@@ -35263,8 +35263,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action204(
 text,
 ___0,
@@ -35283,7 +35283,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action689<
     'input,
 >(
@@ -35292,8 +35292,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> ExprSymbol
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action156(
 text,
 &___start0,
@@ -35308,7 +35308,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action690<
     'input,
 >(
@@ -35316,8 +35316,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> ExprSymbol
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action157(
 text,
 ___0,
@@ -35331,7 +35331,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action691<
     'input,
 >(
@@ -35339,8 +35339,8 @@ text: &'input str,
 ___0: (usize, Symbol, usize),
 ) -> Vec<Symbol>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action261(
 text,
 ___0,
@@ -35354,7 +35354,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action692<
     'input,
 >(
@@ -35363,8 +35363,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<Symbol>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action262(
 text,
 &___start0,
@@ -35379,7 +35379,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action693<
     'input,
 >(
@@ -35388,8 +35388,8 @@ ___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ___1: (usize, Symbol, usize),
 ) -> Vec<Symbol>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action261(
 text,
 ___1,
@@ -35404,7 +35404,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action694<
     'input,
 >(
@@ -35412,8 +35412,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<Symbol>, usize),
 ) -> Vec<Symbol>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action262(
 text,
 &___start0,
@@ -35429,7 +35429,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action695<
     'input,
 >(
@@ -35440,8 +35440,8 @@ ___2: (usize, ArgPattern, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Tuple
 {
-let ___start0 = ___2.0;
-let ___end0 = ___2.2;
+let ___start0 = ___2.0.clone();
+let ___end0 = ___2.2.clone();
 let ___temp0 = ___action148(
 text,
 ___2,
@@ -35458,7 +35458,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action696<
     'input,
 >(
@@ -35468,8 +35468,8 @@ ___1: (usize, alloc::vec::Vec<ArgPattern>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Tuple
 {
-let ___start0 = ___1.2;
-let ___end0 = ___2.0;
+let ___start0 = ___1.2.clone();
+let ___end0 = ___2.0.clone();
 let ___temp0 = ___action149(
 text,
 &___start0,
@@ -35487,7 +35487,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action697<
     'input,
 >(
@@ -35495,8 +35495,8 @@ text: &'input str,
 ___0: (usize, TypeBound<TypeRef>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action226(
 text,
 ___0,
@@ -35510,7 +35510,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action698<
     'input,
 >(
@@ -35519,8 +35519,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<TypeBound<TypeRef>>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action227(
 text,
 &___start0,
@@ -35535,7 +35535,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action699<
     'input,
 >(
@@ -35544,8 +35544,8 @@ ___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 ___1: (usize, TypeBound<TypeRef>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action226(
 text,
 ___1,
@@ -35560,7 +35560,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action700<
     'input,
 >(
@@ -35568,8 +35568,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeBound<TypeRef>>, usize),
 ) -> Vec<TypeBound<TypeRef>>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action227(
 text,
 &___start0,
@@ -35585,7 +35585,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action701<
     'input,
 >(
@@ -35593,8 +35593,8 @@ text: &'input str,
 ___0: (usize, TypeBoundParameter<TypeRef>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action236(
 text,
 ___0,
@@ -35608,7 +35608,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action702<
     'input,
 >(
@@ -35617,8 +35617,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action237(
 text,
 &___start0,
@@ -35633,7 +35633,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action703<
     'input,
 >(
@@ -35642,8 +35642,8 @@ ___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 ___1: (usize, TypeBoundParameter<TypeRef>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action236(
 text,
 ___1,
@@ -35658,7 +35658,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action704<
     'input,
 >(
@@ -35666,8 +35666,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeBoundParameter<TypeRef>>, usize),
 ) -> Vec<TypeBoundParameter<TypeRef>>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action237(
 text,
 &___start0,
@@ -35683,7 +35683,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action705<
     'input,
 >(
@@ -35691,8 +35691,8 @@ text: &'input str,
 ___0: (usize, TypeParameter, usize),
 ) -> Vec<TypeParameter>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action213(
 text,
 ___0,
@@ -35706,7 +35706,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action706<
     'input,
 >(
@@ -35715,8 +35715,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<TypeParameter>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action214(
 text,
 &___start0,
@@ -35731,7 +35731,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action707<
     'input,
 >(
@@ -35740,8 +35740,8 @@ ___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
 ___1: (usize, TypeParameter, usize),
 ) -> Vec<TypeParameter>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action213(
 text,
 ___1,
@@ -35756,7 +35756,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action708<
     'input,
 >(
@@ -35764,8 +35764,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeParameter>, usize),
 ) -> Vec<TypeParameter>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action214(
 text,
 &___start0,
@@ -35781,7 +35781,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action709<
     'input,
 >(
@@ -35789,8 +35789,8 @@ text: &'input str,
 ___0: (usize, TypeRef, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action231(
 text,
 ___0,
@@ -35804,7 +35804,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action710<
     'input,
 >(
@@ -35813,8 +35813,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<TypeRef>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action232(
 text,
 &___start0,
@@ -35829,7 +35829,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action711<
     'input,
 >(
@@ -35838,8 +35838,8 @@ ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action231(
 text,
 ___1,
@@ -35854,7 +35854,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action712<
     'input,
 >(
@@ -35862,8 +35862,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action232(
 text,
 &___start0,
@@ -35879,7 +35879,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action713<
     'input,
 >(
@@ -35887,8 +35887,8 @@ text: &'input str,
 ___0: (usize, TypeRef, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action266(
 text,
 ___0,
@@ -35902,7 +35902,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action714<
     'input,
 >(
@@ -35911,8 +35911,8 @@ ___lookbehind: &usize,
 ___lookahead: &usize,
 ) -> Vec<TypeRef>
 {
-let ___start0 = *___lookbehind;
-let ___end0 = *___lookahead;
+let ___start0 = ___lookbehind.clone();
+let ___end0 = ___lookahead.clone();
 let ___temp0 = ___action267(
 text,
 &___start0,
@@ -35927,7 +35927,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action715<
     'input,
 >(
@@ -35936,8 +35936,8 @@ ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ___1: (usize, TypeRef, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action266(
 text,
 ___1,
@@ -35952,7 +35952,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action716<
     'input,
 >(
@@ -35960,8 +35960,8 @@ text: &'input str,
 ___0: (usize, alloc::vec::Vec<TypeRef>, usize),
 ) -> Vec<TypeRef>
 {
-let ___start0 = ___0.2;
-let ___end0 = ___0.2;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action267(
 text,
 &___start0,
@@ -35977,7 +35977,7 @@ ___temp0,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action717<
     'input,
 >(
@@ -35989,8 +35989,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36010,7 +36010,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action718<
     'input,
 >(
@@ -36023,8 +36023,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36043,7 +36043,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action719<
     'input,
 >(
@@ -36056,8 +36056,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36078,7 +36078,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action720<
     'input,
 >(
@@ -36092,8 +36092,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36113,7 +36113,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action721<
     'input,
 >(
@@ -36124,8 +36124,8 @@ ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36144,7 +36144,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action722<
     'input,
 >(
@@ -36156,8 +36156,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36175,7 +36175,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action723<
     'input,
 >(
@@ -36187,8 +36187,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36208,7 +36208,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action724<
     'input,
 >(
@@ -36221,8 +36221,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36241,7 +36241,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action725<
     'input,
 >(
@@ -36252,8 +36252,8 @@ ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36272,7 +36272,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action726<
     'input,
 >(
@@ -36284,8 +36284,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36303,7 +36303,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action727<
     'input,
 >(
@@ -36315,8 +36315,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36336,7 +36336,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action728<
     'input,
 >(
@@ -36349,8 +36349,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36369,7 +36369,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action729<
     'input,
 >(
@@ -36379,8 +36379,8 @@ ___1: (usize, Vec<Parameter>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36398,7 +36398,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action730<
     'input,
 >(
@@ -36409,8 +36409,8 @@ ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36427,7 +36427,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action731<
     'input,
 >(
@@ -36438,8 +36438,8 @@ ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36458,7 +36458,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action732<
     'input,
 >(
@@ -36470,8 +36470,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36489,7 +36489,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action733<
     'input,
 >(
@@ -36500,8 +36500,8 @@ ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36520,7 +36520,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action734<
     'input,
 >(
@@ -36532,8 +36532,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36551,7 +36551,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action735<
     'input,
 >(
@@ -36563,8 +36563,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36584,7 +36584,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action736<
     'input,
 >(
@@ -36597,8 +36597,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36617,7 +36617,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action737<
     'input,
 >(
@@ -36627,8 +36627,8 @@ ___1: (usize, Vec<TypeParameter>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36646,7 +36646,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action738<
     'input,
 >(
@@ -36657,8 +36657,8 @@ ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36675,7 +36675,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action739<
     'input,
 >(
@@ -36686,8 +36686,8 @@ ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36706,7 +36706,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action740<
     'input,
 >(
@@ -36718,8 +36718,8 @@ ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36737,7 +36737,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action741<
     'input,
 >(
@@ -36747,8 +36747,8 @@ ___1: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36766,7 +36766,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action742<
     'input,
 >(
@@ -36777,8 +36777,8 @@ ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36795,7 +36795,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action743<
     'input,
 >(
@@ -36806,8 +36806,8 @@ ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36826,7 +36826,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action744<
     'input,
 >(
@@ -36838,8 +36838,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36857,7 +36857,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action745<
     'input,
 >(
@@ -36866,8 +36866,8 @@ ___0: (usize, Tok<'input>, usize),
 ___1: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36884,7 +36884,7 @@ ___1,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action746<
     'input,
 >(
@@ -36894,8 +36894,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -36911,7 +36911,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action747<
     'input,
 >(
@@ -36921,8 +36921,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -36940,7 +36940,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action748<
     'input,
 >(
@@ -36951,8 +36951,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -36969,7 +36969,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action749<
     'input,
 >(
@@ -36982,8 +36982,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37004,7 +37004,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action750<
     'input,
 >(
@@ -37018,8 +37018,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37039,7 +37039,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action751<
     'input,
 >(
@@ -37053,8 +37053,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37076,7 +37076,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action752<
     'input,
 >(
@@ -37091,8 +37091,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37113,7 +37113,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action753<
     'input,
 >(
@@ -37125,8 +37125,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37146,7 +37146,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action754<
     'input,
 >(
@@ -37159,8 +37159,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37179,7 +37179,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action755<
     'input,
 >(
@@ -37192,8 +37192,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37214,7 +37214,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action756<
     'input,
 >(
@@ -37228,8 +37228,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37249,7 +37249,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action757<
     'input,
 >(
@@ -37261,8 +37261,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37282,7 +37282,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action758<
     'input,
 >(
@@ -37295,8 +37295,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37315,7 +37315,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action759<
     'input,
 >(
@@ -37328,8 +37328,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37350,7 +37350,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action760<
     'input,
 >(
@@ -37364,8 +37364,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37385,7 +37385,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action761<
     'input,
 >(
@@ -37396,8 +37396,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37416,7 +37416,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action762<
     'input,
 >(
@@ -37428,8 +37428,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37447,7 +37447,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action763<
     'input,
 >(
@@ -37459,8 +37459,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37480,7 +37480,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action764<
     'input,
 >(
@@ -37493,8 +37493,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37513,7 +37513,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action765<
     'input,
 >(
@@ -37525,8 +37525,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37546,7 +37546,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action766<
     'input,
 >(
@@ -37559,8 +37559,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37579,7 +37579,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action767<
     'input,
 >(
@@ -37592,8 +37592,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37614,7 +37614,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action768<
     'input,
 >(
@@ -37628,8 +37628,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37649,7 +37649,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action769<
     'input,
 >(
@@ -37660,8 +37660,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37680,7 +37680,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action770<
     'input,
 >(
@@ -37692,8 +37692,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37711,7 +37711,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action771<
     'input,
 >(
@@ -37723,8 +37723,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37744,7 +37744,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action772<
     'input,
 >(
@@ -37757,8 +37757,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37777,7 +37777,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action773<
     'input,
 >(
@@ -37788,8 +37788,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37808,7 +37808,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action774<
     'input,
 >(
@@ -37820,8 +37820,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37839,7 +37839,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action775<
     'input,
 >(
@@ -37851,8 +37851,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37872,7 +37872,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action776<
     'input,
 >(
@@ -37885,8 +37885,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -37905,7 +37905,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action777<
     'input,
 >(
@@ -37915,8 +37915,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37934,7 +37934,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action778<
     'input,
 >(
@@ -37945,8 +37945,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -37963,7 +37963,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action779<
     'input,
 >(
@@ -37974,8 +37974,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -37994,7 +37994,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action780<
     'input,
 >(
@@ -38006,8 +38006,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38025,7 +38025,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action781<
     'input,
 >(
@@ -38038,8 +38038,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38060,7 +38060,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action782<
     'input,
 >(
@@ -38074,8 +38074,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38095,7 +38095,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action783<
     'input,
 >(
@@ -38109,8 +38109,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38132,7 +38132,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action784<
     'input,
 >(
@@ -38147,8 +38147,8 @@ ___6: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___7: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38169,7 +38169,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action785<
     'input,
 >(
@@ -38181,8 +38181,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38202,7 +38202,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action786<
     'input,
 >(
@@ -38215,8 +38215,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38235,7 +38235,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action787<
     'input,
 >(
@@ -38248,8 +38248,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38270,7 +38270,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action788<
     'input,
 >(
@@ -38284,8 +38284,8 @@ ___5: (usize, Vec<Parameter>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38305,7 +38305,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action789<
     'input,
 >(
@@ -38317,8 +38317,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38338,7 +38338,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action790<
     'input,
 >(
@@ -38351,8 +38351,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38371,7 +38371,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action791<
     'input,
 >(
@@ -38384,8 +38384,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38406,7 +38406,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action792<
     'input,
 >(
@@ -38420,8 +38420,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38441,7 +38441,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action793<
     'input,
 >(
@@ -38452,8 +38452,8 @@ ___2: (usize, Vec<Parameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38472,7 +38472,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action794<
     'input,
 >(
@@ -38484,8 +38484,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38503,7 +38503,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action795<
     'input,
 >(
@@ -38515,8 +38515,8 @@ ___3: (usize, Vec<Parameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38536,7 +38536,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action796<
     'input,
 >(
@@ -38549,8 +38549,8 @@ ___4: (usize, Vec<Parameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38569,7 +38569,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action797<
     'input,
 >(
@@ -38581,8 +38581,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38602,7 +38602,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action798<
     'input,
 >(
@@ -38615,8 +38615,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38635,7 +38635,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action799<
     'input,
 >(
@@ -38648,8 +38648,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38670,7 +38670,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action800<
     'input,
 >(
@@ -38684,8 +38684,8 @@ ___5: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___6: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38705,7 +38705,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action801<
     'input,
 >(
@@ -38716,8 +38716,8 @@ ___2: (usize, Vec<TypeParameter>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38736,7 +38736,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action802<
     'input,
 >(
@@ -38748,8 +38748,8 @@ ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38767,7 +38767,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action803<
     'input,
 >(
@@ -38779,8 +38779,8 @@ ___3: (usize, Vec<TypeParameter>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38800,7 +38800,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action804<
     'input,
 >(
@@ -38813,8 +38813,8 @@ ___4: (usize, Vec<TypeParameter>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38833,7 +38833,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action805<
     'input,
 >(
@@ -38844,8 +38844,8 @@ ___2: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38864,7 +38864,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action806<
     'input,
 >(
@@ -38876,8 +38876,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -38895,7 +38895,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action807<
     'input,
 >(
@@ -38907,8 +38907,8 @@ ___3: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38928,7 +38928,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action808<
     'input,
 >(
@@ -38941,8 +38941,8 @@ ___4: (usize, Vec<WhereClause<TypeRef>>, usize),
 ___5: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -38961,7 +38961,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action809<
     'input,
 >(
@@ -38971,8 +38971,8 @@ ___1: (usize, Tok<'input>, usize),
 ___2: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -38990,7 +38990,7 @@ ___2,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action810<
     'input,
 >(
@@ -39001,8 +39001,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39019,7 +39019,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action811<
     'input,
 >(
@@ -39030,8 +39030,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39050,7 +39050,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action812<
     'input,
 >(
@@ -39062,8 +39062,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, Tok<'input>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39081,7 +39081,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action813<
     'input,
 >(
@@ -39095,8 +39095,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39118,7 +39118,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action814<
     'input,
 >(
@@ -39133,8 +39133,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39155,7 +39155,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action815<
     'input,
 >(
@@ -39170,8 +39170,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39194,7 +39194,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action816<
     'input,
 >(
@@ -39210,8 +39210,8 @@ ___7: (usize, Tok<'input>, usize),
 ___8: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39233,7 +39233,7 @@ ___8,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action817<
     'input,
 >(
@@ -39246,8 +39246,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39268,7 +39268,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action818<
     'input,
 >(
@@ -39282,8 +39282,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39303,7 +39303,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action819<
     'input,
 >(
@@ -39317,8 +39317,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39340,7 +39340,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action820<
     'input,
 >(
@@ -39355,8 +39355,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39377,7 +39377,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action821<
     'input,
 >(
@@ -39390,8 +39390,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39412,7 +39412,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action822<
     'input,
 >(
@@ -39426,8 +39426,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39447,7 +39447,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action823<
     'input,
 >(
@@ -39461,8 +39461,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39484,7 +39484,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action824<
     'input,
 >(
@@ -39499,8 +39499,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39521,7 +39521,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action825<
     'input,
 >(
@@ -39533,8 +39533,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39554,7 +39554,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action826<
     'input,
 >(
@@ -39567,8 +39567,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39587,7 +39587,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action827<
     'input,
 >(
@@ -39600,8 +39600,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39622,7 +39622,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action828<
     'input,
 >(
@@ -39636,8 +39636,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39657,7 +39657,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action829<
     'input,
 >(
@@ -39670,8 +39670,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39692,7 +39692,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action830<
     'input,
 >(
@@ -39706,8 +39706,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39727,7 +39727,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action831<
     'input,
 >(
@@ -39741,8 +39741,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39764,7 +39764,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action832<
     'input,
 >(
@@ -39779,8 +39779,8 @@ ___6: (usize, Tok<'input>, usize),
 ___7: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39801,7 +39801,7 @@ ___7,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action833<
     'input,
 >(
@@ -39813,8 +39813,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39834,7 +39834,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action834<
     'input,
 >(
@@ -39847,8 +39847,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -39867,7 +39867,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action835<
     'input,
 >(
@@ -39880,8 +39880,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39902,7 +39902,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action836<
     'input,
 >(
@@ -39916,8 +39916,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -39937,7 +39937,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action837<
     'input,
 >(
@@ -39949,8 +39949,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -39970,7 +39970,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action838<
     'input,
 >(
@@ -39983,8 +39983,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -40003,7 +40003,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action839<
     'input,
 >(
@@ -40016,8 +40016,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -40038,7 +40038,7 @@ ___5,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action840<
     'input,
 >(
@@ -40052,8 +40052,8 @@ ___5: (usize, Tok<'input>, usize),
 ___6: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,
@@ -40073,7 +40073,7 @@ ___6,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action841<
     'input,
 >(
@@ -40084,8 +40084,8 @@ ___2: (usize, Tok<'input>, usize),
 ___3: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.0;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -40104,7 +40104,7 @@ ___3,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action842<
     'input,
 >(
@@ -40116,8 +40116,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.0;
-let ___end0 = ___0.2;
+let ___start0 = ___0.0.clone();
+let ___end0 = ___0.2.clone();
 let ___temp0 = ___action202(
 text,
 ___0,
@@ -40135,7 +40135,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action843<
     'input,
 >(
@@ -40147,8 +40147,8 @@ ___3: (usize, Tok<'input>, usize),
 ___4: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___0.2;
-let ___end0 = ___1.0;
+let ___start0 = ___0.2.clone();
+let ___end0 = ___1.0.clone();
 let ___temp0 = ___action201(
 text,
 &___start0,
@@ -40168,7 +40168,7 @@ ___4,
 
 #[allow(unused_variables)]
 #[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]
 fn ___action844<
     'input,
 >(
@@ -40181,8 +40181,8 @@ ___4: (usize, Tok<'input>, usize),
 ___5: (usize, alloc::vec::Vec<GrammarItem>, usize),
 ) -> Grammar
 {
-let ___start0 = ___1.0;
-let ___end0 = ___1.2;
+let ___start0 = ___1.0.clone();
+let ___end0 = ___1.2.clone();
 let ___temp0 = ___action202(
 text,
 ___1,

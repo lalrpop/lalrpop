@@ -241,7 +241,7 @@ fn emit_inline_action_code<W: Write>(
     rust!(
         rust,
         "#[allow(clippy::too_many_arguments, clippy::needless_lifetimes,
-    clippy::just_underscores_and_digits)]"
+    clippy::just_underscores_and_digits, clippy::clone_on_copy, clippy::unit_arg)]"
     );
     rust.fn_header(
         &r::Visibility::Priv,
@@ -271,7 +271,7 @@ fn emit_inline_action_code<W: Write>(
 
                     rust!(
                         rust,
-                        "let {}start{} = {}{}.0;",
+                        "let {}start{} = {}{}.0.clone();",
                         grammar.prefix,
                         temp_counter,
                         grammar.prefix,
@@ -281,7 +281,7 @@ fn emit_inline_action_code<W: Write>(
                     let last_arg_index = arg_counter + syms.len() - 1;
                     rust!(
                         rust,
-                        "let {}end{} = {}{}.2;",
+                        "let {}end{} = {}{}.2.clone();",
                         grammar.prefix,
                         temp_counter,
                         grammar.prefix,
@@ -297,7 +297,7 @@ fn emit_inline_action_code<W: Write>(
                     if arg_counter > 0 {
                         rust!(
                             rust,
-                            "let {}start{} = {}{}.2;",
+                            "let {}start{} = {}{}.2.clone();",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -306,7 +306,7 @@ fn emit_inline_action_code<W: Write>(
                     } else if num_flat_args > 0 {
                         rust!(
                             rust,
-                            "let {}start{} = {}{}.0;",
+                            "let {}start{} = {}{}.0.clone();",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -315,7 +315,7 @@ fn emit_inline_action_code<W: Write>(
                     } else {
                         rust!(
                             rust,
-                            "let {}start{} = *{}lookbehind;",
+                            "let {}start{} = {}lookbehind.clone();",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix
@@ -325,7 +325,7 @@ fn emit_inline_action_code<W: Write>(
                     if arg_counter < num_flat_args {
                         rust!(
                             rust,
-                            "let {}end{} = {}{}.0;",
+                            "let {}end{} = {}{}.0.clone();",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -334,7 +334,7 @@ fn emit_inline_action_code<W: Write>(
                     } else if num_flat_args > 0 {
                         rust!(
                             rust,
-                            "let {}end{} = {}{}.2;",
+                            "let {}end{} = {}{}.2.clone();",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix,
@@ -343,7 +343,7 @@ fn emit_inline_action_code<W: Write>(
                     } else {
                         rust!(
                             rust,
-                            "let {}end{} = *{}lookahead;",
+                            "let {}end{} = {}lookahead.clone();",
                             grammar.prefix,
                             temp_counter,
                             grammar.prefix
