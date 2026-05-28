@@ -7,6 +7,8 @@ pub Expr: Box<ExprSymbol<'input>> = {
     Factor,
 };
 
+pub MaybeExpr: Option<Box<ExprSymbol<'input>>> = Expr?;
+
 Factor: Box<ExprSymbol<'input>> = {
     Factor "FactorOp" Term => Box::new(ExprSymbol::Op(<>)),
     Term,

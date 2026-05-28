@@ -143,7 +143,7 @@ impl Debug for Opcode {
     }
 }
 
-use crate::loc_clone::ExprParser;
+use crate::loc_clone::{ExprParser, MaybeExprParser};
 use crate::util::expect_debug;
 
 #[test]
@@ -156,6 +156,40 @@ fn loc_clone_issue1064() {
         r#"
 Ok(
     (("22" * "pi") + "66")
+)
+"#
+        .trim(),
+    );
+}
+
+#[test]
+fn loc_clone_maybe_expr_empty() {
+    let lexer = Lexer::new("");
+    let result = MaybeExprParser::new().parse(lexer);
+    println!("{result:#?}");
+    expect_debug(
+        result,
+        r#"
+Ok(
+    None,
+)
+"#
+        .trim(),
+    );
+}
+
+#[test]
+fn loc_clone_maybe_expr_present() {
+    let lexer = Lexer::new("22 * pi + 66");
+    let result = MaybeExprParser::new().parse(lexer);
+    println!("{result:#?}");
+    expect_debug(
+        result,
+        r#"
+Ok(
+    Some(
+        (("22" * "pi") + "66"),
+    ),
 )
 "#
         .trim(),
