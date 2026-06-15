@@ -26,10 +26,11 @@ Here are some topics that I aim to cover when I get time to write about them:
   [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_arena.lalrpop)
   invoked [from here]).
 - Conditional macros (no good test to point you at yet, sorry)
-- Converting to use `LALR(1)` instead of `LR(1)` (see e.g. [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop)
+- Converting to use `LALR(1)` instead of `LR(1)` (see e.g. [this test][expr_lalr]
   invoked [from here]).
 - Plans for future features
 
 [Crash course on parsers]: ../crash_course.md
 [from here]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/lib.rs
 [doc section]: https://github.com/lalrpop/lalrpop/tree/master/doc
+[expr_lalr]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/expr_lalr.lalrpop

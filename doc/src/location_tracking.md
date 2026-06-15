@@ -21,11 +21,11 @@ Symbol = {
 }
 ```
 
-You can also see another example in [this test](https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/intern_tok.lalrpop),
+You can also see another example in [this test][intern_tok],
 where location tracking is wrapped in a macro.
 
 Since `@R2` binds to the index of the byte immediately to the right of the
-token, this makes the bound values suitable to immediately construct a [Range](https://doc.rust-lang.org/std/ops/struct.Range.html)
+token, this makes the bound values suitable to immediately construct a [Range][range]
 which is bounded inclusively above and exclusively below:
 
 ```lalrpop
@@ -35,3 +35,6 @@ Symbol: Range<usize> = {
     }
 }
 ```
+
+[intern_tok]: https://github.com/lalrpop/lalrpop/blob/master/lalrpop-test/src/intern_tok.lalrpop
+[range]: https://doc.rust-lang.org/std/ops/struct.Range.html
