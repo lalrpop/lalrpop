@@ -34,7 +34,7 @@ edition = "2024"
 lalrpop = "0.23.1"
 
 [dependencies]
-lalrpop-util = { version = "0.21.0", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.23.1", features = ["lexer", "unicode"] }
 ```
 
 Cargo can run [build scripts] as a pre-processing step,
