@@ -1,7 +1,7 @@
 <a name="0.23.1"></a>
 ## 0.23.1  (2026-03-11)
 
-#### Bigfixes
+#### Bugfixes
 * Fix bug where windows paths were used based on target OS rather than host OS,
   breaking cross compile scenarios
 
