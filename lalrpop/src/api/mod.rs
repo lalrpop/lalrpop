@@ -1,4 +1,6 @@
 use crate::build;
+use crate::collections::Map;
+use crate::grammar::parse_tree::Grammar;
 use crate::log::Level;
 use crate::session::{ColorConfig, Session};
 use std::default::Default;
@@ -198,21 +200,39 @@ impl Configuration {
         self
     }
 
+    fn get_in_dir(&self) -> &Path {
+        match self.session.in_dir {
+            Some(ref root) => root.as_path(),
+            None => Path::new("."),
+        }
+    }
+
     /// Process all files according to the `set_in_dir` and
     /// `set_out_dir` configuration.
     pub fn process(&self) -> Result<(), Box<dyn Error>> {
-        let root = if let Some(ref d) = self.session.in_dir {
-            d.as_path()
-        } else {
-            Path::new(".")
-        };
-        self.process_dir(root)
+        self.process_dir(self.get_in_dir())
+    }
+
+    /// Process all files according to the `set_in_dir` and
+    /// `set_out_dir` configuration.
+    ///
+    /// Returns a map of processed grammar files with their corresponding AST.
+    pub fn process_with_grammar(&self) -> Result<Map<PathBuf, Grammar>, Box<dyn Error>> {
+        self.process_dir_with_grammar(self.get_in_dir())
     }
 
     /// Process all files in the current directory, which -- unless you
     /// have changed it -- is typically the root of the crate being compiled.
     pub fn process_current_dir(&self) -> Result<(), Box<dyn Error>> {
         self.process_dir(current_dir()?)
+    }
+
+    /// Process all files in the current directory, which -- unless you
+    /// have changed it -- is typically the root of the crate being compiled.
+    ///
+    /// Returns a map of processed grammar files with their corresponding AST.
+    pub fn process_current_dir_with_grammar(&self) -> Result<Map<PathBuf, Grammar>, Box<dyn Error>> {
+        self.process_dir_with_grammar(current_dir()?)
     }
 
     // The user should only use set_in_dir() with process(), not process_*() functions which
@@ -229,8 +249,7 @@ impl Configuration {
         Ok(())
     }
 
-    /// Process all `.lalrpop` files in `path`.
-    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+    fn prepare_session<P: AsRef<Path>>(&self, path: P) -> Result<Session, Box<dyn Error>> {
         let mut session = self.session.clone();
 
         self.verify_no_in_dir_conflict(Some(path.as_ref().to_path_buf()))?;
@@ -257,9 +276,23 @@ impl Configuration {
             );
         }
 
-        let session = Rc::new(session);
+        Ok(session)
+    }
+
+    /// Process all `.lalrpop` files in `path`.
+    pub fn process_dir<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn Error>> {
+        let session = Rc::new(self.prepare_session(&path)?);
         build::process_dir(session, path)?;
         Ok(())
+    }
+
+    /// Process all `.lalrpop` files in `path`.
+    ///
+    /// Returns a map of processed grammar files
+    /// with their corresponding AST.
+    pub fn process_dir_with_grammar<P: AsRef<Path>>(&self, path: P) -> Result<Map<PathBuf, Grammar>, Box<dyn Error>> {
+        let session = Rc::new(self.prepare_session(&path)?);
+        Ok(build::process_dir(session, path)?)
     }
 
     /// Process the given `.lalrpop` file.
@@ -270,6 +303,16 @@ impl Configuration {
         self.verify_no_in_dir_conflict(None)?;
         build::process_file(session, path)?;
         Ok(())
+    }
+
+    /// Process the given `.lalrpop` file.
+    ///
+    /// Returns the corresponding AST for
+    /// the given file if processed.
+    pub fn process_file_with_grammar<P: AsRef<Path>>(&self, path: P) -> Result<Option<Grammar>, Box<dyn Error>> {
+        let session = Rc::new(self.session.clone());
+        self.verify_no_in_dir_conflict(None)?;
+        Ok(build::process_file(session, path)?)
     }
 }
 
@@ -284,6 +327,14 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
     Configuration::new().process_current_dir()
 }
 
+/// See [`process_root`] for details.
+///
+/// Returns a map of processed grammar
+/// files with their corresponding AST.
+pub fn process_root_with_grammar() -> Result<Map<PathBuf, Grammar>, Box<dyn Error>> {
+    Configuration::new().process_current_dir_with_grammar()
+}
+
 /// Process all files in ./src.
 ///
 /// In many cargo projects which build only one crate, this is the normal
@@ -292,6 +343,14 @@ pub fn process_root() -> Result<(), Box<dyn Error>> {
 /// See `Configuration` if you would like more fine-grain control over lalrpop.
 pub fn process_src() -> Result<(), Box<dyn Error>> {
     Configuration::new().set_in_dir("./src").process()
+}
+
+/// See [`process_src`] for details.
+///
+/// Returns a map of processed grammar
+/// files with their corresponding AST.
+pub fn process_src_with_grammar() -> Result<Map<PathBuf, Grammar>, Box<dyn Error>> {
+    Configuration::new().set_in_dir("./src").process_with_grammar()
 }
 
 /// Deprecated in favor of `Configuration`.

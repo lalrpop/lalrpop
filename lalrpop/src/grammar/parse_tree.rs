@@ -1,6 +1,7 @@
+#![allow(missing_docs, reason = "The AST and fields should be pretty self-explanatory")]
+
 //! The "parse-tree" is what is produced by the parser. We use it do
 //! some pre-expansion and so forth before creating the proper AST.
-
 use crate::grammar::consts::{INPUT_LIFETIME, LALR, RECURSIVE_ASCENT, TABLE_DRIVEN, TEST_ALL};
 use crate::grammar::pattern::Pattern;
 use crate::grammar::repr::{self as r, NominalTypeRepr, TypeRepr};
