@@ -23,7 +23,7 @@ doctest = false
 ascii-canvas = { version = "4.0", default-features = false }
 bit-set = { version = "0.10", default-features = false }
 ena = { version = "0.14", default-features = false }
-itertools = { version = "0.14", default-features = false, features = [
+itertools = { version = "0.15", default-features = false, features = [
     "use_std",
 ] }
 petgraph = { version = "0.8", default-features = false }
