@@ -56,7 +56,7 @@ and then put a new member into `Token` enum to represent the error token
 pub enum Token {
     //...
 
-    // Dont forget the comma
+    // Don't forget the comma
 +   Error
 }
 ```

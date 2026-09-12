@@ -45,7 +45,7 @@ resolve the ambiguity between them.
 If you want to know "the right way" to solve this problem, you
 can skip straight to [the end][].
 
-[the end]: #The-right-way-to-do-this
+[the end]: #the-right-way-to-do-this
 
 But if you want to understand *why* it is the right answer, you may
 benefit from taking the detour that starts now.
