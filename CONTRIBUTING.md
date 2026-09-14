@@ -137,7 +137,7 @@ the test run.
 
 Second, a lot of our work happens in build scripts, which llvm-cov ignores by
 default.  To have it consider build scripts, pass the --include-build-script
-argument in your call to to `llvm-cov report` like so:
+argument in your call to `llvm-cov report` like so:
 
 ```shell
 cargo llvm-cov --include-build-script report --html
