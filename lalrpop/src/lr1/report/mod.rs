@@ -215,12 +215,12 @@ where
         // stringize it first to allow handle :width by Display for string
         let s = format!("{}", item.production.nonterminal);
         write!(self.out, "{s:max_width$} ->")?;
-        for i in 0..item.index {
-            write!(self.out, " {}", item.production.symbols[i])?;
+        for item_symbol in item.production.symbols.iter().take(item.index) {
+            write!(self.out, " {}", item_symbol)?;
         }
         write!(self.out, " .")?;
-        for i in item.index..item.production.symbols.len() {
-            write!(self.out, " {}", item.production.symbols[i])?;
+        for item_symbol in item.production.symbols.iter().skip(item.index) {
+            write!(self.out, " {}", item_symbol)?;
         }
         writeln!(self.out)?;
         self.write_lookahead(&item.lookahead)?;
