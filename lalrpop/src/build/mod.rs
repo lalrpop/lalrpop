@@ -238,13 +238,7 @@ fn needs_rebuild(
 }
 
 fn features_to_string(features: &Option<BTreeSet<String>>) -> String {
-    Some("// ".to_string())
-        .into_iter()
-        .chain(itertools::Itertools::intersperse(
-            features.iter().flatten().cloned(),
-            ",".to_string(),
-        ))
-        .collect()
+    format!("// {}", features.iter().flatten().map(String::as_str).join(","))
 }
 
 /// Handles a [walkdir::Error] if the root cause is a dangling symlink.
