@@ -239,7 +239,7 @@ fn needs_rebuild(
 
 fn features_to_string(features: &Option<BTreeSet<String>>) -> String {
     format!(
-        "// {}",
+        "// features: {}",
         features.iter().flatten().map(String::as_str).join(",")
     )
 }

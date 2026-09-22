@@ -6,13 +6,13 @@ use tempfile::NamedTempFile;
 #[test]
 fn test_features_to_string() {
     assert_eq!(
-        "// bar,foo".to_string(),
+        "// features: bar,foo".to_string(),
         features_to_string(&Some(BTreeSet::from([
             "foo".to_string(),
             "bar".to_string()
         ])))
     );
-    assert_eq!("// ".to_string(), features_to_string(&None));
+    assert_eq!("// features: ".to_string(), features_to_string(&None));
 }
 
 #[test]
@@ -25,7 +25,7 @@ fn test_needs_rebuild() {
 
     writeln!(rs_file, "{}", LALRPOP_VERSION_HEADER).unwrap();
     writeln!(rs_file, "deadbeef").unwrap();
-    writeln!(rs_file, "// ").unwrap();
+    writeln!(rs_file, "// features: ").unwrap();
 
     assert!(needs_rebuild(lalrpop_file.path(), rs_file.path(), &None).unwrap());
 
@@ -33,7 +33,7 @@ fn test_needs_rebuild() {
 
     writeln!(rs_file2, "{}", LALRPOP_VERSION_HEADER).unwrap();
     writeln!(rs_file2, "{}", hash_file(lalrpop_file.path()).unwrap()).unwrap();
-    writeln!(rs_file2, "// ").unwrap();
+    writeln!(rs_file2, "// features: ").unwrap();
 
     let feats = Some(BTreeSet::from([
         "ghi".to_string(),
@@ -54,7 +54,7 @@ fn test_needs_rebuild() {
 
     writeln!(rs_file3, "{}", LALRPOP_VERSION_HEADER).unwrap();
     writeln!(rs_file3, "{}", hash_file(lalrpop_file.path()).unwrap()).unwrap();
-    writeln!(rs_file3, "// abc,def,ghi").unwrap();
+    writeln!(rs_file3, "// features: abc,def,ghi").unwrap();
 
     assert!(!needs_rebuild(lalrpop_file.path(), rs_file3.path(), &feats).unwrap());
     assert!(needs_rebuild(lalrpop_file.path(), rs_file3.path(), &None).unwrap());
