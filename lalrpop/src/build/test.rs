@@ -27,10 +27,7 @@ fn test_needs_rebuild() {
     writeln!(rs_file, "deadbeef").unwrap();
     writeln!(rs_file, "// ").unwrap();
 
-    assert_eq!(
-        true,
-        needs_rebuild(lalrpop_file.path(), rs_file.path(), &None).unwrap()
-    );
+    assert!(needs_rebuild(lalrpop_file.path(), rs_file.path(), &None).unwrap());
 
     let mut rs_file2 = NamedTempFile::new().unwrap();
 
@@ -50,14 +47,8 @@ fn test_needs_rebuild() {
         "xyz".to_string(),
     ]));
 
-    assert_eq!(
-        false,
-        needs_rebuild(lalrpop_file.path(), rs_file2.path(), &None).unwrap()
-    );
-    assert_eq!(
-        true,
-        needs_rebuild(lalrpop_file.path(), rs_file2.path(), &feats).unwrap()
-    );
+    assert!(!needs_rebuild(lalrpop_file.path(), rs_file2.path(), &None).unwrap());
+    assert!(needs_rebuild(lalrpop_file.path(), rs_file2.path(), &feats).unwrap());
 
     let mut rs_file3 = NamedTempFile::new().unwrap();
 
@@ -65,16 +56,7 @@ fn test_needs_rebuild() {
     writeln!(rs_file3, "{}", hash_file(lalrpop_file.path()).unwrap()).unwrap();
     writeln!(rs_file3, "// abc,def,ghi").unwrap();
 
-    assert_eq!(
-        false,
-        needs_rebuild(lalrpop_file.path(), rs_file3.path(), &feats).unwrap()
-    );
-    assert_eq!(
-        true,
-        needs_rebuild(lalrpop_file.path(), rs_file3.path(), &None).unwrap()
-    );
-    assert_eq!(
-        true,
-        needs_rebuild(lalrpop_file.path(), rs_file3.path(), &feats2).unwrap()
-    );
+    assert!(!needs_rebuild(lalrpop_file.path(), rs_file3.path(), &feats).unwrap());
+    assert!(needs_rebuild(lalrpop_file.path(), rs_file3.path(), &None).unwrap());
+    assert!(needs_rebuild(lalrpop_file.path(), rs_file3.path(), &feats2).unwrap());
 }
