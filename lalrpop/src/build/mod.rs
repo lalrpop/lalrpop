@@ -18,6 +18,7 @@ use itertools::Itertools;
 use sha3::{Digest, Sha3_256};
 use walkdir::WalkDir;
 
+use std::collections::BTreeSet;
 use std::ffi::OsStr;
 use std::fs;
 use std::io::{self, BufRead, IsTerminal, Read, Write};
@@ -26,6 +27,9 @@ use std::rc::Rc;
 
 mod action;
 mod fake_term;
+
+#[cfg(test)]
+mod test;
 
 use self::fake_term::FakeTerminal;
 
@@ -152,7 +156,7 @@ fn process_file_into(
     report_file: &Path,
 ) -> io::Result<()> {
     session.emit_rerun_directive(lalrpop_file);
-    if session.force_build || needs_rebuild(lalrpop_file, rs_file)? {
+    if session.force_build || needs_rebuild(lalrpop_file, rs_file, &session.features)? {
         log!(
             session,
             Informative,
@@ -185,6 +189,7 @@ fn process_file_into(
             let mut output_file = fs::File::create(rs_file)?;
             writeln!(output_file, "{LALRPOP_VERSION_HEADER}")?;
             writeln!(output_file, "{}", hash_file(lalrpop_file)?)?;
+            writeln!(output_file, "{}", features_to_string(&session.features))?;
             output_file.write_all(&buffer)?;
         }
     }
@@ -204,25 +209,39 @@ fn remove_old_file(rs_file: &Path) -> io::Result<()> {
     }
 }
 
-fn needs_rebuild(lalrpop_file: &Path, rs_file: &Path) -> io::Result<bool> {
+fn needs_rebuild(
+    lalrpop_file: &Path,
+    rs_file: &Path,
+    features: &Option<BTreeSet<String>>,
+) -> io::Result<bool> {
     match fs::File::open(rs_file) {
         Ok(rs_file) => {
             let mut version_str = String::new();
             let mut hash_str = String::new();
+            let mut feat_str = String::new();
 
             let mut f = io::BufReader::new(rs_file);
 
             f.read_line(&mut version_str)?;
             f.read_line(&mut hash_str)?;
+            f.read_line(&mut feat_str)?;
 
             Ok(hash_str.trim() != hash_file(lalrpop_file)?
-                || version_str.trim() != LALRPOP_VERSION_HEADER)
+                || version_str.trim() != LALRPOP_VERSION_HEADER
+                || feat_str.trim() != features_to_string(features).trim())
         }
         Err(e) => match e.kind() {
             io::ErrorKind::NotFound => Ok(true),
             _ => Err(e),
         },
     }
+}
+
+fn features_to_string(features: &Option<BTreeSet<String>>) -> String {
+    format!(
+        "// features: {}",
+        features.iter().flatten().map(String::as_str).join(",")
+    )
 }
 
 /// Handles a [walkdir::Error] if the root cause is a dangling symlink.
