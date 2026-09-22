@@ -956,8 +956,8 @@ impl Debug for Lifetime {
 impl Display for TerminalLiteral {
     fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         match *self {
-            TerminalLiteral::Quoted(ref s) => write!(fmt, "{:?}", s.as_ref()), // the Debug impl adds the `"` and escaping
-            TerminalLiteral::Regex(ref s) => write!(fmt, "r#{:?}#", s.as_ref()), // FIXME -- need to determine proper number of #
+            TerminalLiteral::Quoted(ref s) => write!(fmt, "{:?}", s.as_str()), // the Debug impl adds the `"` and escaping
+            TerminalLiteral::Regex(ref s) => write!(fmt, "r#{:?}#", s.as_str()), // FIXME -- need to determine proper number of #
         }
     }
 }
