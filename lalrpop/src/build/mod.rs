@@ -226,9 +226,24 @@ fn needs_rebuild(
             f.read_line(&mut hash_str)?;
             f.read_line(&mut feat_str)?;
 
+            println!(
+                "Hash cmp: {}",
+                hash_str.trim() == hash_file(lalrpop_file).unwrap()
+            );
+            println!("Hash str: {}", hash_str.trim());
+            println!("local hash: {}", hash_file(lalrpop_file).unwrap());
+            println!(
+                "Version cmp: {}",
+                version_str.trim() == LALRPOP_VERSION_HEADER
+            );
+            println!(
+                "Feat cmp: {}",
+                feat_str.trim() == features_to_string(features).trim()
+            );
+
             Ok(hash_str.trim() != hash_file(lalrpop_file)?
                 || version_str.trim() != LALRPOP_VERSION_HEADER
-                || feat_str.trim() != features_to_string(features))
+                || feat_str.trim() != features_to_string(features).trim())
         }
         Err(e) => match e.kind() {
             io::ErrorKind::NotFound => Ok(true),
@@ -238,7 +253,10 @@ fn needs_rebuild(
 }
 
 fn features_to_string(features: &Option<BTreeSet<String>>) -> String {
-    format!("// {}", features.iter().flatten().map(String::as_str).join(","))
+    format!(
+        "// {}",
+        features.iter().flatten().map(String::as_str).join(",")
+    )
 }
 
 /// Handles a [walkdir::Error] if the root cause is a dangling symlink.
