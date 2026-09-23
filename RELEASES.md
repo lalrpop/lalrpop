@@ -1,3 +1,15 @@
+<a name="0.23.2"></a>
+## 0.23.2  (2026-09-28)
+
+#### Bugfixes
+* Fix some additional places where Location unintentionally required the `Copy`
+  trait
+* Grammars using `grammar<T>` no longer lint for
+  clippy::extra_unused_type_parameters
+* Documentation updates
+* Rebuild parser when the feature set changes so that conditional compilation
+  is updated appropriately
+
 <a name="0.23.1"></a>
 ## 0.23.1  (2026-03-11)
 
