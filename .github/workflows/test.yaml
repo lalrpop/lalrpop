@@ -31,14 +31,16 @@ jobs:
           - rust: stable
             os: ubuntu
             cargo-update: false
-          - rust: $MSRV
+          - rust: msrv
             os: ubuntu
             cargo-update: false
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: ${{ matrix.rust }}
+          # if matrix.rust == 'msrv' then env.MSRV else matrix.rust
+          # because the strategy section above is not allowed to access `env`
+          toolchain: ${{ matrix.rust == 'msrv' && env.MSRV || matrix.rust }}
       - name: Update
         if: matrix.cargo-update
         run: cargo update
@@ -87,7 +89,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
-            toolchain: $MSRV
+            toolchain: ${{ env.MSRV }}
       - name: Install cargo-hack
         uses: taiki-e/install-action@cargo-hack
       - run: cargo build --bin lalrpop --features pico-args
