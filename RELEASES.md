@@ -1,5 +1,5 @@
 <a name="0.23.2"></a>
-## 0.23.2  (2026-09-28)
+## 0.23.2  (2026-10-19)
 
 #### Bugfixes
 * Fix some additional places where Location unintentionally required the `Copy`
